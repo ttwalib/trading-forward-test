@@ -18,7 +18,9 @@ Fixed rules:
   debit structures take profit at P&L >= tp x debit (tp 1.0) and stop at a loss of sl x debit (sl 0.5).
   Otherwise held to expiry and settled at intrinsic value from the underlying's last regular bar of the expiry day
   (15:55, or 12:55 on the 2026-11-27 half day).
-- Follow mode (W4): closed at the close of the exit bar (the stock trade's exit), same day.
+- Follow mode (W4): entry_time / exit_time / stock_outcome are the stock trade's (bar-end times as in the Trades tab);
+  the spread fills at the close of the stock's entry bar and closes like options_sim.py: at the close of the bar ending
+  at the stock exit for flat exits, of the bar after it for target/stop exits; open stock trades stay open (marked).
 - Fees (IBKR, 1 contract per leg): per order max($1, $0.65 x legs) + $0.03 x legs; an opening and a closing order
   (no closing order if every leg expires worthless). Results in % of max risk, before and after fees.
 """
@@ -68,6 +70,13 @@ def sim(p, B, now):
     und = bars(B.get(p.get("underlying", "SPY")))
     et = p.get("entry_time", "09:55")
     t_entry = dt.datetime.fromisoformat(day + "T" + et + ":00").replace(tzinfo=NY)
+    x_start = None
+    if p["mode"] == "follow":  # stock times are bar ENDS (as in the Trades tab); same convention as options_sim.py
+        t_entry -= dt.timedelta(minutes=5)
+        so = p.get("stock_outcome", "")
+        if not so.startswith("open"):
+            xe = dt.datetime.fromisoformat(day + "T" + p["exit_time"] + ":00").replace(tzinfo=NY)
+            x_start = xe - dt.timedelta(minutes=5) if so.startswith("flat") else xe
     entry = {}
     for cid, S in series.items():
         x = [b for b in S if b[0] == t_entry]
@@ -99,7 +108,7 @@ def sim(p, B, now):
         for cid in last: last[cid] = px_at[cid].get(t, last[cid])
         pnl = close_value(legs, last) - E
         if p["mode"] == "follow":
-            if hm(t) >= p["exit_time"] or t.date() > dt.date.fromisoformat(day):
+            if x_start is not None and t >= x_start:
                 res = (pnl, t + dt.timedelta(minutes=5), "with the stock trade"); break
             continue
         if pnl >= p.get("tp", 0.5 if p["kind"] == "credit" else 1.0) * base:
