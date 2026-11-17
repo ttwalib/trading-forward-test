@@ -1,6 +1,6 @@
 # Trading forward test (simulated)
 
-Simulated forward test, 16–27 November 2026. **Nothing is traded.** Prices come read-only from Interactive Brokers. Results live in the test sheet; this repo is the long-term store.
+Simulated forward test, 16 November – 13 December 2026. **Nothing is traded.** Prices come read-only from Interactive Brokers. Results live in the test sheet; this repo is the long-term store.
 
 - `data/bars/<tf>/<SYM>.jsonl`: bar history, one bar per line `{"t": epoch start UTC, "o","h","l","c","v"}`. The nightly orchestrator merges new bars in with `scripts/store.py`.
 - `reports/walkforward/<date>.json`: nightly walk-forward checks of the adaptive crypto tuning, made with `scripts/walkforward.py`.
