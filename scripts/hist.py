@@ -2,6 +2,7 @@
 
   plan:   python3 hist.py plan REPO TF NOW SYM[,SYM...] [MAX]      -> {"SYM": step_count to fetch, ...}
   export: python3 hist.py export REPO TF NOW SYM[,SYM...] N        -> {"SYM": raw arrays of the last N closed bars}
+  days:   python3 hist.py days REPO TF NOW SYM[,SYM...]            -> {"SYM": [New York dates with stored bars]}
 
 plan: how many bars to request from IBKR so that nothing is missed: bars since the last stored bar + 2 (overlap, so a
 revised last bar is replaced), at least 3; MAX (default 1000) when the symbol has no history yet.
@@ -27,6 +28,9 @@ def main():
     step = SECS[tf]; out = {}
     for s in syms:
         B = [b for b in load(repo, tf, s) if tf == "1d" or b["t"] + step <= now]
+        if cmd == "days":
+            from zoneinfo import ZoneInfo
+            out[s] = sorted({dt.datetime.fromtimestamp(b["t"], ZoneInfo("America/New_York")).date().isoformat() for b in B}); continue
         if cmd == "plan":
             mx = int(sys.argv[6]) if len(sys.argv) > 6 else 1000
             out[s] = mx if not B else max(3, min(mx, math.ceil((now - B[-1]["t"]) / step) + 2))
