@@ -1,0 +1,18 @@
+{"note": "Registry of the forward-test scheduled tasks (New York time). The orchestrator reads it to check and re-run the daily pipeline in order.",
+ "pipeline": [
+  {"name": "Adaptive stocks review", "trigger": "trig_017PLRoC9DiwZRGUidv8qofZ", "at": "16:20", "days": "trading", "fresh_cell": "Adaptive stocks!D3"},
+  {"name": "Agent picks evening scoring", "trigger": "trig_014GURpRqcT6CArL9V2z8E4u", "at": "16:30", "days": "trading", "after": ["Adaptive stocks review"]},
+  {"name": "Crypto tracks (16:47 review run)", "trigger": "trig_01PwAJDSm8Yx33pQFgH5KTFL", "at": "16:47", "days": "all", "fresh_cell": "Crypto tracks!B27"},
+  {"name": "Market regime", "trigger": "trig_01QDDuBm2fhxdNpg9czxA1ZS", "at": "17:07", "days": "all"}
+ ],
+ "other": [
+  {"name": "Stocks hourly + variants", "trigger": "trig_01ACsh7gA3Vd3aeC8x1WyXBe"},
+  {"name": "Deep OTM", "trigger": "trig_01K1aVVBMiQAEBypPgXN3nxP"},
+  {"name": "Crypto 1-minute", "trigger": "trig_015Cusz2rCWnwyg3rBaXg4HC"},
+  {"name": "Data check", "trigger": "trig_013DqtWXsKdnaDoYnjCJBj1C"},
+  {"name": "Agent picks morning", "trigger": "trig_013WpVNGJYVBjnEfBsLgVTrU"},
+  {"name": "Agent picks reviews", "trigger": "trig_01WucV8KSj4xydnhqjmC9LmJ"},
+  {"name": "Watchdog", "trigger": "trig_01RqMJrg5xfsW4xYYgo7RZY4"},
+  {"name": "Weekly learning & strategy lab", "trigger": "trig_01LQfsxK3WeAV3NvVFiqoFHV"}
+ ],
+ "trading_days": ["2026-11-17","2026-11-18","2026-11-19","2026-11-20","2026-11-23","2026-11-24","2026-11-25"]}
