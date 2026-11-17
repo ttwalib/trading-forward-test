@@ -1,20 +1,137 @@
-{"note": "Scheduled tasks of the simulated forward test (New York time). Test: 2026-11-16 to 2026-12-13; stock days to 2026-12-11.",
+{
+ "note": "Scheduled tasks of the simulated forward test (New York time). Test: 2026-11-16 to 2026-12-13; stock days to 2026-12-11.",
  "tasks": [
-  {"name": "Agent picks morning research", "trigger": "trig_013WpVNGJYVBjnEfBsLgVTrU", "at": "08:50 daily", "model": "opus"},
-  {"name": "Stocks: Reddit snapshot + daily scoring", "trigger": "trig_01ACsh7gA3Vd3aeC8x1WyXBe", "at": "09:12, 16:12 trading days", "model": "sonnet", "writes_bars": "data/bars/5m (watchlist, SPY, trending)"},
-  {"name": "Deep OTM", "trigger": "trig_01K1aVVBMiQAEBypPgXN3nxP", "at": "16:32 weekdays", "model": "sonnet"},
-  {"name": "Adaptive stocks review", "trigger": "trig_017PLRoC9DiwZRGUidv8qofZ", "at": "16:40 trading days", "model": "sonnet"},
-  {"name": "Crypto tracks 15m/1h", "trigger": "trig_01PwAJDSm8Yx33pQFgH5KTFL", "at": "every 3h at :47; review 16:47", "model": "sonnet", "writes_bars": "data/bars/15m, data/bars/1h (7 coins)"},
-  {"name": "Agent picks evening scoring", "trigger": "trig_014GURpRqcT6CArL9V2z8E4u", "at": "16:52 trading days", "model": "sonnet", "writes_bars": "data/bars/5m (picks)"},
-  {"name": "Orchestrator: pipeline, regime, data check, walk-forward, snapshot", "trigger": "trig_01PmvQVWh2nsLZJB9uoL3B2Y", "at": "18:23 daily", "model": "sonnet", "writes_bars": "data/bars/1d"},
-  {"name": "Watchdog", "trigger": "trig_01RqMJrg5xfsW4xYYgo7RZY4", "at": "03:05, 09:05, 15:05, 21:05", "model": "sonnet"},
-  {"name": "Learning review + strategy lab", "trigger": "trig_01LQfsxK3WeAV3NvVFiqoFHV", "at": "Wed + Sat 19:13", "model": "opus"},
-  {"name": "Weekly report", "trigger": "trig_011phZMZdQqC6cB91VEonVso", "at": "Fri 17:37 (Nov 20, 27, Dec 4)", "model": "opus"},
-  {"name": "Agent picks weekly review", "trigger": "trig_01WucV8KSj4xydnhqjmC9LmJ", "at": "Fri 17:52 (final Dec 11)", "model": "opus"},
-  {"name": "Final report", "trigger": "trig_01DYT3dcY8HHV8AXNXPdkG6W", "at": "2026-12-14 10:07", "model": "opus"}],
+  {
+   "name": "Agent picks morning research",
+   "trigger": "trig_013WpVNGJYVBjnEfBsLgVTrU",
+   "at": "08:50 daily",
+   "model": "opus"
+  },
+  {
+   "name": "Stocks: Reddit snapshot + daily scoring",
+   "trigger": "trig_01ACsh7gA3Vd3aeC8x1WyXBe",
+   "at": "09:12, 16:12 trading days",
+   "model": "sonnet",
+   "writes_bars": "data/bars/5m (watchlist, SPY, trending)"
+  },
+  {
+   "name": "Deep OTM + weekly options (W1-W4)",
+   "trigger": "trig_01K1aVVBMiQAEBypPgXN3nxP",
+   "at": "16:32 weekdays",
+   "model": "sonnet"
+  },
+  {
+   "name": "Adaptive stocks review",
+   "trigger": "trig_017PLRoC9DiwZRGUidv8qofZ",
+   "at": "16:40 trading days",
+   "model": "sonnet"
+  },
+  {
+   "name": "Crypto tracks 15m/1h",
+   "trigger": "trig_01PwAJDSm8Yx33pQFgH5KTFL",
+   "at": "every 3h at :47; review 16:47",
+   "model": "sonnet",
+   "writes_bars": "data/bars/15m, data/bars/1h (7 coins)"
+  },
+  {
+   "name": "Agent picks evening scoring",
+   "trigger": "trig_014GURpRqcT6CArL9V2z8E4u",
+   "at": "16:52 trading days",
+   "model": "sonnet",
+   "writes_bars": "data/bars/5m (picks)"
+  },
+  {
+   "name": "Orchestrator: pipeline, regime, data check, walk-forward, snapshot",
+   "trigger": "trig_01PmvQVWh2nsLZJB9uoL3B2Y",
+   "at": "18:23 daily",
+   "model": "sonnet",
+   "writes_bars": "data/bars/1d"
+  },
+  {
+   "name": "Watchdog",
+   "trigger": "trig_01RqMJrg5xfsW4xYYgo7RZY4",
+   "at": "03:05, 09:05, 15:05, 21:05",
+   "model": "sonnet"
+  },
+  {
+   "name": "Learning review + strategy lab",
+   "trigger": "trig_01LQfsxK3WeAV3NvVFiqoFHV",
+   "at": "Wed + Sat 19:13",
+   "model": "opus"
+  },
+  {
+   "name": "Weekly report",
+   "trigger": "trig_011phZMZdQqC6cB91VEonVso",
+   "at": "Fri 17:37 (Nov 20, 27, Dec 4)",
+   "model": "opus"
+  },
+  {
+   "name": "Agent picks weekly review",
+   "trigger": "trig_01WucV8KSj4xydnhqjmC9LmJ",
+   "at": "Fri 17:52 (final Dec 11)",
+   "model": "opus"
+  },
+  {
+   "name": "Final report",
+   "trigger": "trig_01DYT3dcY8HHV8AXNXPdkG6W",
+   "at": "2026-12-14 10:07",
+   "model": "opus"
+  }
+ ],
  "paused": [
-  {"name": "Crypto 1-minute (benched, fees > edge)", "trigger": "trig_015Cusz2rCWnwyg3rBaXg4HC"},
-  {"name": "Market regime (folded into orchestrator)", "trigger": "trig_01QDDuBm2fhxdNpg9czxA1ZS"},
-  {"name": "Data check (folded into orchestrator)", "trigger": "trig_013DqtWXsKdnaDoYnjCJBj1C"},
-  {"name": "Lab sync", "trigger": "trig_016aFCvieE7rAS2YNqgxpN1A"}],
- "trading_days": ["2026-11-17","2026-11-18","2026-11-19","2026-11-20","2026-11-23","2026-11-24","2026-11-25","2026-11-30","2026-12-01","2026-12-02","2026-12-03","2026-12-04","2026-12-07","2026-12-08","2026-12-09","2026-12-10","2026-12-11"]}
+  {
+   "name": "Crypto 1-minute (benched, fees > edge)",
+   "trigger": "trig_015Cusz2rCWnwyg3rBaXg4HC"
+  },
+  {
+   "name": "Market regime (folded into orchestrator)",
+   "trigger": "trig_01QDDuBm2fhxdNpg9czxA1ZS"
+  },
+  {
+   "name": "Data check (folded into orchestrator)",
+   "trigger": "trig_013DqtWXsKdnaDoYnjCJBj1C"
+  },
+  {
+   "name": "Lab sync",
+   "trigger": "trig_016aFCvieE7rAS2YNqgxpN1A"
+  }
+ ],
+ "trading_days": [
+  "2026-11-17",
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20",
+  "2026-11-23",
+  "2026-11-24",
+  "2026-11-25",
+  "2026-11-30",
+  "2026-12-01",
+  "2026-12-02",
+  "2026-12-03",
+  "2026-12-04",
+  "2026-12-07",
+  "2026-12-08",
+  "2026-12-09",
+  "2026-12-10",
+  "2026-12-11"
+ ],
+ "weekly_options": {
+  "entries": {
+   "2026-11-18": "20261120",
+   "2026-11-23": "20261127",
+   "2026-11-25": "20261127",
+   "2026-11-30": "20261204",
+   "2026-12-02": "20261204",
+   "2026-12-07": "20261211",
+   "2026-12-09": "20261211"
+  },
+  "strategies": {
+   "W1": "SPY put credit spread: short ~2% OTM put, long ~3% OTM put; tp 50% credit, stop 2x credit",
+   "W2": "SPY iron condor: shorts ~2.5% OTM, longs ~3.5% OTM; tp 50% credit, stop 2x credit",
+   "W3": "SPY trend debit spread: ATM / 2% OTM, calls if SPY > 20-day average else puts; tp 100% debit, stop 50%",
+   "W4": "Call debit spread (ATM / +3%, this Friday expiry) on each baseline ORB breakout; exits with the stock trade"
+  },
+  "script": "scripts/weekly_opts.py",
+  "sheet_tab": "Weekly options"
+ }
+}
