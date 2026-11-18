@@ -1,48 +1,48 @@
 {
- "note": "Scheduled tasks of the simulated forward test (New York time). Test: 2026-11-16 to 2026-12-13; stock days to 2026-12-11.",
+ "note": "Scheduled tasks of the simulated forward test (New York time). Test: 2026-11-16 to 2026-12-13; stock days to 2026-12-11. Repo-using tasks recreated 2026-11-18/19 (old ones lacked GitHub access); old tasks deleted.",
  "tasks": [
   {
    "name": "Agent picks morning research",
-   "trigger": "trig_013WpVNGJYVBjnEfBsLgVTrU",
+   "trigger": "trig_01NH3ceZ9ypKfB94HSpRW65A",
    "at": "08:50 daily",
    "model": "opus"
   },
   {
    "name": "Stocks: Reddit snapshot + daily scoring",
-   "trigger": "trig_01ACsh7gA3Vd3aeC8x1WyXBe",
+   "trigger": "trig_01Udt8Hay1dh3AyxtaP4ejDN",
    "at": "09:12, 16:12 trading days",
    "model": "sonnet",
    "writes_bars": "data/bars/5m (watchlist, SPY, trending)"
   },
   {
    "name": "Deep OTM + weekly options (W1-W4)",
-   "trigger": "trig_01K1aVVBMiQAEBypPgXN3nxP",
+   "trigger": "trig_012o6Jbkhg14NZ4Sq8N4spLW",
    "at": "16:32 weekdays",
    "model": "sonnet"
   },
   {
    "name": "Adaptive stocks review",
-   "trigger": "trig_017PLRoC9DiwZRGUidv8qofZ",
+   "trigger": "trig_01XqVW4yGp2cwSyEXUobMusn",
    "at": "16:40 trading days",
    "model": "sonnet"
   },
   {
    "name": "Crypto tracks 15m/1h",
-   "trigger": "trig_01PwAJDSm8Yx33pQFgH5KTFL",
+   "trigger": "trig_015nU8hZEPt63TqiZjdPYPDp",
    "at": "every 3h at :47; review 16:47",
    "model": "sonnet",
    "writes_bars": "data/bars/15m, data/bars/1h (7 coins)"
   },
   {
    "name": "Agent picks evening scoring",
-   "trigger": "trig_014GURpRqcT6CArL9V2z8E4u",
+   "trigger": "trig_0158DyhLj3M3cKod2eXxFn1g",
    "at": "16:52 trading days",
    "model": "sonnet",
    "writes_bars": "data/bars/5m (picks)"
   },
   {
-   "name": "Orchestrator: pipeline, regime, data check, walk-forward, snapshot",
-   "trigger": "trig_01PmvQVWh2nsLZJB9uoL3B2Y",
+   "name": "Orchestrator",
+   "trigger": "trig_01PgUGPDdTViNz1u3Wkqy4GW",
    "at": "18:23 daily",
    "model": "sonnet",
    "writes_bars": "data/bars/1d"
@@ -55,13 +55,13 @@
   },
   {
    "name": "Learning review + strategy lab",
-   "trigger": "trig_01LQfsxK3WeAV3NvVFiqoFHV",
+   "trigger": "trig_012qn78KzSzn173hQGXeEnJq",
    "at": "Wed + Sat 19:13",
    "model": "opus"
   },
   {
    "name": "Weekly report",
-   "trigger": "trig_011phZMZdQqC6cB91VEonVso",
+   "trigger": "trig_01GEc25Hnp6tGicRbiankK62",
    "at": "Fri 17:37 (Nov 20, 27, Dec 4)",
    "model": "opus"
   },
@@ -73,29 +73,12 @@
   },
   {
    "name": "Final report",
-   "trigger": "trig_01DYT3dcY8HHV8AXNXPdkG6W",
+   "trigger": "trig_01R5sHJU64phYuAxf7PQBNjz",
    "at": "2026-12-14 10:07",
    "model": "opus"
   }
  ],
- "paused": [
-  {
-   "name": "Crypto 1-minute (benched, fees > edge)",
-   "trigger": "trig_015Cusz2rCWnwyg3rBaXg4HC"
-  },
-  {
-   "name": "Market regime (folded into orchestrator)",
-   "trigger": "trig_01QDDuBm2fhxdNpg9czxA1ZS"
-  },
-  {
-   "name": "Data check (folded into orchestrator)",
-   "trigger": "trig_013DqtWXsKdnaDoYnjCJBj1C"
-  },
-  {
-   "name": "Lab sync",
-   "trigger": "trig_016aFCvieE7rAS2YNqgxpN1A"
-  }
- ],
+ "paused": [],
  "trading_days": [
   "2026-11-17",
   "2026-11-18",
