@@ -19,6 +19,13 @@ lists stale symbols. IBKR stays the source for the last few minutes of bars (his
 last stored one, usually 6-8 per symbol), options, snapshots, earnings and the cross-check. Never edit fetch_free.py's
 output by hand. Daily bars sit at 12:00 UTC of the trading date (fixed 2026-11-19; before that they sat at 00:00 UTC and
 read as the previous New York day). IBKR quotes DOGE to the cent; the feed replaces those bars with full-precision ones.
+Since 2026-11-19 (second change that day) the workflow runs every 5 minutes, 09:30-15:55 ET ("tick"): 5m bars, then
+scripts/engine.py, a fixed-code signal engine (no AI) that seals every baseline-A breakout with its detection time and
+the real-time IEX price at that moment in data/decisions/engine/DAY.jsonl. Daily bars and dividends/splits now cover
+the whole S&P 100 snapshot (library universe). data/hist holds the long research archive (daily since 2016, 5m for 2
+years); only the strategy lab and the ML read it. IMPLEMENTABLE FILLS (scripts/fills.py): every intraday result used
+for the verdict fills at the engine's detection price, else at the price 5 minutes after the signal bar; the ideal
+signal-close version is reported beside it. Never call the ideal version the result.
 
 ## DATES (every task)
 
@@ -117,10 +124,16 @@ After the existing steps:
 4b. STRATEGY LIBRARY + AI ALLOCATOR (after stats): `python3 -I /tmp/repo/scripts/library.py /tmp/repo DAY > /tmp/lib.json`
    (rebuilds data/ledger/Library.jsonl and data/library/daily.json itself); append its new_closed_rows to "Library trades"
    (first empty row >= 3, A-L). Then the cost stress run `library.py /tmp/repo DAY --cost-mult 2 > /tmp/lib2.json`
-   (writes data/library/daily_2x.json only). Then `python3 -I /tmp/repo/scripts/allocator.py /tmp/repo DAY > /tmp/alloc.json`; write
+   (writes data/library/daily_2x.json only) and the ideal-fill comparison `library.py /tmp/repo DAY --fill-lag 0`
+   (writes data/library/daily_ideal.json only). Then `python3 -I /tmp/repo/scripts/allocator.py /tmp/repo DAY > /tmp/alloc.json`; write
    every sheet_rows row whose date is not yet in "Allocation" (first empty row >= 3, A-M) and LEDGER Allocation with
    the same rows. From 2026-12-07 the report's freeze.code_matches_freeze must be true; false -> "Data check" row
    "FREEZE BROKEN: <changed_files>" flagged CHECK and say so first in the digest (never edit ops/freeze.json).
+   Digest also carries: verdict_check (pass so far, per benchmark incl. vol-matched SPY "spy_vm"), the AI result with
+   implementable vs ideal fills (ideal_fills), turnover_per_day and rebal_cost_pct_total, the latest vol_forecast_pct,
+   and netted_exploratory (never part of the verdict).
+4d. ENGINE: count today's data/decisions/engine/DAY.jsonl rows and their median delay_min; ops/diag/engine.json
+   errors -> one "Data check" row. No rows on a full trading day while live runs found breakouts -> flag CHECK.
 4c. SLIPPAGE: `python3 -I /tmp/repo/scripts/checks.py slip-report /tmp/repo` -> one digest line: rows, median spread %,
    median drift % per delay bucket, model cost %; model_cheaper_than_spread true -> flag CHECK in the digest.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
@@ -131,14 +144,20 @@ After the existing steps:
 ## LEARNING + STRATEGY LAB
 
 If phase is holdout or after: reply "Holdout frozen: no learning or new strategies until the final report." and stop.
-From 2026-12-07 never edit scripts/allocator.py, scripts/library.py or scripts/corp.py (verdict-window freeze; the
-hash check in allocator.py reports any change). New ideas enter only as new strategies through the gate below.
+From 2026-12-07 never edit scripts/allocator.py, scripts/library.py, scripts/corp.py or scripts/fills.py
+(verdict-window freeze; the hash check in allocator.py reports any change).
+LONG HISTORY + CPCV (2026-11-19): research and test lab ideas on the archive in data/hist (daily bars since 2016 for
+the S&P 100 + ETFs, 5-minute bars for 2 years for the 47 intraday symbols; read with decisions.hist_bars(repo, tf, SYM),
+or decisions.bars with decisions.USE_HIST = True to join the archive to the stored bars). Use implementable fills for
+intraday ideas (fill at the open of the bar after next, as fills.py). Save the daily returns of EVERY setting tried
+as {"configs": {setting: {date: ret %}}} and run `python3 -I /tmp/repo/scripts/cpcv.py /tmp/cfg.json`; put its output
+in cand.json as "cpcv". A candidate without a passing cpcv is not approved (the gate checks it). New ideas enter only as new strategies through the gate below.
 Every parameter set or idea you evaluate, kept or dropped, is a trial: the gate logs its own; log any other sweep with
 `python3 -I /tmp/repo/scripts/checks.py trial /tmp/repo learning "<short name>" <configs tried>`.
 Inputs add: the latest models/report_*.json (permutation importance, calibration) and reports/stats/<latest>.json.
 Every proposal names the trial count. A strategy-lab candidate is APPROVED only if `python3 -I
 /tmp/repo/scripts/review.py gate /tmp/repo /tmp/cand.json` says PASS: cand.json = {"id", "thesis", "family",
-"oos_results" (held-out per-trade net %/100), "n_configs_tried", "pbo" (null), "draft" (edge-strategy-reviewer
+"oos_results" (held-out per-trade net %/100), "n_configs_tried", "pbo" (cpcv pbo), "cpcv" (cpcv.py output), "draft" (edge-strategy-reviewer
 fields: id, thesis, entry_family, entry {conditions, trend_filter}, exit {stop_loss_pct as a fraction,
 take_profit_rr}, risk {risk_per_trade, max_positions}, regime, validation_plan, invalidation_signals (2+))}. Log
 the gate verdict and failed checks in "Strategy lab".
@@ -148,6 +167,8 @@ the gate verdict and failed checks in "Strategy lab".
 Report days: every Friday from 2026-11-20 to 2027-02-05 (the 2027-01-01 report covers trades through 2026-12-31). Week N =
 week_index. Add sections: Stats tab (q-values, DSR, alpha vs SPY/BTC, Kelly shares, breakers), control list vs
 watchlist, ML (models/report_<latest>.json: champion, OOS mean vs always-take, PBO, drift flags; ML shadow results),
+Engine (detections, median delay_min, misses), implementable vs ideal fills (ideal_fills: how much the delay costs),
+allocator turnover and rebalancing cost, vol forecast vs realised, netted_exploratory, verdict_check so far,
 Live decisions (spreads, implementation shortfall; checks.py slip-report for the week and to date: spread cost, drift
 by delay bucket, and whether the simulated costs are cheaper than reality), the strategy library and the AI allocator (data/allocator/report.json:
 AI portfolio vs SPY / equal weight / baseline A, current weights, breakers, the 2x-cost stress result, and the
@@ -162,14 +183,18 @@ strategy sleeves, code frozen from 2026-12-07, weights set daily from data up to
 SPY buy-and-hold, (b) an equal-weight mix of all sleeves and (c) baseline A alone, over the VERDICT WINDOW
 2026-12-07..2027-02-12 (about 47 trading days; allocator report phase "verdict"), after per-symbol costs, on Sharpe
 AND max drawdown, with block-bootstrap P(AI mean > benchmark) >= 0.9? It must also stay ahead of SPY at double costs
-(stress_2x) to be called robust. The Feb 1-12 holdout is a second, independent check (phase "holdout").
+(stress_2x) to be called robust. Added 2026-11-19, before the window (both stricter): against SPY the drawdown and
+the bootstrap must ALSO beat SPY scaled to the AI portfolio's realised volatility ("spy_vm"), so a mostly-cash
+portfolio cannot win on drawdown for free; and every intraday result uses implementable fills (fills.py), including
+baseline A as the benchmark. The allocator report's verdict_check applies this rule mechanically. The Feb 1-12 holdout is a second, independent check (phase "holdout").
 Why the window moved: 10 holdout days can only detect a Sharpe gap of about 6.4; 47 days about 3. Individual strategies are reported with BH q-values and deflated Sharpe but are
 exploratory. Strategies keep collecting data; the allocator and the strategy lab may favour, drop or add them only in
 the train phase through their fixed rules.
 
 ## FINAL REPORT (2027-02-16)
 
-Answer the PRE-REGISTERED VERDICT first (data/allocator/report.json phase "verdict", then "holdout", "v2", "all";
+Answer the PRE-REGISTERED VERDICT first (data/allocator/report.json verdict_check and phase "verdict", then
+"holdout", "v2", "all"; show the ideal-fill comparison and the netted variant as context only;
 the stress_2x result; freeze.code_matches_freeze must be true or the verdict is void and you say so). Then judge every
 strategy and the ML meta-labeller on the HOLDOUT (2027-02-01..02-12) with stats.py phase "holdout";
 train-phase results are context only. Run `review.py residual` for every strategy with q (BH) <= 0.2 on all data.
@@ -190,6 +215,9 @@ and DSR >= 0.9?
    step_count; get_price_history STK FIVE_MINS step_count=<that> outside_rth false (one symbol per call); put the
    results into one {SYM: result} file (DATA FILES rule) and store with store.py 5m (it keeps only closed bars and
    merges overlaps). Hourly runs then move about 12 bars per symbol instead of the whole day.
+1b. ENGINE: `git pull` again; data/decisions/engine/DAY.jsonl lists the signals the 5-minute engine sealed (detection
+   time, delay_min, real-time fill_price). Report each new candidate's engine delay and fill in the row's list
+   column ("engine 6.2 min @ 123.45"); a candidate the engine missed -> "engine: missed".
 2. `python3 -I /tmp/repo/scripts/decisions.py live /tmp/repo DAY HH:MM > /tmp/cands.json` (HH:MM = now rounded down
    to 5 minutes). Keep candidates whose trade is still "open" or whose decided_at is within the last 65 minutes and
    that have no "Live decisions" row yet (dedupe on decided_at + symbol + kind).
@@ -211,7 +239,10 @@ and DSR >= 0.9?
 
 1. LEDGER mirror check: `ledger.py count /tmp/repo`; if a tab has fewer rows than the sheet (compare filledRange),
    read the missing sheet rows and add them.
-2. `python3 -I /tmp/repo/scripts/decisions.py build /tmp/repo`.
+2. `python3 -I /tmp/repo/scripts/decisions.py build /tmp/repo`. If data/hist/5m exists and
+   data/decisions/hist/stock.jsonl.gz does not, first run `decisions.py build-hist /tmp/repo` once (about 2 years of
+   archive rows; ML training adds them automatically). Labels: y_stock is the implementable-fill result (fills.py);
+   y_stock_ideal is kept for comparison only.
 3. `python3 -I /tmp/repo/scripts/ml.py score /tmp/repo > /tmp/scored.json`: write Realized / Realized choice / Scored
    at into the matching "ML shadow" rows (find by Candidate id) and LEDGER MLShadow.
 4. `python3 -I /tmp/repo/scripts/ml.py train /tmp/repo DAY` (frozen holdout keeps the saved models automatically),
