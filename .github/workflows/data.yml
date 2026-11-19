@@ -1,12 +1,12 @@
 # Quantavius the 1st - free market data (Alpaca free plan + Cboe). Runs on GitHub's servers, so price data never
 # passes through the AI as text. Keys live only in the repo secrets ALPACA_API_KEY_ID / ALPACA_API_SECRET_KEY.
 # Read-only market data: this workflow never touches orders or accounts.
+# Schedules run as the account that last edited this file, so edits go through the owner's account (2026-11-19).
 name: market-data
 on:
   schedule:
     - cron: "30-55/5 14 * * 1-5"   # tick: 5m bars + 5-minute signal engine (UTC; the test runs in winter, ET = UTC-5)
     - cron: "*/5 15-20 * * 1-5"    # tick, 10:00-15:55 ET. About 78 runs a day keeps the job under the 2,000 free minutes
-
     - cron: "40 22 * * 1-5"        # nightly daily bars, corporate actions, VIX (after the 17:00 ET cut)
   workflow_dispatch:
     inputs:
