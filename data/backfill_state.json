@@ -64,7 +64,17 @@
   "CSCO|contract",
   "CVX|contract",
   "DE|contract",
-  "DHR|contract"
+  "DHR|contract",
+  "DUK|contract",
+  "EMR|contract",
+  "F|contract",
+  "FDX|contract",
+  "GE|contract",
+  "GILD|contract",
+  "HD|contract",
+  "IBM|contract",
+  "INTU|contract",
+  "ISRG|contract"
  ],
  "fail": {
   "BAC|1d": 1
