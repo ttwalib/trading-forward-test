@@ -35,7 +35,8 @@ Simulated forward test, **16 November 2026 – 12 February 2027** (extended on 1
 | `review.py` | Strategy-lab promotion gate (OOS, DSR, PBO, vendored edge reviewer) and residual-edge analysis |
 | `library.py` | Strategy library: 13 widely used strategies (intraday momentum, VWAP pullback, gap and go, gap fade, RSI(2), Bollinger, Donchian trend, momentum, sector rotation, earnings drift, overnight, turn of month, pairs) run on stored bars, next-open fills, costs, sleeve returns |
 | `corp.py` | Reference data: dividends/splits from IBKR (total-return prices), earnings dates with known-at times (IBKR earnings insights), macro calendar features (data/macro.json), midday snapshots (spreads, implied vol, IV percentile) |
-| `checks.py` | Integrity: 5m bar-timing test, IBKR vs Twelve Data cross-check (exclusions for ML), live-vs-replay parity (look-ahead detector), trial ledger for the deflated Sharpe, reproducibility stamp |
+| `checks.py` | Integrity: 5m bar-timing test, IBKR vs Twelve Data cross-check (exclusions for ML), live-vs-replay parity (look-ahead detector), `fresh` (is the free feed current?), trial ledger for the deflated Sharpe, reproducibility stamp |
+| `fetch_free.py` | Free data feed run by GitHub Actions (`.github/workflows/data.yml`): Alpaca free plan (SIP stock/ETF bars, crypto bars, dividends, splits) and Cboe VIX/VIX3M, written straight into `data/` so no prices pass through the AI. Keys only in repo secrets. Request a run by editing `ops/fetch_request.json` |
 | `allocator.py` | AI allocator: regime-aware Thompson sampling with quarter-Kelly weights, correlation and drawdown limits; AI portfolio vs SPY, equal weight and baseline A |
 | `dq.py` | Data-quality and staleness checks |
 | `backfill.py` | Resumable historical backfill planner |

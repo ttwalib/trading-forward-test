@@ -10,6 +10,16 @@ inline, paste the exact JSON text you received into a quoted heredoc (cat > /tmp
 with python. Pasting verbatim tool output is allowed and expected. Forbidden: typing, rounding, editing or inventing
 numbers yourself. Check with python that array lengths match the bar count received; never print bar data back.
 
+FREE FEED (added 2026-11-19): a GitHub Actions workflow (.github/workflows/data.yml -> scripts/fetch_free.py) stores
+bars straight into the repo from Alpaca's free plan (SIP, every US exchange, at least 15 minutes old) and Cboe:
+5m bars for watchlist + control + SPY/QQQ/IWM every 15 minutes in market hours; daily bars, dividends/splits and
+VIX/VIX3M at 17:40 ET; crypto 15m/1h/1d. History: daily 2 years, 5m 90 days, crypto 1h 1 year. So always `git pull`
+first and fetch from IBKR only what is still missing: `python3 -I /tmp/repo/scripts/checks.py fresh /tmp/repo 5m|1d`
+lists stale symbols. IBKR stays the source for the last few minutes of bars (hist.py plan asks only for bars after the
+last stored one, usually 6-8 per symbol), options, snapshots, earnings and the cross-check. Never edit fetch_free.py's
+output by hand. Daily bars sit at 12:00 UTC of the trading date (fixed 2026-11-19; before that they sat at 00:00 UTC and
+read as the previous New York day). IBKR quotes DOGE to the cent; the feed replaces those bars with full-precision ones.
+
 ## DATES (every task)
 
 `python3 -I /tmp/repo/scripts/tcal.py today` prints the facts for today (New York): stock_test_active,
@@ -86,7 +96,8 @@ short page; save the responses as a JSON list to /tmp/earn.json and run
 ## ORCHESTRATOR (nightly)
 
 After the existing steps:
-1. Universe daily bars: for every symbol of universe.json watchlist + control + etfs (STK; VIX and VIX3M are IND on CBOE),
+1. Universe daily bars: run `checks.py fresh /tmp/repo 1d` first. fresh true -> skip this step (the free feed already
+   stored today's bars and dividends/splits). Otherwise, only for the listed stale symbols (STK; VIX and VIX3M are IND on CBOE),
    get_price_history ONE_DAY step_count 5 (skip symbols whose data/bars/1d file is missing: the backfill fills them) with include_corporate_actions
    true (not for VIX/VIX3M); save the responses as {SYM: response} to /tmp/d1.json; store with store.py 1d, then
    `python3 -I /tmp/repo/scripts/corp.py ingest-bars /tmp/repo /tmp/d1.json` (dividends + splits).
@@ -170,7 +181,8 @@ and DSR >= 0.9?
    (larger field sets time out). Save as {SYM: response} to /tmp/snap.json and run
    `python3 -I /tmp/repo/scripts/corp.py ingest-snap /tmp/repo /tmp/snap.json "NOWNY"`. These feed the per-symbol
    cost model and next day's IV features. Failures: skip that symbol.
-1. Bars so far today: for the watchlist + control + SPY, only the bars not stored yet:
+1. Bars so far today (`git pull` first: the free feed has usually stored everything up to about 20-35 minutes ago):
+   for the watchlist + control + SPY, only the bars not stored yet:
    `python3 -I /tmp/repo/scripts/hist.py plan /tmp/repo 5m NOW <symbols comma-separated> 78` gives each symbol's
    step_count; get_price_history STK FIVE_MINS step_count=<that> outside_rth false (one symbol per call); put the
    results into one {SYM: result} file (DATA FILES rule) and store with store.py 5m (it keeps only closed bars and
@@ -203,6 +215,8 @@ and DSR >= 0.9?
 ## BACKFILL (00:15, 02:15, 05:15, 06:15 ET until complete)
 
 `python3 -I /tmp/repo/scripts/backfill.py status /tmp/repo`; complete -> reply "Backfill complete." and stop.
+Price history now comes from the free feed, so most jobs are skipped automatically. A job with "contract_only": true
+-> search_contracts, `backfill.py contract`, `backfill.py done /tmp/repo SYM TF`; fetch no prices for it.
 Else `backfill.py next /tmp/repo 10`: for each job resolve a missing contract id (search_contracts; crypto: CRYPTO on
 ZEROHASH; VIX/VIX3M: IND on CBOE), record it (`backfill.py contract`), call get_price_history with the job's step and
 step_count (outside_rth false for STK/IND, true for CRYPTO; include_corporate_actions when the job says true), save raw
