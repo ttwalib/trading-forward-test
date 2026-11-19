@@ -54,7 +54,17 @@
   "BRK.B|contract",
   "C|contract",
   "CAT|contract",
-  "CHTR|contract"
+  "CHTR|contract",
+  "CL|contract",
+  "CMCSA|contract",
+  "COF|contract",
+  "COP|contract",
+  "COST|contract",
+  "CRM|contract",
+  "CSCO|contract",
+  "CVX|contract",
+  "DE|contract",
+  "DHR|contract"
  ],
  "fail": {
   "BAC|1d": 1
