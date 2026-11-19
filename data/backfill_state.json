@@ -1,7 +1,10 @@
 {
  "done": [
   "AAPL|1d",
-  "AMD|1d"
+  "AMD|1d",
+  "AMZN|1d",
+  "AVGO|1d",
+  "BAC|1d"
  ],
  "fail": {}
 }
