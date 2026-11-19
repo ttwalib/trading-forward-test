@@ -170,8 +170,11 @@ and DSR >= 0.9?
    (larger field sets time out). Save as {SYM: response} to /tmp/snap.json and run
    `python3 -I /tmp/repo/scripts/corp.py ingest-snap /tmp/repo /tmp/snap.json "NOWNY"`. These feed the per-symbol
    cost model and next day's IV features. Failures: skip that symbol.
-1. Bars so far today: for the watchlist + control + SPY, get_price_history STK FIVE_MINS ONE_DAY outside_rth false;
-   store with store.py 5m (it keeps only closed bars).
+1. Bars so far today: for the watchlist + control + SPY, only the bars not stored yet:
+   `python3 -I /tmp/repo/scripts/hist.py plan /tmp/repo 5m NOW <symbols comma-separated> 78` gives each symbol's
+   step_count; get_price_history STK FIVE_MINS step_count=<that> outside_rth false (one symbol per call); put the
+   results into one {SYM: result} file (DATA FILES rule) and store with store.py 5m (it keeps only closed bars and
+   merges overlaps). Hourly runs then move about 12 bars per symbol instead of the whole day.
 2. `python3 -I /tmp/repo/scripts/decisions.py live /tmp/repo DAY HH:MM > /tmp/cands.json` (HH:MM = now rounded down
    to 5 minutes). Keep candidates whose trade is still "open" or whose decided_at is within the last 65 minutes and
    that have no "Live decisions" row yet (dedupe on decided_at + symbol + kind).
