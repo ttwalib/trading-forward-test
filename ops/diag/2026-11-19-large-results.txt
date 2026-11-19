@@ -1,0 +1,7 @@
+Diagnostic: how large IBKR results reach the session (2026-11-19, scheduled run)
+Call: get_price_history contract_id=756733 STK step=FIVE_MINS period=THREE_MONTHS outside_rth=false (one call)
+Outcome: (d) error, returned inline by the IBKR server (not saved to a file, no truncation):
+  {"error":"Combination of period and step will provide more then allowed 1000 data points"}
+Bars received: 0. store.py not run (step 3 applies only to outcome (a)); nothing stored.
+Note: IBKR caps get_price_history at 1000 bars per call. 5-min RTH bars = ~78/day, so ~12 trading days per call
+(e.g. period TWO_WEEKS, or step_count<=1000). Harness file-save behaviour for large results remains untested.
