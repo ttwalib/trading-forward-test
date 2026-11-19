@@ -1,0 +1,4 @@
+1. git clone: output "Cloning into '/tmp/repo'..." ; exit status 0
+2. ToolSearch "+Interactive_Brokers get_price_history": found get_price_history, get_option_data, get_pa_performance_all_periods, get_price_snapshot, search_futures, create_alert, create_order_instruction, create_saved_screener, create_watchlist, delete_alert (all mcp__Interactive_Brokers_IBKR__*)
+   get_price_history(756733, STK, ONE_DAY, 3): returned bars = yes (3); corp_actions key present = no
+3. Commit/push: see push output in run summary
