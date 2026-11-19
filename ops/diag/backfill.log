@@ -3,3 +3,4 @@
 2026-11-19 07:53 | 2 | 2 | 0 | stopped after 2 of 10 jobs: each IBKR 1d result is ~20k chars and must be pasted verbatim; context budget
 2026-11-19 08:30 | 3 | 2 | 1 (BAC: source OHLC anomalies on repeat fetch; bars were stored before check, flagged) | stopped after 3 jobs: verbatim paste of bar payloads is token-heavy; remaining jobs left for next run
 2026-11-19 09:26 | 10 | 10 | 0 | none (batch complete)
+2026-11-19 10:26 | 10 | 10 | 0 | batch limit reached (contract-only jobs)

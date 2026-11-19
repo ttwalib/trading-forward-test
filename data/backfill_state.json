@@ -14,7 +14,17 @@
   "DIS|1d",
   "GD|1d",
   "GM|1d",
-  "GS|1d"
+  "GS|1d",
+  "HON|1d",
+  "JNJ|1d",
+  "LMT|1d",
+  "MS|1d",
+  "PEP|1d",
+  "PFE|1d",
+  "PM|1d",
+  "QCOM|1d",
+  "T|1d",
+  "TMUS|1d"
  ],
  "fail": {
   "BAC|1d": 1
