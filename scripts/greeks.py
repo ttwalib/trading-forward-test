@@ -15,11 +15,14 @@ Output per position (1 contract per leg, x100 multiplier):
   gamma         net gamma in shares per $1 move
 Legs whose price is below intrinsic or whose IV cannot be solved make the position "greeks: n/a".
 """
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+import tcal as _tcal
 import json, math, sys, datetime as dt
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
 R = 0.04
-CLOSE = {"2026-11-27": (13, 0)}
+CLOSE = {d.isoformat(): (int(t[:2]), int(t[3:])) for d, t in _tcal.HALF.items()}
 
 
 def _n(x): return math.exp(-0.5 * x * x) / math.sqrt(2 * math.pi)

@@ -16,10 +16,13 @@ Rules (fixed in advance):
 - Otherwise hold to expiry: settle at intrinsic value from SPY's last regular bar on the expiry day (the 15:55 bar, or the
   12:55 bar on the 2026-11-27 half day), capped at the width.
 """
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+import tcal as _tcal
 import json, sys, datetime as dt
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
-LAST_BAR = {"2026-11-27": "12:55"}  # early-close days
+LAST_BAR = {d.isoformat(): "%02d:%02d" % divmod(int(t[:2]) * 60 + int(t[3:]) - 5, 60) for d, t in _tcal.HALF.items()}  # early-close days (from tcal.py)
 
 
 def hc(p): return max(0.025 * p, 0.01)

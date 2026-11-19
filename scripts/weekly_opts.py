@@ -26,12 +26,15 @@ Fixed rules:
 - Entry Greeks (greeks.py): iv_entry_pct, delta (shares), theta_day ($/day), vega_1pct ($ per IV point), gamma; informational
   only, they never change entries or exits. For W4 the stock's own 5-minute bars must be in BARS.json under its symbol.
 """
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+import tcal as _tcal
 import json, os, sys, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from greeks import position_greeks
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
-LAST_BAR = {"2026-11-27": "12:55"}
+LAST_BAR = {d.isoformat(): "%02d:%02d" % divmod(int(t[:2]) * 60 + int(t[3:]) - 5, 60) for d, t in _tcal.HALF.items()}  # early-close days (from tcal.py)
 
 
 def hc(p): return max(0.025 * p, 0.01)
