@@ -16,6 +16,11 @@ the weekly report).
   python3 checks.py trial REPO SOURCE NAME [N]   -> adds N (default 1) entries to the trial ledger data/trials.jsonl
   python3 checks.py trials REPO                  -> total trials so far (stats.py uses it as N for the deflated Sharpe)
   python3 checks.py stamp REPO                   -> commit, data hash and package versions (every report carries it)
+  python3 checks.py fresh REPO TF [NOW]          -> are the free-feed bars (GitHub Actions + Alpaca, fetch_free.py)
+                                                   current? 5m: every intraday symbol has a bar starting within the last
+                                                   45 minutes of the session; 1d: every stock/ETF has the last
+                                                   finished trading day. {"fresh": bool, "stale": [...]}. Tasks fetch
+                                                   bars from IBKR only for the stale symbols.
 """
 import json, os, sys, hashlib, subprocess, platform, datetime as dt
 from zoneinfo import ZoneInfo
@@ -175,9 +180,32 @@ def stamp(repo):
             "at": dt.datetime.now(NY).strftime("%Y-%m-%d %H:%M")}
 
 
+def fresh(repo, tf, now=None):
+    now = dt.datetime.fromisoformat(now).astimezone(NY) if now else dt.datetime.now(NY)
+    U = json.load(open(os.path.join(repo, "data", "universe.json"))); stocks = U["watchlist"] + U["control"]
+    if tf == "5m":
+        syms = stocks + ["SPY", "QQQ", "IWM"]
+        close = now.replace(hour=16, minute=0, second=0, microsecond=0)
+        ref = min(now, close)
+        need = ref - dt.timedelta(minutes=45)
+    else:
+        syms = stocks + U["etfs"]; d = now.date() - dt.timedelta(days=1 if now.hour < 17 else 0)
+        while not tcal.is_open(d): d -= dt.timedelta(days=1)
+        need = None
+    stale = []
+    for s in syms:
+        B = jl(os.path.join(repo, "data", "bars", tf, s + ".jsonl"))
+        if not B: stale.append(s); continue
+        t = dt.datetime.fromtimestamp(max(b["t"] for b in B[-50:]), NY)
+        if tf == "5m" and t < need: stale.append(s)
+        if tf != "5m" and t.date() < d: stale.append(s)
+    return {"tf": tf, "fresh": not stale, "stale": stale, "checked": len(syms), "at": now.strftime("%Y-%m-%d %H:%M")}
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     fn = {"bar-timing": lambda: bar_timing(a[1]), "xcheck-plan": lambda: xcheck_plan(a[1], a[2]), "xcheck": lambda: xcheck(a[1], a[2]),
           "live-save": lambda: live_save(a[1], a[2], a[3]), "parity": lambda: parity(a[1], a[2]),
-          "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1])}[a[0]]
+          "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
+          "fresh": lambda: fresh(a[1], a[2], a[3] if len(a) > 3 else None)}[a[0]]
     print(json.dumps(fn(), indent=1))

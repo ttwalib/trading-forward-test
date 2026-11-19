@@ -34,6 +34,7 @@ def main():
         for i in range(n):
             if r["close"][i] is None: continue
             t = parse_t(r["time"][i]) // step * step
+            if tf == "1d": t += 43200  # daily bars sit at 12:00 UTC so the New York date is the trading date
             if tf != "1d" and t + step > now: continue
             b = {"t": t, "o": float(r["open"][i]), "h": float(r["high"][i]), "l": float(r["low"][i]),
                  "c": float(r["close"][i]), "v": float(vol[i] or 0)}

@@ -1,0 +1,50 @@
+# Quantavius the 1st - free market data (Alpaca free plan + Cboe). Runs on GitHub's servers, so price data never
+# passes through the AI as text. Keys live only in the repo secrets ALPACA_API_KEY_ID / ALPACA_API_SECRET_KEY.
+# Read-only market data: this workflow never touches orders or accounts.
+name: market-data
+on:
+  schedule:
+    - cron: "*/15 14-21 * * 1-5"   # intraday 5m bars (UTC; covers 09:30-16:00 ET in winter and summer)
+    - cron: "40 22 * * 1-5"        # nightly daily bars, corporate actions, VIX (after the 17:00 ET cut)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "intraday | nightly | backfill"
+        default: backfill
+  push:
+    paths: ["ops/fetch_request.json"]   # edit this file to request a run (mode inside) without the GitHub UI
+permissions:
+  contents: write
+concurrency:
+  group: market-data
+  cancel-in-progress: false
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pick mode
+        id: m
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then M="${{ github.event.inputs.mode }}";
+          elif [ "${{ github.event_name }}" = "push" ]; then M=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json'))['mode'])");
+          elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly; else M=intraday; fi
+          echo "mode=$M" >> "$GITHUB_OUTPUT"
+      - name: Fetch
+        env:
+          ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
+          ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
+        run: python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
+      - name: Commit
+        run: |
+          git config user.name "quantavius-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bars data/corp ops/diag/fetch_free.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
