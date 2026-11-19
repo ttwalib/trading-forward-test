@@ -87,7 +87,7 @@ short page; save the responses as a JSON list to /tmp/earn.json and run
 
 After the existing steps:
 1. Universe daily bars: for every symbol of universe.json watchlist + control + etfs (STK; VIX and VIX3M are IND on CBOE),
-   get_price_history ONE_DAY step_count 5 (260 if its data/bars/1d file is missing) with include_corporate_actions
+   get_price_history ONE_DAY step_count 5 (210 if its data/bars/1d file is missing) with include_corporate_actions
    true (not for VIX/VIX3M); save the responses as {SYM: response} to /tmp/d1.json; store with store.py 1d, then
    `python3 -I /tmp/repo/scripts/corp.py ingest-bars /tmp/repo /tmp/d1.json` (dividends + splits).
    Contract ids: data/contracts.json (resolve missing ones as in STOCKS).
@@ -202,10 +202,10 @@ and DSR >= 0.9?
 `python3 -I /tmp/repo/scripts/backfill.py status /tmp/repo`; complete -> reply "Backfill complete." and stop.
 Else `backfill.py next /tmp/repo 10`: for each job resolve a missing contract id (search_contracts; crypto: CRYPTO on
 ZEROHASH; VIX/VIX3M: IND on CBOE), record it (`backfill.py contract`), call get_price_history with the job's step and
-period (outside_rth false for STK/IND, true for CRYPTO; include_corporate_actions when the job says true), save raw
+step_count (outside_rth false for STK/IND, true for CRYPTO; include_corporate_actions when the job says true), save raw
 to /tmp/bf.json as {SYM: raw}, run store.py with the job's tf (and for 1d jobs `corp.py ingest-bars /tmp/repo
 /tmp/bf.json`), then `backfill.py done`. The EARNINGS job: search_earnings_insights with its contract_ids, start =
 one year ago (UTC midnight), size 50, offset += 50 until a short page; save the responses as a JSON list to
-/tmp/earn.json, run `corp.py ingest-earnings /tmp/repo /tmp/earn.json`, then `backfill.py done /tmp/repo EARNINGS events`; a failure -> `backfill.py fail ... <reason>`. When the 5m jobs finish for the first
-time, run `decisions.py build` and `ml.py train /tmp/repo DAY` (pre-training on history before the test). GIT
+/tmp/earn.json, run `corp.py ingest-earnings /tmp/repo /tmp/earn.json`, then `backfill.py done /tmp/repo EARNINGS events`; a failure -> `backfill.py fail ... <reason>`. When the backfill completes for the
+first time, run `decisions.py build` and `ml.py train /tmp/repo DAY`. GIT
 ("backfill").

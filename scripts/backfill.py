@@ -10,9 +10,11 @@ so each run stays small and the job resumes where it stopped).
   python3 backfill.py fail REPO SYM TF WHY  -> mark a job failed (retried at most 2 times)
   python3 backfill.py status REPO           -> progress summary; "complete": true when nothing is left
 
-Jobs (in order): daily bars ONE_YEAR for watchlist + control + universe.json etfs (index, TLT, GLD, sector ETFs, VIX, VIX3M) (breadth, ATR, SMA features);
-5-minute bars THREE_MONTHS for watchlist + control + SPY (historical ORB decisions and labels for ML pre-training);
-1-hour bars THREE_MONTHS for the 7 coins (crypto decision rows). Bars go through store.py (merge, no duplicates).
+Jobs (in order; revised 2026-11-19 after a diagnostic: IBKR returns at most 1000 bars per call and every result passes
+through the model as text, so history is kept to what the strategies need): daily bars step_count 210 (enough for
+200-day averages) for watchlist + control + universe.json etfs (index, TLT, GLD, sector ETFs, VIX, VIX3M);
+1-hour bars step_count 720 (30 days) for the 7 coins (crypto decision rows). No 5-minute backfill: the stock ML layer
+trains on the forward data collected from 2026-11-16 on. Bars go through store.py (merge, no duplicates).
 Index-type symbols (VIX, VIX3M) use security_type IND; coins use CRYPTO on exchange ZEROHASH.
 Daily jobs carry "include_corporate_actions": true (dividends + splits, saved by corp.py ingest-bars).
 Last job (added 2026-11-19): "EARNINGS|events": search_earnings_insights for every resolved stock contract id (the job
@@ -33,13 +35,10 @@ def jl(path, default):
 def jobs(repo):
     U = json.load(open(P(repo, "universe.json"))); stocks = U["watchlist"] + U["control"]; out = []
     for s in stocks + U.get("etfs", ["SPY", "QQQ", "IWM", "VIX", "VIX3M"]):
-        out.append({"symbol": s, "tf": "1d", "step": "ONE_DAY", "period": "ONE_YEAR", "include_corporate_actions": not s.startswith("VIX"),
+        out.append({"symbol": s, "tf": "1d", "step": "ONE_DAY", "step_count": 210, "include_corporate_actions": not s.startswith("VIX"),
                     "security_type": "IND" if s.startswith("VIX") else "STK", "why": "daily features + breadth + dividends/splits"})
-    for s in stocks + ["SPY"]:
-        out.append({"symbol": s, "tf": "5m", "step": "FIVE_MINS", "period": "THREE_MONTHS", "security_type": "STK",
-                    "why": "historical ORB decisions"})
     for c in COINS:
-        out.append({"symbol": c, "tf": "1h", "step": "ONE_HOUR", "period": "THREE_MONTHS", "security_type": "CRYPTO",
+        out.append({"symbol": c, "tf": "1h", "step": "ONE_HOUR", "step_count": 720, "security_type": "CRYPTO",
                     "exchange": "ZEROHASH", "why": "crypto decision rows"})
     out.append({"symbol": "EARNINGS", "tf": "events", "why": "earnings dates with known-at times (IBKR earnings insights)",
                 "stocks": stocks, "start": "one year before today, UTC midnight", "size": 50})
