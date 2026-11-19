@@ -1,6 +1,223 @@
 {
  "dividends": [
   {
+   "ex": "2016-02-19",
+   "value": 0.75,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-05-20",
+   "value": 0.8,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-08-19",
+   "value": 0.8,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-11-18",
+   "value": 0.8,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-02-24",
+   "value": 0.8,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-05-25",
+   "value": 0.84,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-08-25",
+   "value": 0.84,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-11-27",
+   "value": 0.84,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-02-26",
+   "value": 0.84,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-05-25",
+   "value": 0.9,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-08-27",
+   "value": 0.9,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-11-26",
+   "value": 0.9,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-02-25",
+   "value": 0.9,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-05-24",
+   "value": 0.95,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-08-26",
+   "value": 0.95,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-11-25",
+   "value": 0.95,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-02-24",
+   "value": 0.95,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-05-22",
+   "value": 1.01,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-08-24",
+   "value": 1.01,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-11-23",
+   "value": 1.01,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-02-22",
+   "value": 1.01,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-05-24",
+   "value": 1.06,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-08-23",
+   "value": 1.06,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-11-22",
+   "value": 1.06,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-02-18",
+   "value": 1.06,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-05-23",
+   "value": 1.13,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-08-22",
+   "value": 1.13,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-11-21",
+   "value": 1.13,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-02-17",
+   "value": 1.13,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-05-22",
+   "value": 1.19,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-08-25",
+   "value": 1.19,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
    "ex": "2023-11-20",
    "value": 1.19,
    "announced": null,

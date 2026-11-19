@@ -1,6 +1,230 @@
 {
  "dividends": [
   {
+   "ex": "2016-03-18",
+   "value": 0.122995,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-06-17",
+   "value": 0.121097,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-09-16",
+   "value": 0.114386,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-09-19",
+   "value": 0.139146,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2016-12-16",
+   "value": 0.106747,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-03-17",
+   "value": 0.087903,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-06-16",
+   "value": 0.093059,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-09-15",
+   "value": 0.103225,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2017-12-15",
+   "value": 0.128284,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-03-16",
+   "value": 0.104562,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-06-15",
+   "value": 0.118967,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-09-21",
+   "value": 0.1275,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-12-21",
+   "value": 0.144947,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-03-15",
+   "value": 0.134658,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-06-21",
+   "value": 0.139463,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-09-20",
+   "value": 0.144273,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-12-20",
+   "value": 0.156292,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-03-23",
+   "value": 0.159296,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-06-22",
+   "value": 0.1515959,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-09-21",
+   "value": 0.1352779,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2020-12-21",
+   "value": 0.1520139,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-03-22",
+   "value": 0.151233,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-06-21",
+   "value": 0.139299,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-09-20",
+   "value": 0.162032,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2021-12-20",
+   "value": 0.184411,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-03-21",
+   "value": 0.151933,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-06-21",
+   "value": 0.163896,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-09-19",
+   "value": 0.172544,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-12-19",
+   "value": 0.209618,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-03-20",
+   "value": 0.15261,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-06-20",
+   "value": 0.150317,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-09-18",
+   "value": 0.155053,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
    "ex": "2023-12-18",
    "value": 0.183501,
    "announced": null,

@@ -78,6 +78,12 @@
    "src": "alpaca"
   }
  ],
- "splits": [],
+ "splits": [
+  {
+   "date": "2022-07-18",
+   "ratio": 20.0,
+   "src": "alpaca"
+  }
+ ],
  "fetched": "2026-11-19"
 }

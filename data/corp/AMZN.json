@@ -1,5 +1,11 @@
 {
  "dividends": [],
- "splits": [],
+ "splits": [
+  {
+   "date": "2022-06-06",
+   "ratio": 20.0,
+   "src": "alpaca"
+  }
+ ],
  "fetched": "2026-11-19"
 }

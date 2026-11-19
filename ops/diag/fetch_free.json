@@ -1,767 +1,1055 @@
 {
  "errors": [],
  "files": {
-  "1d/ABBV": {
-   "added": 0,
+  "hist/1d/AAPL": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/ACN": {
-   "added": 0,
+  "hist/1d/ABBV": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AVGO": {
-   "added": 0,
+  "hist/1d/ABT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AXP": {
-   "added": 0,
+  "hist/1d/ACN": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BA": {
-   "added": 507,
+  "hist/1d/ADBE": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BKNG": {
-   "added": 507,
+  "hist/1d/AIG": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BK": {
-   "added": 381,
+  "hist/1d/AMD": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 381,
-   "last": "2026-05-20T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BMY": {
-   "added": 507,
+  "hist/1d/AMGN": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AAPL": {
-   "added": 0,
+  "hist/1d/AMT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/ABT": {
-   "added": 507,
+  "hist/1d/AMZN": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/ADBE": {
-   "added": 0,
+  "hist/1d/AVGO": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BAC": {
-   "added": 0,
+  "hist/1d/AXP": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BRK.B": {
-   "added": 507,
+  "hist/1d/BAC": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CAT": {
-   "added": 507,
+  "hist/1d/BA": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AIG": {
-   "added": 507,
+  "hist/1d/BKNG": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AMGN": {
-   "added": 507,
+  "hist/1d/BK": {
+   "added": 2610,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2610,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AMT": {
-   "added": 0,
+  "hist/1d/BLK": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/BLK": {
-   "added": 507,
+  "hist/1d/BMY": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AMD": {
-   "added": 0,
+  "hist/1d/BRK.B": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/AMZN": {
-   "added": 0,
+  "hist/1d/CAT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/COF": {
-   "added": 507,
+  "hist/1d/CHTR": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/COP": {
-   "added": 507,
+  "hist/1d/CL": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CRM": {
-   "added": 507,
+  "hist/1d/COST": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CSCO": {
-   "added": 507,
+  "hist/1d/CMCSA": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/C": {
-   "added": 507,
+  "hist/1d/COF": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/COIN": {
-   "added": 0,
+  "hist/1d/COIN": {
+   "added": 1409,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 1409,
+   "first": "2021-04-14T12:00:00Z"
   },
-  "1d/COST": {
-   "added": 507,
+  "hist/1d/COP": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CHTR": {
-   "added": 507,
+  "hist/1d/CRM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CL": {
-   "added": 507,
+  "hist/1d/CSCO": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CMCSA": {
-   "added": 507,
+  "hist/1d/C": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CVX": {
-   "added": 507,
+  "hist/1d/DE": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/DE": {
-   "added": 507,
+  "hist/1d/DHR": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/DUK": {
-   "added": 507,
+  "hist/1d/CVS": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/EMR": {
-   "added": 507,
+  "hist/1d/CVX": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/FDX": {
-   "added": 507,
+  "hist/1d/DIS": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/GILD": {
-   "added": 507,
+  "hist/1d/DUK": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/HOOD": {
-   "added": 0,
+  "hist/1d/EMR": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/DIS": {
-   "added": 0,
+  "hist/1d/FDX": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/GM": {
-   "added": 0,
+  "hist/1d/F": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/GS": {
-   "added": 0,
+  "hist/1d/GD": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/HD": {
-   "added": 507,
+  "hist/1d/GE": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/CVS": {
-   "added": 0,
+  "hist/1d/GILD": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/F": {
-   "added": 507,
+  "hist/1d/GM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/GD": {
-   "added": 0,
+  "hist/1d/GOOGL": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/GOOGL": {
-   "added": 0,
+  "hist/1d/GS": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/HON": {
-   "added": 0,
+  "hist/1d/HD": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/IBM": {
-   "added": 507,
+  "hist/1d/HON": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/INTC": {
-   "added": 0,
+  "hist/1d/HOOD": {
+   "added": 1335,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 1335,
+   "first": "2021-07-29T12:00:00Z"
   },
-  "1d/DHR": {
-   "added": 507,
+  "hist/1d/IBM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/GE": {
-   "added": 507,
+  "hist/1d/INTU": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/LOW": {
-   "added": 507,
+  "hist/1d/ISRG": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MA": {
-   "added": 507,
+  "hist/1d/JNJ": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/INTU": {
-   "added": 507,
+  "hist/1d/INTC": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/ISRG": {
-   "added": 507,
+  "hist/1d/LIN": {
+   "added": 2024,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2024,
+   "first": "2018-10-31T12:00:00Z"
   },
-  "1d/JNJ": {
-   "added": 0,
+  "hist/1d/LLY": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/JPM": {
-   "added": 0,
+  "hist/1d/JPM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/KO": {
-   "added": 507,
+  "hist/1d/KO": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/LIN": {
-   "added": 507,
+  "hist/1d/LMT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/LMT": {
-   "added": 0,
+  "hist/1d/LOW": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/LLY": {
-   "added": 507,
+  "hist/1d/MA": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MDT": {
-   "added": 507,
+  "hist/1d/MARA": {
+   "added": 2277,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2277,
+   "first": "2017-10-30T12:00:00Z"
   },
-  "1d/MO": {
-   "added": 507,
+  "hist/1d/MCD": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MSFT": {
-   "added": 0,
+  "hist/1d/MDLZ": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/NKE": {
-   "added": 507,
+  "hist/1d/MDT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/NOW": {
-   "added": 507,
+  "hist/1d/MMM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MARA": {
-   "added": 0,
+  "hist/1d/MO": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MCD": {
-   "added": 507,
+  "hist/1d/META": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/META": {
-   "added": 0,
+  "hist/1d/MET": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MET": {
-   "added": 507,
+  "hist/1d/MRK": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MRK": {
-   "added": 507,
+  "hist/1d/MSFT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MSTR": {
-   "added": 0,
+  "hist/1d/MSTR": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MU": {
-   "added": 0,
+  "hist/1d/MS": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/NEE": {
-   "added": 507,
+  "hist/1d/MU": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MDLZ": {
-   "added": 507,
+  "hist/1d/NEE": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MMM": {
-   "added": 507,
+  "hist/1d/NFLX": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/NVDA": {
-   "added": 0,
+  "hist/1d/NKE": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/PEP": {
-   "added": 0,
+  "hist/1d/NOW": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/MS": {
-   "added": 0,
+  "hist/1d/NVDA": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/NFLX": {
-   "added": 0,
+  "hist/1d/ORCL": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/ORCL": {
-   "added": 507,
+  "hist/1d/PLTR": {
+   "added": 1543,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 1543,
+   "first": "2020-09-30T12:00:00Z"
   },
-  "1d/PM": {
-   "added": 0,
+  "hist/1d/PEP": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/PYPL": {
-   "added": 507,
+  "hist/1d/PFE": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/RTX": {
-   "added": 507,
+  "hist/1d/PG": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/SCHW": {
-   "added": 507,
+  "hist/1d/QCOM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/SO": {
-   "added": 507,
+  "hist/1d/RTX": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/QCOM": {
-   "added": 0,
+  "hist/1d/PM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/SBUX": {
-   "added": 507,
+  "hist/1d/PYPL": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/PFE": {
-   "added": 0,
+  "hist/1d/SCHW": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/PG": {
-   "added": 507,
+  "hist/1d/SO": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/PLTR": {
-   "added": 0,
+  "hist/1d/SBUX": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/SPG": {
-   "added": 507,
+  "hist/1d/GLD": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/TMO": {
-   "added": 507,
+  "hist/1d/IWM": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/TMUS": {
-   "added": 0,
+  "hist/1d/QQQ": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/TSLA": {
-   "added": 0,
+  "hist/1d/DIA": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/SOFI": {
-   "added": 0,
+  "hist/1d/SPG": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/USB": {
-   "added": 507,
+  "hist/1d/SPY": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/VZ": {
-   "added": 507,
+  "hist/1d/TGT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/WFC": {
-   "added": 507,
+  "hist/1d/SOFI": {
+   "added": 1501,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 1501,
+   "first": "2020-11-30T12:00:00Z"
   },
-  "1d/TGT": {
-   "added": 507,
+  "hist/1d/TLT": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/TXN": {
-   "added": 507,
+  "hist/1d/TMO": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/T": {
-   "added": 0,
+  "hist/1d/TMUS": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/UNP": {
-   "added": 0,
+  "hist/1d/TSLA": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/UPS": {
-   "added": 507,
+  "hist/1d/UBER": {
+   "added": 1894,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 1894,
+   "first": "2019-05-10T12:00:00Z"
   },
-  "1d/V": {
-   "added": 0,
+  "hist/1d/UNH": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/WMT": {
-   "added": 507,
+  "hist/1d/TXN": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/UBER": {
-   "added": 0,
+  "hist/1d/T": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/UNH": {
-   "added": 507,
+  "hist/1d/USB": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
   },
-  "1d/XOM": {
-   "added": 0,
+  "hist/1d/VZ": {
+   "added": 2737,
    "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 507,
-   "last": "2026-11-18T12:00:00Z"
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/UNP": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/UPS": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/V": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/WFC": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/WMT": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLB": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLC": {
+   "added": 2118,
+   "vol_filled": 0,
+   "total": 2118,
+   "first": "2018-06-19T12:00:00Z"
+  },
+  "hist/1d/XLE": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLF": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLI": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLK": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XOM": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLP": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLRE": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLU": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLV": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/XLY": {
+   "added": 2737,
+   "vol_filled": 0,
+   "total": 2737,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/5m/AAPL": {
+   "added": 39140,
+   "vol_filled": 0,
+   "total": 39140,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/AMD": {
+   "added": 39150,
+   "vol_filled": 0,
+   "total": 39150,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/AMZN": {
+   "added": 39150,
+   "vol_filled": 0,
+   "total": 39150,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/AVGO": {
+   "added": 39138,
+   "vol_filled": 0,
+   "total": 39138,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/BAC": {
+   "added": 39071,
+   "vol_filled": 0,
+   "total": 39071,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/COIN": {
+   "added": 39145,
+   "vol_filled": 0,
+   "total": 39145,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/GOOGL": {
+   "added": 39132,
+   "vol_filled": 0,
+   "total": 39132,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/HOOD": {
+   "added": 39147,
+   "vol_filled": 0,
+   "total": 39147,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/INTC": {
+   "added": 39153,
+   "vol_filled": 0,
+   "total": 39153,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/JPM": {
+   "added": 39054,
+   "vol_filled": 0,
+   "total": 39054,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/MARA": {
+   "added": 39153,
+   "vol_filled": 0,
+   "total": 39153,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/META": {
+   "added": 39126,
+   "vol_filled": 0,
+   "total": 39126,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/MSFT": {
+   "added": 39117,
+   "vol_filled": 0,
+   "total": 39117,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/MSTR": {
+   "added": 39152,
+   "vol_filled": 0,
+   "total": 39152,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/MU": {
+   "added": 39146,
+   "vol_filled": 0,
+   "total": 39146,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/NFLX": {
+   "added": 39083,
+   "vol_filled": 0,
+   "total": 39083,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/NVDA": {
+   "added": 39153,
+   "vol_filled": 0,
+   "total": 39153,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/PLTR": {
+   "added": 39147,
+   "vol_filled": 0,
+   "total": 39147,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/SOFI": {
+   "added": 39153,
+   "vol_filled": 0,
+   "total": 39153,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/TSLA": {
+   "added": 39153,
+   "vol_filled": 0,
+   "total": 39153,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/ABBV": {
+   "added": 38999,
+   "vol_filled": 0,
+   "total": 38999,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/ACN": {
+   "added": 38985,
+   "vol_filled": 0,
+   "total": 38985,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/ADBE": {
+   "added": 39029,
+   "vol_filled": 0,
+   "total": 39029,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/AMT": {
+   "added": 38983,
+   "vol_filled": 0,
+   "total": 38983,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/AXP": {
+   "added": 39000,
+   "vol_filled": 0,
+   "total": 39000,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/CVS": {
+   "added": 39016,
+   "vol_filled": 0,
+   "total": 39016,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/DIS": {
+   "added": 39033,
+   "vol_filled": 0,
+   "total": 39033,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/GD": {
+   "added": 38974,
+   "vol_filled": 0,
+   "total": 38974,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/UBER": {
+   "added": 39100,
+   "vol_filled": 0,
+   "total": 39100,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/XOM": {
+   "added": 39056,
+   "vol_filled": 0,
+   "total": 39056,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/GM": {
+   "added": 39017,
+   "vol_filled": 0,
+   "total": 39017,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/GS": {
+   "added": 39008,
+   "vol_filled": 0,
+   "total": 39008,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/HON": {
+   "added": 38991,
+   "vol_filled": 0,
+   "total": 38991,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/JNJ": {
+   "added": 39006,
+   "vol_filled": 0,
+   "total": 39006,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/LMT": {
+   "added": 38996,
+   "vol_filled": 0,
+   "total": 38996,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/MS": {
+   "added": 39002,
+   "vol_filled": 0,
+   "total": 39002,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/PEP": {
+   "added": 39021,
+   "vol_filled": 0,
+   "total": 39021,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/PFE": {
+   "added": 39128,
+   "vol_filled": 0,
+   "total": 39128,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/PM": {
+   "added": 39002,
+   "vol_filled": 0,
+   "total": 39002,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/QCOM": {
+   "added": 39035,
+   "vol_filled": 0,
+   "total": 39035,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/IWM": {
+   "added": 39121,
+   "vol_filled": 0,
+   "total": 39121,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/QQQ": {
+   "added": 39148,
+   "vol_filled": 0,
+   "total": 39148,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/SPY": {
+   "added": 39150,
+   "vol_filled": 0,
+   "total": 39150,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/TMUS": {
+   "added": 39010,
+   "vol_filled": 0,
+   "total": 39010,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/T": {
+   "added": 39072,
+   "vol_filled": 0,
+   "total": 39072,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/UNP": {
+   "added": 38981,
+   "vol_filled": 0,
+   "total": 38981,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/5m/V": {
+   "added": 39006,
+   "vol_filled": 0,
+   "total": 39006,
+   "first": "2024-11-18T14:50:00Z"
+  },
+  "hist/1d/VIX": {
+   "added": 2769,
+   "vol_filled": 0,
+   "total": 2769,
+   "first": "2016-01-04T12:00:00Z"
+  },
+  "hist/1d/VIX3M": {
+   "added": 2736,
+   "vol_filled": 0,
+   "total": 2736,
+   "first": "2016-01-04T12:00:00Z"
   }
  },
  "mismatch": [],
  "mismatch_count": {},
- "mode": "universe",
- "started": "2026-11-19T14:47:46Z",
- "corp_symbols": 94,
- "finished": "2026-11-19T14:47:50Z"
+ "mode": "hist",
+ "started": "2026-11-19T14:48:43Z",
+ "corp_symbols": 115,
+ "finished": "2026-11-19T15:10:13Z"
 }
