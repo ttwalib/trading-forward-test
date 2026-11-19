@@ -94,7 +94,19 @@
   "PG|contract",
   "PYPL|contract",
   "RTX|contract",
-  "SBUX|contract"
+  "SBUX|contract",
+  "SCHW|contract",
+  "SO|contract",
+  "SPG|contract",
+  "TGT|contract",
+  "TMO|contract",
+  "TXN|contract",
+  "UNH|contract",
+  "UPS|contract",
+  "USB|contract",
+  "VZ|contract",
+  "WFC|contract",
+  "WMT|contract"
  ],
  "fail": {
   "BAC|1d": 1
