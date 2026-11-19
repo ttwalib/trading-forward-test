@@ -4,7 +4,17 @@
   "AMD|1d",
   "AMZN|1d",
   "AVGO|1d",
-  "BAC|1d"
+  "BAC|1d",
+  "ABBV|1d",
+  "ACN|1d",
+  "ADBE|1d",
+  "AMT|1d",
+  "AXP|1d",
+  "CVS|1d",
+  "DIS|1d",
+  "GD|1d",
+  "GM|1d",
+  "GS|1d"
  ],
  "fail": {
   "BAC|1d": 1
