@@ -74,7 +74,17 @@
   "HD|contract",
   "IBM|contract",
   "INTU|contract",
-  "ISRG|contract"
+  "ISRG|contract",
+  "KO|contract",
+  "LIN|contract",
+  "LLY|contract",
+  "LOW|contract",
+  "MA|contract",
+  "MCD|contract",
+  "MDLZ|contract",
+  "MDT|contract",
+  "MET|contract",
+  "MMM|contract"
  ],
  "fail": {
   "BAC|1d": 1
