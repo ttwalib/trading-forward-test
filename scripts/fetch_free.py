@@ -15,7 +15,8 @@ Sources (all free, no extra cost):
 
 Merge rule (keeps the live record honest): a bar already in the file keeps its open/high/low/close, because live
 decisions were made on it. Only missing bars are added, and a stored volume of 0 (IBKR 5m bars carry none) is
-filled in. Closes that differ by more than 0.2% from the stored bar are listed in ops/diag/fetch_free.json for the
+filled in. Exception: a stored crypto price under $1 rounded to the cent (IBKR quotes DOGE that way) is replaced by
+the full-precision bar and counted as coarse_fixed. Closes that differ by more than 0.2% from the stored bar are listed in ops/diag/fetch_free.json for the
 data-quality check. Timestamps follow store.py: bar START in Unix seconds; daily bars at 12:00 UTC of the trading
 date. Every run writes ops/diag/fetch_free.json (what was fetched, counts, errors).
 """
@@ -26,7 +27,7 @@ NY = ZoneInfo("America/New_York"); UTC = dt.timezone.utc
 DATA = "https://data.alpaca.markets"
 COINS = ["BTC", "ETH", "SOL", "AVAX", "LINK", "DOGE", "SHIB"]
 INTRA_ETFS = ["SPY", "QQQ", "IWM"]
-LOG = {"errors": [], "files": {}, "mismatch": []}
+LOG = {"errors": [], "files": {}, "mismatch": [], "mismatch_count": {}}
 
 
 def now(): return dt.datetime.now(UTC)
@@ -78,17 +79,21 @@ def load(path):
 def merge(repo, tf, sym, bars):
     """bars: [{"t","o","h","l","c","v"}]. Adds missing bars, fills zero volume, logs close mismatches."""
     d = os.path.join(repo, "data", "bars", tf); os.makedirs(d, exist_ok=True)
-    f = os.path.join(d, sym + ".jsonl"); rows = load(f); added = filled = 0
+    f = os.path.join(d, sym + ".jsonl"); rows = load(f); added = filled = fixed = 0
     for b in bars:
         old = rows.get(b["t"])
         if old is None: rows[b["t"]] = b; added += 1; continue
         if not old.get("v") and b.get("v"): old["v"] = b["v"]; filled += 1
+        coarse = old["c"] < 1 and round(old["c"], 2) == old["c"] and round(b["c"], 2) != b["c"]
+        if coarse:   # IBKR quotes DOGE to the cent, which destroys the bar; replace it with the full-precision bar
+            v = old.get("v") or b["v"]; old.update(b); old["v"] = v; fixed += 1; continue
         if old["c"] and abs(b["c"] / old["c"] - 1) > 0.002:
+            k = "%s/%s" % (tf, sym); LOG["mismatch_count"][k] = LOG["mismatch_count"].get(k, 0) + 1
             LOG["mismatch"].append({"tf": tf, "sym": sym, "t": b["t"], "stored": old["c"], "alpaca": b["c"]})
-    if added or filled:
+    if added or filled or fixed:
         with open(f, "w") as fh:
             for k in sorted(rows): fh.write(json.dumps(rows[k], separators=(",", ":")) + "\n")
-    LOG["files"]["%s/%s" % (tf, sym)] = {"added": added, "vol_filled": filled, "total": len(rows),
+    LOG["files"]["%s/%s" % (tf, sym)] = {"added": added, "vol_filled": filled, "coarse_fixed": fixed, "total": len(rows),
                                          "last": iso(dt.datetime.fromtimestamp(max(rows), UTC)) if rows else None}
 
 
