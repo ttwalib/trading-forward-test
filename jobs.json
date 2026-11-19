@@ -1,10 +1,10 @@
 {
- "note": "Scheduled tasks of the simulated forward test (New York time). Test extended on 2026-11-19: 2026-11-16 to 2027-02-12 (train to 2027-01-29, frozen holdout 2027-02-01..02-12); crypto to 02-14; option settlement to 02-19; final report 2027-02-16. Dates come from scripts/tcal.py; extra steps from ops/runbook.md.",
+ "note": "Scheduled tasks of the simulated forward test (New York time). Test extended on 2026-11-19: 2026-11-16 to 2027-02-12 (train to 2027-01-29, frozen holdout 2027-02-01..02-12); crypto to 02-14; option settlement to 02-19; final report 2027-02-16. Dates come from scripts/tcal.py; extra steps from ops/runbook.md. Schedule spread out on 2026-11-19 (Max 5x plan) to keep 5-hour usage windows balanced.",
  "tasks": [
   {
    "name": "Agent picks morning research + events",
    "trigger": "trig_01NH3ceZ9ypKfB94HSpRW65A",
-   "at": "08:35 daily",
+   "at": "08:05 daily",
    "model": "opus"
   },
   {
@@ -22,13 +22,13 @@
   {
    "name": "Deep OTM + weekly options (W1-W4)",
    "trigger": "trig_012o6Jbkhg14NZ4Sq8N4spLW",
-   "at": "16:32 weekdays",
+   "at": "17:00 weekdays",
    "model": "sonnet"
   },
   {
    "name": "Adaptive stocks review",
    "trigger": "trig_01XqVW4yGp2cwSyEXUobMusn",
-   "at": "16:40 trading days",
+   "at": "17:20 trading days",
    "model": "sonnet"
   },
   {
@@ -40,49 +40,49 @@
   {
    "name": "Agent picks evening scoring",
    "trigger": "trig_0158DyhLj3M3cKod2eXxFn1g",
-   "at": "16:52 trading days",
+   "at": "20:20 trading days",
    "model": "sonnet"
   },
   {
    "name": "Orchestrator (regime2, dq, stats)",
    "trigger": "trig_01PgUGPDdTViNz1u3Wkqy4GW",
-   "at": "18:23 daily",
+   "at": "21:05 daily",
    "model": "sonnet"
   },
   {
    "name": "ML nightly",
    "trigger": "trig_0163kWWp8vAnJjwWjkJvbW9W",
-   "at": "19:47 daily",
+   "at": "22:05 daily",
    "model": "opus"
   },
   {
    "name": "Watchdog",
    "trigger": "trig_01RqMJrg5xfsW4xYYgo7RZY4",
-   "at": "03:05, 09:05, 15:05, 21:05",
+   "at": "05:35, 12:35, 19:35",
    "model": "sonnet"
   },
   {
    "name": "Learning review + strategy lab (gate)",
    "trigger": "trig_012qn78KzSzn173hQGXeEnJq",
-   "at": "Wed + Sat 19:13 (train phase only)",
+   "at": "Wed + Sat 23:15 (train phase only)",
    "model": "opus"
   },
   {
    "name": "Weekly report",
    "trigger": "trig_01GEc25Hnp6tGicRbiankK62",
-   "at": "Fri 17:37 (Nov 20 - Feb 5)",
+   "at": "Fri 17:40 (Nov 20 - Feb 5)",
    "model": "opus"
   },
   {
    "name": "Agent picks weekly review",
    "trigger": "trig_01WucV8KSj4xydnhqjmC9LmJ",
-   "at": "Fri 17:52 (final Feb 12)",
+   "at": "Fri 23:40 (final Feb 12)",
    "model": "opus"
   },
   {
    "name": "Historical backfill",
    "trigger": "trig_01ECDQ4t7fUGAfo5AcN7EN3y",
-   "at": "every 2h at :22 until complete",
+   "at": "00:15, 02:15, 05:15, 06:15 until complete (10 jobs per run)",
    "model": "sonnet"
   },
   {

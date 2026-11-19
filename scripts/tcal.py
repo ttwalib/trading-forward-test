@@ -73,7 +73,7 @@ def info(d=None):
     return {"date": d.isoformat(), "weekday": d.strftime("%a"),
             "stock_test_active": START <= d <= END, "crypto_test_active": START <= d <= CRYPTO_END,
             "settle_only_window": END < d <= SETTLE_END,
-            "open_session": is_open(d), "full_trading_day": is_trading(d), "half_day": is_half(d),
+            "open_session": is_open(d), "full_trading_day": is_trading(d) and START <= d <= END, "half_day": is_half(d) and START <= d <= END,
             "close_time": HALF.get(d, "16:00") if is_open(d) else None,
             "phase": phase(d), "frozen": phase(d) == "holdout",
             "weekly_expiry": exp.isoformat().replace("-", "") if exp else None, "weekly_expiry_close": last_settle.get("close"),

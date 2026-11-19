@@ -137,10 +137,10 @@ and DSR >= 0.9?
 5. GIT ("ml nightly"); reply in 4 lines: rows per family, champion and why, OOS mean vs always-take, PBO, drift flags,
    shadow results.
 
-## BACKFILL (every 2 hours until complete)
+## BACKFILL (00:15, 02:15, 05:15, 06:15 ET until complete)
 
 `python3 -I /tmp/repo/scripts/backfill.py status /tmp/repo`; complete -> reply "Backfill complete." and stop.
-Else `backfill.py next /tmp/repo 6`: for each job resolve a missing contract id (search_contracts; crypto: CRYPTO on
+Else `backfill.py next /tmp/repo 10`: for each job resolve a missing contract id (search_contracts; crypto: CRYPTO on
 ZEROHASH; VIX/VIX3M: IND on CBOE), record it (`backfill.py contract`), call get_price_history with the job's step and
 period (outside_rth false for STK/IND, true for CRYPTO), save raw to /tmp/bf.json as {SYM: raw}, run store.py with the
 job's tf, then `backfill.py done`; a failure -> `backfill.py fail ... <reason>`. When the 5m jobs finish for the first
