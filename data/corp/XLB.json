@@ -1,0 +1,96 @@
+{
+ "dividends": [
+  {
+   "ex": "2023-12-18",
+   "value": 0.59116,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-03-18",
+   "value": 0.324911,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-06-24",
+   "value": 0.425489,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-09-23",
+   "value": 0.418433,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-12-23",
+   "value": 0.444309,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2025-03-24",
+   "value": 0.406775,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2025-06-23",
+   "value": 0.437887,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2025-09-22",
+   "value": 0.428887,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2025-12-22",
+   "value": 0.232856,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2026-03-23",
+   "value": 0.208286,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2026-06-22",
+   "value": 0.193243,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2026-09-21",
+   "value": 0.228593,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  }
+ ],
+ "splits": [
+  {
+   "date": "2025-12-05",
+   "ratio": 2.0,
+   "src": "alpaca"
+  }
+ ],
+ "fetched": "2026-11-19"
+}

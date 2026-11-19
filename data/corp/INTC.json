@@ -1,0 +1,34 @@
+{
+ "dividends": [
+  {
+   "ex": "2023-11-06",
+   "value": 0.125,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-02-06",
+   "value": 0.125,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-05-06",
+   "value": 0.125,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-08-07",
+   "value": 0.125,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  }
+ ],
+ "splits": [],
+ "fetched": "2026-11-19"
+}

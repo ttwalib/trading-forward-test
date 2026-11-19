@@ -1,0 +1,19 @@
+{
+ "dividends": [
+  {
+   "ex": "2025-05-21",
+   "value": 0.335,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  }
+ ],
+ "splits": [
+  {
+   "date": "2024-08-08",
+   "ratio": 10.0,
+   "src": "alpaca"
+  }
+ ],
+ "fetched": "2026-11-19"
+}
