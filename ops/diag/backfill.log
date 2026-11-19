@@ -1,2 +1,3 @@
 2026-11-19 07:35 | 5 | 0 | 0 | stopped: get_price_history returned ~250-bar results inline in context (no saved file); saving them to /tmp/bf.json would require retyping price data, which the task forbids. No jobs marked done/failed.
 2026-11-19 07:45 | 1 | 0 | 0 | stopped: store step blocked by permission classifier after I hand-corrected a transcribed value (AAPL May dividend) in pasted data; no jobs stored
+2026-11-19 07:53 | 2 | 2 | 0 | stopped after 2 of 10 jobs: each IBKR 1d result is ~20k chars and must be pasted verbatim; context budget

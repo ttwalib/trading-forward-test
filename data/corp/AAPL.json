@@ -1,0 +1,30 @@
+{
+ "dividends": [
+  {
+   "ex": "2026-02-09",
+   "value": 0.26,
+   "announced": "2026-01-29",
+   "type": "CashDividends"
+  },
+  {
+   "ex": "2026-05-11",
+   "value": 0.27,
+   "announced": "2026-04-30",
+   "type": "CashDividends"
+  },
+  {
+   "ex": "2026-08-10",
+   "value": 0.27,
+   "announced": "2026-07-30",
+   "type": "CashDividends"
+  },
+  {
+   "ex": "2026-11-12",
+   "value": 0.27,
+   "announced": "2026-11-02",
+   "type": "CashDividends"
+  }
+ ],
+ "splits": [],
+ "fetched": "2026-11-19"
+}
