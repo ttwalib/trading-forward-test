@@ -185,8 +185,12 @@ def fresh(repo, tf, now=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json"))); stocks = U["watchlist"] + U["control"]
     if tf == "5m":
         syms = stocks + ["SPY", "QQQ", "IWM"]
-        close = now.replace(hour=16, minute=0, second=0, microsecond=0)
+        close = now.replace(hour=13 if tcal.is_half(now.date()) else 16, minute=0, second=0, microsecond=0)
         ref = min(now, close)
+        if not tcal.is_open(now.date()) or now.hour * 60 + now.minute < 615:   # before 10:15: last session's close
+            d = now.date() - dt.timedelta(days=1)
+            while not tcal.is_open(d): d -= dt.timedelta(days=1)
+            ref = dt.datetime.combine(d, dt.time(16, 0), NY)
         need = ref - dt.timedelta(minutes=45)
     else:
         syms = stocks + U["etfs"]; d = now.date() - dt.timedelta(days=1 if now.hour < 17 else 0)
