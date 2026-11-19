@@ -82,7 +82,7 @@ After the existing steps:
    "-", "dq", count, first example, flag "CHECK"); none: one row "dq ok".
 4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> append its sheet_rows for phase "all" and
    the current phase to "Stats" (first empty row >= 3); LEDGER Stats.
-5. The pipeline check also covers the Live decisions task (10:05, 12:05, 14:05 on full trading days) and the ML nightly task.
+5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
 6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues.
 
 ## LEARNING + STRATEGY LAB
@@ -110,12 +110,12 @@ train-phase results are context only. Run `review.py residual` for every strateg
 Pre-registered question: does any strategy or the ML layer beat the frozen baseline A on the holdout with q <= 0.10
 and DSR >= 0.9?
 
-## LIVE DECISIONS (10:05, 12:05, 14:05 on full trading days)
+## LIVE DECISIONS (hourly at :05, 10:05 to 15:05, on full trading days)
 
 1. Bars so far today: for the watchlist + control + SPY, get_price_history STK FIVE_MINS ONE_DAY outside_rth false;
    store with store.py 5m (it keeps only closed bars).
 2. `python3 -I /tmp/repo/scripts/decisions.py live /tmp/repo DAY HH:MM > /tmp/cands.json` (HH:MM = now rounded down
-   to 5 minutes). Keep candidates whose trade is still "open" or whose decided_at is within the last 95 minutes and
+   to 5 minutes). Keep candidates whose trade is still "open" or whose decided_at is within the last 65 minutes and
    that have no "Live decisions" row yet (dedupe on decided_at + symbol + kind).
 3. For each kept candidate: stock last price = last bar close; ATM call of the nearest expiry after DAY:
    get_option_parameters + get_option_data (min entry x 0.97, max x 1.03) -> bid, ask, mid, spread % =

@@ -16,7 +16,7 @@
   {
    "name": "Live decision runs (ML shadow, option spreads)",
    "trigger": "trig_018iuZdjimqtB2HRNmKpJn1m",
-   "at": "10:05, 12:05, 14:05 trading days",
+   "at": "hourly 10:05-15:05 trading days",
    "model": "sonnet"
   },
   {
