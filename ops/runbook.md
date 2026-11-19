@@ -82,7 +82,7 @@ After the existing steps:
    "-", "dq", count, first example, flag "CHECK"); none: one row "dq ok".
 4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> append its sheet_rows for phase "all" and
    the current phase to "Stats" (first empty row >= 3); LEDGER Stats.
-5. The pipeline check also covers the Live decisions task (3 runs on full trading days) and the ML nightly task.
+5. The pipeline check also covers the Live decisions task (10:05, 12:05, 14:05 on full trading days) and the ML nightly task.
 6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues.
 
 ## LEARNING + STRATEGY LAB
@@ -98,7 +98,7 @@ the gate verdict and failed checks in "Strategy lab".
 
 ## WEEKLY REPORT
 
-Report days: every Friday from 2026-11-20 to 2027-02-05 (and Thursday 2026-12-31 instead of Friday 01-01). Week N =
+Report days: every Friday from 2026-11-20 to 2027-02-05 (the 2027-01-01 report covers trades through 2026-12-31). Week N =
 week_index. Add sections: Stats tab (q-values, DSR, alpha vs SPY/BTC, Kelly shares, breakers), control list vs
 watchlist, ML (models/report_<latest>.json: champion, OOS mean vs always-take, PBO, drift flags; ML shadow results),
 Live decisions (spreads, implementation shortfall). From 2027-02-05 mark everything as holdout evidence.
@@ -110,7 +110,7 @@ train-phase results are context only. Run `review.py residual` for every strateg
 Pre-registered question: does any strategy or the ML layer beat the frozen baseline A on the holdout with q <= 0.10
 and DSR >= 0.9?
 
-## LIVE DECISIONS (10:05, 11:35, 14:35 on full trading days)
+## LIVE DECISIONS (10:05, 12:05, 14:05 on full trading days)
 
 1. Bars so far today: for the watchlist + control + SPY, get_price_history STK FIVE_MINS ONE_DAY outside_rth false;
    store with store.py 5m (it keeps only closed bars).

@@ -1,18 +1,23 @@
 {
- "note": "Scheduled tasks of the simulated forward test (New York time). Test: 2026-11-16 to 2026-12-13; stock days to 2026-12-11. Repo-using tasks recreated 2026-11-18/19 (old ones lacked GitHub access); old tasks deleted.",
+ "note": "Scheduled tasks of the simulated forward test (New York time). Test extended on 2026-11-19: 2026-11-16 to 2027-02-12 (train to 2027-01-29, frozen holdout 2027-02-01..02-12); crypto to 02-14; option settlement to 02-19; final report 2027-02-16. Dates come from scripts/tcal.py; extra steps from ops/runbook.md.",
  "tasks": [
   {
-   "name": "Agent picks morning research",
+   "name": "Agent picks morning research + events",
    "trigger": "trig_01NH3ceZ9ypKfB94HSpRW65A",
-   "at": "08:50 daily",
+   "at": "08:35 daily",
    "model": "opus"
   },
   {
-   "name": "Stocks: Reddit snapshot + daily scoring",
+   "name": "Stocks: Reddit snapshot + daily scoring + control list",
    "trigger": "trig_01Udt8Hay1dh3AyxtaP4ejDN",
    "at": "09:12, 16:12 trading days",
-   "model": "sonnet",
-   "writes_bars": "data/bars/5m (watchlist, SPY, trending)"
+   "model": "sonnet"
+  },
+  {
+   "name": "Live decision runs (ML shadow, option spreads)",
+   "trigger": "trig_018iuZdjimqtB2HRNmKpJn1m",
+   "at": "10:05, 12:05, 14:05 trading days",
+   "model": "sonnet"
   },
   {
    "name": "Deep OTM + weekly options (W1-W4)",
@@ -27,25 +32,28 @@
    "model": "sonnet"
   },
   {
-   "name": "Crypto tracks 15m/1h",
+   "name": "Crypto tracks 15m/1h + crypto ML shadow",
    "trigger": "trig_015nU8hZEPt63TqiZjdPYPDp",
    "at": "every 3h at :47; review 16:47",
-   "model": "sonnet",
-   "writes_bars": "data/bars/15m, data/bars/1h (7 coins)"
+   "model": "sonnet"
   },
   {
    "name": "Agent picks evening scoring",
    "trigger": "trig_0158DyhLj3M3cKod2eXxFn1g",
    "at": "16:52 trading days",
-   "model": "sonnet",
-   "writes_bars": "data/bars/5m (picks)"
+   "model": "sonnet"
   },
   {
-   "name": "Orchestrator",
+   "name": "Orchestrator (regime2, dq, stats)",
    "trigger": "trig_01PgUGPDdTViNz1u3Wkqy4GW",
    "at": "18:23 daily",
-   "model": "sonnet",
-   "writes_bars": "data/bars/1d"
+   "model": "sonnet"
+  },
+  {
+   "name": "ML nightly",
+   "trigger": "trig_0163kWWp8vAnJjwWjkJvbW9W",
+   "at": "19:47 daily",
+   "model": "opus"
   },
   {
    "name": "Watchdog",
@@ -54,60 +62,39 @@
    "model": "sonnet"
   },
   {
-   "name": "Learning review + strategy lab",
+   "name": "Learning review + strategy lab (gate)",
    "trigger": "trig_012qn78KzSzn173hQGXeEnJq",
-   "at": "Wed + Sat 19:13",
+   "at": "Wed + Sat 19:13 (train phase only)",
    "model": "opus"
   },
   {
    "name": "Weekly report",
    "trigger": "trig_01GEc25Hnp6tGicRbiankK62",
-   "at": "Fri 17:37 (Nov 20, 27, Dec 4)",
+   "at": "Fri 17:37 (Nov 20 - Feb 5)",
    "model": "opus"
   },
   {
    "name": "Agent picks weekly review",
    "trigger": "trig_01WucV8KSj4xydnhqjmC9LmJ",
-   "at": "Fri 17:52 (final Dec 11)",
+   "at": "Fri 17:52 (final Feb 12)",
    "model": "opus"
+  },
+  {
+   "name": "Historical backfill",
+   "trigger": "trig_01ECDQ4t7fUGAfo5AcN7EN3y",
+   "at": "every 2h at :22 until complete",
+   "model": "sonnet"
   },
   {
    "name": "Final report",
    "trigger": "trig_01R5sHJU64phYuAxf7PQBNjz",
-   "at": "2026-12-14 10:07",
+   "at": "2027-02-16 10:07",
    "model": "opus"
   }
  ],
  "paused": [],
- "trading_days": [
-  "2026-11-17",
-  "2026-11-18",
-  "2026-11-19",
-  "2026-11-20",
-  "2026-11-23",
-  "2026-11-24",
-  "2026-11-25",
-  "2026-11-30",
-  "2026-12-01",
-  "2026-12-02",
-  "2026-12-03",
-  "2026-12-04",
-  "2026-12-07",
-  "2026-12-08",
-  "2026-12-09",
-  "2026-12-10",
-  "2026-12-11"
- ],
  "weekly_options": {
-  "entries": {
-   "2026-11-18": "20261120",
-   "2026-11-23": "20261127",
-   "2026-11-25": "20261127",
-   "2026-11-30": "20261204",
-   "2026-12-02": "20261204",
-   "2026-12-07": "20261211",
-   "2026-12-09": "20261211"
-  },
+  "entries": "python3 -I scripts/tcal.py weeks",
   "strategies": {
    "W1": "SPY put credit spread: short ~2% OTM put, long ~3% OTM put; tp 50% credit, stop 2x credit",
    "W2": "SPY iron condor: shorts ~2.5% OTM, longs ~3.5% OTM; tp 50% credit, stop 2x credit",
@@ -116,5 +103,6 @@
   },
   "script": "scripts/weekly_opts.py",
   "sheet_tab": "Weekly options"
- }
+ },
+ "trading_days": "python3 -I scripts/tcal.py days 2026-11-16 2027-02-12"
 }
