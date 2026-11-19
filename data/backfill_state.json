@@ -106,7 +106,8 @@
   "USB|contract",
   "VZ|contract",
   "WFC|contract",
-  "WMT|contract"
+  "WMT|contract",
+  "EARNINGS|events"
  ],
  "fail": {
   "BAC|1d": 1

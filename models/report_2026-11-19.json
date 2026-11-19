@@ -1,0 +1,176 @@
+{
+ "date": "2026-11-19",
+ "stock": {
+  "family": "stock",
+  "rows": 12496,
+  "fit_rows": 12496,
+  "oos_rows": 12126,
+  "oos_days": 485,
+  "always_take_mean": -0.0638,
+  "pbo": 0.7142857142857143,
+  "configs": {
+   "logistic@0.45": {
+    "model": "logistic",
+    "threshold": 0.45,
+    "n_taken": 4559,
+    "share_taken": 0.376,
+    "mean_taken": 0.0127,
+    "auc": 0.533,
+    "brier": 0.2557
+   },
+   "logistic@0.50": {
+    "model": "logistic",
+    "threshold": 0.5,
+    "n_taken": 2850,
+    "share_taken": 0.235,
+    "mean_taken": 0.013,
+    "auc": 0.533,
+    "brier": 0.2557
+   },
+   "logistic@0.55": {
+    "model": "logistic",
+    "threshold": 0.55,
+    "n_taken": 1702,
+    "share_taken": 0.14,
+    "mean_taken": 0.0454,
+    "auc": 0.533,
+    "brier": 0.2557
+   },
+   "gbm@0.45": {
+    "model": "gbm",
+    "threshold": 0.45,
+    "n_taken": 3796,
+    "share_taken": 0.313,
+    "mean_taken": 0.0298,
+    "auc": 0.537,
+    "brier": 0.2447
+   },
+   "gbm@0.50": {
+    "model": "gbm",
+    "threshold": 0.5,
+    "n_taken": 1706,
+    "share_taken": 0.141,
+    "mean_taken": 0.0666,
+    "auc": 0.537,
+    "brier": 0.2447
+   },
+   "gbm@0.55": {
+    "model": "gbm",
+    "threshold": 0.55,
+    "n_taken": 905,
+    "share_taken": 0.075,
+    "mean_taken": 0.0823,
+    "auc": 0.537,
+    "brier": 0.2447
+   },
+   "forest@0.45": {
+    "model": "forest",
+    "threshold": 0.45,
+    "n_taken": 1190,
+    "share_taken": 0.098,
+    "mean_taken": -0.0034,
+    "auc": 0.53,
+    "brier": 0.2407
+   },
+   "forest@0.50": {
+    "model": "forest",
+    "threshold": 0.5,
+    "n_taken": 313,
+    "share_taken": 0.026,
+    "mean_taken": 0.099,
+    "auc": 0.53,
+    "brier": 0.2407
+   },
+   "forest@0.55": {
+    "model": "forest",
+    "threshold": 0.55,
+    "n_taken": 24,
+    "share_taken": 0.002,
+    "mean_taken": 0.3748,
+    "auc": 0.53,
+    "brier": 0.2407
+   }
+  },
+  "p_beats_always_take": 0.999,
+  "median_config_mean_taken": 0.0454,
+  "best_config": "forest@0.55",
+  "champion": "forest@0.55",
+  "why": "accepted: OOS mean 0.375 vs always-take -0.064, P(beats) 1.00, PBO 0.7142857142857143, median config 0.045",
+  "calibration": [
+   {
+    "bin": "0.2-0.4",
+    "n": 2975,
+    "pred": 0.375,
+    "hit": 0.363
+   },
+   {
+    "bin": "0.4-0.6",
+    "n": 9151,
+    "pred": 0.429,
+    "hit": 0.418
+   }
+  ],
+  "importance": [
+   {
+    "feature": "nh_nl",
+    "auc_drop": 0.039
+   },
+   {
+    "feature": "breadth20",
+    "auc_drop": 0.0098
+   },
+   {
+    "feature": "days_to_fomc",
+    "auc_drop": 0.0088
+   },
+   {
+    "feature": "spy_gap",
+    "auc_drop": 0.0075
+   },
+   {
+    "feature": "vix_chg",
+    "auc_drop": 0.0066
+   },
+   {
+    "feature": "crypto_score",
+    "auc_drop": 0.006
+   },
+   {
+    "feature": "breadth50",
+    "auc_drop": 0.0053
+   },
+   {
+    "feature": "spy_vs20",
+    "auc_drop": 0.0048
+   },
+   {
+    "feature": "vix",
+    "auc_drop": 0.0045
+   },
+   {
+    "feature": "or_width_atr",
+    "auc_drop": 0.0041
+   },
+   {
+    "feature": "risk_pct",
+    "auc_drop": 0.0039
+   },
+   {
+    "feature": "days_to_opex",
+    "auc_drop": 0.0038
+   }
+  ],
+  "instrument_models": [
+   "stock"
+  ],
+  "fit": "saved models/stock.pkl (12496 rows)"
+ },
+ "crypto": {
+  "family": "crypto",
+  "rows": 30,
+  "fit_rows": 30,
+  "oos_rows": 0,
+  "oos_days": 0,
+  "status": "not enough out-of-sample rows yet (0 < 20)"
+ }
+}
