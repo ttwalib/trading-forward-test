@@ -44,7 +44,17 @@
   "XLV|1d",
   "XLY|1d",
   "ABT|contract",
-  "AIG|contract"
+  "AIG|contract",
+  "AMGN|contract",
+  "BA|contract",
+  "BK|contract",
+  "BKNG|contract",
+  "BLK|contract",
+  "BMY|contract",
+  "BRK.B|contract",
+  "C|contract",
+  "CAT|contract",
+  "CHTR|contract"
  ],
  "fail": {
   "BAC|1d": 1

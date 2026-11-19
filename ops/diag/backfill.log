@@ -5,3 +5,4 @@
 2026-11-19 09:26 | 10 | 10 | 0 | none (batch complete)
 2026-11-19 10:26 | 10 | 10 | 0 | batch limit reached (contract-only jobs)
 2026-11-19 11:26 | 20 | 20 | 0 | stopped after 2 batches of contract-only jobs (context budget); more remain
+2026-11-19 12:26 | 10 | 10 | 0 | batch cap 10 reached (contract-only jobs; BK resolved via renamed symbol BNY id 44986804, BRK.B via symbol 'BRK B' id 72063691)
