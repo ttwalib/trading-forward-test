@@ -7,7 +7,15 @@
 Conventions (identical for every strategy, so they are comparable):
 - No look-ahead. Daily strategies decide on a close and trade at the NEXT open; exits decided on a close also fill
   at the next open. Intraday strategies use only bars that closed before the entry bar ends.
-- Costs per side: 0.05% for stocks and ETFs (daily), 0.03% intraday, 0.01% for SPY overnight / intraday momentum.
+- Costs per side (revised 2026-11-19): the larger of the floor (0.05% daily stocks/ETFs, 0.03% intraday, 0.01% SPY)
+  and a per-symbol estimate: median observed half-spread from midday IBKR snapshots (data/snap) + 0.01% slippage,
+  else (stocks only) half of the Corwin-Schultz high/low spread estimate over the prior 20 days (capped at 0.15%). Estimates use
+  only data before the trade date. `--cost-mult 2` re-runs everything at double costs into daily_2x.json (stress test;
+  a strategy that only works at 1x is fragile).
+- Prices: daily bars are total-return adjusted (dividends; splits if still raw) from data/corp (corp.py), so holding
+  strategies and SPY buy-and-hold are compared on the same footing.
+- Survivorship: the universe is today's S&P 100, so backtest results overstate history; the allocator haircuts
+  backtest returns by 50% and caps their weight (see allocator.py).
 - Each strategy is a "sleeve" with K equal slots (1/K of the sleeve each). Sleeve return per day = sum over open
   positions of (position return that day) / K, marked to market on closes. Unused slots are cash (0%).
 - Trades entered before the test start (2026-11-16) are BACKTEST (phase "before"): they seed the allocator's priors
@@ -33,7 +41,9 @@ Strategies (name: rule; universe; slots K):
     (Jegadeesh-Titman style, weekly rebalance); K=8.
  L9 Sector rotation: each Friday hold the top 3 of the 11 sector ETFs by 63-day return when SPY > SMA200, else TLT
     (Faber-style dual momentum); K=3.
- L10 Earnings drift (PEAD): within 2 trading days of an earnings event logged in the Events ledger ("earnings SYM"),
+ L10 Earnings drift (PEAD): within 3 days of an earnings event (data/events/earnings.jsonl from IBKR earnings
+    insights; used only if KNOWN on the decision date; after-close reports count from the next session; legacy
+    "earnings SYM" rows in the Events ledger still count),
     a gap >= +3% that closes in the upper half of the day's range -> buy, hold 10 days; 44 stocks; K=5.
  L11 SPY overnight: hold SPY from each close to the next open (documented overnight drift); K=1.
  L12 Turn of month: hold SPY from the close 4 trading days before month end to the close of the 3rd trading day of
@@ -44,11 +54,12 @@ Strategies (name: rule; universe; slots K):
 import json, os, sys, math, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import tcal, ledger
+import tcal, ledger, corp
 NY = ZoneInfo("America/New_York")
 START = tcal.START.isoformat()
 SECTORS = ["XLB", "XLC", "XLE", "XLF", "XLI", "XLK", "XLP", "XLRE", "XLU", "XLV", "XLY"]
 INDEX_ETFS = ["SPY", "QQQ", "IWM", "DIA"]
+ETFS = set(SECTORS + INDEX_ETFS + ["TLT", "GLD"])
 PAIRS = [("JPM", "BAC"), ("GS", "MS"), ("XOM", "XLE"), ("PEP", "XLP"), ("T", "TMUS"), ("GOOGL", "META")]
 C_DAY, C_INTRA, C_SPY = 0.05, 0.03, 0.01
 
@@ -71,7 +82,7 @@ def daily(repo, sym):
         else:
             a = agg[d]; a[1] = max(a[1], b["h"]); a[2] = min(a[2], b["l"]); a[3] = b["c"]
     for d, a in agg.items(): rows.setdefault(d, tuple(a))
-    return sorted((d,) + tuple(v) for d, v in rows.items())
+    return corp.tr_adjust(repo, sym, sorted((d,) + tuple(v) for d, v in rows.items()))
 
 
 def intraday(repo, sym):
@@ -109,7 +120,7 @@ class Book:
         self.trades.append({"strategy": self.name, "symbol": sym, "side": side, "entry_date": ed, "entry_time": et,
                             "entry": round(ep, 4), "exit_date": xd, "exit_time": xt, "exit": round(xp, 4),
                             "ret_pct": round(g - (2 * cost if status == "closed" else cost), 4), "status": status,
-                            "phase": tcal.phase(ed) if ed >= START else "before"})
+                            "phase": tcal.phase(ed) if ed >= START else "before", "cost_side": cost})
 
 
 def run_daily(name, K, data, cal, signal, exit_rule, max_hold, cost=C_DAY):
@@ -191,18 +202,20 @@ def build(repo, day=None):
             return i >= 11 and rows[i][4] < min(r[3] for r in rows[i - 10:i])
         books.append(run_daily("L7 Donchian trend", 10, dd7, cal, sig7, ex7, 40))
         # L10 PEAD
-        ev = {}
-        for e in ledger.load(repo, "Events"):
+        ev = {}   # {SYM: [(event_day, known_at)]}
+        for s_, lst in corp.earnings_known_by(repo).items():
+            if s_ in stocks: ev.setdefault(s_, []).extend(lst)
+        for e in ledger.load(repo, "Events"):   # legacy agent-logged rows: known on the day they were logged
             txt = str(e.get("event", "")).upper()
             if "EARNINGS" in txt:
-                for s in stocks:
-                    if s in txt.replace(",", " ").split(): ev.setdefault(s, set()).add(str(e.get("date"))[:10])
+                for s_ in stocks:
+                    if s_ in txt.replace(",", " ").split(): ev.setdefault(s_, []).append((str(e.get("date"))[:10], str(e.get("date"))[:10]))
         dd10 = sub([s for s in stocks if s in ev])
         def sig10(s, i):
             rows = dd10[s]
             if i < 1: return None
             d = rows[i][0]
-            if not any(0 <= (dt.date.fromisoformat(d) - dt.date.fromisoformat(x)).days <= 3 for x in ev[s]): return None
+            if not any(k <= d and 0 <= (dt.date.fromisoformat(d) - dt.date.fromisoformat(x)).days <= 3 for x, k in ev[s]): return None
             o, h, l, c = rows[i][1:5]; gap = o / rows[i - 1][4] - 1
             return gap if gap >= 0.03 and h > l and (c - l) / (h - l) >= 0.5 else None
         if dd10: books.append(run_daily("L10 Earnings drift", 5, dd10, cal, sig10, lambda s, i, p: False, 10))
@@ -370,6 +383,65 @@ def build(repo, day=None):
     return books
 
 
+SLIP, CS_CAP = 0.01, 0.15
+_DC = {}
+
+
+def cs_half_spread(repo, sym, day):
+    """Half of the Corwin-Schultz (2012) spread estimate (in %), mean over the 20 day-pairs before `day`, halved
+    again for its known upward bias on liquid large caps; capped at CS_CAP."""
+    if sym not in _DC: _DC[sym] = daily(repo, sym)
+    rows = [r for r in _DC[sym] if r[0] < day][-21:]
+    if len(rows) < 10: return None
+    k = 3 - 2 * math.sqrt(2); est = []
+    for a, b in zip(rows, rows[1:]):
+        h1, l1, h2, l2 = a[2], a[3], b[2], b[3]
+        if min(h1, l1, h2, l2) <= 0 or h1 < l1 or h2 < l2: continue
+        beta = math.log(h1 / l1) ** 2 + math.log(h2 / l2) ** 2
+        gamma = math.log(max(h1, h2) / min(l1, l2)) ** 2
+        alpha = (math.sqrt(2 * beta) - math.sqrt(beta)) / k - math.sqrt(gamma / k)
+        S = 2 * (math.exp(alpha) - 1) / (1 + math.exp(alpha))
+        est.append(max(S, 0.0))
+    if not est: return None
+    return min(CS_CAP, 0.5 * 50 * sum(est) / len(est))
+
+
+def side_cost(repo, sym, day, floor):
+    obs = corp.half_spread(repo, sym, day)
+    if obs is not None: est = obs + SLIP
+    elif sym in ETFS or "/" in sym: est = None        # liquid ETFs: Corwin-Schultz overstates badly; floor until observed
+    else: est = cs_half_spread(repo, sym, day)
+    return max(floor, est if est is not None else floor)
+
+
+def reprice(repo, books, mult=1.0):
+    """Apply per-symbol costs (and the stress multiplier) on top of the floor costs the engines charged."""
+    cache = {}
+    for b in books:
+        for t in b.trades:
+            c0 = t.get("cost_side", C_DAY); key = (t["symbol"], t["entry_date"], c0)
+            if key not in cache: cache[key] = side_cost(repo, t["symbol"], t["entry_date"], c0) * mult
+            c1 = cache[key]; dlt = c1 - c0
+            if dlt <= 0: continue
+            legs = 2 if t["status"] == "closed" else 1
+            t["ret_pct"] = round(t["ret_pct"] - legs * dlt, 4); t["cost_side"] = round(c1, 4)
+            b.daily[t["entry_date"]] = b.daily.get(t["entry_date"], 0.0) - dlt / b.K
+            if t["status"] == "closed": b.daily[t["exit_date"]] = b.daily.get(t["exit_date"], 0.0) - dlt / b.K
+    return books
+
+
+def write_stress(repo, books):
+    os.makedirs(os.path.join(repo, "data", "library"), exist_ok=True)
+    json.dump({b.name: {d: round(v, 5) for d, v in sorted(b.daily.items())} for b in books},
+              open(os.path.join(repo, "data", "library", "daily_2x.json"), "w"), separators=(",", ":"))
+    out = {}
+    for b in books:
+        fw = [t["ret_pct"] for t in b.trades if t["phase"] != "before" and t["status"] == "closed"]
+        bt = [t["ret_pct"] for t in b.trades if t["phase"] == "before" and t["status"] == "closed"]
+        out[b.name] = {"backtest_avg_pct_2x": round(sum(bt) / len(bt), 3) if bt else None, "forward_avg_pct_2x": round(sum(fw) / len(fw), 3) if fw else None}
+    return {"stress_2x": out}
+
+
 def write(repo, books):
     os.makedirs(os.path.join(repo, "data", "library"), exist_ok=True)
     trades = [t for b in books for t in b.trades]
@@ -394,5 +466,8 @@ def write(repo, books):
 
 
 if __name__ == "__main__":
-    repo = sys.argv[1]; day = sys.argv[2] if len(sys.argv) > 2 else None
-    print(json.dumps(write(repo, build(repo, day)), indent=1))
+    a = sys.argv[1:]; mult = 1.0
+    if "--cost-mult" in a: i = a.index("--cost-mult"); mult = float(a[i + 1]); del a[i:i + 2]
+    repo = a[0]; day = a[1] if len(a) > 1 else None
+    books = reprice(repo, build(repo, day), mult)
+    print(json.dumps(write(repo, books) if mult == 1.0 else write_stress(repo, books), indent=1))

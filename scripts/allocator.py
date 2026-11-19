@@ -8,7 +8,11 @@ Sleeves = every library strategy (data/library/daily.json, marked to market) + e
 picks, ML meta). Ledger sleeves: daily return % = sum of that day's results (units risked) / 5, i.e. each trade
 risks 1% of one of 5 slots.
 
-Rule (fixed on 2026-11-19, never tuned on test data; the holdout judges it):
+Rule (fixed on 2026-11-19; revised once on 2026-11-19 for bias controls; code FROZEN from 2026-12-07, the start of
+the verdict window: ops/freeze.json records the hash of allocator.py, library.py and corp.py on the first run on or
+after that date, and every later report says whether the code still matches):
+- Backtest evidence (days before 2026-11-16) is haircut by 50% (survivorship: today's S&P 100 universe; publication
+  decay of well-known strategies) and, together, weighs at most as much as 20 live days.
 - Weights for day t use only returns up to day t-1 (no look-ahead).
 - Evidence window: the last 120 sleeve-days; a sleeve needs >= 10 non-zero days to be eligible.
 - Regime of day t = SPY close vs its 50-day average (up/down) x VIX close <= 20 / > 20, both from day t-1.
@@ -23,29 +27,36 @@ Rule (fixed on 2026-11-19, never tuned on test data; the holdout judges it):
 - In the holdout the code and parameters stay frozen; weights keep updating day by day from new evidence, because
   the process itself is what is being tested.
 Benchmarks: SPY buy-and-hold (close to close), equal weight of all live sleeves, baseline A sleeve alone.
-Verdict metrics per phase (train / holdout / all): total return, annualised Sharpe (sqrt 252), max drawdown, and
+Benchmarks use total-return SPY (dividends added via corp.py), the same footing as the strategies.
+Stress: the same rule run on the library at double costs (daily_2x.json) is reported beside the main result.
+Verdict metrics per phase (verdict = 2026-12-07..2027-02-12, the pre-registered primary window / train / holdout / v2 / all): total return, annualised Sharpe (sqrt 252), max drawdown, and
 the chance that the AI portfolio's mean daily return beats each benchmark (stationary block bootstrap, block 5,
 5,000 resamples, seed 20261119).
 """
 import json, os, sys, math, random, hashlib, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import ledger, tcal
+import ledger, tcal, corp
 NY = ZoneInfo("America/New_York")
 WIN, MIN_DAYS, K_REG, K_ALL, CAP, KELLY, CORR, SEED = 120, 10, 20, 30, 0.25, 0.25, 0.7, 20261119
+PRIOR_HAIR, PRIOR_EQ = 0.5, 20
+FROZEN_FILES = ["allocator.py", "library.py", "corp.py"]
 BASE = "A baseline (watchlist)"
 
 
 def jl(path): return [json.loads(l) for l in open(path) if l.strip()] if os.path.exists(path) else []
 
 
-def dclose(repo, sym):
-    return {dt.datetime.fromtimestamp(b["t"], NY).date().isoformat(): b["c"] for b in jl(os.path.join(repo, "data", "bars", "1d", sym + ".jsonl"))}
+def dclose(repo, sym, total_return=False):
+    rows = sorted((dt.datetime.fromtimestamp(b["t"], NY).date().isoformat(), b["o"], b["h"], b["l"], b["c"])
+                  for b in jl(os.path.join(repo, "data", "bars", "1d", sym + ".jsonl")))
+    if total_return: rows = corp.tr_adjust(repo, sym, rows)
+    return {r[0]: r[4] for r in rows}
 
 
-def sleeves(repo):
+def sleeves(repo, lib_file="daily.json"):
     S = {}
-    f = os.path.join(repo, "data", "library", "daily.json")
+    f = os.path.join(repo, "data", "library", lib_file)
     if os.path.exists(f):
         for k, v in json.load(open(f)).items(): S[k] = dict(v)
     for t in ledger.trades(repo):
@@ -75,6 +86,24 @@ def stats(xs):
     return m, max(v, 0.01)
 
 
+def wstats(xs, ws):
+    """Weighted mean, variance (floor 0.01) and effective sample size (sum of weights)."""
+    W = sum(ws)
+    if W <= 0: return 0.0, 0.01, 0.0
+    m = sum(w * x for w, x in zip(ws, xs)) / W
+    v = sum(w * (x - m) ** 2 for w, x in zip(ws, xs)) / W * (W / (W - 1) if W > 1 else 1)
+    return m, max(v, 0.01), W
+
+
+def evidence(series, days):
+    """Returns and weights: live days weight 1; backtest days haircut and capped to PRIOR_EQ live days in total."""
+    start = tcal.START.isoformat(); prior = [d for d in days if d < start]
+    wp = min(1.0, PRIOR_EQ / len(prior)) if prior else 1.0
+    xs = [series.get(d, 0.0) * (PRIOR_HAIR if d < start else 1.0) for d in days]
+    ws = [wp if d < start else 1.0 for d in days]
+    return xs, ws
+
+
 def corr(a, b):
     n = len(a)
     if n < 20: return 0.0
@@ -88,19 +117,20 @@ def weights_for(d, S, cal_idx, regime, cal):
     reg = regime.get(d, "unknown")
     for name, series in S.items():
         live = [x for x in hist_days if x >= min(series, default="9999")]
-        xs = [series.get(x, 0.0) for x in live]
-        nz = sum(1 for x in xs if x != 0)
+        raw = [series.get(x, 0.0) for x in live]
+        nz = sum(1 for x in raw if x != 0)
         if nz < MIN_DAYS: continue
-        m_all, v = stats(xs); n = len(xs)
+        xs, ws = evidence(series, live)
+        m_all, v, n = wstats(xs, ws)
         m0 = n * m_all / (n + K_ALL)
-        xr = [series.get(x, 0.0) for x in live if regime.get(x) == reg]
-        mr = sum(xr) / len(xr) if xr else m0
-        mu = (len(xr) * mr + K_REG * m0) / (len(xr) + K_REG)
-        last10 = xs[-10:]; cum = peak = dd = 0.0
-        for x in xs: cum += x; peak = max(peak, cum); dd = max(dd, peak - cum)
+        rk = [k for k, x in enumerate(live) if regime.get(x) == reg]
+        mr, _, nr = wstats([xs[k] for k in rk], [ws[k] for k in rk]) if rk else (m0, 0, 0.0)
+        mu = (nr * mr + K_REG * m0) / (nr + K_REG)
+        last10 = raw[-10:]; cum = peak = dd = 0.0
+        for x in raw: cum += x; peak = max(peak, cum); dd = max(dd, peak - cum)
         if sum(last10) < -4 or dd > 8: info[name] = "breaker"; continue
         h = int(hashlib.sha1(f"{SEED}|{d}|{name}".encode()).hexdigest()[:12], 16)
-        theta = random.Random(h).gauss(mu, math.sqrt(v / max(n, 1)))
+        theta = random.Random(h).gauss(mu, math.sqrt(v / max(n, 1.0)))
         if theta > 0: w[name] = min(CAP, KELLY * theta / v)
         info[name] = round(mu, 4)
     names = sorted(w, key=lambda k: -w[k])
@@ -137,14 +167,29 @@ def p_beats(a, b, B=5000):
     return round(hits / B, 3)
 
 
-def run(repo, day=None):
-    day = day or dt.datetime.now(NY).date().isoformat()
-    S = sleeves(repo); spy = dclose(repo, "SPY"); vix = dclose(repo, "VIX")
+def freeze_check(repo, day):
+    here = os.path.dirname(os.path.abspath(__file__))
+    cur = {f: hashlib.sha256(open(os.path.join(here, f), "rb").read()).hexdigest() for f in FROZEN_FILES if os.path.exists(os.path.join(here, f))}
+    fz = os.path.join(repo, "ops", "freeze.json")
+    if day < tcal.ALLOC_FREEZE.isoformat(): return {"frozen": False, "freeze_date": tcal.ALLOC_FREEZE.isoformat()}
+    if not os.path.exists(fz):
+        os.makedirs(os.path.dirname(fz), exist_ok=True)
+        json.dump({"recorded_on": day, "sha256": cur}, open(fz, "w"), indent=1)
+    rec = json.load(open(fz))
+    bad = [f for f in cur if rec["sha256"].get(f) != cur[f]]
+    return {"frozen": True, "recorded_on": rec["recorded_on"], "code_matches_freeze": not bad, "changed_files": bad}
+
+
+def power(n):
+    """Annualised Sharpe gap the bootstrap can call at P >= 0.9 with n days (about 1.28 standard errors)."""
+    return round(1.2816 * math.sqrt(252 / n), 2) if n else None
+
+
+def simulate(repo, day, S, spy, vix):
     cal = sorted(d for d in set(spy) | {d for s in S.values() for d in s} if d <= day and tcal.is_open(d))
-    if not cal: return {"error": "no data"}
+    if not cal: return None
     cal_idx = {d: i for i, d in enumerate(cal)}; regime = regime_of(spy, vix, cal)
-    start = tcal.START.isoformat(); rows = []; W = []
-    spy_keys = sorted(spy)
+    start = tcal.START.isoformat(); rows = []; W = []; spy_keys = sorted(spy)
     for d in cal:
         if d < start: continue
         w, info = weights_for(d, S, cal_idx, regime, cal)
@@ -157,19 +202,39 @@ def run(repo, day=None):
         rows.append({"date": d, "phase": tcal.phase(d), "regime": regime.get(d), "ai": round(ai, 5), "spy": round(sp, 5),
                      "equal": round(eq, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4)})
         W.append({"date": d, "weights": w, "breakers": sorted(k for k, v in info.items() if v == "breaker")})
+    return rows, W
+
+
+def phase_report(rows):
+    out = {}
+    for ph in ("verdict", "all", "v2", "train", "holdout"):
+        sel = [r for r in rows if ph == "all" or (ph == "v2" and r["date"] >= tcal.V2_START.isoformat())
+               or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat()) or r["phase"] == ph]
+        if not sel: continue
+        P = {k: perf([r[k] for r in sel]) for k in ("ai", "spy", "equal", "base_a")}
+        P["p_ai_beats"] = {k: p_beats([r["ai"] for r in sel], [r[k] for r in sel]) for k in ("spy", "equal", "base_a")}
+        P["sharpe_gap_detectable"] = power(len(sel))
+        out[ph] = P
+    return out
+
+
+def run(repo, day=None):
+    day = day or dt.datetime.now(NY).date().isoformat()
+    S = sleeves(repo); spy = dclose(repo, "SPY", total_return=True); vix = dclose(repo, "VIX")
+    sim = simulate(repo, day, S, spy, vix)
+    if not sim: return {"error": "no data"}
+    rows, W = sim
     os.makedirs(os.path.join(repo, "data", "allocator"), exist_ok=True)
     for fn, data in (("weights.jsonl", W), ("portfolio.jsonl", rows)):
         with open(os.path.join(repo, "data", "allocator", fn), "w") as f:
             for r in data: f.write(json.dumps(r, separators=(",", ":")) + "\n")
-    rep = {"date": day, "sleeves": len(S), "phases": {}}
-    for ph in ("all", "v2", "train", "holdout"):
-        sel = [r for r in rows if ph == "all" or (ph == "v2" and r["date"] >= tcal.V2_START.isoformat()) or r["phase"] == ph]
-        if not sel: continue
-        P = {k: perf([r[k] for r in sel]) for k in ("ai", "spy", "equal", "base_a")}
-        P["p_ai_beats"] = {k: p_beats([r["ai"] for r in sel], [r[k] for r in sel]) for k in ("spy", "equal", "base_a")}
-        rep["phases"][ph] = P
-    nxt = cal[-1]
-    w_next, info = weights_for(nxt, S, cal_idx, regime, cal) if nxt in cal_idx else ({}, {})
+    rep = {"date": day, "sleeves": len(S), "freeze": freeze_check(repo, day), "phases": phase_report(rows)}
+    if os.path.exists(os.path.join(repo, "data", "library", "daily_2x.json")):
+        s2 = simulate(repo, day, sleeves(repo, "daily_2x.json"), spy, vix)
+        if s2: rep["stress_2x"] = {ph: {"ai": v["ai"], "p_ai_beats": v["p_ai_beats"]} for ph, v in phase_report(s2[0]).items() if ph in ("verdict", "all", "v2")}
+    try:
+        import checks; rep["stamp"] = checks.stamp(repo)
+    except Exception as e: rep["stamp"] = {"error": str(e)[:120]}
     rep["latest_weights"] = W[-1] if W else {}
     json.dump(rep, open(os.path.join(repo, "data", "allocator", "report.json"), "w"), indent=1)
     cum = {"ai": 1.0, "spy": 1.0, "equal": 1.0, "base_a": 1.0}; sheet = []

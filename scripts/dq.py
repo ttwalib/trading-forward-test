@@ -9,6 +9,10 @@ Checks per data/bars/<tf>/<SYM>.jsonl:
   (78 per full day, 42 on half days); missing bars are listed, never filled.
 - Staleness: on a trading day after 16:30 New York, the 5m files of the watchlist and SPY must hold that day;
   the crypto 1h files must have a bar that started within the last 3 hours.
+- Splits (added 2026-11-19): an overnight daily move whose ratio is close to a common split ratio (2, 3, 4, 5, 10,
+  1.5 or the inverses) and that data/corp has no split for = suspected unrecorded split.
+- Bar timing and source agreement: checks.bar_timing (5m convention + 5m vs daily), the last IBKR vs Twelve Data
+  cross-check and the last live-vs-replay parity result are folded in.
 An issue never stops the test: reports show it, and decisions.py / ml.py skip days with missing opening-range bars.
 """
 import json, os, sys, time, datetime as dt
@@ -36,6 +40,15 @@ def run(repo, day=None):
             for i, b in enumerate(B):
                 if min(b["o"], b["h"], b["l"], b["c"]) <= 0 or b["h"] < max(b["o"], b["c"]) - 1e-9 or b["l"] > min(b["o"], b["c"]) + 1e-9:
                     issues.append({"tf": tf, "sym": sym, "t": b["t"], "issue": "bad OHLC"})
+                if tf == "1d" and i and B[i - 1]["c"] > 0 and sym not in CRYPTO and not sym.startswith("VIX"):
+                    r = B[i - 1]["c"] / b["o"] if b["o"] else 1
+                    for q in (2, 3, 4, 5, 10, 1.5, 0.5, 1 / 3, 0.25, 0.2, 0.1):
+                        if abs(r / q - 1) < 0.03:
+                            dd = dt.datetime.fromtimestamp(b["t"], NY).date().isoformat()
+                            cf = os.path.join(repo, "data", "corp", sym + ".json")
+                            known = json.load(open(cf)).get("splits", []) if os.path.exists(cf) else []
+                            if not any(x["date"] == dd for x in known):
+                                issues.append({"tf": tf, "sym": sym, "day": dd, "issue": "suspected unrecorded split (prev close / open = %.3f)" % r})
                 if i and B[i - 1]["c"] >= 1 and abs(b["c"] / B[i - 1]["c"] - 1) > lim and not (tf == "1d" and sym.startswith("VIX")):
                     issues.append({"tf": tf, "sym": sym, "t": b["t"], "issue": "jump %.1f%%" % (100 * (b["c"] / B[i - 1]["c"] - 1))})
             if tf == "5m":
@@ -58,7 +71,22 @@ def run(repo, day=None):
             f = os.path.join(base, "5m", s + ".jsonl")
             if not os.path.exists(f) or not any(dt.datetime.fromtimestamp(b["t"], NY).date().isoformat() == day for b in load(f)[-100:]):
                 issues.append({"tf": "5m", "sym": s, "issue": "stale: no bars for %s" % day})
-    return {"date": day, "ok": not issues, "issue_count": len(issues), "issues": issues[:80], "files_per_tf": per}
+    extra = {}
+    try:
+        import checks
+        bt = checks.bar_timing(repo); extra["bar_timing"] = {k: bt[k] for k in ("convention", "days_compared_with_daily", "n_issues")}
+        issues += [{"issue": "bar timing: " + x} for x in bt["issues"][:10]]
+        xc = checks.jl(os.path.join(repo, "data", "quality", "xcheck.jsonl"))
+        if xc:
+            last = max(r["checked_at"] for r in xc); bad = [r for r in xc if r["checked_at"] == last and abs(r.get("diff_pct", 0) or 0) > 0.5]
+            extra["xcheck"] = {"last": last, "flagged": len(bad)}
+            issues += [{"sym": r["symbol"], "day": r["date"], "issue": "IBKR vs Twelve Data close differ %.2f%% (excluded from ML)" % r["diff_pct"]} for r in bad]
+        pa = checks.jl(os.path.join(repo, "data", "quality", "parity.jsonl"))
+        if pa:
+            extra["parity_last"] = pa[-1]
+            if not pa[-1].get("ok", True): issues.append({"day": pa[-1]["day"], "issue": "live vs replay mismatch: possible look-ahead (see checks.py parity)"})
+    except Exception as e: extra["checks_error"] = str(e)[:160]
+    return {"date": day, "ok": not issues, "issue_count": len(issues), "issues": issues[:80], "files_per_tf": per, **extra}
 
 
 if __name__ == "__main__":

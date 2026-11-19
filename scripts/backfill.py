@@ -14,6 +14,10 @@ Jobs (in order): daily bars ONE_YEAR for watchlist + control + universe.json etf
 5-minute bars THREE_MONTHS for watchlist + control + SPY (historical ORB decisions and labels for ML pre-training);
 1-hour bars THREE_MONTHS for the 7 coins (crypto decision rows). Bars go through store.py (merge, no duplicates).
 Index-type symbols (VIX, VIX3M) use security_type IND; coins use CRYPTO on exchange ZEROHASH.
+Daily jobs carry "include_corporate_actions": true (dividends + splits, saved by corp.py ingest-bars).
+Last job (added 2026-11-19): "EARNINGS|events": search_earnings_insights for every resolved stock contract id (the job
+lists them), start one year back, paginated (size 50, offset += 50 until a short page); save the responses as a JSON
+list and run corp.py ingest-earnings. It waits until every stock's contract id is resolved.
 """
 import json, os, sys
 COINS = ["BTC", "ETH", "SOL", "AVAX", "LINK", "DOGE", "SHIB"]
@@ -29,14 +33,16 @@ def jl(path, default):
 def jobs(repo):
     U = json.load(open(P(repo, "universe.json"))); stocks = U["watchlist"] + U["control"]; out = []
     for s in stocks + U.get("etfs", ["SPY", "QQQ", "IWM", "VIX", "VIX3M"]):
-        out.append({"symbol": s, "tf": "1d", "step": "ONE_DAY", "period": "ONE_YEAR",
-                    "security_type": "IND" if s.startswith("VIX") else "STK", "why": "daily features + breadth"})
+        out.append({"symbol": s, "tf": "1d", "step": "ONE_DAY", "period": "ONE_YEAR", "include_corporate_actions": not s.startswith("VIX"),
+                    "security_type": "IND" if s.startswith("VIX") else "STK", "why": "daily features + breadth + dividends/splits"})
     for s in stocks + ["SPY"]:
         out.append({"symbol": s, "tf": "5m", "step": "FIVE_MINS", "period": "THREE_MONTHS", "security_type": "STK",
                     "why": "historical ORB decisions"})
     for c in COINS:
         out.append({"symbol": c, "tf": "1h", "step": "ONE_HOUR", "period": "THREE_MONTHS", "security_type": "CRYPTO",
                     "exchange": "ZEROHASH", "why": "crypto decision rows"})
+    out.append({"symbol": "EARNINGS", "tf": "events", "why": "earnings dates with known-at times (IBKR earnings insights)",
+                "stocks": stocks, "start": "one year before today, UTC midnight", "size": 50})
     return out
 
 
@@ -63,7 +69,13 @@ def main():
     n = int(a[2]) if len(a) > 2 else 6
     out = []
     for j in left[:n]:
-        j = dict(j); j["contract_id"] = cons.get(j["symbol"]); out.append(j)
+        j = dict(j)
+        if j["symbol"] == "EARNINGS":
+            miss = [s for s in j["stocks"] if s not in cons]
+            if miss: continue   # resolve stock contracts first (their daily/5m jobs do that)
+            j["contract_ids"] = [cons[s] for s in j.pop("stocks")]
+        else: j["contract_id"] = cons.get(j["symbol"])
+        out.append(j)
     print(json.dumps(out, indent=1))
 
 

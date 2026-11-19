@@ -4,12 +4,14 @@
   python3 stats.py series REPO STRATEGY > daily.csv   daily return series + SPY/BTC returns (for the residual-edge
                                                        analyzer vendored in vendor/tradermonty/residual_edge)
 
-Per strategy and phase (all / v2 = from 2026-11-20, the first full day of the extended setup / train / holdout), on closed trades, result = return per unit risked:
+Per strategy and phase (all / v2 = from 2026-11-20, the first full day of the extended setup / verdict = from
+2026-12-07, the pre-registered window / train / holdout), on closed trades, result = return per unit risked:
 - n, mean, 90% bootstrap interval of the mean (10,000 resamples, seed 20261119), p_gt0 = bootstrap share of means > 0.
 - q_bh: Benjamini-Hochberg adjusted one-sided p-value across all strategies with n >= 5 in that phase (controls the
   false discovery rate of "this strategy is profitable" claims; ~60 strategies are tested at once).
 - psr: probabilistic Sharpe ratio (P(true per-trade Sharpe > 0), skew/kurtosis adjusted, Bailey & Lopez de Prado).
-- dsr: deflated Sharpe ratio: PSR against the Sharpe the best of N trials would reach by luck (N = strategies tested).
+- dsr: deflated Sharpe ratio: PSR against the Sharpe the best of N trials would reach by luck (N = the larger of the
+  strategies tested and the unique trials in data/trials.jsonl, which logs every ML config, lab idea and variant tried).
 - alpha / alpha_t / beta: per-trade OLS of result on the benchmark return over the same holding window (SPY for stock
   and SPY-option strategies, BTC for crypto, Newey-West t with 1 lag). alpha is the edge left after market exposure.
 - kelly_share: 1/4 Kelly (mean / variance) capped at 10%, only for strategies with n >= 20, q_bh <= 0.10 and dsr >= 0.9
@@ -55,11 +57,12 @@ def psr(xs, sr0=0.0):
     return N01.cdf((sr - sr0) * math.sqrt(n - 1) / math.sqrt(den))
 
 
-def expected_max_sr(srs):
-    """Sharpe the best of N independent trials reaches by luck (False Strategy Theorem)."""
-    N = len(srs)
-    if N < 2: return 0.0
-    mu = sum(srs) / N; var = sum((x - mu) ** 2 for x in srs) / (N - 1)
+def expected_max_sr(srs, n_trials=0):
+    """Sharpe the best of N independent trials reaches by luck (False Strategy Theorem). N = the larger of the
+    strategies with results and the trial ledger (every config, variant and lab idea ever evaluated, kept or not)."""
+    N = max(len(srs), int(n_trials or 0))
+    if len(srs) < 2 or N < 2: return 0.0
+    k = len(srs); mu = sum(srs) / k; var = sum((x - mu) ** 2 for x in srs) / (k - 1)
     g = 0.5772156649
     return math.sqrt(var) * ((1 - g) * N01.inv_cdf(1 - 1 / N) + g * N01.inv_cdf(1 - 1 / (N * math.e)))
 
@@ -155,8 +158,12 @@ def compute(repo, day):
     def inph(day, ph):
         if ph == "all": return True
         if ph == "v2": return day >= tcal.V2_START.isoformat()
+        if ph == "verdict": return day >= tcal.ALLOC_FREEZE.isoformat()
         return tcal.phase(day) == ph
-    for ph in ("all", "v2", "train", "holdout"):
+    try:
+        import checks; NT = checks.n_trials(repo); out["trials"] = checks.trials(repo); out["stamp"] = checks.stamp(repo)
+    except Exception: NT = 0
+    for ph in ("all", "v2", "verdict", "train", "holdout"):
         groups = {}
         for t in T:
             if not inph(t["day"], ph): continue
@@ -180,7 +187,7 @@ def compute(repo, day):
         elig = {s: 1 - r["p_gt0"] for s, r in rows.items() if r["n"] >= 5 and "p_gt0" in r}
         q = bh(elig) if elig else {}
         srs = [r["sr"] for r in rows.values() if r.get("sr") is not None and r["n"] >= 5]
-        sr0 = expected_max_sr(srs)
+        sr0 = expected_max_sr(srs, NT)
         for s, r in rows.items():
             r["q_bh"] = round(q[s], 4) if s in q else None
             ts = sorted([t for t in T if t["strategy"] == s and inph(t["day"], ph)],

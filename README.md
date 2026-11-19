@@ -5,7 +5,7 @@ Simulated forward test, **16 November 2026 – 12 February 2027** (extended on 1
 ## Pre-registration (fixed on 2026-11-19, before any holdout data exists)
 
 - Phases (`scripts/tcal.py`): **train** 2026-11-16 .. 2027-01-29 (tuning, learning and ML training allowed); **holdout** 2027-02-01 .. 2027-02-12 (frozen: no retuning, no challenger promotion, no new strategies, ML models frozen as of 2027-01-29).
-- Primary question (revised 2026-11-19, still before any holdout data): does the **AI-managed portfolio** (`allocator.py` over every strategy sleeve) beat SPY buy-and-hold, an equal-weight mix of all sleeves and baseline A **on the holdout**, after costs, on Sharpe and max drawdown, with block-bootstrap P >= 0.9? Individual strategies are exploratory (BH q-values and deflated Sharpe reported).
+- Primary question (revised 2026-11-19, still before any holdout data): does the **AI-managed portfolio** (`allocator.py` over every strategy sleeve) beat total-return SPY buy-and-hold, an equal-weight mix of all sleeves and baseline A over the **verdict window 2026-12-07 .. 2027-02-12** (allocator and library code frozen from Dec 7; about 47 out-of-sample days), after per-symbol costs, on Sharpe and max drawdown, with block-bootstrap P >= 0.9, and still beat SPY at double costs? The Feb 1-12 holdout is a second check. Individual strategies are exploratory (BH q-values and deflated Sharpe reported).
 - Controls: baseline A rules never change; baseline A also runs on a fixed random control list of 22 S&P 100 names (`data/universe.json`, seed 20261119) to separate rule edge from watchlist selection.
 - Every strategy and every ML config ever tried counts as a trial (deflated Sharpe, PBO).
 - Gaps in data are shown, never filled.
@@ -34,6 +34,8 @@ Simulated forward test, **16 November 2026 – 12 February 2027** (extended on 1
 | `ml.py` | Meta-labelling + instrument choice; purged/embargoed walk-forward, CSCV PBO, calibration, permutation importance, PSI drift, shadow scoring |
 | `review.py` | Strategy-lab promotion gate (OOS, DSR, PBO, vendored edge reviewer) and residual-edge analysis |
 | `library.py` | Strategy library: 13 widely used strategies (intraday momentum, VWAP pullback, gap and go, gap fade, RSI(2), Bollinger, Donchian trend, momentum, sector rotation, earnings drift, overnight, turn of month, pairs) run on stored bars, next-open fills, costs, sleeve returns |
+| `corp.py` | Reference data: dividends/splits from IBKR (total-return prices), earnings dates with known-at times (IBKR earnings insights), macro calendar features (data/macro.json), midday snapshots (spreads, implied vol, IV percentile) |
+| `checks.py` | Integrity: 5m bar-timing test, IBKR vs Twelve Data cross-check (exclusions for ML), live-vs-replay parity (look-ahead detector), trial ledger for the deflated Sharpe, reproducibility stamp |
 | `allocator.py` | AI allocator: regime-aware Thompson sampling with quarter-Kelly weights, correlation and drawdown limits; AI portfolio vs SPY, equal weight and baseline A |
 | `dq.py` | Data-quality and staleness checks |
 | `backfill.py` | Resumable historical backfill planner |

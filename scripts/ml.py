@@ -87,6 +87,9 @@ def folds(days):
     return out
 
 
+REPO_FOR_TRIALS = []
+
+
 def walk_forward(rows, feats, keys, ycol):
     """OOS take-probabilities per config. Returns {kind: np.array of OOS prob (nan where not tested)}, mask."""
     fit_rows = [r for r in rows if r["phase"] in ("before", "train")]
@@ -144,6 +147,10 @@ def evaluate(fam, rows, feats, keys, ycol):
             M.append([float(np.sum(yt[(Dt == d) & take])) for d in days])
     M = np.array(M).T; res["pbo"] = cscv_pbo(M) if len(days) >= 8 else None
     res["configs"] = cfgs
+    try:
+        import checks as _ck
+        for nm in cfgs: _ck.trial(REPO_FOR_TRIALS[0], "ml_" + ycol, nm) if REPO_FOR_TRIALS else None
+    except Exception: pass
     ok = {n: c for n, c in cfgs.items() if c["mean_taken"] is not None and c["n_taken"] >= 20}
     best = max(ok, key=lambda n: ok[n]["mean_taken"]) if ok else None
     if best:
@@ -166,7 +173,7 @@ def evaluate(fam, rows, feats, keys, ycol):
 
 
 def train(repo, day):
-    os.makedirs(os.path.join(repo, "models"), exist_ok=True); out = {"date": day}
+    os.makedirs(os.path.join(repo, "models"), exist_ok=True); out = {"date": day}; REPO_FOR_TRIALS[:] = [repo]
     frozen = tcal.info(day)["frozen"] if hasattr(tcal, "info") else False
     for fam in ("stock", "crypto"):
         rows, feats, keys, ycol = family(repo, fam)

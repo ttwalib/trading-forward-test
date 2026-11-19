@@ -46,6 +46,9 @@ def gate(repo, c):
     if tcal.phase(day) == "holdout":
         return {"id": c.get("id"), "verdict": "HOLD", "why": "frozen holdout (%s..%s): no new strategies or rule changes"
                 % tuple(str(x) for x in tcal.PHASES["holdout"])}
+    try:
+        import checks as _ck; _ck.trial(repo, "strategy_lab", str(c.get("id") or c.get("name") or "unnamed"), max(1, int(c.get("n_configs_tried", 1))))
+    except Exception: pass
     xs = [float(x) for x in c.get("oos_results", [])]; n = len(xs); checks = {}
     checks["n_oos>=30"] = n >= 30
     mean = sum(xs) / n if n else 0.0

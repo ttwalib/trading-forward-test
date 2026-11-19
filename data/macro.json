@@ -1,0 +1,9 @@
+{
+ "note": "Scheduled US macro releases used as ML features and allocator context. Sources: federalreserve.gov FOMC calendars (2027 schedule revised 2026-11-12), bls.gov CPI and Employment Situation schedules (fetched 2026-11-19). Months listed under 'unknown' have no confirmed date here; features for those months are left empty (never guessed). Opex (3rd Friday) is computed. Update this file if an agency moves a date.",
+ "fomc_decision": ["2025-12-10", "2026-01-28", "2026-03-18", "2026-04-29", "2026-06-17", "2026-07-29", "2026-09-16", "2026-10-28", "2026-12-09", "2027-01-27", "2027-03-17"],
+ "fomc_no_decision": ["2027-10-27"],
+ "cpi": ["2025-12-18", "2026-01-13", "2026-02-13", "2026-03-11", "2026-04-10", "2026-05-12", "2026-06-10", "2026-07-14", "2026-08-12", "2026-10-14", "2026-11-10", "2026-12-10", "2027-01-13", "2027-02-11", "2027-03-10"],
+ "nfp": ["2025-12-16", "2026-01-09", "2026-02-11", "2026-03-06", "2026-04-03", "2026-05-08", "2026-06-05", "2026-07-02", "2026-09-04", "2026-10-02", "2026-11-06", "2026-12-04", "2027-01-08", "2027-02-05", "2027-03-05"],
+ "unknown": {"cpi": ["2026-09"], "nfp": ["2026-08"]},
+ "approx": {"nfp": ["2025-12-16"]}
+}

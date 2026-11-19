@@ -24,7 +24,7 @@ CRYPTO decisions = every closed CryptoTracks trade (all tracks and strategies), 
 import json, os, sys, math, hashlib, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import ledger, tcal, regime2
+import ledger, tcal, regime2, corp, checks
 NY = ZoneInfo("America/New_York")
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -73,6 +73,9 @@ class Ctx:
     def __init__(self, repo):
         self.repo = repo; self.reg = {}; self.spy5 = bars(repo, "5m", "SPY"); self.spyd = daily_closes(repo, "SPY", self.spy5)
         self.vix = {nyday(b["t"]): b["c"] for b in bars(repo, "1d", "VIX")}
+        self.earn = corp.earnings_known_by(repo)
+        try: self.excluded = checks.excluded(repo)
+        except Exception: self.excluded = set()
         self.events = {}
         for r in ledger.load(repo, "Events"):
             if str(r.get("importance", "")).lower() in ("high", "3", "red"): self.events[str(r.get("date"))[:10]] = 1
@@ -153,12 +156,22 @@ def stock_features(ctx, sym, B5, day, trade, is_control, dc=None):
     s = [v for d, v in ctx.sent.get(sym, []) if d < day]
     f["sent_chg"] = s[-1] if s else None
     f["iv_atm"] = trade.get("iv_atm") if trade.get("iv_atm") is not None else ctx.iv.get((day, sym))
+    m = corp.macro_features(day)
+    for k in ("fomc_day", "days_to_fomc", "cpi_day", "nfp_day", "opex_day", "days_to_opex", "macro_day"): f[k] = m.get(k)
+    sn = corp.snap_features(ctx.repo, sym, day)
+    f["iv_snap"], f["iv_hv"], f["ivp_52w"] = sn["iv"], sn["iv_hv"], sn["ivp_52w"]
+    ev = [d_ for d_, known in ctx.earn.get(sym, []) if known <= day and d_ <= day]   # last known earnings reaction day
+    f["earn_days"] = len(tcal.trading_days(max(ev), day)) - 1 if ev and (dt.date.fromisoformat(day) - dt.date.fromisoformat(max(ev))).days <= 30 else None
     return {k: (round(v, 5) if isinstance(v, float) else v) for k, v in f.items()}
 
 
 STOCK_FEATURES = ["gap_pct", "or_width_pct", "or_width_atr", "or_vol_rel", "breakout_min", "risk_pct", "ret1d", "ret5d",
                   "vs_sma20", "spy_gap", "spy_run", "spy_vs20", "vix", "vix_chg", "breadth20", "breadth50", "nh_nl",
-                  "crypto_score", "weekday", "is_control", "event_day", "sent_chg", "iv_atm"]
+                  "crypto_score", "weekday", "is_control", "event_day", "sent_chg", "iv_atm",
+                  # added 2026-11-19: scheduled macro releases (data/macro.json) and the midday IBKR snapshot taken
+                  # before the decision day (implied vol, IV / 30-day realised vol, 52-week IV percentile)
+                  "fomc_day", "days_to_fomc", "cpi_day", "nfp_day", "opex_day", "days_to_opex", "macro_day",
+                  "iv_snap", "iv_hv", "ivp_52w", "earn_days"]
 INSTR = ["stock", "atm", "d1", "w4"]
 
 
@@ -174,6 +187,7 @@ def candidates(repo, day=None, now="16:00", ctx=None):
         dc = daily_closes(repo, sym, B5)
         for d in days:
             if not tcal.is_trading(d) and day is None: continue
+            if (sym, d) in ctx.excluded or ("SPY", d) in ctx.excluded: continue   # sources disagree on this bar
             today = [b for b in B5 if nyday(b["t"]) == d]
             if not today: continue
             try: t, why = ORB["sim"](sym, ORB["bars_of"](raw(today)), d, now)
