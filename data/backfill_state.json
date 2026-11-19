@@ -84,7 +84,17 @@
   "MDLZ|contract",
   "MDT|contract",
   "MET|contract",
-  "MMM|contract"
+  "MMM|contract",
+  "MO|contract",
+  "MRK|contract",
+  "NEE|contract",
+  "NKE|contract",
+  "NOW|contract",
+  "ORCL|contract",
+  "PG|contract",
+  "PYPL|contract",
+  "RTX|contract",
+  "SBUX|contract"
  ],
  "fail": {
   "BAC|1d": 1
