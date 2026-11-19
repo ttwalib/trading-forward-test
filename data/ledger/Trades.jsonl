@@ -1,0 +1,5 @@
+{"date":"2026-11-19","symbol":"AMD","outcome":"stop","r_net":-1.02,"entry_time":"09:50","entry":554.7,"stop":544.54,"target":575.02,"exit_time":"09:55","exit":544.54,"or_low":537.09,"or_high":552.0,"r_gross":-1.0}
+{"date":"2026-11-19","symbol":"INTC","outcome":"stop","r_net":-1.02,"entry_time":"09:50","entry":59.15,"stop":58.13,"target":61.19,"exit_time":"10:15","exit":58.13,"or_low":57.28,"or_high":58.99,"r_gross":-1.0}
+{"date":"2026-11-19","symbol":"JPM","outcome":"stop","r_net":-1.09,"entry_time":"09:50","entry":328.15,"stop":326.62,"target":331.21,"exit_time":"10:00","exit":326.62,"or_low":325.87,"or_high":327.37,"r_gross":-1.0}
+{"date":"2026-11-19","symbol":"MSFT","outcome":"stop","r_net":-1.06,"entry_time":"09:50","entry":525.32,"stop":521.73,"target":532.5,"exit_time":"10:10","exit":521.73,"or_low":518.75,"or_high":524.72,"r_gross":-1.0}
+{"date":"2026-11-19","symbol":"MU","outcome":"stop","r_net":-1.02,"entry_time":"10:05","entry":756.78,"stop":742.44,"target":785.46,"exit_time":"10:10","exit":742.44,"or_low":731.56,"or_high":753.33,"r_gross":-1.0}

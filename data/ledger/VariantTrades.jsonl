@@ -1,0 +1,39 @@
+{"date":"2026-11-19","variant":"A baseline 15m/mid/2R","symbol":"AMD","outcome":"stop","r_net":-1.02,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"A baseline 15m/mid/2R","symbol":"INTC","outcome":"stop","r_net":-1.02,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"A baseline 15m/mid/2R","symbol":"JPM","outcome":"stop","r_net":-1.09,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"A baseline 15m/mid/2R","symbol":"MSFT","outcome":"stop","r_net":-1.06,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"A baseline 15m/mid/2R","symbol":"MU","outcome":"stop","r_net":-1.02,"entry_time":"10:05"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"AMD","outcome":"stop","r_net":-1.03,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"AVGO","outcome":"stop","r_net":-1.03,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"HOOD","outcome":"stop","r_net":-1.04,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"INTC","outcome":"stop","r_net":-1.02,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"JPM","outcome":"stop","r_net":-1.1,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"MARA","outcome":"stop","r_net":-1.04,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"MSFT","outcome":"stop","r_net":-1.05,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"MU","outcome":"stop","r_net":-1.02,"entry_time":"10:05"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"NVDA","outcome":"stop","r_net":-1.02,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"B 5m/mid/2R","symbol":"PLTR","outcome":"stop","r_net":-1.03,"entry_time":"09:40"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"AMD","outcome":"stop","r_net":-1.03,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"AVGO","outcome":"stop","r_net":-1.03,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"HOOD","outcome":"stop","r_net":-1.04,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"INTC","outcome":"stop","r_net":-1.02,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"JPM","outcome":"stop","r_net":-1.1,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"MARA","outcome":"stop","r_net":-1.04,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"MSFT","outcome":"stop","r_net":-1.05,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"MU","outcome":"stop","r_net":-1.02,"entry_time":"10:05"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"NVDA","outcome":"stop","r_net":-1.02,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"C 5m/mid/1.5R","symbol":"PLTR","outcome":"stop","r_net":-1.03,"entry_time":"09:40"}
+{"date":"2026-11-19","variant":"D baseline + SPY filter","symbol":"AMD","outcome":"stop","r_net":-1.02,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"D baseline + SPY filter","symbol":"INTC","outcome":"stop","r_net":-1.02,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"D baseline + SPY filter","symbol":"JPM","outcome":"stop","r_net":-1.09,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"D baseline + SPY filter","symbol":"MSFT","outcome":"stop","r_net":-1.06,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"AMD","outcome":"stop","r_net":-1.03,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"AVGO","outcome":"stop","r_net":-1.03,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"HOOD","outcome":"stop","r_net":-1.04,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"INTC","outcome":"stop","r_net":-1.02,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"JPM","outcome":"stop","r_net":-1.1,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"MARA","outcome":"stop","r_net":-1.04,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"MSFT","outcome":"stop","r_net":-1.05,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"E 5m/mid/2R + SPY filter","symbol":"NVDA","outcome":"stop","r_net":-1.02,"entry_time":"09:45"}
+{"date":"2026-11-19","variant":"AC control","symbol":"GS","outcome":"stop","r_net":-1.05,"entry_time":"09:50"}
+{"date":"2026-11-19","variant":"AC control","symbol":"QCOM","outcome":"stop","r_net":-1.02,"entry_time":"09:50"}
