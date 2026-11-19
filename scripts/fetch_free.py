@@ -12,6 +12,14 @@ Sources (all free, no extra cost):
                                            dividends + splits (last 60 days), Cboe VIX/VIX3M
   python3 fetch_free.py backfill REPO   -> history: daily 2 years, 5m 90 days, crypto 1h 1 year and 15m 90 days,
                                            corporate actions 3 years, full Cboe VIX/VIX3M
+  python3 fetch_free.py tick REPO       -> every 5 minutes in market hours: intraday 5m (crypto every 15 minutes),
+                                           then engine.py (sealed real-time signal detections)
+  python3 fetch_free.py hist REPO       -> long archive for research (strategy lab, ML): daily bars since 2016 for the
+                                           S&P 100 universe + ETFs, 5m bars for 2 years for the 47 intraday symbols,
+                                           into data/hist/<tf>/<SYM>.csv.gz (t,o,h,l,c,v; same timestamp rules).
+                                           Never read by the nightly library/allocator (their evidence window is 120 days).
+Daily bars, dividends and splits cover the whole static S&P 100 snapshot (universe.json "universe") plus the ETFs
+since 2026-11-19 (the library's cross-sectional strategies use it).
 
 Merge rule (keeps the live record honest): a bar already in the file keeps its open/high/low/close, because live
 decisions were made on it. Only missing bars are added, and a stored volume of 0 (IBKR 5m bars carry none) is
@@ -120,14 +128,14 @@ def conv(rows, tf, closed_before=None, step=0, filt=None):
 def stock_bars(repo, syms, tf, start, end):
     tfa = {"1d": "1Day", "5m": "5Min"}[tf]; got = {}
     for i in range(0, len(syms), 30):
-        chunk = [s.replace(".", "/") for s in syms[i:i + 30]]
+        chunk = syms[i:i + 30]
         try:
             got.update(paged(DATA + "/v2/stocks/bars", {"symbols": ",".join(chunk), "timeframe": tfa, "start": iso(start),
                              "end": iso(end), "limit": 10000, "adjustment": "raw", "feed": "sip", "sort": "asc"}, "bars"))
         except Exception as e: LOG["errors"].append("bars %s %s: %s" % (tf, chunk[0], e))
     cut = int(end.timestamp())
     for s, rows in got.items():
-        sym = s.replace("/", ".")
+        sym = s
         if tf == "5m": merge(repo, tf, sym, conv(rows, tf, closed_before=cut, step=300, filt=rth))
         else:
             today = dt.datetime.now(NY).date()
@@ -180,7 +188,7 @@ def corp_actions(repo, syms, start):
     LOG["corp_symbols"] = n
 
 
-def cboe(repo, full):
+def cboe(repo, full, to_hist=False):
     for sym in ("VIX", "VIX3M"):
         try:
             raw = get("https://cdn.cboe.com/api/global/us_indices/daily_prices/%s_History.csv" % sym, None, auth=False).decode()
@@ -193,16 +201,43 @@ def cboe(repo, full):
                 bars.append({"t": int(d.timestamp()) + 43200, "o": float(r["OPEN"]), "h": float(r["HIGH"]),
                              "l": float(r["LOW"]), "c": float(r["CLOSE"]), "v": 0.0})
             except (KeyError, ValueError): continue
+        if to_hist:
+            write_hist(repo, "1d", sym, [b for b in bars if b["t"] >= 1451606400]); continue   # since 2016-01-01
         cut = int((now() - dt.timedelta(days=760 if full else 20)).timestamp())
         merge(repo, "1d", sym, [b for b in bars if b["t"] >= cut])
+
+
+def write_hist(repo, tf, sym, bars):
+    import gzip
+    d = os.path.join(repo, "data", "hist", tf); os.makedirs(d, exist_ok=True)
+    with gzip.open(os.path.join(d, sym + ".csv.gz"), "wt") as f:
+        f.write("t,o,h,l,c,v\n")
+        for b in sorted(bars, key=lambda b: b["t"]): f.write("%d,%s,%s,%s,%s,%s\n" % (b["t"], b["o"], b["h"], b["l"], b["c"], b["v"]))
+    LOG["files"]["hist/%s/%s" % (tf, sym)] = {"added": len(bars), "vol_filled": 0, "total": len(bars),
+                                              "first": iso(dt.datetime.fromtimestamp(min(b["t"] for b in bars), UTC)) if bars else None}
+
+
+def hist(repo, syms, tf, start, end):
+    tfa = {"1d": "1Day", "5m": "5Min"}[tf]
+    for i in range(0, len(syms), 10 if tf == "5m" else 30):
+        chunk = syms[i:i + (10 if tf == "5m" else 30)]
+        try:
+            got = paged(DATA + "/v2/stocks/bars", {"symbols": ",".join(chunk), "timeframe": tfa, "start": iso(start),
+                        "end": iso(end), "limit": 10000, "adjustment": "raw", "feed": "sip", "sort": "asc"}, "bars")
+        except Exception as e: LOG["errors"].append("hist %s %s: %s" % (tf, chunk[0], e)); continue
+        for s, rows in got.items():
+            write_hist(repo, tf, s, conv(rows, tf, filt=rth if tf == "5m" else None))
 
 
 def main():
     mode, repo = sys.argv[1], sys.argv[2]
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     stocks = U["watchlist"] + U["control"]; etfs = [e for e in U["etfs"] if not e.startswith("VIX")]
+    univ = sorted(set(stocks) | {s for s in U.get("universe", []) if s != "GOOG"})
     end = now() - dt.timedelta(minutes=16)                  # free plan: SIP data must be at least 15 minutes old
     LOG.update({"mode": mode, "started": iso(now())})
+    if mode == "tick":
+        mode = "intraday"; LOG["tick"] = True
     if mode == "intraday":
         lt = [last_t(repo, "5m", s) for s in stocks + INTRA_ETFS]
         known = [t for t in lt if t]
@@ -210,17 +245,27 @@ def main():
         start = min(known) + 300 if known and len(known) == len(lt) else int(sess.timestamp())
         start = max(start, int((now() - dt.timedelta(days=5)).timestamp()))
         stock_bars(repo, stocks + INTRA_ETFS, "5m", dt.datetime.fromtimestamp(start, UTC), end)
-        crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
+        if not LOG.get("tick") or now().minute % 15 < 5:
+            crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
     elif mode == "nightly":
-        stock_bars(repo, stocks + etfs, "1d", now() - dt.timedelta(days=15), end)
+        stock_bars(repo, univ + etfs, "1d", now() - dt.timedelta(days=15), end)
+        stock_bars(repo, stocks + INTRA_ETFS, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
-        corp_actions(repo, stocks + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
+        crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
+        corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
+    elif mode == "hist":
+        hist(repo, univ + etfs, "1d", dt.datetime(2016, 1, 1, tzinfo=UTC), end)
+        hist(repo, stocks + INTRA_ETFS, "5m", now() - dt.timedelta(days=731), end)
+        corp_actions(repo, univ + etfs, dt.datetime(2015, 6, 1, tzinfo=UTC)); cboe(repo, True, to_hist=True)
+    elif mode == "universe":
+        stock_bars(repo, univ, "1d", now() - dt.timedelta(days=740), end)
+        corp_actions(repo, univ, now() - dt.timedelta(days=1100))
     elif mode == "backfill":
-        stock_bars(repo, stocks + etfs, "1d", now() - dt.timedelta(days=740), end)
+        stock_bars(repo, univ + etfs, "1d", now() - dt.timedelta(days=740), end)
         stock_bars(repo, stocks + INTRA_ETFS, "5m", now() - dt.timedelta(days=92), end)
         crypto_bars(repo, "1d", now() - dt.timedelta(days=740)); crypto_bars(repo, "1h", now() - dt.timedelta(days=366))
         crypto_bars(repo, "15m", now() - dt.timedelta(days=92))
-        corp_actions(repo, stocks + etfs, now() - dt.timedelta(days=1100)); cboe(repo, True)
+        corp_actions(repo, univ + etfs, now() - dt.timedelta(days=1100)); cboe(repo, True)
     else: sys.exit("unknown mode " + mode)
     LOG["finished"] = iso(now()); LOG["mismatch"] = LOG["mismatch"][-200:]
     os.makedirs(os.path.join(repo, "ops", "diag"), exist_ok=True)

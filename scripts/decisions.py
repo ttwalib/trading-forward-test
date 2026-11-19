@@ -17,6 +17,10 @@ Labels (result per unit risked; null when that instrument was not simulated that
   y_stock = stock R net of costs (baseline A), y_atm = ATM call % / 100 (Options), y_d1 = deep OTM D1 % / 100,
   y_w4 = weekly W4 follow % of max risk / 100 (Weekly), y_none = 0.
   best = instrument with the highest label among those available (none if all < 0).
+  Since 2026-11-19 y_stock uses the IMPLEMENTABLE entry (fills.py: engine detection price, else the price 5 minutes
+  after the signal bar); y_stock_ideal keeps the old signal-close label for comparison.
+Archive (2026-11-19): `build-hist REPO` builds rows from data/hist (2 years of 5-minute bars) for days before the
+first stored bar into data/decisions/hist/stock.jsonl.gz; load() adds them, so ML trains on about 2 years.
 CRYPTO decisions = every closed CryptoTracks trade (all tracks and strategies), features from 1h bars before entry:
   ret1h, ret6h, ret24h, rv24 (% stdev of 1h returns), vs_ema20, atr_pct, btc_ret24, crypto_breadth20, crypto_score,
   hour, weekday, strategy one-hot key ("track strategy"); label y = R.
@@ -24,7 +28,7 @@ CRYPTO decisions = every closed CryptoTracks trade (all tracks and strategies), 
 import json, os, sys, math, hashlib, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import ledger, tcal, regime2, corp, checks
+import ledger, tcal, regime2, corp, checks, fills
 NY = ZoneInfo("America/New_York")
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -34,11 +38,36 @@ _src = _src[:_src.index("data = json.load(open(sys.argv[1]))")]
 ORB = {}; exec(compile(_src, "orb_daily.py", "exec"), ORB)
 
 
+USE_HIST = False   # build-hist: prepend the long archive in data/hist (fetch_free.py hist)
+
+
+def hist_bars(repo, tf, sym):
+    """Archive bars from data/hist/<tf>/<SYM>.csv.gz (t,o,h,l,c,v), or []."""
+    import gzip, csv
+    f = os.path.join(repo, "data", "hist", tf, sym.replace("/", "_") + ".csv.gz")
+    if not os.path.exists(f): return []
+    with gzip.open(f, "rt") as fh:
+        return [{"t": int(r["t"]), "o": float(r["o"]), "h": float(r["h"]), "l": float(r["l"]), "c": float(r["c"]),
+                 "v": float(r.get("v") or 0)} for r in csv.DictReader(fh)]
+
+
 def bars(repo, tf, sym):
+    """Stored bars; plus the real-time overlay (env QV_OVERLAY_DIR, used only by engine.py) and, with USE_HIST, the
+    archive for times before the first stored bar. Stored bars always win."""
     f = os.path.join(repo, "data", "bars", tf, sym.replace("/", "_") + ".jsonl"); out = []
     if os.path.exists(f):
         for line in open(f):
             if line.strip(): out.append(json.loads(line))
+    have = {b["t"] for b in out}
+    ov = os.environ.get("QV_OVERLAY_DIR")
+    if ov and os.path.exists(os.path.join(ov, tf, sym.replace("/", "_") + ".jsonl")):
+        for line in open(os.path.join(ov, tf, sym.replace("/", "_") + ".jsonl")):
+            if line.strip():
+                b = json.loads(line)
+                if b["t"] not in have: out.append(b); have.add(b["t"])
+    if USE_HIST:
+        first = min(have) if have else 1 << 62
+        out += [b for b in hist_bars(repo, tf, sym) if b["t"] < first]
     out.sort(key=lambda b: b["t"]); return out
 
 
@@ -197,9 +226,15 @@ def candidates(repo, day=None, now="16:00", ctx=None):
                    "phase": tcal.phase(d), "list": "control" if sym in U["control"] else "watchlist",
                    "trade": t, "x": stock_features(ctx, sym, B5, d, t, sym in U["control"], dc)}
             lab = {"y_none": 0.0, "y_stock": t["r_net"] if t["outcome"] != "open" else None}
+            if lab["y_stock"] is not None:   # implementable fill (fills.py): label = what a real engine could have got
+                lab["y_stock_ideal"] = lab["y_stock"]
+                real, src = fills.implementable_entry(repo, sym, d, t["entry_time"])
+                rk = t["entry"] - t["stop"]
+                if real and rk > 0:
+                    lab["y_stock"] = round(lab["y_stock"] + max(-1.5, min(1.5, -(real - t["entry"]) / rk)), 4); lab["fill"] = src
             lab.update(ctx.labels.get((d, sym), {}))
             for k in ("y_atm", "y_d1", "y_w4"): lab.setdefault(k, None)
-            avail = {k[2:]: v for k, v in lab.items() if v is not None}
+            avail = {k[2:]: v for k, v in lab.items() if k in ("y_none", "y_stock", "y_atm", "y_d1", "y_w4") and v is not None}
             lab["best"] = max(avail, key=avail.get) if avail else None
             row["y"] = lab; rows.append(row)
     return rows
@@ -254,14 +289,41 @@ def build(repo):
     return res
 
 
+def build_hist(repo):
+    """Candidates from the long archive only (days before the first stored 5m SPY bar), written once to
+    data/decisions/hist/<name>.jsonl.gz. ML training adds them to the stored rows (load)."""
+    import gzip
+    global USE_HIST
+    first = bars(repo, "5m", "SPY"); cut = nyday(first[0]["t"]) if first else "9999"
+    USE_HIST = True
+    try: rows = [r for r in candidates(repo) if r["date"] < cut]
+    finally: USE_HIST = False
+    d = os.path.join(repo, "data", "decisions", "hist"); os.makedirs(d, exist_ok=True)
+    rows.sort(key=lambda r: (r["decided_at"], r["symbol"]))
+    with gzip.open(os.path.join(d, "stock.jsonl.gz"), "wt") as f:
+        for r in rows: f.write(json.dumps(r, separators=(",", ":")) + "\n")
+    return {"rows": len(rows), "days": len({r["date"] for r in rows}), "before": cut,
+            "first": rows[0]["date"] if rows else None}
+
+
 def load(repo, name):
+    """Stored decision rows plus, for the stock family, the archive rows (data/decisions/hist, older days only)."""
+    import gzip
     f = os.path.join(repo, "data", "decisions", name + ".jsonl")
-    return [json.loads(l) for l in open(f) if l.strip()] if os.path.exists(f) else []
+    rows = [json.loads(l) for l in open(f) if l.strip()] if os.path.exists(f) else []
+    h = os.path.join(repo, "data", "decisions", "hist", name + ".jsonl.gz")
+    if os.path.exists(h):
+        ids = {r["id"] for r in rows}; first = min((r["date"] for r in rows), default="9999")
+        with gzip.open(h, "rt") as fh:
+            old = [json.loads(l) for l in fh if l.strip()]
+        rows = [r for r in old if r["id"] not in ids and r["date"] < first] + rows
+    return rows
 
 
 if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "build": print(json.dumps(build(a[1]), indent=1))
+    elif a[0] == "build-hist": print(json.dumps(build_hist(a[1]), indent=1))
     elif a[0] == "live":
         rows = candidates(a[1], a[2], a[3])
         print(json.dumps([r for r in rows], indent=1))

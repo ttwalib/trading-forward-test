@@ -20,7 +20,15 @@ Conventions (identical for every strategy, so they are comparable):
   positions of (position return that day) / K, marked to market on closes. Unused slots are cash (0%).
 - Trades entered before the test start (2026-11-16) are BACKTEST (phase "before"): they seed the allocator's priors
   but never count in the test statistics.
-- Short legs (gap fade, pairs) are simulated only; nothing is ever traded.
+- Short legs (gap fade, pairs) are simulated only; nothing is ever traded. Pairs short legs pay a borrow fee of
+  BORROW_PCT_YR (0.5%/year) on the short notional for every day held (added 2026-11-19).
+- Implementable intraday fills (added 2026-11-19, see fills.py): an intraday signal on a bar's close fills at the
+  OPEN of the bar FILL_LAG bars after the next one (default 1 = about 5 minutes after the signal bar closed), not at
+  the signal close a real engine could not have traded. Exits are scanned from the entry bar. `--fill-lag 0` re-runs
+  the old ideal fills into daily_ideal.json for comparison only. L1 trades at scheduled times and is unaffected.
+- Universe (widened 2026-11-19, before the freeze): L6, L7, L8 and L10 use the whole static S&P 100 snapshot in
+  universe.json ("universe", minus GOOG, a duplicate share class) instead of the 44 watchlist + control stocks, for
+  more independent trades. The intraday strategies stay on the 44 stocks that have 5-minute data.
 
 Strategies (name: rule; universe; slots K):
  L1 SPY intraday momentum: sign of SPY's first-30-minute return (prior close to 10:00) held from 15:30 to 16:00
@@ -34,17 +42,18 @@ Strategies (name: rule; universe; slots K):
  L5 RSI(2) pullback (Connors): close > SMA200 and RSI(2) < 10 -> buy; exit when close > SMA5 or after 10 days;
     SPY, QQQ, IWM, DIA; K=4.
  L6 Bollinger reversion: close < lower band (20, 2) and close > SMA200 -> buy; exit at close >= SMA20 or after 10 days;
-    44 stocks; K=10 (most oversold first).
+    S&P 100; K=10 (most oversold first).
  L7 Donchian trend (Turtle-style): close > prior 20-day high -> buy; exit on close < prior 10-day low or after 40 days;
-    44 stocks + ETFs; K=10 (strongest breakout first).
- L8 Cross-sectional momentum: each Friday hold the top 8 of the 44 stocks by 126-day return skipping the last 5 days
+    S&P 100 + ETFs; K=10 (strongest breakout first).
+ L8 Cross-sectional momentum: each Friday hold the top 8 of the S&P 100 stocks by 126-day return skipping the last 5 days
     (Jegadeesh-Titman style, weekly rebalance); K=8.
  L9 Sector rotation: each Friday hold the top 3 of the 11 sector ETFs by 63-day return when SPY > SMA200, else TLT
     (Faber-style dual momentum); K=3.
  L10 Earnings drift (PEAD): within 3 days of an earnings event (data/events/earnings.jsonl from IBKR earnings
     insights; used only if KNOWN on the decision date; after-close reports count from the next session; legacy
     "earnings SYM" rows in the Events ledger still count),
-    a gap >= +3% that closes in the upper half of the day's range -> buy, hold 10 days; 44 stocks; K=5.
+    a gap >= +3% that closes in the upper half of the day's range -> buy, hold 10 days; S&P 100 (names with earnings
+    data); K=5.
  L11 SPY overnight: hold SPY from each close to the next open (documented overnight drift); K=1.
  L12 Turn of month: hold SPY from the close 4 trading days before month end to the close of the 3rd trading day of
     the next month (Lakonishok-Smidt / Ariel effect); K=1.
@@ -62,6 +71,8 @@ INDEX_ETFS = ["SPY", "QQQ", "IWM", "DIA"]
 ETFS = set(SECTORS + INDEX_ETFS + ["TLT", "GLD"])
 PAIRS = [("JPM", "BAC"), ("GS", "MS"), ("XOM", "XLE"), ("PEP", "XLP"), ("T", "TMUS"), ("GOOGL", "META")]
 C_DAY, C_INTRA, C_SPY = 0.05, 0.03, 0.01
+BORROW_PCT_YR = 0.5
+FILL_LAG = 1          # implementable fills; 0 = old ideal fills (comparison run only)
 
 
 def jl(path):
@@ -93,6 +104,11 @@ def intraday(repo, sym):
         if "09:30" <= hm < "16:00": out.setdefault(t.date().isoformat(), []).append((hm, b["o"], b["h"], b["l"], b["c"], b.get("v", 0)))
     for v in out.values(): v.sort()
     return out
+
+
+def _plus(hhmm, minutes):
+    h, m = map(int, hhmm.split(":")); x = h * 60 + m + minutes
+    return "%02d:%02d" % (x // 60, x % 60)
 
 
 def sma(xs, n): return sum(xs[-n:]) / n if len(xs) >= n else None
@@ -168,7 +184,8 @@ def closes(rows, i, n): return [r[4] for r in rows[max(0, i - n + 1):i + 1]]
 def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     stocks = U["watchlist"] + U["control"]
-    D = {s: daily(repo, s) for s in set(stocks + SECTORS + INDEX_ETFS + ["TLT", "GLD"] + [x for p in PAIRS for x in p])}
+    lib = sorted(set(stocks) | {s for s in U.get("universe", []) if s != "GOOG"})
+    D = {s: daily(repo, s) for s in set(lib + SECTORS + INDEX_ETFS + ["TLT", "GLD"] + [x for p in PAIRS for x in p])}
     D = {s: r for s, r in D.items() if r}
     cal = [r[0] for r in D.get("SPY", [])]
     if day: cal = [d for d in cal if d <= day]
@@ -183,7 +200,7 @@ def build(repo, day=None):
             return (10 - r) if m and r is not None and cl[-1] > m and r < 10 else None
         books.append(run_daily("L5 RSI(2) pullback", 4, dd, cal, sig5, lambda s, i, p: (lambda cl: cl[-1] > sma(cl, 5))(closes(dd[s], i, 5)), 10))
         # L6 Bollinger
-        dd6 = sub(stocks)
+        dd6 = sub(lib)
         def sig6(s, i):
             cl = closes(dd6[s], i, 210)
             if len(cl) < 200: return None
@@ -191,7 +208,7 @@ def build(repo, day=None):
             return (m20 - 2 * sd - cl[-1]) / m20 if cl[-1] < m20 - 2 * sd and cl[-1] > sma(cl, 200) else None
         books.append(run_daily("L6 Bollinger reversion", 10, dd6, cal, sig6, lambda s, i, p: closes(dd6[s], i, 1)[-1] >= sma(closes(dd6[s], i, 20), 20), 10))
         # L7 Donchian
-        dd7 = sub(stocks + SECTORS + ["QQQ", "IWM", "DIA", "TLT", "GLD"])
+        dd7 = sub(lib + SECTORS + ["QQQ", "IWM", "DIA", "TLT", "GLD"])
         def sig7(s, i):
             rows = dd7[s]
             if i < 21: return None
@@ -204,13 +221,13 @@ def build(repo, day=None):
         # L10 PEAD
         ev = {}   # {SYM: [(event_day, known_at)]}
         for s_, lst in corp.earnings_known_by(repo).items():
-            if s_ in stocks: ev.setdefault(s_, []).extend(lst)
+            if s_ in lib: ev.setdefault(s_, []).extend(lst)
         for e in ledger.load(repo, "Events"):   # legacy agent-logged rows: known on the day they were logged
             txt = str(e.get("event", "")).upper()
             if "EARNINGS" in txt:
-                for s_ in stocks:
+                for s_ in lib:
                     if s_ in txt.replace(",", " ").split(): ev.setdefault(s_, []).append((str(e.get("date"))[:10], str(e.get("date"))[:10]))
-        dd10 = sub([s for s in stocks if s in ev])
+        dd10 = sub([s for s in lib if s in ev])
         def sig10(s, i):
             rows = dd10[s]
             if i < 1: return None
@@ -255,7 +272,7 @@ def build(repo, day=None):
         def mom(s, i):
             rows = D[s]
             return rows[i - 5][4] / rows[i - 131][4] - 1 if i >= 131 else None
-        books.append(rotation("L8 Momentum top 8", 8, [s for s in stocks if s in D], mom))
+        books.append(rotation("L8 Momentum top 8", 8, [s for s in lib if s in D], mom))
         def sec(s, i):
             rows = D[s]
             return rows[i][4] / rows[i - 63][4] - 1 if i >= 63 else None
@@ -299,7 +316,7 @@ def build(repo, day=None):
                 key = a + "/" + b; p = pos.get(key)
                 if p:
                     ca, cb = D[a][ia][4], D[b][ib][4]
-                    r = ((ca / p["ma"] - 1) * p["sa"] + (cb / p["mb"] - 1) * -p["sa"]) * 50
+                    r = ((ca / p["ma"] - 1) * p["sa"] + (cb / p["mb"] - 1) * -p["sa"]) * 50 - 0.5 * BORROW_PCT_YR / 252
                     b13.add_day(d, r); p["ma"], p["mb"] = ca, cb; p["held"] += 1; p["cum"] += r
                     if (p["z0"] > 0 and z <= 0) or (p["z0"] < 0 and z >= 0) or p["held"] >= 20:
                         b13.add_day(d, -C_DAY)
@@ -356,10 +373,12 @@ def build(repo, day=None):
                 if c / pc - 1 >= 0.01 and bars[j - 1][4] > vw and l <= vw < c:
                     sig2.append((hm, s, j, min(l, vw * 0.997), bars)); break
         for hm, s, j, stop, bars in sorted(sig2)[:5]:
-            ep = bars[j][4]; r = ep - stop
+            k = j + 1 + FILL_LAG if FILL_LAG else j + 1
+            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus(bars[j][0], 5 * (1 + FILL_LAG))): continue
+            ep = bars[k][1] if FILL_LAG else bars[j][4]; hm = bars[k][0] if FILL_LAG else hm; r = ep - stop
             if r <= 0: continue
             tgt = ep + 2 * r; xp, xt = None, None
-            for hm2, o, h, l, c, v in bars[j + 1:]:
+            for hm2, o, h, l, c, v in bars[k:]:
                 if l <= stop: xp, xt = (o if o < stop else stop), hm2; break
                 if h >= tgt: xp, xt = (o if o > tgt else tgt), hm2; break
                 if hm2 >= "15:55": xp, xt = c, "16:00"; break
@@ -368,8 +387,12 @@ def build(repo, day=None):
         for kind, s, gap, bars, pc in sorted(sig34, key=lambda x: -abs(x[2])):
             bk = b3 if kind == "L3" else b4
             if sum(1 for t in bk.trades if t["entry_date"] == d) >= 5: continue
-            ep = bars[0][4]; stop = bars[0][3] if kind == "L3" else bars[0][2]; xp = xt = None
-            for hm2, o, h, l, c, v in bars[1:]:
+            k = 1 + FILL_LAG if FILL_LAG else 1
+            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus("09:30", 5 * (1 + FILL_LAG))): continue
+            ep = bars[k][1] if FILL_LAG else bars[0][4]; et = bars[k][0] if FILL_LAG else "09:35"
+            stop = bars[0][3] if kind == "L3" else bars[0][2]; xp = xt = None
+            if (kind == "L3" and ep <= stop) or (kind == "L4" and ep >= stop): continue   # already past the stop: no trade
+            for hm2, o, h, l, c, v in bars[k:]:
                 if kind == "L3":
                     if l <= stop: xp, xt = (o if o < stop else stop), hm2; break
                 else:
@@ -378,7 +401,7 @@ def build(repo, day=None):
                 if hm2 >= "15:55": xp, xt = c, "16:00"; break
             if xp is None: xp, xt = bars[-1][4], "last"
             side = "long" if kind == "L3" else "short"; sg = 1 if side == "long" else -1
-            bk.add_day(d, (xp / ep - 1) * 100 * sg - 2 * C_INTRA); bk.trade(s, side, d, "09:35", ep, d, xt, xp, C_INTRA)
+            bk.add_day(d, (xp / ep - 1) * 100 * sg - 2 * C_INTRA); bk.trade(s, side, d, et, ep, d, xt, xp, C_INTRA)
     books += [b2, b3, b4]
     return books
 
@@ -430,10 +453,11 @@ def reprice(repo, books, mult=1.0):
     return books
 
 
-def write_stress(repo, books):
+def write_stress(repo, books, fname="daily_2x.json"):
     os.makedirs(os.path.join(repo, "data", "library"), exist_ok=True)
     json.dump({b.name: {d: round(v, 5) for d, v in sorted(b.daily.items())} for b in books},
-              open(os.path.join(repo, "data", "library", "daily_2x.json"), "w"), separators=(",", ":"))
+              open(os.path.join(repo, "data", "library", fname), "w"), separators=(",", ":"))
+    if fname != "daily_2x.json": return {"written": fname}
     out = {}
     for b in books:
         fw = [t["ret_pct"] for t in b.trades if t["phase"] != "before" and t["status"] == "closed"]
@@ -468,6 +492,8 @@ def write(repo, books):
 if __name__ == "__main__":
     a = sys.argv[1:]; mult = 1.0
     if "--cost-mult" in a: i = a.index("--cost-mult"); mult = float(a[i + 1]); del a[i:i + 2]
+    if "--fill-lag" in a: i = a.index("--fill-lag"); FILL_LAG = int(a[i + 1]); del a[i:i + 2]
     repo = a[0]; day = a[1] if len(a) > 1 else None
     books = reprice(repo, build(repo, day), mult)
-    print(json.dumps(write(repo, books) if mult == 1.0 else write_stress(repo, books), indent=1))
+    if FILL_LAG == 0: print(json.dumps(write_stress(repo, books, "daily_ideal.json"), indent=1))
+    else: print(json.dumps(write(repo, books) if mult == 1.0 else write_stress(repo, books), indent=1))

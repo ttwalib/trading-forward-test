@@ -43,8 +43,12 @@ def jobs(repo):
     for c in COINS:
         out.append({"symbol": c, "tf": "1h", "step": "ONE_HOUR", "step_count": 720, "security_type": "CRYPTO",
                     "exchange": "ZEROHASH", "why": "crypto decision rows"})
+    extra = sorted({x for x in U.get("universe", []) if x != "GOOG"} - set(stocks))
+    for s in extra:   # library universe (2026-11-19): prices come from the free feed; only the contract id is needed
+        out.append({"symbol": s, "tf": "contract", "contract_only": True, "security_type": "STK", "step_count": 0,
+                    "why": "resolve the contract id only (search_contracts) and record it; do NOT fetch prices"})
     out.append({"symbol": "EARNINGS", "tf": "events", "why": "earnings dates with known-at times (IBKR earnings insights)",
-                "stocks": stocks, "start": "one year before today, UTC midnight", "size": 50})
+                "stocks": stocks + extra, "start": "one year before today, UTC midnight", "size": 50})
     return out
 
 
@@ -64,10 +68,11 @@ def main():
         save(); print(json.dumps({"fail": k, "count": st["fail"][k]})); return
     def covered(j):   # history already delivered by the free feed (fetch_free.py on GitHub Actions)
         f = os.path.join(repo, "data", "bars", j["tf"], j["symbol"] + ".jsonl")
-        return j["tf"] in ("1d", "1h") and os.path.exists(f) and sum(1 for _ in open(f)) >= j["step_count"] - 10
+        return j["tf"] in ("1d", "1h") and j.get("step_count") and os.path.exists(f) and sum(1 for _ in open(f)) >= j["step_count"] - 10
     left = [j for j in jobs(repo) if j["symbol"] + "|" + j["tf"] not in st["done"]
             and st["fail"].get(j["symbol"] + "|" + j["tf"], 0) < 3
-            and not (covered(j) and (j["security_type"] != "STK" or j["symbol"] in cons))]
+            and not (covered(j) and (j["security_type"] != "STK" or j["symbol"] in cons))
+            and not (j.get("tf") == "contract" and j["symbol"] in cons)]
     if a[0] == "status":
         allj = jobs(repo)
         print(json.dumps({"jobs": len(allj), "done": len(st["done"]), "left": len(left),
@@ -80,6 +85,7 @@ def main():
             miss = [s for s in j["stocks"] if s not in cons]
             if miss: continue   # resolve stock contracts first (their daily/5m jobs do that)
             j["contract_ids"] = [cons[s] for s in j.pop("stocks")]
+        elif j.get("contract_only"): j["contract_id"] = None
         else:
             j["contract_id"] = cons.get(j["symbol"])
             if covered(j):   # prices already stored: only the contract id is still needed (for EARNINGS)

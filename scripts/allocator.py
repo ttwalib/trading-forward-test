@@ -20,15 +20,30 @@ after that date, and every later report says whether the code still matches):
   zero (k = 30 days). Variance = sample variance (floor 0.01).
 - Thompson sampling: draw theta ~ Normal(mean, variance / n), seeded by (date, sleeve) so reruns are identical.
   This keeps trying sleeves whose evidence is thin while backing those with consistent results.
-- Raw weight = quarter Kelly = 0.25 x max(theta, 0) / variance, capped at 25% per sleeve; then any pair of sleeves
-  with 60-day correlation > 0.7 has the smaller weight halved; total capped at 100% (rest in cash).
+- Weights (revised 2026-11-19, before the freeze): multivariate quarter Kelly w = 0.25 x Sigma^-1 x theta over the
+  sleeves with theta > 0, where Sigma is the Ledoit-Wolf shrunk covariance of the sleeves' last 60 daily returns
+  (correlated sleeves share risk automatically; this replaces the old "halve the smaller of a pair with correlation
+  > 0.7" rule). Long only (negative weights dropped and re-solved), capped at 25% per sleeve.
+- Volatility target: the portfolio's forecast volatility sqrt(w' Sigma w x 252) is scaled to 10% a year (scale at
+  most 1.5x), then the 25% cap again; total capped at 100% (rest in cash, earning nothing).
+- Rebalancing (added 2026-11-19): a sleeve whose target weight moves by less than 2 percentage points keeps its old
+  weight (no-trade band); moving to or from zero always happens. Weight changes pay a cost per unit of turnover:
+  0 for intraday sleeves (flat every night, so the next trades are simply sized differently), 0.05% for daily
+  library sleeves, 0.15% for crypto, 0.5% for option sleeves.
+- Implementable fills (added 2026-11-19, fills.py): intraday ledger trades are scored with the entry a real engine
+  could have got (engine detection price, else the price 5 minutes after the signal bar); library sleeves come from
+  daily.json, which uses the same rule. The ideal-fill version is reported beside it ("ideal_fills").
 - Drawdown breaker: a sleeve whose last 10 days sum below -4% or whose drawdown from its 120-day peak exceeds 8%
   gets weight 0 until it recovers.
 - In the holdout the code and parameters stay frozen; weights keep updating day by day from new evidence, because
   the process itself is what is being tested.
-Benchmarks: SPY buy-and-hold (close to close), equal weight of all live sleeves, baseline A sleeve alone.
+Benchmarks: SPY buy-and-hold (close to close), equal weight of all live sleeves, baseline A sleeve alone, and
+(added 2026-11-19, stricter) SPY scaled to the AI portfolio's realised volatility over the same phase ("spy_vm"):
+a mostly-cash portfolio cannot win on drawdown for free against it.
 Benchmarks use total-return SPY (dividends added via corp.py), the same footing as the strategies.
 Stress: the same rule run on the library at double costs (daily_2x.json) is reported beside the main result.
+Netting (exploratory, never part of the verdict): what the AI portfolio would save if opposite trades in the same
+stock from different daily library sleeves were netted before trading ("netted_exploratory").
 Verdict metrics per phase (verdict = 2026-12-07..2027-02-12, the pre-registered primary window / train / holdout / v2 / all): total return, annualised Sharpe (sqrt 252), max drawdown, and
 the chance that the AI portfolio's mean daily return beats each benchmark (stationary block bootstrap, block 5,
 5,000 resamples, seed 20261119).
@@ -36,11 +51,13 @@ the chance that the AI portfolio's mean daily return beats each benchmark (stati
 import json, os, sys, math, random, hashlib, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import ledger, tcal, corp
+import numpy as np
+import ledger, tcal, corp, fills
 NY = ZoneInfo("America/New_York")
 WIN, MIN_DAYS, K_REG, K_ALL, CAP, KELLY, CORR, SEED = 120, 10, 20, 30, 0.25, 0.25, 0.7, 20261119
 PRIOR_HAIR, PRIOR_EQ = 0.5, 20
-FROZEN_FILES = ["allocator.py", "library.py", "corp.py"]
+COV_WIN, VOL_TARGET, VOL_SCALE_MAX, BAND = 60, 10.0, 1.5, 0.02
+FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py"]
 BASE = "A baseline (watchlist)"
 
 
@@ -54,17 +71,40 @@ def dclose(repo, sym, total_return=False):
     return {r[0]: r[4] for r in rows}
 
 
-def sleeves(repo, lib_file="daily.json"):
+def sleeves(repo, lib_file="daily.json", realistic=True):
     S = {}
     f = os.path.join(repo, "data", "library", lib_file)
     if os.path.exists(f):
         for k, v in json.load(open(f)).items(): S[k] = dict(v)
-    for t in ledger.trades(repo):
+    T = ledger.trades(repo)
+    adj = fills.delay_r(repo, T) if realistic else {}
+    for i, t in enumerate(T):
         if t["asset"] == "library": continue  # library sleeves come marked to market from daily.json
         name = t["strategy"]
         if t["asset"] == "crypto": name = "Crypto " + " ".join(name.split()[:2]) + " (pooled)"
-        S.setdefault(name, {}); S[name][t["day"]] = S[name].get(t["day"], 0.0) + t["result"] / 5 * 1.0
+        S.setdefault(name, {}); S[name][t["day"]] = S[name].get(t["day"], 0.0) + (t["result"] + adj.get(i, 0.0)) / 5 * 1.0
     return S
+
+
+def rebal_cost(name):
+    """Cost (%) per unit of weight change. Intraday sleeves are flat overnight: new weights size the next trades."""
+    if name.startswith(("L1 ", "L2 ", "L3 ", "L4 ", "A ", "Agent picks: stocks", "ML")) or "variant" in name or "ORB" in name:
+        return 0.0
+    if name.startswith("Crypto") or "crypto" in name.lower(): return 0.15
+    if name.startswith(("O ", "D1", "D2", "D3", "W1", "W2", "W3", "W4")): return 0.5
+    return 0.05
+
+
+def ledoit_wolf(X):
+    """Ledoit-Wolf (2004) shrinkage of the sample covariance toward a scaled identity. X: n x p."""
+    n, p = X.shape
+    X = X - X.mean(0); S = X.T @ X / n
+    m = np.trace(S) / p; F = m * np.eye(p)
+    d2 = ((S - F) ** 2).sum() / p
+    if d2 <= 0: return F
+    b2 = sum((((np.outer(x, x) - S) ** 2).sum()) for x in X) / n ** 2 / p
+    k = min(b2, d2) / d2
+    return k * F + (1 - k) * S
 
 
 def regime_of(spy, vix, cal):
@@ -131,16 +171,30 @@ def weights_for(d, S, cal_idx, regime, cal):
         if sum(last10) < -4 or dd > 8: info[name] = "breaker"; continue
         h = int(hashlib.sha1(f"{SEED}|{d}|{name}".encode()).hexdigest()[:12], 16)
         theta = random.Random(h).gauss(mu, math.sqrt(v / max(n, 1.0)))
-        if theta > 0: w[name] = min(CAP, KELLY * theta / v)
+        if theta > 0: w[name] = theta
         info[name] = round(mu, 4)
-    names = sorted(w, key=lambda k: -w[k])
-    for a_i, a in enumerate(names):
-        for b in names[a_i + 1:]:
-            ra = [S[a].get(x, 0.0) for x in hist_days[-60:]]; rb = [S[b].get(x, 0.0) for x in hist_days[-60:]]
-            if corr(ra, rb) > CORR: w[b] *= 0.5
-    tot = sum(w.values())
-    if tot > 1: w = {k: v / tot for k, v in w.items()}
-    return {k: round(v, 4) for k, v in w.items() if v > 0.0005}, info
+    names = sorted(w)
+    if not names: return {}, info
+    days60 = hist_days[-COV_WIN:]
+    X = np.array([[S[k].get(x, 0.0) for k in names] for x in days60]) if len(days60) >= 2 else np.zeros((2, len(names)))
+    Sig = ledoit_wolf(X)
+    Sig[np.diag_indices_from(Sig)] = np.maximum(np.diag(Sig), 0.01)
+    act = list(range(len(names))); wv = np.zeros(len(names))
+    for _ in range(len(names) + 1):            # long only: drop negative weights and re-solve
+        sub = np.ix_(act, act)
+        sol = KELLY * np.linalg.solve(Sig[sub], np.array([w[names[i]] for i in act]))
+        wv = np.zeros(len(names)); wv[act] = sol
+        neg = [i for i, x in zip(act, sol) if x <= 0]
+        if not neg: break
+        act = [i for i in act if i not in neg]
+        if not act: wv = np.zeros(len(names)); break
+    wv = np.minimum(wv, CAP)
+    vol = float(np.sqrt(max(wv @ Sig @ wv, 0.0) * 252))
+    if vol > 0: wv = np.minimum(wv * min(VOL_SCALE_MAX, VOL_TARGET / vol), CAP)
+    tot = wv.sum()
+    if tot > 1: wv = wv / tot
+    info["_vol_forecast_pct"] = round(float(np.sqrt(max(wv @ Sig @ wv, 0.0) * 252)), 3)
+    return {names[i]: round(float(wv[i]), 4) for i in range(len(names)) if wv[i] > 0.0005}, info
 
 
 def perf(xs):
@@ -189,19 +243,30 @@ def simulate(repo, day, S, spy, vix):
     cal = sorted(d for d in set(spy) | {d for s in S.values() for d in s} if d <= day and tcal.is_open(d))
     if not cal: return None
     cal_idx = {d: i for i, d in enumerate(cal)}; regime = regime_of(spy, vix, cal)
-    start = tcal.START.isoformat(); rows = []; W = []; spy_keys = sorted(spy)
+    start = tcal.START.isoformat(); rows = []; W = []; spy_keys = sorted(spy); wprev = {}
     for d in cal:
         if d < start: continue
-        w, info = weights_for(d, S, cal_idx, regime, cal)
-        ai = sum(wt * S[k].get(d, 0.0) for k, wt in w.items())
+        tgt, info = weights_for(d, S, cal_idx, regime, cal)
+        w = {}
+        for k in set(tgt) | set(wprev):
+            a, b = tgt.get(k, 0.0), wprev.get(k, 0.0)
+            w[k] = b if (a > 0 and b > 0 and abs(a - b) < BAND) else a
+        tot = sum(w.values())
+        if tot > 1: w = {k: v / tot for k, v in w.items()}
+        w = {k: round(v, 4) for k, v in w.items() if v > 0.0005}
+        turn = {k: abs(w.get(k, 0.0) - wprev.get(k, 0.0)) for k in set(w) | set(wprev)}
+        rcost = sum(v * rebal_cost(k) for k, v in turn.items()); wprev = w
+        ai = sum(wt * S[k].get(d, 0.0) for k, wt in w.items()) - rcost
         live = [k for k, s in S.items() if s and min(s) <= d]
         eq = sum(S[k].get(d, 0.0) for k in live) / len(live) if live else 0.0
         prev = [k for k in spy_keys if k < d]
         sp = (spy[d] / spy[prev[-1]] - 1) * 100 if d in spy and prev else 0.0
         base = S.get(BASE, {}).get(d, 0.0)
         rows.append({"date": d, "phase": tcal.phase(d), "regime": regime.get(d), "ai": round(ai, 5), "spy": round(sp, 5),
-                     "equal": round(eq, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4)})
-        W.append({"date": d, "weights": w, "breakers": sorted(k for k, v in info.items() if v == "breaker")})
+                     "equal": round(eq, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4),
+                     "turnover": round(sum(turn.values()), 4), "rebal_cost": round(rcost, 5)})
+        W.append({"date": d, "weights": w, "breakers": sorted(k for k, v in info.items() if v == "breaker"),
+                  "vol_forecast_pct": info.get("_vol_forecast_pct")})
     return rows, W
 
 
@@ -211,10 +276,59 @@ def phase_report(rows):
         sel = [r for r in rows if ph == "all" or (ph == "v2" and r["date"] >= tcal.V2_START.isoformat())
                or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat()) or r["phase"] == ph]
         if not sel: continue
-        P = {k: perf([r[k] for r in sel]) for k in ("ai", "spy", "equal", "base_a")}
-        P["p_ai_beats"] = {k: p_beats([r["ai"] for r in sel], [r[k] for r in sel]) for k in ("spy", "equal", "base_a")}
+        ai = [r["ai"] for r in sel]; sp = [r["spy"] for r in sel]
+        sa, ss = math.sqrt(stats(ai)[1]) if len(ai) > 1 else 0, math.sqrt(stats(sp)[1]) if len(sp) > 1 else 0
+        k_vm = sa / ss if ss else 0.0
+        for r in sel: r["spy_vm"] = r["spy"] * k_vm
+        P = {k: perf([r[k] for r in sel]) for k in ("ai", "spy", "equal", "base_a", "spy_vm")}
+        P["spy_vm_scale"] = round(k_vm, 3)
+        P["p_ai_beats"] = {k: p_beats(ai, [r[k] for r in sel]) for k in ("spy", "equal", "base_a", "spy_vm")}
         P["sharpe_gap_detectable"] = power(len(sel))
+        P["turnover_per_day"] = round(sum(r.get("turnover", 0) for r in sel) / len(sel), 4)
+        P["rebal_cost_pct_total"] = round(sum(r.get("rebal_cost", 0) for r in sel), 4)
         out[ph] = P
+    return out
+
+
+def verdict_check(P, stress=None):
+    """Pre-registered pass rule for one phase: beat every benchmark on Sharpe AND max drawdown with P >= 0.9;
+    for drawdown, SPY also means volatility-matched SPY. Robust = also beats SPY at double costs."""
+    if not P or P["ai"].get("days", 0) < 10: return {"status": "not enough days"}
+    ai = P["ai"]; res = {}
+    for b in ("spy", "equal", "base_a"):
+        bm = P[b]; sh = ai.get("sharpe") is not None and (bm.get("sharpe") is None or ai["sharpe"] > bm["sharpe"])
+        dd = ai["max_dd_pct"] < bm["max_dd_pct"] and (b != "spy" or ai["max_dd_pct"] < P["spy_vm"]["max_dd_pct"])
+        pb = (P["p_ai_beats"].get(b) or 0) >= 0.9 and (b != "spy" or (P["p_ai_beats"].get("spy_vm") or 0) >= 0.9)
+        res[b] = {"sharpe": sh, "drawdown": dd, "p_ge_0.9": pb, "beats": sh and dd and pb}
+    ok = all(v["beats"] for v in res.values())
+    rob = None
+    if stress: rob = (stress["ai"].get("sharpe") or -9) > (P["spy"].get("sharpe") or 0) and (stress["p_ai_beats"].get("spy") or 0) >= 0.9
+    return {"pass": ok, "robust_2x": rob if ok else None, "by_benchmark": res}
+
+
+def netting(repo, rows, W):
+    """Exploratory: cost saved per day if opposite trades in the same stock across daily library sleeves were
+    netted before trading. Uses data/ledger/Library.jsonl (daily strategies only) and the day's sleeve weights."""
+    wd = {x["date"]: x["weights"] for x in W}; ev = {}
+    for t in ledger.load(repo, "Library"):
+        if str(t.get("strategy", "")).startswith(("L1 ", "L2 ", "L3 ", "L4 ")): continue
+        K = {"L5": 4, "L6": 10, "L7": 10, "L8": 8, "L9": 3, "L10": 5, "L11": 1, "L12": 1, "L13": 6}.get(str(t["strategy"]).split()[0], 5)
+        legs = []
+        if "/" in str(t["symbol"]):
+            a, b = t["symbol"].split("/"); lg = str(t.get("side", "")).replace("long ", "")
+            legs = [(lg, 0.5 / K), (b if lg == a else a, -0.5 / K)]
+        else: legs = [(t["symbol"], (1 if t.get("side", "long") == "long" else -1) / K)]
+        c = t.get("cost_side") or 0.05
+        for sym, e in legs:
+            ev.setdefault(t["entry_date"], []).append((t["strategy"], sym, e, c))
+            if t.get("status") == "closed": ev.setdefault(t["exit_date"], []).append((t["strategy"], sym, -e, c))
+    out = {}
+    for r in rows:
+        d = r["date"]; w = wd.get(d, {}); by = {}
+        for strat, sym, e, c in ev.get(d, []):
+            x = w.get(strat, 0.0) * e
+            if x: g = by.setdefault(sym, [0.0, 0.0, c]); g[0] += abs(x); g[1] += x
+        out[d] = sum((g[0] - abs(g[1])) * g[2] for g in by.values())
     return out
 
 
@@ -232,6 +346,16 @@ def run(repo, day=None):
     if os.path.exists(os.path.join(repo, "data", "library", "daily_2x.json")):
         s2 = simulate(repo, day, sleeves(repo, "daily_2x.json"), spy, vix)
         if s2: rep["stress_2x"] = {ph: {"ai": v["ai"], "p_ai_beats": v["p_ai_beats"]} for ph, v in phase_report(s2[0]).items() if ph in ("verdict", "all", "v2")}
+    rep["verdict_check"] = {ph: verdict_check(rep["phases"].get(ph), (rep.get("stress_2x") or {}).get(ph))
+                            for ph in ("verdict", "holdout") if ph in rep["phases"]}
+    lib_ideal = "daily_ideal.json" if os.path.exists(os.path.join(repo, "data", "library", "daily_ideal.json")) else "daily.json"
+    si = simulate(repo, day, sleeves(repo, lib_ideal, realistic=False), spy, vix)
+    if si: rep["ideal_fills"] = {ph: {"ai": v["ai"], "base_a": v["base_a"]} for ph, v in phase_report(si[0]).items() if ph in ("verdict", "all", "v2")}
+    try:
+        sv = netting(repo, rows, W)
+        rep["netted_exploratory"] = {"saving_pct_total": round(sum(sv.values()), 4),
+                                     "ai_netted": perf([r["ai"] + sv.get(r["date"], 0.0) for r in rows])}
+    except Exception as e: rep["netted_exploratory"] = {"error": str(e)[:120]}
     try:
         import checks; rep["stamp"] = checks.stamp(repo)
     except Exception as e: rep["stamp"] = {"error": str(e)[:120]}

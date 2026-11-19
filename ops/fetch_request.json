@@ -1,1 +1,5 @@
-{"mode": "backfill", "note": "edit and push this file to request a free-feed run (intraday | nightly | backfill)", "requested": "2026-11-19T14:06:25Z"}
+{
+ "mode": "universe",
+ "note": "edit and push this file to request a free-feed run (tick | intraday | nightly | backfill | universe | hist)",
+ "requested": "2026-11-19T14:47:34.261900Z"
+}

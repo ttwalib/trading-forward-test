@@ -4,9 +4,10 @@ vendor/tradermonty, commit 427b1f7d; see vendor/tradermonty/LICENSE).
   python3 review.py gate REPO CANDIDATE.json
       Strategy-lab / learning gate for a NEW strategy or rule change. CANDIDATE.json:
         {"id": "...", "thesis": "...",   (draft exit.stop_loss_pct is a FRACTION, e.g. 0.01 = 1%) "family": "stock|option|crypto", "oos_results": [per-trade results, walk-forward
-         out-of-sample only], "n_configs_tried": 12, "pbo": 0.31 or null, "draft": {edge-strategy-reviewer draft fields}}
+         out-of-sample only], "n_configs_tried": 12, "pbo": 0.31 or null, "cpcv": cpcv.py output or null,
+         "draft": {edge-strategy-reviewer draft fields}}
       PASS only if ALL hold: n_oos >= 30; OOS mean > 0 with bootstrap P(mean > 0) >= 0.9; deflated Sharpe >= 0.9 with
-      N = n_configs_tried trials; PBO < 0.5 when given; the vendored edge-strategy-reviewer verdict is PASS (with the
+      N = n_configs_tried trials; PBO < 0.5 when given; cpcv "pass" when given (cpcv.py); the vendored edge-strategy-reviewer verdict is PASS (with the
       bias checklist). Otherwise REVISE (fixable) or REJECT (OOS mean <= 0 or reviewer REJECT).
       During the frozen holdout every gate answers HOLD (no new strategies until the final report).
   python3 review.py residual REPO STRATEGY OUTDIR
@@ -61,6 +62,8 @@ def gate(repo, c):
     dsr = stats.psr(xs, sr0) if n >= 3 else None
     checks["dsr>=0.9"] = dsr is not None and dsr >= 0.9
     if c.get("pbo") is not None: checks["pbo<0.5"] = float(c["pbo"]) < 0.5
+    if c.get("cpcv") is not None:   # cpcv.py output over the long archive (required by the runbook since 2026-11-19)
+        checks["cpcv_pass"] = bool(c["cpcv"].get("pass"))
     rv = reviewer(c["draft"]) if c.get("draft") else {"verdict": "n/a", "note": "no draft given"}
     checks["edge_reviewer_PASS"] = rv.get("verdict") == "PASS"
     if all(checks.values()): v = "PASS"

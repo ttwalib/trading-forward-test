@@ -4,12 +4,14 @@
 name: market-data
 on:
   schedule:
-    - cron: "*/15 14-21 * * 1-5"   # intraday 5m bars (UTC; covers 09:30-16:00 ET in winter and summer)
+    - cron: "30-55/5 14 * * 1-5"   # tick: 5m bars + 5-minute signal engine (UTC; the test runs in winter, ET = UTC-5)
+    - cron: "*/5 15-20 * * 1-5"    # tick, 10:00-15:55 ET. About 78 runs a day keeps the job under the 2,000 free minutes
+
     - cron: "40 22 * * 1-5"        # nightly daily bars, corporate actions, VIX (after the 17:00 ET cut)
   workflow_dispatch:
     inputs:
       mode:
-        description: "intraday | nightly | backfill"
+        description: "tick | intraday | nightly | backfill | universe | hist"
         default: backfill
   push:
     paths: ["ops/fetch_request.json"]   # edit this file to request a run (mode inside) without the GitHub UI
@@ -29,18 +31,21 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then M="${{ github.event.inputs.mode }}";
           elif [ "${{ github.event_name }}" = "push" ]; then M=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json'))['mode'])");
-          elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly; else M=intraday; fi
+          elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly; else M=tick; fi
           echo "mode=$M" >> "$GITHUB_OUTPUT"
       - name: Fetch
         env:
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
           ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
-        run: python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
+        run: |
+          python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
+          if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
       - name: Commit
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/bars data/corp ops/diag/fetch_free.json
+          for p in data/hist data/decisions/engine ops/diag/engine.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           git diff --cached --quiet && exit 0
           git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"
           for i in 1 2 3 4 5; do

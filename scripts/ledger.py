@@ -117,7 +117,8 @@ def trades(repo):
                   "raw": v, "symbol": symbol, "entry": entry, "exit": exit_, "asset": asset, **(extra or {})})
     for r in load(repo, "Trades"):
         if r.get("outcome") and r["outcome"] != "open":
-            put("A baseline (watchlist)", "R", r["date"], r.get("r_net"), r["symbol"], r.get("entry_time"), r.get("exit_time"))
+            put("A baseline (watchlist)", "R", r["date"], r.get("r_net"), r["symbol"], r.get("entry_time"), r.get("exit_time"),
+                extra={"entry_px": num(r.get("entry")), "stop_px": num(r.get("stop"))})
     for r in load(repo, "VariantTrades"):
         v = str(r.get("variant") or "").split(" ")[0]
         if r.get("outcome") and r["outcome"] != "open":
