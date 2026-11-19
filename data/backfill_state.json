@@ -24,7 +24,27 @@
   "PM|1d",
   "QCOM|1d",
   "T|1d",
-  "TMUS|1d"
+  "TMUS|1d",
+  "UNP|1d",
+  "V|1d",
+  "QQQ|1d",
+  "IWM|1d",
+  "DIA|1d",
+  "TLT|1d",
+  "GLD|1d",
+  "XLB|1d",
+  "XLC|1d",
+  "XLE|1d",
+  "XLF|1d",
+  "XLI|1d",
+  "XLK|1d",
+  "XLP|1d",
+  "XLRE|1d",
+  "XLU|1d",
+  "XLV|1d",
+  "XLY|1d",
+  "ABT|contract",
+  "AIG|contract"
  ],
  "fail": {
   "BAC|1d": 1
