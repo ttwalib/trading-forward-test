@@ -4,7 +4,7 @@
   python3 stats.py series REPO STRATEGY > daily.csv   daily return series + SPY/BTC returns (for the residual-edge
                                                        analyzer vendored in vendor/tradermonty/residual_edge)
 
-Per strategy and phase (all / train / holdout), on closed trades, result = return per unit risked:
+Per strategy and phase (all / v2 = from 2026-11-20, the first full day of the extended setup / train / holdout), on closed trades, result = return per unit risked:
 - n, mean, 90% bootstrap interval of the mean (10,000 resamples, seed 20261119), p_gt0 = bootstrap share of means > 0.
 - q_bh: Benjamini-Hochberg adjusted one-sided p-value across all strategies with n >= 5 in that phase (controls the
   false discovery rate of "this strategy is profitable" claims; ~60 strategies are tested at once).
@@ -152,10 +152,14 @@ def compute(repo, day):
     T = [t for t in ledger.trades(repo) if t["day"] <= day]
     bench = Bench(repo); rng = random.Random(SEED)
     out = {"date": day, "phases": {}}
-    for ph in ("all", "train", "holdout"):
+    def inph(day, ph):
+        if ph == "all": return True
+        if ph == "v2": return day >= tcal.V2_START.isoformat()
+        return tcal.phase(day) == ph
+    for ph in ("all", "v2", "train", "holdout"):
         groups = {}
         for t in T:
-            if ph != "all" and tcal.phase(t["day"]) != ph: continue
+            if not inph(t["day"], ph): continue
             groups.setdefault((t["strategy"], t["unit"]), []).append(t)
         rows = {}
         for (s, unit), ts in groups.items():
@@ -179,7 +183,7 @@ def compute(repo, day):
         sr0 = expected_max_sr(srs)
         for s, r in rows.items():
             r["q_bh"] = round(q[s], 4) if s in q else None
-            ts = sorted([t for t in T if t["strategy"] == s and (ph == "all" or tcal.phase(t["day"]) == ph)],
+            ts = sorted([t for t in T if t["strategy"] == s and inph(t["day"], ph)],
                         key=lambda t: (t["day"], str(t.get("entry") or "")))
             r["dsr"] = round(psr([t["result"] for t in ts], sr0), 4) if r["n"] >= 5 else None
             ok = (r["n"] >= 20 and r["q_bh"] is not None and r["q_bh"] <= 0.10 and (r["dsr"] or 0) >= 0.9

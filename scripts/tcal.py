@@ -19,6 +19,7 @@ NY = ZoneInfo("America/New_York")
 START, END = dt.date(2026, 11, 16), dt.date(2027, 2, 12)
 CRYPTO_END, SETTLE_END = dt.date(2027, 2, 14), dt.date(2027, 2, 19)
 HOLDOUT_START = dt.date(2027, 2, 1)
+V2_START = dt.date(2026, 11, 20)   # first full day of the extended setup (ledger, control list, ML, live runs)
 HOLIDAYS = {dt.date(2026, 11, 26), dt.date(2026, 12, 25), dt.date(2027, 1, 1), dt.date(2027, 1, 18), dt.date(2027, 2, 15)}
 HALF = {dt.date(2026, 11, 27): "13:00", dt.date(2026, 12, 24): "13:00"}
 PHASES = {"train": (START, dt.date(2027, 1, 29)), "holdout": (HOLDOUT_START, END)}

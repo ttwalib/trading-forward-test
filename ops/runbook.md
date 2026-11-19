@@ -80,7 +80,7 @@ After the existing steps:
    LEDGER Regime with the full row.
 3. `python3 -I /tmp/repo/scripts/dq.py /tmp/repo DAY` -> append one "Data check" row per issue type (date, symbol or
    "-", "dq", count, first example, flag "CHECK"); none: one row "dq ok".
-4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> append its sheet_rows for phase "all" and
+4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> append its sheet_rows for phases "all", "v2" and
    the current phase to "Stats" (first empty row >= 3); LEDGER Stats.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
 6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues.
@@ -101,7 +101,7 @@ the gate verdict and failed checks in "Strategy lab".
 Report days: every Friday from 2026-11-20 to 2027-02-05 (the 2027-01-01 report covers trades through 2026-12-31). Week N =
 week_index. Add sections: Stats tab (q-values, DSR, alpha vs SPY/BTC, Kelly shares, breakers), control list vs
 watchlist, ML (models/report_<latest>.json: champion, OOS mean vs always-take, PBO, drift flags; ML shadow results),
-Live decisions (spreads, implementation shortfall). From 2027-02-05 mark everything as holdout evidence.
+Live decisions (spreads, implementation shortfall). Show stats for all data and for v2 (from 2026-11-20, the first full day of the extended setup) side by side. From 2027-02-05 mark everything as holdout evidence.
 
 ## FINAL REPORT (2027-02-16)
 
