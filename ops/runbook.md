@@ -121,6 +121,8 @@ After the existing steps:
    every sheet_rows row whose date is not yet in "Allocation" (first empty row >= 3, A-M) and LEDGER Allocation with
    the same rows. From 2026-12-07 the report's freeze.code_matches_freeze must be true; false -> "Data check" row
    "FREEZE BROKEN: <changed_files>" flagged CHECK and say so first in the digest (never edit ops/freeze.json).
+4c. SLIPPAGE: `python3 -I /tmp/repo/scripts/checks.py slip-report /tmp/repo` -> one digest line: rows, median spread %,
+   median drift % per delay bucket, model cost %; model_cheaper_than_spread true -> flag CHECK in the digest.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
 6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues, the AI portfolio vs SPY / equal weight /
    baseline A (verdict window from 2026-12-07, v2 and all) with the 2x-cost stress line, the top 3 allocator weights,
@@ -146,7 +148,8 @@ the gate verdict and failed checks in "Strategy lab".
 Report days: every Friday from 2026-11-20 to 2027-02-05 (the 2027-01-01 report covers trades through 2026-12-31). Week N =
 week_index. Add sections: Stats tab (q-values, DSR, alpha vs SPY/BTC, Kelly shares, breakers), control list vs
 watchlist, ML (models/report_<latest>.json: champion, OOS mean vs always-take, PBO, drift flags; ML shadow results),
-Live decisions (spreads, implementation shortfall), the strategy library and the AI allocator (data/allocator/report.json:
+Live decisions (spreads, implementation shortfall; checks.py slip-report for the week and to date: spread cost, drift
+by delay bucket, and whether the simulated costs are cheaper than reality), the strategy library and the AI allocator (data/allocator/report.json:
 AI portfolio vs SPY / equal weight / baseline A, current weights, breakers, the 2x-cost stress result, and the
 "sharpe_gap_detectable" line so readers see how much evidence the window holds). Data integrity: dq summary, bar timing
 convention, IBKR vs Twelve Data flags, live-vs-replay parity, freeze status, trial count, and the report's stamp
@@ -193,6 +196,10 @@ and DSR >= 0.9?
 3. For each kept candidate: stock last price = last bar close; ATM call of the nearest expiry after DAY:
    get_option_parameters + get_option_data (min entry x 0.97, max x 1.03) -> bid, ask, mid, spread % =
    (ask-bid)/mid x 100, IV if returned; note "iv=<decimal>" when available.
+3b. SLIPPAGE (no orders): right after step 3, for each kept candidate's stock call get_price_snapshot with
+   market_data_names ["bid_ask"] only (one symbol per call); save as {SYM: response} to /tmp/q.json (DATA FILES rule) and run
+   `python3 -I /tmp/repo/scripts/checks.py slip-save /tmp/repo /tmp/cands_kept.json /tmp/q.json "NOWNY"`. It records what
+   a real market order would have paid now vs the simulated fill (spread, drift, delay). A failed quote -> skip that symbol.
 4. `python3 -I /tmp/repo/scripts/ml.py predict /tmp/repo /tmp/cands_kept.json "NOWNY" > /tmp/pred.json`, then
    `python3 -I /tmp/repo/scripts/checks.py live-save /tmp/repo /tmp/cands_kept.json "NOWNY"` (keeps the features as
    seen live for the nightly live-vs-replay check).

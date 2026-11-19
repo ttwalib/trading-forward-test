@@ -16,6 +16,18 @@ the weekly report).
   python3 checks.py trial REPO SOURCE NAME [N]   -> adds N (default 1) entries to the trial ledger data/trials.jsonl
   python3 checks.py trials REPO                  -> total trials so far (stats.py uses it as N for the deflated Sharpe)
   python3 checks.py stamp REPO                   -> commit, data hash and package versions (every report carries it)
+  python3 checks.py slip-save REPO CANDS.json QUOTES.json NOW
+                                                -> slippage tracking without orders. QUOTES = {SYM: get_price_snapshot
+                                                   response with bid_ask}, taken right after the live run picks its
+                                                   candidates. Per candidate: the fill a real market order would get now
+                                                   (ask for a long entry, bid for a short), the simulated fill (bar-close
+                                                   entry), spread cost (half-spread %), drift (mid now vs simulated entry,
+                                                   signed so positive = worse) and the delay in minutes. Rows go to
+                                                   data/quality/slippage.jsonl; quotes also feed the per-symbol spread
+                                                   model (corp.ingest_snap).
+  python3 checks.py slip-report REPO [FROM]      -> medians of spread cost, drift by delay bucket and total vs the cost
+                                                   the simulation charges (library.side_cost); flags a model that is
+                                                   cheaper than reality
   python3 checks.py fresh REPO TF [NOW]          -> are the free-feed bars (GitHub Actions + Alpaca, fetch_free.py)
                                                    current? 5m: every intraday symbol has a bar starting within the last
                                                    45 minutes of the session; 1d: every stock/ETF has the last
@@ -180,6 +192,51 @@ def stamp(repo):
             "at": dt.datetime.now(NY).strftime("%Y-%m-%d %H:%M")}
 
 
+def slip_save(repo, cands_path, quotes_path, now):
+    import corp
+    C = json.load(open(cands_path)); Q = json.load(open(quotes_path)); t_now = dt.datetime.fromisoformat(now[:16])
+    out = []; seen = {(r["id"], r["at"][:13]) for r in jl(os.path.join(repo, "data", "quality", "slippage.jsonl"))}
+    for c in (C if isinstance(C, list) else C.get("candidates", [])):
+        tr = c.get("trade") or {}; sym = c.get("symbol"); q = Q.get(sym) or {}
+        ba = q.get("bid-ask") or q.get("bid_ask") or {}; bid, ask = ba.get("bid"), ba.get("ask")
+        e = tr.get("entry")
+        if not (bid and ask and ask > bid > 0 and e): continue
+        long = str(tr.get("side", "long")).lower() not in ("short", "sell"); mid = (bid + ask) / 2; sg = 1 if long else -1
+        fill = ask if long else bid
+        try: delay = (t_now - dt.datetime.fromisoformat(str(c["decided_at"])[:16])).total_seconds() / 60
+        except (KeyError, ValueError): delay = None
+        row = {"id": c.get("id"), "symbol": sym, "at": now[:16], "decided_at": c.get("decided_at"), "side": "long" if long else "short",
+               "delay_min": round(delay, 1) if delay is not None else None, "sim_entry": e, "bid": bid, "ask": ask,
+               "spread_pct": round(50 * (ask - bid) / mid, 5), "drift_pct": round(sg * (mid / e - 1) * 100, 5),
+               "total_pct": round(sg * (fill / e - 1) * 100, 5), "outcome_open": tr.get("outcome") == "open"}
+        if (row["id"], row["at"][:13]) in seen: continue
+        out.append(row)
+    if out: ajl(os.path.join(repo, "data", "quality", "slippage.jsonl"), out)
+    corp.ingest_snap(repo, quotes_path, now[:16])
+    return {"saved": len(out), "rows": [{k: r[k] for k in ("symbol", "delay_min", "spread_pct", "drift_pct")} for r in out]}
+
+
+def slip_report(repo, start=None):
+    import statistics as st, library
+    R = [r for r in jl(os.path.join(repo, "data", "quality", "slippage.jsonl")) if not start or r["at"] >= start]
+    if not R: return {"n": 0, "note": "no slippage rows yet"}
+    med = lambda xs: round(st.median(xs), 4) if xs else None
+    buckets = {"0-15": (0, 15), "15-30": (15, 30), "30-65": (30, 65), "65+": (65, 1e9)}
+    by = {k: [r["drift_pct"] for r in R if r["delay_min"] is not None and a <= r["delay_min"] < b] for k, (a, b) in buckets.items()}
+    model = []
+    for r in R:
+        try: model.append(library.side_cost(repo, r["symbol"], r["at"][:10], 0.03))
+        except Exception: pass
+    out = {"n": len(R), "from": R[0]["at"], "to": R[-1]["at"], "spread_pct_median": med([r["spread_pct"] for r in R]),
+           "drift_pct_median_by_delay": {k: {"n": len(v), "median": med(v)} for k, v in by.items()},
+           "total_pct_median": med([r["total_pct"] for r in R]), "model_side_cost_pct_median": med(model),
+           "worst": sorted(R, key=lambda r: -r["total_pct"])[:3]}
+    out["model_cheaper_than_spread"] = bool(model) and out["spread_pct_median"] > out["model_side_cost_pct_median"]
+    out["note"] = ("spread = what a market order pays now; drift = price move between the simulated fill and the quote "
+                   "(mostly the hourly-run delay); the simulation charges model_side_cost per side")
+    return out
+
+
 def fresh(repo, tf, now=None):
     now = dt.datetime.fromisoformat(now).astimezone(NY) if now else dt.datetime.now(NY)
     U = json.load(open(os.path.join(repo, "data", "universe.json"))); stocks = U["watchlist"] + U["control"]
@@ -211,5 +268,6 @@ if __name__ == "__main__":
     fn = {"bar-timing": lambda: bar_timing(a[1]), "xcheck-plan": lambda: xcheck_plan(a[1], a[2]), "xcheck": lambda: xcheck(a[1], a[2]),
           "live-save": lambda: live_save(a[1], a[2], a[3]), "parity": lambda: parity(a[1], a[2]),
           "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
+          "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None),
           "fresh": lambda: fresh(a[1], a[2], a[3] if len(a) > 3 else None)}[a[0]]
     print(json.dumps(fn(), indent=1))
