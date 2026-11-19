@@ -191,11 +191,11 @@ def candidates(repo, day=None, now="16:00", ctx=None):
     return rows
 
 
-def crypto_rows(repo):
+def crypto_rows(repo, status="closed"):
     out = []; cache = {}
     R = {}
     for r in ledger.load(repo, "CryptoTracks"):
-        if r.get("status") != "closed": continue
+        if r.get("status") != status: continue
         sym = str(r.get("symbol")); t0 = str(r.get("entry_time"))
         try: te = int(dt.datetime.fromisoformat(t0[:16]).replace(tzinfo=NY).timestamp())
         except ValueError: continue

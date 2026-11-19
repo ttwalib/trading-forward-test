@@ -4,6 +4,7 @@
                                       fit + save models (refuses to refit during the frozen holdout: uses saved models)
   python3 ml.py predict REPO CANDS.json NOW_ISO   predictions for live candidates (decisions.py live output);
                                       prints MLShadow rows (logged BEFORE outcomes are known)
+  python3 ml.py predict-crypto REPO NOW   shadow predictions for newly opened crypto track trades (MLShadow rows)
   python3 ml.py score REPO            fill realized results into unscored MLShadow ledger rows; prints updated rows
   python3 ml.py drift REPO DAY        PSI of each feature: training distribution vs the last 10 trading days
   python3 ml.py report REPO DAY       one JSON summary (what the ML nightly task posts)
@@ -216,11 +217,36 @@ def predict(repo, cands, now):
     return rows
 
 
+def predict_crypto(repo, now):
+    """Shadow predictions for crypto track trades that are OPEN and have no prediction yet (logged at the first run
+    after entry, before the outcome; features use only bars closed before the entry)."""
+    path = os.path.join(repo, "models", "crypto.pkl"); b = pickle.load(open(path, "rb")) if os.path.exists(path) else None
+    seen = {s.get("candidate_id") for s in ledger.load(repo, "MLShadow")}; rows = []
+    for c in decisions.crypto_rows(repo, status="open"):
+        if c["id"] in seen: continue
+        if b is None: p, take, model = None, True, "always_take"
+        else:
+            X = matrix([c], b["feats"], b["keys"]); p = float(b["clf"].predict_proba(X)[0, 1])
+            take = p >= b["threshold"]; model = "%s@%.2f" % (b["kind"], b["threshold"])
+        rows.append({"predicted_at": now, "model": model, "family": "crypto", "date": c["date"], "symbol": c["symbol"],
+                     "candidate_id": c["id"], "choice": c["key"] if take else "none", "take": take,
+                     "pred_best": round(p, 4) if p is not None else None, "pred_json": "{}", "realized": None,
+                     "realized_choice": None, "scored_at": None, "phase": tcal.phase(c["date"])})
+    return rows
+
+
 def score(repo):
     lab = {r["id"]: r for r in decisions.load(repo, "stock")}; out = []
+    clab = {r["id"]: r for r in decisions.load(repo, "crypto")}
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M")
     for s in ledger.load(repo, "MLShadow"):
         if s.get("realized") not in (None, ""): continue
+        if s.get("family") == "crypto":
+            d = clab.get(s.get("candidate_id"))
+            if d and d["y"].get("y") is not None:
+                s = dict(s); take = str(s.get("take")).lower() == "true"
+                s.update(realized=d["y"]["y"] if take else 0.0, realized_choice=s.get("choice"), scored_at=now); out.append(s)
+            continue
         d = lab.get(s.get("candidate_id"))
         if not d: continue
         ch = s.get("choice") or "stock"
@@ -281,6 +307,7 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "train": print(json.dumps(train(a[1], a[2]), indent=1, default=str))
     elif a[0] == "predict": print(json.dumps(predict(a[1], json.load(open(a[2])), a[3]), indent=1))
+    elif a[0] == "predict-crypto": print(json.dumps(predict_crypto(a[1], a[2]), indent=1))
     elif a[0] == "score": print(json.dumps(score(a[1]), indent=1))
     elif a[0] == "drift": print(json.dumps(drift(a[1], a[2]), indent=1))
     elif a[0] == "report": print(json.dumps(report(a[1], a[2]), indent=1, default=str))
