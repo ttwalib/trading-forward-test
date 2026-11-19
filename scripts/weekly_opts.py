@@ -23,8 +23,12 @@ Fixed rules:
   at the stock exit for flat exits, of the bar after it for target/stop exits; open stock trades stay open (marked).
 - Fees (IBKR, 1 contract per leg): per order max($1, $0.65 x legs) + $0.03 x legs; an opening and a closing order
   (no closing order if every leg expires worthless). Results in % of max risk, before and after fees.
+- Entry Greeks (greeks.py): iv_entry_pct, delta (shares), theta_day ($/day), vega_1pct ($ per IV point), gamma; informational
+  only, they never change entries or exits. For W4 the stock's own 5-minute bars must be in BARS.json under its symbol.
 """
-import json, sys, datetime as dt
+import json, os, sys, datetime as dt
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from greeks import position_greeks
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
 LAST_BAR = {"2026-11-27": "12:55"}
@@ -135,7 +139,14 @@ def sim(p, B, now):
 
 def main():
     P = json.load(open(sys.argv[1])); B = json.load(open(sys.argv[2])); now = int(sys.argv[3])
-    rows = [sim(p, B, now) for p in P]
+    rows = []
+    for p in P:
+        r = sim(p, B, now)
+        if "entry_value" in r and "max_risk" in r:
+            g = position_greeks(p, B)
+            r.update({k: g.get(k) for k in ("iv_entry_pct", "delta", "theta_day", "vega_1pct", "gamma")} if "greeks" not in g
+                     else {"greeks": g["greeks"]})
+        rows.append(r)
     print(json.dumps({"positions": rows}, indent=1))
 
 
