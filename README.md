@@ -1,4 +1,4 @@
-# Trading forward test (simulated)
+# Quantavius the 1st – simulated trading forward test (ttwalib/trading-forward-test)
 
 Simulated forward test, **16 November 2026 – 12 February 2027** (extended on 19 November 2026; crypto runs to 14 February, final report 16 February). **Nothing is traded.** Prices come read-only from Interactive Brokers. Results live in the test sheet; this repo is the long-term store and the source for statistics and machine learning.
 
