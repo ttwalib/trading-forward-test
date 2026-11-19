@@ -1,5 +1,5 @@
 {
- "mode": "universe",
+ "mode": "hist",
  "note": "edit and push this file to request a free-feed run (tick | intraday | nightly | backfill | universe | hist)",
- "requested": "2026-11-19T14:47:34.261900Z"
+ "requested": "2026-11-19T14:48:33.204458+00:00"
 }
