@@ -87,7 +87,7 @@ short page; save the responses as a JSON list to /tmp/earn.json and run
 
 After the existing steps:
 1. Universe daily bars: for every symbol of universe.json watchlist + control + etfs (STK; VIX and VIX3M are IND on CBOE),
-   get_price_history ONE_DAY step_count 5 (210 if its data/bars/1d file is missing) with include_corporate_actions
+   get_price_history ONE_DAY step_count 5 (skip symbols whose data/bars/1d file is missing: the backfill fills them) with include_corporate_actions
    true (not for VIX/VIX3M); save the responses as {SYM: response} to /tmp/d1.json; store with store.py 1d, then
    `python3 -I /tmp/repo/scripts/corp.py ingest-bars /tmp/repo /tmp/d1.json` (dividends + splits).
    Contract ids: data/contracts.json (resolve missing ones as in STOCKS).
