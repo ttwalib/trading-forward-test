@@ -4,6 +4,12 @@ Written by the user's set-up session. Each scheduled task's prompt points to its
 prompt; they never override the prompt's SAFETY rules (no orders, alerts, watchlists or screeners; read-only IBKR tools;
 no reddit.com). Repo: /tmp/repo. Run scripts with `python3 -I`.
 
+DATA FILES (every task; clarifies the prompts' "never retype prices"): to get an Interactive Brokers or Twelve Data
+result into a file, (a) if the harness saved a large result to a file, read or copy that file; (b) if it came back
+inline, paste the exact JSON text you received into a quoted heredoc (cat > /tmp/x.json <<'EOF' ... EOF) and wrap it
+with python. Pasting verbatim tool output is allowed and expected. Forbidden: typing, rounding, editing or inventing
+numbers yourself. Check with python that array lengths match the bar count received; never print bar data back.
+
 ## DATES (every task)
 
 `python3 -I /tmp/repo/scripts/tcal.py today` prints the facts for today (New York): stock_test_active,
