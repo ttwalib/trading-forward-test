@@ -13,7 +13,7 @@ so each run stays small and the job resumes where it stopped).
 Jobs (in order): daily bars ONE_YEAR for watchlist + control + SPY QQQ IWM VIX VIX3M (breadth, ATR, SMA features);
 5-minute bars THREE_MONTHS for watchlist + control + SPY (historical ORB decisions and labels for ML pre-training);
 1-hour bars THREE_MONTHS for the 7 coins (crypto decision rows). Bars go through store.py (merge, no duplicates).
-Index-type symbols (VIX, VIX3M) use security_type IND; coins use CRYPTO on exchange PAXOS.
+Index-type symbols (VIX, VIX3M) use security_type IND; coins use CRYPTO on exchange ZEROHASH.
 """
 import json, os, sys
 COINS = ["BTC", "ETH", "SOL", "AVAX", "LINK", "DOGE", "SHIB"]
@@ -36,7 +36,7 @@ def jobs(repo):
                     "why": "historical ORB decisions"})
     for c in COINS:
         out.append({"symbol": c, "tf": "1h", "step": "ONE_HOUR", "period": "THREE_MONTHS", "security_type": "CRYPTO",
-                    "exchange": "PAXOS", "why": "crypto decision rows"})
+                    "exchange": "ZEROHASH", "why": "crypto decision rows"})
     return out
 
 
