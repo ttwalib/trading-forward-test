@@ -22,6 +22,21 @@ from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
 
 
+_CACHE = {}
+
+
+def _cached(fn):
+    """Per-process cache of the file loaders (compute() is called once per day in dataset builds)."""
+    def w(repo, sym):
+        f = os.path.join(repo, "data", "bars", "1d" if fn.__name__ == "daily" else "1h", sym + ".jsonl")
+        key = (fn.__name__, repo, sym, os.path.getmtime(f) if os.path.exists(f) else 0)
+        if key not in _CACHE: _CACHE[key] = fn(repo, sym)
+        return _CACHE[key]
+    w.__name__ = fn.__name__
+    return w
+
+
+@_cached
 def daily(repo, sym):
     f = os.path.join(repo, "data", "bars", "1d", sym + ".jsonl"); out = []
     if os.path.exists(f):
@@ -31,6 +46,7 @@ def daily(repo, sym):
     return out
 
 
+@_cached
 def daily_from_1h(repo, sym):
     f = os.path.join(repo, "data", "bars", "1h", sym + ".jsonl"); d = {}
     if os.path.exists(f):

@@ -34,6 +34,13 @@ def _bars5(repo, sym):
                 if line.strip():
                     b = json.loads(line); t = dt.datetime.fromtimestamp(b["t"], NY)
                     out[(t.date().isoformat(), t.strftime("%H:%M"))] = b
+        h = os.path.join(repo, "data", "hist", "5m", sym + ".csv.gz")   # archive (older days), stored bars win
+        if os.path.exists(h):
+            import gzip, csv
+            with gzip.open(h, "rt") as fh:
+                for r in csv.DictReader(fh):
+                    t = dt.datetime.fromtimestamp(int(r["t"]), NY); k = (t.date().isoformat(), t.strftime("%H:%M"))
+                    if k not in out: out[k] = {"t": int(r["t"]), "o": float(r["o"]), "h": float(r["h"]), "l": float(r["l"]), "c": float(r["c"])}
         _B5[sym] = out
     return _B5[sym]
 

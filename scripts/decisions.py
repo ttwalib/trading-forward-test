@@ -138,9 +138,26 @@ class Ctx:
         return self.reg[key]
 
 
+_IDX = {}
+
+
+def by_day(B):
+    """{NY date: [bars]} plus opening-range volume per day, cached per bar list (dataset builds call this per row)."""
+    k = (id(B), len(B), B[-1]["t"] if B else 0)
+    if k not in _IDX:
+        days, orv = {}, {}
+        for b in B:
+            d = nyday(b["t"]); days.setdefault(d, []).append(b)
+            if nyhm(b["t"]) in ("09:30", "09:35", "09:40"): orv[d] = orv.get(d, 0) + b.get("v", 0)
+        if len(_IDX) > 200: _IDX.clear()
+        _IDX[k] = (days, orv, sorted(days))
+    return _IDX[k]
+
+
 def stock_features(ctx, sym, B5, day, trade, is_control, dc=None):
     dc = dc if dc is not None else daily_closes(ctx.repo, sym, B5)
-    today = [b for b in B5 if nyday(b["t"]) == day]
+    days5, orv5, dkeys5 = by_day(B5)
+    today = days5.get(day, [])
     et = trade["entry_time"]
     upto = [b for b in today if nyhm(b["t"] + 300) <= et]
     o930 = next((b["o"] for b in today if nyhm(b["t"]) == "09:30"), None)
@@ -155,11 +172,7 @@ def stock_features(ctx, sym, B5, day, trade, is_control, dc=None):
         f["or_width_atr"] = (hi - lo) / atr if atr else None
     else: f["or_width_atr"] = None
     orv = sum(b.get("v", 0) for b in today if nyhm(b["t"]) in ("09:30", "09:35", "09:40"))
-    prev = {}
-    for b in B5:
-        d = nyday(b["t"])
-        if d < day and nyhm(b["t"]) in ("09:30", "09:35", "09:40"): prev[d] = prev.get(d, 0) + b.get("v", 0)
-    pv = [v for v in prev.values() if v > 0][-20:]
+    pv = [orv5[d] for d in dkeys5 if d < day and orv5.get(d, 0) > 0][-20:]
     f["or_vol_rel"] = orv / (sum(pv) / len(pv)) if pv and orv else None
     h, m = map(int, et.split(":")); f["breakout_min"] = (h * 60 + m) - (9 * 60 + 45)
     f["risk_pct"] = 100 * (e - stop) / e
@@ -167,7 +180,7 @@ def stock_features(ctx, sym, B5, day, trade, is_control, dc=None):
     f["ret1d"] = 100 * (p6[-1] / p6[-2] - 1) if p6 else None
     f["ret5d"] = 100 * (p6[-1] / p6[0] - 1) if p6 else None
     f["vs_sma20"] = 100 * (p20[-1] / (sum(p20) / 20) - 1) if p20 else None
-    st = [b for b in ctx.spy5 if nyday(b["t"]) == day]
+    st = by_day(ctx.spy5)[0].get(day, [])
     so = next((b["o"] for b in st if nyhm(b["t"]) == "09:30"), None)
     sl = [b for b in st if nyhm(b["t"] + 300) <= et]
     spc = prior(ctx.spyd, day); s20 = prior(ctx.spyd, day, 20)
@@ -212,12 +225,13 @@ def candidates(repo, day=None, now="16:00", ctx=None):
     for sym in U["watchlist"] + U["control"]:
         B5 = bars(repo, "5m", sym)
         if not B5: continue
-        days = sorted({nyday(b["t"]) for b in B5}) if day is None else [day]
+        days5 = by_day(B5)[0]
+        days = sorted(days5) if day is None else [day]
         dc = daily_closes(repo, sym, B5)
         for d in days:
             if not tcal.is_trading(d) and day is None: continue
             if (sym, d) in ctx.excluded or ("SPY", d) in ctx.excluded: continue   # sources disagree on this bar
-            today = [b for b in B5 if nyday(b["t"]) == d]
+            today = days5.get(d, [])
             if not today: continue
             try: t, why = ORB["sim"](sym, ORB["bars_of"](raw(today)), d, now)
             except Exception: continue
