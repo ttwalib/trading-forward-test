@@ -1,5 +1,5 @@
 {
- "note": "Static S&P 100 membership snapshot (Nov 2026, approximate) used as the liquid universe. control = 22 names drawn with random.Random(20261119).sample from the universe minus the watchlist, GOOG and BRK.B. Fixed for the whole test: it measures whether watchlist selection adds edge beyond the rules.",
+ "note": "Static S&P 100 membership snapshot (Nov 2026, approximate) used as the liquid universe. control = 22 names drawn with random.Random(20261119).sample from the universe minus the watchlist, GOOG and BRK.B. Fixed for the whole test: it measures whether watchlist selection adds edge beyond the rules. etfs = index, bond, gold and the 11 sector ETFs used by the strategy library (daily bars).",
  "seed": 20261119,
  "watchlist": [
   "AAPL",
@@ -53,8 +53,22 @@
   "SPY",
   "QQQ",
   "IWM",
+  "DIA",
   "VIX",
-  "VIX3M"
+  "VIX3M",
+  "TLT",
+  "GLD",
+  "XLB",
+  "XLC",
+  "XLE",
+  "XLF",
+  "XLI",
+  "XLK",
+  "XLP",
+  "XLRE",
+  "XLU",
+  "XLV",
+  "XLY"
  ],
  "universe": [
   "AAPL",

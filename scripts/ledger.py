@@ -43,10 +43,14 @@ SPECS = {
               "spread_pct", "ml_choice", "ml_score", "note"], ["decided_at", "kind", "symbol", "instrument"]),
     "MLShadow": (["predicted_at", "model", "family", "date", "symbol", "candidate_id", "choice", "take", "pred_best",
                   "pred_json", "realized", "realized_choice", "scored_at", "phase"], ["model", "candidate_id"]),
+    "Library": (["strategy", "symbol", "side", "entry_date", "entry_time", "entry", "exit_date", "exit_time", "exit",
+                 "ret_pct", "status", "phase"], ["strategy", "symbol", "entry_date", "side"]),
+    "Allocation": (["date", "phase", "regime", "ai", "spy", "equal", "base_a", "ai_cum", "spy_cum", "equal_cum",
+                    "base_a_cum", "invested", "top_weights"], ["date"]),
     "Stats": (["date", "strategy", "unit", "phase", "n", "mean", "ci_lo", "ci_hi", "p_gt0", "q_bh", "psr", "dsr",
                "alpha", "alpha_t", "beta", "kelly_share", "breaker", "verdict"], ["date", "strategy", "phase"]),
 }
-ALIASES = {"Variant trades": "VariantTrades", "Deep OTM D1": "DeepD1", "Deep OTM spreads": "DeepSpreads",
+ALIASES = {"Library trades": "Library", "Variant trades": "VariantTrades", "Deep OTM D1": "DeepD1", "Deep OTM spreads": "DeepSpreads",
            "Weekly options": "Weekly", "Crypto tracks": "CryptoTracks", "Adaptive stocks": "AdaptiveStocks",
            "Agent trades": "AgentTrades", "Agent picks": "AgentPicks", "Live decisions": "Live", "ML shadow": "MLShadow"}
 
@@ -150,6 +154,10 @@ def trades(repo):
                 "% premium", r["date"], r.get("return_pct"), r["symbol"], r.get("entry_time"), r.get("exit_time"), "option")
         elif seg == "crypto":
             put("Agent picks: crypto 1h", "R", r["date"], r.get("r_net"), r["symbol"], r.get("entry_time"), r.get("exit_time"), "crypto")
+    for r in load(repo, "Library"):  # strategy library (scripts/library.py); backtest trades never count
+        if r.get("status") == "closed" and r.get("phase") not in ("before", None):
+            put(str(r["strategy"]), "% per trade", r["entry_date"], r.get("ret_pct"), r.get("symbol"), r.get("entry_time"),
+                r.get("exit_time"), "library")
     for r in load(repo, "MLShadow"):
         if r.get("realized") not in (None, "") and str(r.get("take")).lower() in ("true", "1", "yes"):
             put("ML meta: " + str(r.get("model")), "R-equivalent", r["date"], num(r["realized"]) * 100 if num(r["realized"]) is not None else None,

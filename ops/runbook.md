@@ -66,14 +66,15 @@ LEDGER AgentTrades.
 
 LEDGER AgentPicks and AgentTrades. EVENTS (every day, at most 3 extra searches and 2 fetches, after the picks):
 scheduled US macro events for today and the next 2 trading days (CPI, PPI, jobs report, jobless claims, FOMC decision
-and minutes, Fed chair speeches, GDP, PCE, retail sales, ISM) and earnings of watchlist or control-list companies;
+and minutes, Fed chair speeches, GDP, PCE, retail sales, ISM) and earnings of watchlist or control-list companies (event text exactly "earnings SYM", e.g. "earnings AAPL", so the
+library's earnings-drift strategy can find it);
 append new ones to "Events" (A-G: date, time ET, event, importance high/medium/low, consensus, actual (fill
 yesterday's actual if known), source URL); skip events already logged. LEDGER Events.
 
 ## ORCHESTRATOR (nightly)
 
 After the existing steps:
-1. Universe daily bars: for every symbol of universe.json watchlist + control and QQQ, IWM (STK) and VIX3M (IND, CBOE),
+1. Universe daily bars: for every symbol of universe.json watchlist + control + etfs (STK; VIX and VIX3M are IND on CBOE),
    get_price_history ONE_DAY step_count 5 (260 if its data/bars/1d file is missing); store with store.py 1d.
    Contract ids: data/contracts.json (resolve missing ones as in STOCKS).
 2. `python3 -I /tmp/repo/scripts/regime2.py /tmp/repo DAY` -> write regime_row_L_T to "Regime" L:T of today's row;
@@ -82,8 +83,14 @@ After the existing steps:
    "-", "dq", count, first example, flag "CHECK"); none: one row "dq ok".
 4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> append its sheet_rows for phases "all", "v2" and
    the current phase to "Stats" (first empty row >= 3); LEDGER Stats.
+4b. STRATEGY LIBRARY + AI ALLOCATOR (after stats): `python3 -I /tmp/repo/scripts/library.py /tmp/repo DAY > /tmp/lib.json`
+   (rebuilds data/ledger/Library.jsonl and data/library/daily.json itself); append its new_closed_rows to "Library trades"
+   (first empty row >= 3, A-L). Then `python3 -I /tmp/repo/scripts/allocator.py /tmp/repo DAY > /tmp/alloc.json`; write
+   every sheet_rows row whose date is not yet in "Allocation" (first empty row >= 3, A-M) and LEDGER Allocation with
+   the same rows.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
-6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues.
+6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues, the AI portfolio vs SPY / equal weight /
+   baseline A (since start and v2) and the top 3 allocator weights.
 
 ## LEARNING + STRATEGY LAB
 
@@ -101,11 +108,22 @@ the gate verdict and failed checks in "Strategy lab".
 Report days: every Friday from 2026-11-20 to 2027-02-05 (the 2027-01-01 report covers trades through 2026-12-31). Week N =
 week_index. Add sections: Stats tab (q-values, DSR, alpha vs SPY/BTC, Kelly shares, breakers), control list vs
 watchlist, ML (models/report_<latest>.json: champion, OOS mean vs always-take, PBO, drift flags; ML shadow results),
-Live decisions (spreads, implementation shortfall). Show stats for all data and for v2 (from 2026-11-20, the first full day of the extended setup) side by side. From 2027-02-05 mark everything as holdout evidence.
+Live decisions (spreads, implementation shortfall), the strategy library and the AI allocator (data/allocator/report.json:
+AI portfolio vs SPY / equal weight / baseline A, current weights, breakers). Show stats for all data and for v2 (from 2026-11-20, the first full day of the extended setup) side by side. From 2027-02-05 mark everything as holdout evidence.
+
+## PRE-REGISTERED VERDICT (changed 2026-11-19, before any holdout data)
+
+The test is about the AI's process, not a fixed strategy: does the AI-managed portfolio (scripts/allocator.py over all
+strategy sleeves, frozen code, online weights) beat (a) SPY buy-and-hold, (b) an equal-weight mix of all sleeves and
+(c) baseline A alone, on the HOLDOUT (2027-02-01..02-12), after costs, on Sharpe and max drawdown, with block-bootstrap
+P(AI mean > benchmark) >= 0.9? Individual strategies are reported with BH q-values and deflated Sharpe but are
+exploratory. Strategies keep collecting data; the allocator and the strategy lab may favour, drop or add them only in
+the train phase through their fixed rules.
 
 ## FINAL REPORT (2027-02-16)
 
-Judge every strategy and the ML meta-labeller on the HOLDOUT (2027-02-01..02-12) with stats.py phase "holdout";
+Answer the PRE-REGISTERED VERDICT first (data/allocator/report.json phases "holdout", "v2", "all"). Then judge every
+strategy and the ML meta-labeller on the HOLDOUT (2027-02-01..02-12) with stats.py phase "holdout";
 train-phase results are context only. Run `review.py residual` for every strategy with q (BH) <= 0.2 on all data.
 Pre-registered question: does any strategy or the ML layer beat the frozen baseline A on the holdout with q <= 0.10
 and DSR >= 0.9?

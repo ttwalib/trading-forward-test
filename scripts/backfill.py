@@ -10,7 +10,7 @@ so each run stays small and the job resumes where it stopped).
   python3 backfill.py fail REPO SYM TF WHY  -> mark a job failed (retried at most 2 times)
   python3 backfill.py status REPO           -> progress summary; "complete": true when nothing is left
 
-Jobs (in order): daily bars ONE_YEAR for watchlist + control + SPY QQQ IWM VIX VIX3M (breadth, ATR, SMA features);
+Jobs (in order): daily bars ONE_YEAR for watchlist + control + universe.json etfs (index, TLT, GLD, sector ETFs, VIX, VIX3M) (breadth, ATR, SMA features);
 5-minute bars THREE_MONTHS for watchlist + control + SPY (historical ORB decisions and labels for ML pre-training);
 1-hour bars THREE_MONTHS for the 7 coins (crypto decision rows). Bars go through store.py (merge, no duplicates).
 Index-type symbols (VIX, VIX3M) use security_type IND; coins use CRYPTO on exchange ZEROHASH.
@@ -28,7 +28,7 @@ def jl(path, default):
 
 def jobs(repo):
     U = json.load(open(P(repo, "universe.json"))); stocks = U["watchlist"] + U["control"]; out = []
-    for s in stocks + ["SPY", "QQQ", "IWM", "VIX", "VIX3M"]:
+    for s in stocks + U.get("etfs", ["SPY", "QQQ", "IWM", "VIX", "VIX3M"]):
         out.append({"symbol": s, "tf": "1d", "step": "ONE_DAY", "period": "ONE_YEAR",
                     "security_type": "IND" if s.startswith("VIX") else "STK", "why": "daily features + breadth"})
     for s in stocks + ["SPY"]:
