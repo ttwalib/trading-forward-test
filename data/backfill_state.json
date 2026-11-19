@@ -6,5 +6,10 @@
   "AVGO|1d",
   "BAC|1d"
  ],
- "fail": {}
+ "fail": {
+  "BAC|1d": 1
+ },
+ "why": {
+  "BAC|1d": "source bars fail OHLC check on 3 rows (idx 114,179,199) on two identical fetches"
+ }
 }
