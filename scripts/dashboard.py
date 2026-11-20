@@ -29,6 +29,41 @@ def r(x, n=4):
     return round(x, n) if isinstance(x, (int, float)) else x
 
 
+def signal_charts(repo, engine_file, limit=14):
+    """Price charts for the dashboard's signal view (added 2026-11-21): the day's 5-minute candles for every symbol the
+    engine sealed a signal on, with the sealed detection (ideal entry, engine fill, stop) and, once the 16:12 stock run
+    has scored the day, the simulated baseline-A exit from the ledger. Times are shifted to New York wall-clock so the
+    chart's axis reads in New York time. Display only."""
+    import datetime as dt
+    from zoneinfo import ZoneInfo
+    NY = ZoneInfo("America/New_York"); day = os.path.basename(engine_file)[:10]
+    rows = jl(engine_file); syms = []
+    for x in rows:
+        if x["symbol"] not in syms: syms.append(x["symbol"])
+    trades = {}
+    for t in jl(os.path.join(repo, "data", "ledger", "Trades.jsonl")) + jl(os.path.join(repo, "data", "ledger", "VariantTrades.jsonl")):
+        if t.get("date") == day and ((t.get("variant") is None and t.get("exit_time")) or t.get("variant") == "AC control"):
+            trades.setdefault(t["symbol"], t)
+    out = []
+    for s in syms[:limit]:
+        bars = []
+        for b in jl(os.path.join(repo, "data", "bars", "5m", s + ".jsonl"))[-400:]:
+            t = dt.datetime.fromtimestamp(b["t"], NY)
+            if t.date().isoformat() == day and 9 * 60 + 30 <= t.hour * 60 + t.minute < 16 * 60:
+                bars.append([b["t"] + int(t.utcoffset().total_seconds()), b["o"], b["h"], b["l"], b["c"]])
+        if not bars: continue
+        sig = [{"kind": x.get("strategy") or "baseline A", "side": x.get("side") or "long", "signal_end": x.get("signal_end"),
+                "delay": x.get("delay_min"), "ideal": x.get("ideal_entry"), "fill": x.get("fill_price"), "stop": x.get("stop"),
+                "revision": bool(x.get("revision"))} for x in rows if x["symbol"] == s]
+        tr = trades.get(s)
+        out.append({"symbol": s, "bars": bars, "signals": sig,
+                    "trade": {k: tr.get(k) for k in ("entry_time", "entry", "exit_time", "exit", "outcome", "r_net", "target")} if tr else None})
+    off = None
+    if out:
+        off = int(dt.datetime.fromisoformat(day + "T12:00").replace(tzinfo=NY).utcoffset().total_seconds())
+    return {"day": day, "utc_offset_s": off, "symbols": out}
+
+
 def build(repo, now=None):
     import tcal
     now = dt.datetime.fromisoformat(now).astimezone(NY) if now else dt.datetime.now(NY)
@@ -43,6 +78,7 @@ def build(repo, now=None):
         ph[k] = {b: v.get(b) for b in ("ai", "spy", "spy_vm", "equal", "equal_vm", "base_a", "base_a_vm")}
         ph[k].update({x: v.get(x) for x in ("p_ai_beats", "sharpe_gap_detectable", "turnover_per_day", "rebal_cost_pct_total", "spy_vm_scale", "vm_scales", "avg_invested", "shadows", "forced_fill", "exposure")})
     out["nightly"] = js(os.path.join(repo, "data", "nightly", "stamp.json"))
+    out["montecarlo"] = js(os.path.join(repo, "data", "nightly", "montecarlo.json"))
     out["crash_drill"] = js(os.path.join(repo, "reports", "replay", "2026-11-20-crash_drill.json"))
     out["allocator"] = {"date": A.get("date"), "sleeves": A.get("sleeves"), "phases": ph, "verdict_check": A.get("verdict_check"),
                         "stress_2x": A.get("stress_2x"), "ideal_fills": A.get("ideal_fills"),
@@ -91,6 +127,7 @@ def build(repo, now=None):
     if ed:   # take-or-skip predictions made at detection (ml.py predict-engine, since 2026-11-20)
         M = jl(os.path.join(repo, "data", "decisions", "engine_ml", os.path.basename(ed[-1])))
         eng["ml_today"] = len(M); eng["ml_take"] = sum(1 for x in M if x.get("take"))
+        out["charts"] = signal_charts(repo, ed[-1])
     out["engine"] = eng
     try:
         import checks

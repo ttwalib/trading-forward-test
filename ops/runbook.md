@@ -315,6 +315,20 @@ After the existing steps:
      broke out, the engine seals the same symbol twice (AMT 09:50 and 09:55, COIN 10:05 and 10:00 on 2026-11-20). The
      second row now carries "revision": true; fills.py still matches whichever row equals the replay's bar (unchanged),
      ml.py keeps the first prediction per candidate id, and checks.py engine-report counts revisions once.
+  17. DASHBOARD SIGNAL CHART (2026-11-21, display only): the Live tab draws the engine's latest day on 5-minute candles
+     with TradingView Lightweight Charts 5.0.9 (Apache 2.0), vendored in ops/dashboard/vendor/ by the one-off
+     workflow mode "vendor" (no CDN). dashboard.py signal_charts() writes data/dashboard.json "charts". Republishing the
+     dashboard now sends TWO files: index.html (from `dashboard.py html`) and lightweight-charts-5.0.9.js (copied from
+     ops/dashboard/vendor/), with publish_files.
+  18. MONTE CARLO RISK REPORT (2026-11-21, report only, never part of the verdict): scripts/montecarlo.py block-
+     bootstraps daily returns (10,000 paths, 5-day blocks, seed 20261121, shared draws) for the AI, the shadow
+     allocators, equal weight and SPY: 47- and 63-day outcomes, chance of a loss, chance of a 10% fall, and the chance
+     of falling 10% before gaining 10%. Basis: the allocator replayed on past library data
+     (reports/replay/2026-11-21-mc_series.json, built once) until 20 live days exist, then the live portfolio.
+     nightly.py step "montecarlo" saves data/nightly/montecarlo.json. First result (replay, flattering): the AI's
+     chance of a 10% fall before a 10% gain is 9%, against 1% for equal weight, 4% for SPY and under 1% for risk
+     parity; its typical 47-day result is +0.5% against +1.6% for equal weight. The weekly and final reports describe
+     it as context.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)

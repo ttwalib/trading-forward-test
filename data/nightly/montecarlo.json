@@ -1,0 +1,142 @@
+{
+ "method": "block bootstrap, 10000 paths, blocks of 5 days, seed 20261121; shared draws across series",
+ "band_pct": 10.0,
+ "horizons_days": [
+  47,
+  63
+ ],
+ "long_horizon_days": 252,
+ "never_in_verdict": true,
+ "replay": {
+  "from": "2025-06-02",
+  "to": "2026-11-13",
+  "days": 367,
+  "series": {
+   "ai": {
+    "label": "AI allocator",
+    "d47": {
+     "median_pct": 0.48,
+     "p5_pct": -4.6,
+     "p95_pct": 5.82,
+     "chance_loss": 0.436,
+     "chance_dd10": 0.001
+    },
+    "d63": {
+     "median_pct": 0.63,
+     "p5_pct": -5.15,
+     "p95_pct": 6.76,
+     "chance_loss": 0.425,
+     "chance_dd10": 0.004
+    },
+    "pain_first": 0.087,
+    "gain_first": 0.272,
+    "neither": 0.641
+   },
+   "equal": {
+    "label": "Equal weight",
+    "d47": {
+     "median_pct": 1.57,
+     "p5_pct": -3.25,
+     "p95_pct": 6.57,
+     "chance_loss": 0.298,
+     "chance_dd10": 0.0
+    },
+    "d63": {
+     "median_pct": 2.1,
+     "p5_pct": -3.51,
+     "p95_pct": 7.84,
+     "chance_loss": 0.269,
+     "chance_dd10": 0.001
+    },
+    "pain_first": 0.011,
+    "gain_first": 0.522,
+    "neither": 0.467
+   },
+   "spy": {
+    "label": "SPY",
+    "d47": {
+     "median_pct": 3.53,
+     "p5_pct": -4.47,
+     "p95_pct": 12.2,
+     "chance_loss": 0.24,
+     "chance_dd10": 0.011
+    },
+    "d63": {
+     "median_pct": 4.74,
+     "p5_pct": -4.54,
+     "p95_pct": 15.03,
+     "chance_loss": 0.202,
+     "chance_dd10": 0.022
+    },
+    "pain_first": 0.041,
+    "gain_first": 0.866,
+    "neither": 0.093
+   },
+   "sh_rp": {
+    "label": "Risk parity",
+    "d47": {
+     "median_pct": 1.27,
+     "p5_pct": -2.39,
+     "p95_pct": 5.05,
+     "chance_loss": 0.283,
+     "chance_dd10": 0.0
+    },
+    "d63": {
+     "median_pct": 1.71,
+     "p5_pct": -2.51,
+     "p95_pct": 6.14,
+     "chance_loss": 0.247,
+     "chance_dd10": 0.0
+    },
+    "pain_first": 0.001,
+    "gain_first": 0.372,
+    "neither": 0.627
+   },
+   "sh_mv": {
+    "label": "Minimum variance",
+    "d47": {
+     "median_pct": 0.55,
+     "p5_pct": -1.82,
+     "p95_pct": 3.07,
+     "chance_loss": 0.352,
+     "chance_dd10": 0.0
+    },
+    "d63": {
+     "median_pct": 0.74,
+     "p5_pct": -1.98,
+     "p95_pct": 3.64,
+     "chance_loss": 0.325,
+     "chance_dd10": 0.0
+    },
+    "pain_first": 0.0,
+    "gain_first": 0.038,
+    "neither": 0.962
+   },
+   "sh_win": {
+    "label": "Recent winners",
+    "d47": {
+     "median_pct": 1.4,
+     "p5_pct": -7.12,
+     "p95_pct": 11.28,
+     "chance_loss": 0.396,
+     "chance_dd10": 0.041
+    },
+    "d63": {
+     "median_pct": 1.81,
+     "p5_pct": -8.01,
+     "p95_pct": 13.31,
+     "chance_loss": 0.385,
+     "chance_dd10": 0.083
+    },
+    "pain_first": 0.204,
+    "gain_first": 0.613,
+    "neither": 0.183
+   }
+  },
+  "caveat": "past data replayed with the allocator's rules; survivorship and hindsight flatter it"
+ },
+ "live": {
+  "days": 4,
+  "waiting": "reported from 20 live days"
+ }
+}

@@ -62,6 +62,7 @@ td.w{white-space:normal}
 .banner.ok{border-color:var(--teal)}.banner.bad{border-color:var(--red)}
 .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(10em,1fr));gap:10px 22px;margin:8px 0}
 .kv div{font-size:13px;color:var(--mut)}.kv b{display:block;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{font:500 14px Inter,sans-serif;min-height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);cursor:pointer}.chip.on{background:var(--chip);border-color:var(--teal);color:var(--teal)}
 button{font:600 15px Inter,sans-serif;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--teal);background:var(--teal);color:var(--bg);cursor:pointer}
 button.ghost{background:transparent;color:var(--teal)}
 button:disabled{opacity:.5;cursor:default}
@@ -125,6 +126,12 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
     <div class="kv" id="exposure"></div>
   </section>
   <section class="panel" style="margin-top:22px">
+    <h2>How bumpy could it get? (10,000 simulated futures)</h2>
+    <p class="note">Each rule's own daily returns, reshuffled in 5-day blocks into 10,000 possible futures. Same draws for every rule, so the rows compare like for like. Report only: never part of the verdict.</p>
+    <div class="scroll"><table id="tMC"><thead><tr><th>Allocation rule</th><th class="n">Typical 47-day result</th><th class="n">Bad case (1 in 20)</th><th class="n">Good case (1 in 20)</th><th class="n">Chance of a loss</th><th class="n">Chance of a 10% fall within 63 days</th><th class="n">10% fall before 10% gain</th></tr></thead><tbody></tbody></table></div>
+    <p class="note" id="mcNote"></p>
+  </section>
+  <section class="panel" style="margin-top:22px">
     <h2>Crash drill (past data, run once)</h2>
     <div class="scroll"><table id="tDrill"><thead><tr><th>Period</th><th class="n">AI %</th><th class="n">AI worst fall %</th><th class="n">Equal weight %</th><th class="n">Risk parity %</th><th class="n">Min variance %</th><th class="n">SPY %</th><th class="n">SPY worst fall %</th></tr></thead><tbody></tbody></table></div>
     <p class="note" id="drillNote"></p>
@@ -159,6 +166,12 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
   <div class="kv" id="engKv"></div>
   <div class="scroll"><table id="tEng"><thead><tr><th>Stock</th><th>Strategy</th><th>Signal bar ended</th><th>Detected</th><th class="n">Delay (min)</th><th class="n">Signal price</th><th class="n">Engine fill</th><th class="n">Difference</th></tr></thead><tbody></tbody></table></div>
   <p class="note" id="engNote"></p>
+  <h2>Signals on the price chart</h2>
+  <p class="note" id="chNote">Each stock the engine flagged on its latest day, on 5-minute candles in New York time. Arrow: where the signal was sealed (up = buy signal, down = short signal). Teal line: the engine's fill price. Red dashed line: the stop. Square: where the simulated baseline-A trade closed, once the evening run has scored the day.</p>
+  <div class="chips" id="chSyms" role="tablist" aria-label="Stock"></div>
+  <div id="chBox" style="position:relative;height:380px;margin-top:10px;border:1px solid var(--rule);border-radius:8px"></div>
+  <p class="note" id="chInfo"></p>
+  <p class="note">Charts drawn with <a href="https://www.tradingview.com/" rel="noopener">TradingView</a> Lightweight Charts™ (Apache 2.0).</p>
   <div class="grid2">
     <div class="panel">
       <h2>Slippage (no orders)</h2>
@@ -201,8 +214,40 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
 </section>
 </main>
 
+<script src="lightweight-charts-5.0.9.js"></script>
 <script id="snapshot" type="application/json">__SNAPSHOT__</script>
 <script>
+let CH=null,CHsym=null,CHdata=null;
+function cssv(n){const e=document.createElement("i");e.style.color=`var(${n})`;document.body.appendChild(e);const c=getComputedStyle(e).color;e.remove();return c}
+function drawCharts(C){
+  CHdata=C;const box=document.getElementById("chBox"),syms=(C.symbols||[]);
+  const L=window.LightweightCharts;
+  if(!syms.length||!L){box.style.height="auto";box.innerHTML=`<p class="note" style="padding:12px">${!syms.length?"No engine signals stored yet.":"The chart library could not load in this viewer."}</p>`;return}
+  if(!CHsym||!syms.find(x=>x.symbol===CHsym))CHsym=syms[0].symbol;
+  document.getElementById("chSyms").innerHTML=syms.map(x=>`<button class="chip${x.symbol===CHsym?" on":""}" role="tab" aria-selected="${x.symbol===CHsym}" data-s="${x.symbol}">${x.symbol}</button>`).join("");
+  document.querySelectorAll("#chSyms button").forEach(b=>b.onclick=()=>{CHsym=b.dataset.s;drawCharts(CHdata)});
+  const S=syms.find(x=>x.symbol===CHsym),[y,m,d]=C.day.split("-").map(Number),base=Date.UTC(y,m-1,d)/1000;
+  const at=hm=>{if(!hm)return null;const [h,mi]=hm.split(":").map(Number),t=base+h*3600+mi*60;let best=S.bars[0][0];for(const b of S.bars)if(b[0]<=t)best=b[0];return best};
+  if(CH){CH.remove();CH=null}
+  box.innerHTML="";box.style.height="380px";
+  const ink=cssv("--ink"),mut=cssv("--mut"),rule=cssv("--rule"),teal=cssv("--teal"),red=cssv("--red"),bg=cssv("--bg");
+  CH=L.createChart(box,{autoSize:true,layout:{background:{type:"solid",color:bg},textColor:mut,fontFamily:"Inter,system-ui,sans-serif",attributionLogo:true},grid:{vertLines:{color:rule},horzLines:{color:rule}},rightPriceScale:{borderColor:rule},timeScale:{borderColor:rule,timeVisible:true,secondsVisible:false},crosshair:{mode:0}});
+  const ser=CH.addSeries(L.CandlestickSeries,{upColor:teal,borderUpColor:teal,wickUpColor:teal,downColor:red,borderDownColor:red,wickDownColor:red});
+  ser.setData(S.bars.map(b=>({time:b[0],open:b[1],high:b[2],low:b[3],close:b[4]})));
+  const mk=[];
+  for(const g of S.signals){const t=at(g.signal_end);if(t==null)continue;const sh=g.side==="short";
+    mk.push({time:t,position:sh?"aboveBar":"belowBar",color:sh?red:teal,shape:sh?"arrowDown":"arrowUp",text:(g.kind==="baseline A"?"A":g.kind.split(" ")[0])+(g.revision?" (rev)":"")});
+    if(g.fill!=null)ser.createPriceLine({price:g.fill,color:teal,lineWidth:1,lineStyle:0,axisLabelVisible:true,title:"fill"});
+    if(g.stop!=null)ser.createPriceLine({price:g.stop,color:red,lineWidth:1,lineStyle:2,axisLabelVisible:true,title:"stop"})}
+  const T=S.trade;
+  if(T&&T.exit_time&&T.exit!=null){const t=at(T.exit_time);if(t!=null)mk.push({time:t,position:"aboveBar",color:T.r_net>0?teal:red,shape:"square",text:"exit: "+T.outcome})}
+  mk.sort((a,b)=>a.time-b.time);
+  if(L.createSeriesMarkers)L.createSeriesMarkers(ser,mk);
+  CH.timeScale().fitContent();
+  const g0=S.signals[0]||{};
+  document.getElementById("chInfo").textContent=`${S.symbol}, ${C.day}: ${S.signals.map(g=>`${g.kind} ${g.side} signal after the ${g.signal_end} bar, sealed ${g.delay??"–"} min later at ${g.fill??"–"} (stop ${g.stop??"–"})${g.revision?", re-sealed (revision)":""}`).join("; ")}.`+(T?` Simulated baseline-A trade: ${T.outcome}, ${T.r_net>0?"+":""}${T.r_net} R${T.exit!=null?` (exit ${T.exit} at ${T.exit_time})`:""}.`:" No baseline-A trade scored for this stock (library signal or not yet scored).");
+}
+new MutationObserver(()=>{if(CHdata&&document.getElementById("chBox").offsetParent)drawCharts(CHdata)}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 {
 const OWNER="ttwalib",REPO="trading-forward-test",PATH="data/dashboard.json";
 const $=id=>document.getElementById(id);
@@ -218,6 +263,7 @@ try{D=JSON.parse($("snapshot").textContent)}catch(e){}
 const views=["overview","strategies","live","pipeline","ask"];
 function route(){const h=(location.hash||"#overview").slice(1),v=views.includes(h)?h:"overview";
   views.forEach(n=>{$("v-"+n).hidden=n!==v;const a=$("nav-"+n);n===v?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
+  if(v==="live"&&CHdata)drawCharts(CHdata);
   if(v==="overview")drawCurve();}
 addEventListener("hashchange",route);addEventListener("resize",()=>{if(!$("v-overview").hidden)drawCurve()});
 
@@ -262,6 +308,9 @@ function render(){if(!D)return;setSrc();
   $("shadowNote").textContent=`All data since 16 November (${days} days: far too few to judge). ${vcv.best_shadow?`Best simple rule in the verdict window: ${vcv.best_shadow}; AI ahead of it: ${vcv.beats_best_shadow?"yes":"no"}.`:""} On past data (June 2025 to November 2026) every simple rule beat the AI on Sharpe: AI 0.38, risk parity 1.00, minimum variance 0.78, recent winners 0.42, equal weight 0.88.`;
   const FF=all.forced_fill||{},EX=all.exposure||{};
   $("exposure").innerHTML=[["Held only to stay fully invested",FF.avg_weight!=null?(FF.avg_weight*100).toFixed(1)+"% of the book":"–"],["Return of that forced part",sgn(FF.return_pct_total,2,"%")],["Return of the backed part",sgn(FF.backed_return_pct_total,2,"%")],["Sensitivity to SPY (beta)",num(EX.beta_spy,2)],["Return after removing SPY's move",sgn(EX.after_beta_pct_total,2,"%")]].map(([l,v])=>`<div>${l}<b>${v}</b></div>`).join("");
+  const MC=D.montecarlo||{},useLive=MC.live&&MC.live.series,MB=useLive?MC.live:(MC.replay||{}),MS=MB.series||{},pc=x=>x==null?"–":x>0&&x<0.005?"under 1%":Math.round(x*100)+"%";
+  $("tMC").tBodies[0].innerHTML=["ai","sh_rp","sh_mv","sh_win","equal","spy"].filter(k=>MS[k]).map(k=>{const x=MS[k],a=x.d47||{},b=x.d63||{};return `<tr><td>${esc(x.label)}</td><td class="n ${cls(a.median_pct)}">${sgn(a.median_pct,1,"%")}</td><td class="n ${cls(a.p5_pct)}">${sgn(a.p5_pct,1,"%")}</td><td class="n">${sgn(a.p95_pct,1,"%")}</td><td class="n">${pc(a.chance_loss)}</td><td class="n">${pc(b.chance_dd10)}</td><td class="n">${pc(x.pain_first)}</td></tr>`}).join("");
+  $("mcNote").textContent=!MB.series?"No Monte Carlo report stored yet.":useLive?`Based on ${MB.days} live days (${MB.from} to ${MB.to}).`:`Based on the rules replayed on past data (${MB.from} to ${MB.to}, ${MB.days} days), which flatters every row: survivorship and hindsight. The live version replaces it once there are 20 live days (now ${(MC.live||{}).days??0}). A reshuffle cannot show a crash worse than anything in its history.`;
   const CD=D.crash_drill||{},cw=CD.windows||{};
   $("tDrill").tBodies[0].innerHTML=[["2020 crash (19 Feb – 30 Apr 2020)","crash_2020"],["2022 bear market (3 Jan – 14 Oct 2022)","bear_2022"],["2017 – 2022, whole period","whole_2017_2022"]].map(([l,k])=>{const x=cw[k];if(!x)return "";const g=(a,f)=>(x[a]||{})[f];return `<tr><td>${l}</td><td class="n ${cls(g("ai","total_pct"))}">${sgn(g("ai","total_pct"),1)}</td><td class="n">${num(g("ai","max_dd_pct"),1)}</td><td class="n">${sgn(g("equal","total_pct"),1)}</td><td class="n">${sgn(g("sh_rp","total_pct"),1)}</td><td class="n">${sgn(g("sh_mv","total_pct"),1)}</td><td class="n">${sgn(g("spy","total_pct"),1)}</td><td class="n">${num(g("spy","max_dd_pct"),1)}</td></tr>`}).join("");
   $("drillNote").textContent=CD.windows?"Same allocation rules replayed on the two worst recent markets. Daily strategies only, on today's list of large companies, which flatters the result (companies that later dropped out are missing). It shows the always-invested rule did not blow up; it shows no edge over the simple rules. Not tuned afterwards.":"No crash drill stored.";
@@ -277,6 +326,7 @@ function render(){if(!D)return;setSrc();
   const E=D.engine||{},ed=E.days||[],last=ed[ed.length-1]||{};
   $("engKv").innerHTML=[["Latest day",last.d||"–"],["Signals sealed",last.n??"–"],["Median delay",last.median_delay!=null?last.median_delay+" min":"–"],["Within 20 min",last.within20??"–"],["Last engine run",(E.status||{}).at?String(E.status.at).slice(0,16).replace("T"," "):"–"],["Engine errors",((E.status||{}).errors||[]).length],["ML scored at detection (today)",E.ml_today!=null?E.ml_today+(E.ml_take!=null?" ("+E.ml_take+" take)":""):"–"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
   $("tEng").tBodies[0].innerHTML=[...(E.latest||[])].reverse().map(x=>{const df=x.ideal_entry&&x.fill_price?(x.fill_price/x.ideal_entry-1)*100:null;return `<tr><td><b>${esc(x.symbol)}</b></td><td>${esc(x.strategy||"Baseline A · "+(x.list||""))}</td><td>${esc(x.signal_end)}</td><td>${esc(String(x.detected_at||"").slice(11,16))}</td><td class="n">${num(x.delay_min,1)}</td><td class="n">${num(x.ideal_entry,2)}</td><td class="n">${num(x.fill_price,2)}</td><td class="n ${cls(df)}">${sgn(df,2,"%")}</td></tr>`}).join("");
+  drawCharts(D.charts||{});
   $("engNote").textContent=ed.length?"Detections more than 20 minutes late (engine outage or a late GitHub start) are not used as fills; the price 5 minutes after the signal is used instead.":"No engine detections yet.";
   const SL=D.slippage||{},db=SL.drift_pct_median_by_delay||{};
   $("slip").innerHTML=SL.n?[["Quotes recorded",SL.n],["Median spread cost",num(SL.spread_pct_median,3)+"%"],["Model cost per side",num(SL.model_side_cost_pct_median,3)+"%"],["Model cheaper than reality?",SL.model_cheaper_than_spread?"YES – check":"no"],["Drift, 0–15 min",num((db["0-15"]||{}).median,2)+"% (n "+((db["0-15"]||{}).n??0)+")"],["Drift, 15–30 min",num((db["15-30"]||{}).median,2)+"% (n "+((db["15-30"]||{}).n??0)+")"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join(""):`<p class="note">No slippage readings yet.</p>`;

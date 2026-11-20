@@ -13,6 +13,7 @@ Order (each step's printed result is saved under data/nightly/):
   4. allocator.py REPO DAY               -> data/nightly/allocator.json    (sheet_rows for the "Allocation" tab)
   5. stats.py REPO DAY                   -> data/nightly/stats.json        (sheet_rows for the "Stats" tab)
   6. checks.py engine-report / slip-report / health -> data/nightly/checks.json
+  6b. montecarlo.py report               -> data/nightly/montecarlo.json   (risk of a 10% fall; report only)
   7. dashboard.py REPO                   -> data/dashboard.json
 data/nightly/stamp.json records the day, the start and end time, each step's seconds and exit code, and the commit the
 run was computed from. The orchestrator must see stamp.day == DAY and ok == true before it uses the results; otherwise
@@ -67,6 +68,8 @@ def main():
             tmp = os.path.join(N, "_tmp.json"); r = step(name, [S("checks.py")] + args, tmp, 300); stamp["steps"].append(r)
             if r["ok"]: ck[name] = json.load(open(tmp)); os.remove(tmp)
         json.dump(ck, open(os.path.join(N, "checks.json"), "w"), indent=1)
+        # Monte Carlo risk report (report only, never part of the verdict; added 2026-11-21)
+        stamp["steps"].append(step("montecarlo", [S("montecarlo.py"), "report", repo], os.path.join(N, "montecarlo.json"), 300))
         stamp["steps"].append(step("dashboard", [S("dashboard.py"), repo], None, 300))
     need = {"library", "library_2x", "library_ideal", "allocator", "stats"}
     stamp["ok"] = need <= {s["step"] for s in stamp["steps"] if s["ok"]}
