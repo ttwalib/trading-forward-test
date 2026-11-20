@@ -1,7 +1,8 @@
 {
  "engine": "run",
- "at": "2026-11-19T14:47:36-05:00",
+ "at": "2026-11-20T09:35:17-05:00",
  "errors": [],
- "candidates": 7,
- "new": 0
+ "candidates": 0,
+ "new": 0,
+ "library_new": 3
 }
