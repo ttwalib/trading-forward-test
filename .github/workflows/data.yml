@@ -5,8 +5,9 @@
 name: market-data
 on:
   schedule:
-    - cron: "30-55/5 14 * * 1-5"   # tick: 5m bars + 5-minute signal engine (UTC; the test runs in winter, ET = UTC-5)
-    - cron: "*/5 15-20 * * 1-5"    # tick, 10:00-15:55 ET. About 78 runs a day keeps the job under the 2,000 free minutes
+    # The 5-minute ticks come from an external pinger (cron-job.org, set up 2026-11-20; ops/engine_pinger.md) calling
+    # workflow_dispatch with mode "tick": GitHub ran its own */5 schedule only about hourly. Backup tick at :50 each hour.
+    - cron: "50 14-20 * * 1-5"
     - cron: "40 22 * * 1-5"        # nightly daily bars, corporate actions, VIX (after the 17:00 ET cut)
   workflow_dispatch:
     inputs:

@@ -208,6 +208,11 @@ After the existing steps:
   has NOT shown skill on past data; the verdict window will show whether it has any.
 - Crypto track costs were checked: 0.2% per side for majors and 0.3% for small coins (crypto_tracks.py COST).
 
+- (2026-11-20, 14:25 Nairobi) External pinger live: cron-job.org calls workflow_dispatch (mode tick) every 5 minutes,
+  Mon-Fri 09:00-15:55 ET; test call returned 204 and started a run. GitHub's own */5 schedule removed (it ran about
+  hourly); one backup tick a hour at :50 and the 17:40 nightly stay. If engine delay_min is over 20 again, check the
+  cron-job.org job first (token expiry 2027-03-31).
+
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
 
 - From 2026-12-01 no new features, strategies of the library, benchmarks or rule changes: only fixes for defects
