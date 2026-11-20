@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantavius the 1st – Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE a calm research desk for a 13-week simulated forward test
+   IDEA a central-bank style bulletin: the finding as the title, figures in ruled columns
+   PICTURE the AI portfolio's cumulative return against SPY, volatility-matched SPY, equal weight and baseline A
+   COLOUR white ground, ink #14161a, deep teal #0b5d63 for gains, brick #b3372b for losses; night #0d1416
+   TYPE Libre Caslon Text for titles and big figures, Inter for everything else */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0d1416);--ink:light-dark(#14161a,#e6ecec);--mut:light-dark(#5b6168,#9aa8aa);--rule:light-dark(#dfe3e6,#24343a);--panel:light-dark(#f4f7f7,#13202a);--teal:light-dark(#0b5d63,#4fb6ad);--red:light-dark(#b3372b,#ef7a6c);--chip:light-dark(#e3efee,#1b3238);--s2:light-dark(#8a6d1f,#d8b45a);--s3:light-dark(#5a4fa0,#a99cf0);--s4:light-dark(#7a7f86,#8d9aa0)}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,.big{font-family:"Libre Caslon Text",Georgia,serif;font-weight:400;letter-spacing:-.02em;line-height:1.08}
+h1{font-size:clamp(28px,4.2vw,44px);margin:0 0 6px;text-wrap:balance}
+h2{font-size:23px;margin:0 0 10px}
+h3{font-size:15px;margin:18px 0 6px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}
+header{border-bottom:1px solid var(--rule);background:var(--bg);position:sticky;top:0;z-index:5}
+.bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:10px}
+.brand{font-family:"Libre Caslon Text",Georgia,serif;font-size:20px;margin-right:auto}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--ink);text-decoration:none;padding:10px 14px;border-radius:8px;min-height:44px;display:inline-flex;align-items:center}
+nav a[aria-current=page]{background:var(--chip);color:var(--teal);font-weight:600}
+.status{font-size:13px;color:var(--mut)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mut);margin-right:6px}
+.dot.on{background:var(--teal)}.dot.old{background:var(--s2)}.dot.off{background:var(--red)}
+section{padding-block:clamp(20px,3vw,36px)}
+.lede{color:var(--mut);margin:0 0 18px;max-width:75ch}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5em,1fr));border-top:2px solid var(--ink);border-bottom:1px solid var(--rule)}
+.figs div{padding:12px 14px 12px 0}
+.figs b{display:block;font:400 clamp(24px,2.8vw,32px)/1.1 "Libre Caslon Text",Georgia,serif;white-space:nowrap}
+.figs span{font-size:13px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:28px;margin-top:24px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;margin-top:20px}
+.fig{position:relative;min-height:330px;border-bottom:1px solid var(--rule)}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{font:12px Inter,sans-serif;fill:var(--mut);paint-order:stroke;stroke:var(--bg);stroke-width:4px}
+.cap,.note{font-size:13px;color:var(--mut)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mut);margin-top:6px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.ladder .row{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.ladder .track{height:8px;background:var(--panel);border-radius:4px;position:relative;margin-top:5px}
+.ladder .fill{position:absolute;top:0;left:0;height:8px;border-radius:4px;background:var(--teal)}
+.ladder .v{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-weight:600;text-align:left;color:var(--mut);font-size:13px;border-bottom:2px solid var(--ink);padding:8px 6px;white-space:nowrap}
+td{padding:7px 6px;border-bottom:1px solid var(--rule);white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td.w{white-space:normal}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;background:var(--chip)}
+.pos{color:var(--teal)}.neg{color:var(--red)}
+.pill.pos{background:color-mix(in srgb,var(--teal) 14%,transparent)}.pill.neg{background:color-mix(in srgb,var(--red) 14%,transparent)}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px 18px}
+.banner{border-left:4px solid var(--s2);background:var(--panel);padding:12px 16px;border-radius:6px;margin:0 0 18px;font-size:14px}
+.banner.ok{border-color:var(--teal)}.banner.bad{border-color:var(--red)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(10em,1fr));gap:10px 22px;margin:8px 0}
+.kv div{font-size:13px;color:var(--mut)}.kv b{display:block;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
+button{font:600 15px Inter,sans-serif;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--teal);background:var(--teal);color:var(--bg);cursor:pointer}
+button.ghost{background:transparent;color:var(--teal)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,textarea:focus-visible,nav a:focus-visible{outline:3px solid color-mix(in srgb,var(--teal) 55%,transparent);outline-offset:2px}
+textarea{font:16px Inter,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:9px 10px;width:100%;min-height:88px;resize:vertical}
+label{font-size:13px;color:var(--mut);display:grid;gap:4px}
+.answer{white-space:pre-wrap;font-size:15px;margin-top:10px}
+[hidden]{display:none!important}
+@media(max-width:820px){.grid,.grid2{grid-template-columns:minmax(0,1fr)}.fig{min-height:260px}}
+@media(max-width:600px){table{font-size:13px}th,td{padding:6px 4px}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <div class="brand">Quantavius the 1st</div>
+  <nav>
+    <a href="#overview" id="nav-overview">Overview</a>
+    <a href="#strategies" id="nav-strategies">Strategies</a>
+    <a href="#live" id="nav-live">Live &amp; data</a>
+    <a href="#pipeline" id="nav-pipeline">Pipeline</a>
+    <a href="#ask" id="nav-ask">Ask</a>
+  </nav>
+  <div class="status"><span class="dot" id="srcDot"></span><span id="srcTxt">Loading…</span></div>
+</div></header>
+
+<main class="wrap">
+<section id="v-overview">
+  <h1 id="finding">AI-managed portfolio, simulated forward test</h1>
+  <p class="lede" id="sub">Nothing is ever traded. Every strategy runs on real market prices; Quantavius decides each day how much pretend money each one gets.</p>
+  <div class="banner" id="verdictBanner"></div>
+  <div class="figs" id="topFigs"></div>
+  <div class="grid">
+    <div>
+      <h2>Cumulative return since 16 November</h2>
+      <div class="fig"><svg id="curve" role="img" aria-label="Cumulative return of the AI portfolio and its benchmarks"></svg></div>
+      <div class="legend" id="curveLegend"></div>
+      <p class="cap" id="curveCap"></p>
+    </div>
+    <div class="ladder">
+      <h2>Today's allocation</h2>
+      <div id="weights"></div>
+      <p class="cap" id="weightsCap"></p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h2>Pre-registered verdict check</h2>
+      <div id="vcheck"></div>
+    </div>
+    <div class="panel">
+      <h2>Context (never decides the verdict)</h2>
+      <div class="kv" id="context"></div>
+      <p class="note" id="freeze"></p>
+    </div>
+  </div>
+  <section>
+    <h2>Market regime</h2>
+    <div class="kv" id="regime"></div>
+  </section>
+</section>
+
+<section id="v-strategies" hidden>
+  <h1>Every strategy, scored with bias-aware statistics</h1>
+  <p class="lede">Results per trade, all data since 16 November. q is the Benjamini-Hochberg corrected significance (lower is stronger); DSR is the deflated Sharpe ratio, which allows for how many ideas have been tried. Small samples: most verdicts read "unproven" for now.</p>
+  <div class="scroll"><table id="tStats"><thead><tr><th>Strategy</th><th>Unit</th><th class="n">Trades</th><th class="n">Average</th><th class="n">90% range</th><th class="n">P(&gt;0)</th><th class="n">q</th><th class="n">DSR</th><th>Verdict</th><th>Breaker</th></tr></thead><tbody></tbody></table></div>
+  <p class="note" id="statsNote"></p>
+  <section>
+    <h2>Strategy library (13 conventional strategies)</h2>
+    <p class="lede">Forward results since 16 November use realistic fills; the "instant fill" column shows what the old, slightly too generous fills would have given. The backtest columns use up to 2 years before the test and count only as cautious evidence.</p>
+    <div class="scroll"><table id="tLib"><thead><tr><th>Strategy</th><th class="n">Live days</th><th class="n">Live total %</th><th class="n">Instant-fill total %</th><th class="n">Backtest days</th><th class="n">Backtest avg % / day</th><th class="n">Backtest Sharpe</th></tr></thead><tbody></tbody></table></div>
+  </section>
+  <section>
+    <h2>Latest closed trades</h2>
+    <div class="scroll"><table id="tTrades"><thead><tr><th>Day</th><th>Strategy</th><th>Symbol</th><th class="n">Result</th><th>Unit</th></tr></thead><tbody></tbody></table></div>
+    <p class="note" id="tradesNote"></p>
+  </section>
+</section>
+
+<section id="v-live" hidden>
+  <h1>Live signals, costs and data health</h1>
+  <p class="lede">The 5-minute engine runs on GitHub every 5 minutes in market hours with no AI in the loop: it seals each baseline-A breakout with the time and the real-time price at that moment. Slippage compares what a real order would have paid with the simulated fill, without placing any order.</p>
+  <h2>5-minute engine</h2>
+  <div class="kv" id="engKv"></div>
+  <div class="scroll"><table id="tEng"><thead><tr><th>Stock</th><th>List</th><th>Signal bar ended</th><th>Detected</th><th class="n">Delay (min)</th><th class="n">Signal price</th><th class="n">Engine fill</th><th class="n">Difference</th></tr></thead><tbody></tbody></table></div>
+  <p class="note" id="engNote"></p>
+  <div class="grid2">
+    <div class="panel">
+      <h2>Slippage (no orders)</h2>
+      <div class="kv" id="slip"></div>
+      <p class="note">Spread = half the bid/ask gap a market order pays. Drift = how far the price moved between the simulated fill and the quote, mostly from the delay. The model cost is what the simulation charges per side.</p>
+    </div>
+    <div class="panel">
+      <h2>Data feed and freshness</h2>
+      <div class="kv" id="feed"></div>
+      <p class="note">Prices come from Alpaca's free plan (all US exchanges, at least 15 minutes old), Cboe for VIX and Interactive Brokers for the newest minutes, options and earnings.</p>
+    </div>
+  </div>
+  <section class="panel" style="margin-top:22px">
+    <h2>Machine learning (take-or-skip filter)</h2>
+    <div class="kv" id="ml"></div>
+    <p class="note">The model is only used live if, on days it never saw, the trades it picks beat taking every signal. PBO is the chance its best setting was just lucky; above 0.5 means "probably luck".</p>
+  </section>
+</section>
+
+<section id="v-pipeline" hidden>
+  <h1>The automated pipeline</h1>
+  <p class="lede">Scheduled sessions of Quantavius run the test; the GitHub workflow feeds prices and runs the engine. Live status comes from your Claude scheduled tasks when the page may read them.</p>
+  <div class="scroll"><table id="tTasks"><thead><tr><th>Task</th><th>Schedule (New York)</th><th>Last run</th><th>Status</th><th>Next run (your time)</th></tr></thead><tbody></tbody></table></div>
+  <p class="note" id="tasksNote"></p>
+  <section>
+    <h2>Key dates</h2>
+    <div class="kv" id="dates"></div>
+  </section>
+</section>
+
+<section id="v-ask" hidden>
+  <h1>Ask about the test</h1>
+  <p class="lede">Claude answers from the figures on this page. Research only, never a buy or sell call.</p>
+  <label for="q">Your question<textarea id="q">How is the AI portfolio doing against the benchmarks, and how much evidence is there so far?</textarea></label>
+  <p><button id="askBtn">Ask Claude</button></p>
+  <div class="answer" id="ans"></div>
+</section>
+</main>
+
+<script id="snapshot" type="application/json">__SNAPSHOT__</script>
+<script>
+{
+const OWNER="ttwalib",REPO="trading-forward-test",PATH="data/dashboard.json";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const num=(v,d=2)=>v==null||isNaN(v)?"–":(+v).toFixed(d);
+const sgn=(v,d=2,u="")=>v==null||isNaN(v)?"–":(v>0?"+":"")+(+v).toFixed(d)+u;
+const cls=v=>v>0?"pos":v<0?"neg":"";
+const SER=[["ai","AI portfolio","var(--teal)"],["spy","SPY","var(--s4)"],["vm","SPY, volatility-matched","var(--s2)"],["eq","Equal weight","var(--s3)"],["a","Baseline A","var(--red)"]];
+let D=null,src="snapshot";
+try{D=JSON.parse($("snapshot").textContent)}catch(e){}
+
+/* routing */
+const views=["overview","strategies","live","pipeline","ask"];
+function route(){const h=(location.hash||"#overview").slice(1),v=views.includes(h)?h:"overview";
+  views.forEach(n=>{$("v-"+n).hidden=n!==v;const a=$("nav-"+n);n===v?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
+  if(v==="overview")drawCurve();}
+addEventListener("hashchange",route);addEventListener("resize",()=>{if(!$("v-overview").hidden)drawCurve()});
+
+function setSrc(){const g=D&&D.generated;const age=g?(Date.now()-Date.parse(g.replace(" ","T")+"-05:00"))/6e4:1e9;
+  $("srcDot").className="dot "+(src==="github"&&age<90?"on":age<1440?"old":"off");
+  $("srcTxt").textContent=(src==="github"?"Live from the repo":"Saved snapshot")+(g?" · data as of "+g+" New York":"");}
+
+function perf(p){return p||{}}
+function render(){if(!D)return;setSrc();
+  const A=D.allocator||{},ph=A.phases||{},all=perf(ph.all),win=ph.verdict;
+  const ai=perf(all.ai),spy=perf(all.spy),vm=perf(all.spy_vm),eq=perf(all.equal),ba=perf(all.base_a);
+  const days=ai.days||0,cal=D.calendar||{};
+  $("finding").textContent=days?`AI portfolio ${sgn(ai.total_pct,2,"%")} vs SPY ${sgn(spy.total_pct,2,"%")} after ${days} trading day${days>1?"s":""}`:"The AI portfolio has not started yet";
+  const vStart=(D.windows||{}).verdict||["2026-12-07"];
+  const today=(cal.date||D.generated||"").slice(0,10);
+  const dleft=Math.round((Date.parse(vStart[0])-Date.parse(today))/864e5);
+  $("sub").textContent=`Simulated test, ${D.windows?.start||"2026-11-16"} to ${D.windows?.end||"2027-02-12"}. Phase: ${cal.phase||"–"}${cal.week_index?", week "+cal.week_index:""}. Nothing is ever traded.`;
+  const vc=(A.verdict_check||{}).verdict;
+  const b=$("verdictBanner");
+  if(!win){b.className="banner";b.innerHTML=`<b>The verdict window has not started.</b> It runs ${esc(vStart[0])} to ${esc(vStart[1])}${dleft>0?` (starts in ${dleft} day${dleft>1?"s":""})`:""}; until then everything below is warm-up evidence. The allocator and library code freeze on ${esc(vStart[0])}.`;}
+  else if(vc&&vc.pass!=null){b.className="banner "+(vc.pass?"ok":"bad");b.innerHTML=vc.pass?`<b>So far the AI portfolio passes the pre-registered test</b> over the verdict window${vc.robust_2x?", including at double costs":""}. The final answer comes on ${esc(D.windows.final_report)}.`:`<b>So far the AI portfolio does not pass the pre-registered test</b> over the verdict window. The final answer comes on ${esc(D.windows.final_report)}.`;}
+  else{b.className="banner";b.innerHTML=`<b>Verdict window running</b>: ${esc((vc&&vc.status)||"not enough days yet")}.`;}
+  $("topFigs").innerHTML=[["AI portfolio",ai.total_pct,"%"],["SPY",spy.total_pct,"%"],["SPY, vol-matched",vm.total_pct,"%"],["Equal weight",eq.total_pct,"%"],["Baseline A",ba.total_pct,"%"]].map(([l,v,u])=>`<div><b class="${cls(v)}">${sgn(v,2,u)}</b><span>${l}, total</span></div>`).join("")
+    +`<div><b>${num(ai.sharpe,2)}</b><span>AI Sharpe (SPY ${num(spy.sharpe,2)})</span></div><div><b>${sgn(ai.max_dd_pct!=null?-Math.abs(ai.max_dd_pct):null,2,"%")}</b><span>AI worst fall (SPY ${sgn(spy.max_dd_pct!=null?-Math.abs(spy.max_dd_pct):null,2,"%")})</span></div>`;
+  $("curveCap").textContent=`Daily returns compounded. Volatility-matched SPY is SPY scaled to the AI portfolio's ups and downs (scale ${num(all.spy_vm_scale,2)}). Evidence so far can only detect a Sharpe gap of about ${num(all.sharpe_gap_detectable,1)}.`;
+  $("curveLegend").innerHTML=SER.map(s=>`<span><i style="background:${s[2]}"></i>${s[1]}</span>`).join("");
+  const LW=A.weights||{},W=(LW.weights&&typeof LW.weights==="object")?LW.weights:LW,ent=Object.entries(W).filter(x=>typeof x[1]==="number").sort((a,b)=>b[1]-a[1]),inv=ent.reduce((a,x)=>a+x[1],0);
+  $("weights").innerHTML=ent.length?ent.map(([k,v])=>`<div class="row"><div>${esc(k)}<div class="track"><div class="fill" style="width:${Math.min(100,v/0.25*100)}%"></div></div></div><div class="v">${(v*100).toFixed(1)}%</div></div>`).join(""):`<p class="note">All in cash today.</p>`;
+  const wh=(D.weights_hist||[]).slice(-1)[0]||{};
+  $("weightsCap").textContent=`Invested ${(inv*100).toFixed(1)}%, the rest in cash. Forecast volatility ${num(wh.vol,1)}% a year (target 10%). Sleeves switched off by the losing-streak rule: ${wh.br??"–"}. Bars are scaled to the 25% cap.`;
+  const vk=A.verdict_check||{};
+  const rowsV=Object.entries(vk).map(([phn,v])=>{if(!v||v.status)return `<p class="note">${esc(phn)}: ${esc(v&&v.status||"–")}</p>`;
+    return `<h3>${esc(phn)} ${v.pass?'<span class="pill pos">pass</span>':'<span class="pill neg">not yet</span>'}</h3><div class="scroll"><table><thead><tr><th>Benchmark</th><th>Sharpe</th><th>Drawdown</th><th>P ≥ 0.9</th></tr></thead><tbody>${Object.entries(v.by_benchmark||{}).map(([k,x])=>`<tr><td>${esc({spy:"SPY (+ vol-matched)",equal:"Equal weight",base_a:"Baseline A"}[k]||k)}</td>${["sharpe","drawdown","p_ge_0.9"].map(f=>`<td>${x[f]?"✓":"✗"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}).join("");
+  $("vcheck").innerHTML=rowsV||`<p class="note">Applies from ${esc(vStart[0])}. Rule: beat SPY, equal weight and baseline A on Sharpe and on worst fall, with at least 90% bootstrap probability; against SPY also beat volatility-matched SPY; robust only if it still beats SPY at double costs. Realistic fills throughout.</p><p class="note">Bootstrap chance the AI beats each benchmark so far (all data): ${Object.entries(all.p_ai_beats||{}).map(([k,v])=>esc(k)+" "+num(v,2)).join(" · ")||"–"}</p>`;
+  const s2=((A.stress_2x||{}).all||{}).ai||{},idf=((A.ideal_fills||{}).all||{}).ai||{},nt=A.netted||{};
+  $("context").innerHTML=[["At double costs",sgn(s2.total_pct,2,"%")],["With instant fills",sgn(idf.total_pct,2,"%")],["If trades were netted",sgn((nt.ai_netted||{}).total_pct,2,"%")],["Turnover per day",num(all.turnover_per_day,3)],["Rebalancing cost",sgn(all.rebal_cost_pct_total!=null?-all.rebal_cost_pct_total:null,3,"%")],["Strategies (sleeves)",A.sleeves??"–"]].map(([l,v])=>`<div>${l}<b>${v}</b></div>`).join("");
+  const fz=A.freeze||{};$("freeze").textContent=fz.frozen===false||!fz.code_matches_freeze&&fz.code_matches_freeze!==false?`Code freeze: from ${vStart[0]}.`:`Code freeze: ${fz.code_matches_freeze?"code matches the frozen fingerprint":"CODE CHANGED since the freeze"}.`;
+  const R=D.regime||{};$("regime").innerHTML=R.date?[["Date",R.date],["Label",R.label],["VIX",num(R.vix,1)+" ("+(R.vix_band||"")+")"],["SPY vs 20-day",sgn(R.spy_vs20,1,"%")],["Breadth (above 20-day)",num(R.breadth20,0)+"%"],["New highs − lows",R.nh_nl??"–"],["BTC vs 20-day",sgn(R.btc_vs20,1,"%")],["VIX term (3M/1M)",num(R.vix_term,2)]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join(""):`<p class="note">No regime row yet.</p>`;
+  /* strategies */
+  const S=D.stats||{rows:[]};
+  $("tStats").tBodies[0].innerHTML=S.rows.map(x=>`<tr><td>${esc(x.strategy)}</td><td>${esc(x.unit)}</td><td class="n">${x.n??"–"}</td><td class="n ${cls(x.mean)}">${sgn(x.mean,3)}</td><td class="n">${num(x.ci_lo,2)} to ${num(x.ci_hi,2)}</td><td class="n">${num(x.p_gt0,2)}</td><td class="n">${num(x.q_bh,2)}</td><td class="n">${num(x.dsr,2)}</td><td><span class="pill ${x.verdict==="promising"?"pos":x.verdict==="losing"?"neg":""}">${esc(x.verdict)}</span></td><td>${esc(x.breaker)}</td></tr>`).join("");
+  $("statsNote").textContent=`Statistics of ${S.date||"–"}; unique ideas tried so far (trial ledger): ${S.trials&&typeof S.trials==="object"?(S.trials.unique_trials??"–"):S.trials??"–"}.`;
+  $("tLib").tBodies[0].innerHTML=(D.library||[]).map(x=>`<tr><td>${esc(x.name)}</td><td class="n">${x.fwd_days}</td><td class="n ${cls(x.fwd_sum)}">${sgn(x.fwd_sum,2)}</td><td class="n">${sgn(x.ideal_fwd_sum,2)}</td><td class="n">${x.bt_days}</td><td class="n ${cls(x.bt_mean)}">${sgn(x.bt_mean,3)}</td><td class="n">${num(x.bt_sharpe,2)}</td></tr>`).join("");
+  $("tTrades").tBodies[0].innerHTML=[...(D.recent_trades||[])].reverse().map(t=>`<tr><td>${esc(t.day)}</td><td>${esc(t.strategy)}</td><td>${esc(t.symbol)}</td><td class="n ${cls(t.result)}">${sgn(t.result,2)}</td><td>${esc(t.unit)}</td></tr>`).join("");
+  $("tradesNote").textContent=`${(D.trade_counts||{}).closed??"–"} closed trades logged since ${(D.trade_counts||{}).since||"–"}.`;
+  /* live */
+  const E=D.engine||{},ed=E.days||[],last=ed[ed.length-1]||{};
+  $("engKv").innerHTML=[["Latest day",last.d||"–"],["Signals sealed",last.n??"–"],["Median delay",last.median_delay!=null?last.median_delay+" min":"–"],["Within 20 min",last.within20??"–"],["Last engine run",(E.status||{}).at?String(E.status.at).slice(0,16).replace("T"," "):"–"],["Engine errors",((E.status||{}).errors||[]).length]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
+  $("tEng").tBodies[0].innerHTML=[...(E.latest||[])].reverse().map(x=>{const df=x.ideal_entry&&x.fill_price?(x.fill_price/x.ideal_entry-1)*100:null;return `<tr><td><b>${esc(x.symbol)}</b></td><td>${esc(x.list)}</td><td>${esc(x.signal_end)}</td><td>${esc(String(x.detected_at||"").slice(11,16))}</td><td class="n">${num(x.delay_min,1)}</td><td class="n">${num(x.ideal_entry,2)}</td><td class="n">${num(x.fill_price,2)}</td><td class="n ${cls(df)}">${sgn(df,2,"%")}</td></tr>`}).join("");
+  $("engNote").textContent=ed.length?"Detections more than 20 minutes late (engine outage or a late GitHub start) are not used as fills; the price 5 minutes after the signal is used instead.":"No engine detections yet.";
+  const SL=D.slippage||{},db=SL.drift_pct_median_by_delay||{};
+  $("slip").innerHTML=SL.n?[["Quotes recorded",SL.n],["Median spread cost",num(SL.spread_pct_median,3)+"%"],["Model cost per side",num(SL.model_side_cost_pct_median,3)+"%"],["Model cheaper than reality?",SL.model_cheaper_than_spread?"YES – check":"no"],["Drift, 0–15 min",num((db["0-15"]||{}).median,2)+"% (n "+((db["0-15"]||{}).n??0)+")"],["Drift, 15–30 min",num((db["15-30"]||{}).median,2)+"% (n "+((db["15-30"]||{}).n??0)+")"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join(""):`<p class="note">No slippage readings yet.</p>`;
+  const F=D.feed||{},fr=D.fresh||{};
+  $("feed").innerHTML=[["Last feed run",(F.mode||"–")+" · "+String(F.finished||"–").slice(11,16)+" UTC"],["Feed errors",(F.errors||[]).length],["5-minute bars current",fr["5m"]?(fr["5m"].fresh?"yes":"stale: "+fr["5m"].stale.length):"–"],["Daily bars current",fr["1d"]?(fr["1d"].fresh?"yes":"stale: "+fr["1d"].stale.length):"–"],["Price mismatches logged",F.mismatch??"–"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
+  const M=D.ml||{},ms=M.stock||{},cs=ms.champion_stats||{};
+  $("ml").innerHTML=[["Training rows (stocks)",ms.rows??"–"],["Out-of-sample days",ms.oos_days??"–"],["Take-everything average (R)",sgn(ms.always_take_mean,3)],["Champion",ms.champion||"–"],["Champion takes",cs.share_taken!=null?(cs.share_taken*100).toFixed(1)+"% of signals":"–"],["Champion average (R)",sgn(cs.mean_taken,3)],["PBO",num(ms.pbo,2)],["Crypto model",(M.crypto||{}).status||((M.crypto||{}).champion)||"–"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
+  const w=D.windows||{};$("dates").innerHTML=[["Test start",w.start],["Verdict window",(w.verdict||[]).join(" to ")],["Frozen holdout",(w.holdout||[]).join(" to ")],["Stocks end",w.end],["Crypto end",w.crypto_end],["Final report",w.final_report]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
+  drawCurve();
+}
+
+function drawCurve(){const s=$("curve");if(!D||!s)return;const Wd=s.clientWidth,H=s.clientHeight;if(!Wd||!H)return;
+  const C=D.curve||[],k=((D.allocator||{}).phases||{}).all?.spy_vm_scale||0;
+  if(!C.length){s.innerHTML=`<text x="${Wd/2}" y="${H/2}" text-anchor="middle">The curve starts with the first full day</text>`;return;}
+  const keys=SER.map(x=>x[0]),cum={},acc={};keys.forEach(x=>{cum[x]=[0];acc[x]=1});
+  C.forEach(r=>{const v={ai:r.ai,spy:r.spy,vm:r.spy!=null?r.spy*k:null,eq:r.eq,a:r.a};keys.forEach(x=>{acc[x]*=1+((v[x]||0)/100);cum[x].push((acc[x]-1)*100)})});
+  const all=keys.flatMap(x=>cum[x]),lo=Math.min(0,...all),hi=Math.max(0,...all),span=(hi-lo)||1;
+  const m={l:46,r:16,t:14,b:28},n=C.length,X=i=>m.l+i*(Wd-m.l-m.r)/Math.max(1,n),Y=v=>m.t+(hi-v)/span*(H-m.t-m.b);
+  const step=span>20?5:span>8?2:span>3?1:span>1.2?0.5:0.2,t=[];for(let v=Math.ceil(lo/step)*step;v<=hi+1e-9;v+=step)t.push(+v.toFixed(3));
+  const lbl=[0,Math.floor(n/2),n].filter((x,i,a)=>a.indexOf(x)===i);
+  s.innerHTML=t.map(v=>`<line x1="${m.l}" x2="${Wd-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)" ${v===0?'stroke="var(--mut)" stroke-width="1.4"':""}/><text x="${m.l-8}" y="${Y(v)+4}" text-anchor="end">${v>0?"+":""}${v}%</text>`).join("")
+    +lbl.map(i=>`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?"start":i===n?"end":"middle"}">${esc(i===0?"start":C[i-1].d.slice(5))}</text>`).join("")
+    +SER.slice().reverse().map(([x,,c])=>`<path d="${cum[x].map((v,i)=>(i?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1)).join("")}" fill="none" stroke="${c}" stroke-width="${x==="ai"?3:1.6}" ${x==="vm"?'stroke-dasharray="5 4"':""}/>`).join("");}
+
+/* live data from the repo through the viewer's GitHub connector */
+function findJson(p,depth=0){if(p==null||depth>5)return null;
+  if(typeof p==="string"){const t=p.trim();if(t.startsWith("{")&&t.includes('"generated"')){try{return JSON.parse(t)}catch(e){}}
+    if(/^[A-Za-z0-9+/=\s]+$/.test(t)&&t.length>200){try{return findJson(atob(t.replace(/\s/g,"")),depth+1)}catch(e){}}return null;}
+  if(typeof p==="object"){if(p.generated&&p.allocator)return p;for(const v of Object.values(p)){const r=findJson(v,depth+1);if(r)return r}}return null;}
+function sourceNote(code){const m={server_not_connected:"Add the GitHub connector in claude.ai Settings → Connectors to see live data.",needs_reauth:"Reconnect GitHub in claude.ai Settings → Connectors to see live data.",tool_error:"GitHub can't reach the repo yet: give the Claude GitHub app access to ttwalib/trading-forward-test to see live data.",not_in_manifest:"Live data is turned off for this page.",approval_required:"Allow this page to read GitHub to see live data."}[code];
+  return m||"Live data unavailable just now; showing the saved snapshot.";}
+let mcp=null;
+(async()=>{mcp=await claude.use("mcp");if(!mcp){setSrc();return;}
+  mcp.watchTool("github","get_file_contents",{owner:OWNER,repo:REPO,path:PATH},ev=>{
+    if(ev.type==="data"){const j=findJson(ev.result&&(ev.result.payload??ev.result));if(j&&(!D||j.generated>=D.generated)){D=j;src="github";render();}else if(!j){$("srcTxt").textContent="Saved snapshot · couldn't read the repo file";}}
+    else{const c=ev.error&&ev.error.code;$("srcTxt").title=sourceNote(c);$("srcTxt").textContent="Saved snapshot"+(D&&D.generated?" · data as of "+D.generated+" NY":"")+" · "+sourceNote(c);}
+  },{refetchInterval:300000,cache:{staleTime:240000,gcTime:3600000}});
+  loadTasks();})();
+
+/* pipeline */
+const SCHED=[["Quantavius the 1st – morning research + events (08:05 ET)","08:05 daily"],["Quantavius the 1st – stocks + control list (09:12, 16:12 ET)","09:12, 16:12 trading days"],["Quantavius the 1st – live decisions (hourly 10:05–15:05 ET)","hourly 10:05–15:05"],["Quantavius the 1st – crypto tracks (every 3 h at :47)","every 3 h at :47"],["Quantavius the 1st – deep OTM + weekly options (17:00 ET)","17:00 weekdays"],["Quantavius the 1st – adaptive stocks (17:20 ET)","17:20 weekdays"],["Quantavius the 1st – weekly report (Fri 17:40 ET)","Fri 17:40"],["Quantavius the 1st – evening scoring of picks (20:20 ET)","20:20 weekdays"],["Quantavius the 1st – orchestrator (nightly 21:05 ET)","21:05 daily"],["Quantavius the 1st – ML nightly (22:05 ET)","22:05 daily"],["Quantavius the 1st – learning + strategy lab (Wed + Sat 23:15 ET)","Wed, Sat 23:15"],["Quantavius the 1st – picks review (Fri 23:40 ET)","Fri 23:40"],["Quantavius the 1st – watchdog (05:35, 12:35, 19:35 ET)","05:35, 12:35, 19:35"],["Quantavius the 1st – final report (Tue 16 Feb 2027 10:07 ET)","16 Feb 2027 10:07"],["GitHub market-data workflow","every 5 min 09:30–15:55, 17:40"]];
+const loc=t=>t?new Date(t).toLocaleString([], {weekday:"short",hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"}):"–";
+function renderTasks(list){const by={};(list||[]).forEach(t=>by[t.name]=t);
+  $("tTasks").tBodies[0].innerHTML=SCHED.map(([n,s])=>{const t=by[n];const st=t?.last_run?.status?.replace("ROUTINE_RUN_STATUS_","").toLowerCase();
+    const ok=st==="succeeded";return `<tr><td class="w">${esc(n.replace("Quantavius the 1st – ","").replace(/ \(.*\)$/,""))}</td><td>${esc(s)}</td><td>${t?loc(t.last_run?.fired_at):"–"}</td><td>${t?`<span class="pill ${ok?"pos":st?"neg":""}">${esc(st||(t.enabled?"not run yet":"off"))}</span>`:n.startsWith("GitHub")?`<span class="pill">${esc((D?.feed?.errors||[]).length?"errors":"see Live tab")}</span>`:"–"}</td><td>${t&&t.enabled?loc(t.next_run_at):"–"}</td></tr>`}).join("");}
+renderTasks([]);$("tasksNote").textContent="Task status needs the Claude Code Remote connection.";
+async function loadTasks(){if(!mcp)return;let all=[],cur=null;
+  try{for(let i=0;i<6;i++){const r=await mcp.callTool("Claude Code Remote","list_triggers",cur?{limit:40,cursor:cur}:{limit:40});const p=r.payload||{};all=all.concat(p.data||[]);if(!p.has_more||!p.next_cursor)break;cur=p.next_cursor;}
+    renderTasks(all);$("tasksNote").textContent="Live status from your scheduled tasks, read just now.";}
+  catch(e){$("tasksNote").textContent=e&&e.code==="server_not_connected"?"Add the Claude Code Remote connector to see task status.":e&&e.code==="approval_required"?"Allow this page to read your scheduled tasks to see their status.":"Task status unavailable just now ("+(e&&e.code||"error")+").";}}
+
+/* ask */
+$("askBtn").onclick=async()=>{const sample=await claude.use("sample");if(!sample){$("ans").textContent="Asking Claude isn't available in this view.";return;}
+  const q=$("q").value.trim();if(!q)return;$("askBtn").disabled=true;$("ans").textContent="Thinking…";
+  const ctx=JSON.stringify({allocator:D?.allocator,stats:(D?.stats?.rows||[]).slice(0,40),library:D?.library,engine:D?.engine?.days,slippage:D?.slippage,ml:D?.ml,regime:D?.regime,windows:D?.windows,generated:D?.generated}).slice(0,60000);
+  try{await sample(`You explain a SIMULATED trading forward test (nothing is traded) run by an AI called Quantavius the 1st. Answer the question in plain English in at most 180 words, using only the data below. Be honest about small samples and say how much evidence there is. Never recommend buying or selling anything.\n\nDATA (as of ${D?.generated} New York):\n${ctx}\n\nQUESTION: ${q}`,{onText:({text})=>{$("ans").textContent=text},cache:false});}
+  catch(e){$("ans").textContent=e&&e.code==="not_granted"?"Asking Claude isn't available in this view.":"Couldn't get an answer ("+(e&&e.code||"error")+").";}
+  $("askBtn").disabled=false;};
+
+route();render();
+}
+</script>
+</body>
+</html>

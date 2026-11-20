@@ -40,12 +40,13 @@ jobs:
         run: |
           python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
+          python3 scripts/dashboard.py . || echo "dashboard data failed"
       - name: Commit
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/bars data/corp ops/diag/fetch_free.json
-          for p in data/hist data/decisions/engine ops/diag/engine.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           git diff --cached --quiet && exit 0
           git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"
           for i in 1 2 3 4 5; do

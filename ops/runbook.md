@@ -132,6 +132,8 @@ After the existing steps:
    Digest also carries: verdict_check (pass so far, per benchmark incl. vol-matched SPY "spy_vm"), the AI result with
    implementable vs ideal fills (ideal_fills), turnover_per_day and rebal_cost_pct_total, the latest vol_forecast_pct,
    and netted_exploratory (never part of the verdict).
+4e. DASHBOARD: after the allocator and stats, `python3 -I /tmp/repo/scripts/dashboard.py /tmp/repo` (writes
+   data/dashboard.json, which the dashboard artifact reads; GitHub Actions also refreshes it every 5 minutes).
 4d. ENGINE: count today's data/decisions/engine/DAY.jsonl rows and their median delay_min; ops/diag/engine.json
    errors -> one "Data check" row. No rows on a full trading day while live runs found breakouts -> flag CHECK.
 4c. SLIPPAGE: `python3 -I /tmp/repo/scripts/checks.py slip-report /tmp/repo` -> one digest line: rows, median spread %,
