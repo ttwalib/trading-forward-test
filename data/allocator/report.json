@@ -1,6 +1,6 @@
 {
  "date": "2026-11-19",
- "sleeves": 34,
+ "sleeves": 37,
  "freeze": {
   "frozen": false,
   "freeze_date": "2026-12-07"
@@ -23,17 +23,17 @@
    },
    "equal": {
     "days": 4,
-    "total_pct": -2.158,
-    "sharpe": -52.68,
-    "max_dd_pct": 2.158,
-    "mean_daily_pct": -0.5439
+    "total_pct": -3.713,
+    "sharpe": -24.03,
+    "max_dd_pct": 3.713,
+    "mean_daily_pct": -0.9399
    },
    "base_a": {
     "days": 4,
-    "total_pct": -0.578,
-    "sharpe": -7.94,
-    "max_dd_pct": 0.578,
-    "mean_daily_pct": -0.1446
+    "total_pct": -3.368,
+    "sharpe": -34.53,
+    "max_dd_pct": 3.368,
+    "mean_daily_pct": -0.8523
    },
    "spy_vm": {
     "days": 4,
@@ -70,17 +70,17 @@
    },
    "equal": {
     "days": 4,
-    "total_pct": -2.158,
-    "sharpe": -52.68,
-    "max_dd_pct": 2.158,
-    "mean_daily_pct": -0.5439
+    "total_pct": -3.713,
+    "sharpe": -24.03,
+    "max_dd_pct": 3.713,
+    "mean_daily_pct": -0.9399
    },
    "base_a": {
     "days": 4,
-    "total_pct": -0.578,
-    "sharpe": -7.94,
-    "max_dd_pct": 0.578,
-    "mean_daily_pct": -0.1446
+    "total_pct": -3.368,
+    "sharpe": -34.53,
+    "max_dd_pct": 3.368,
+    "mean_daily_pct": -0.8523
    },
    "spy_vm": {
     "days": 4,
@@ -130,10 +130,10 @@
    },
    "base_a": {
     "days": 4,
-    "total_pct": -1.042,
-    "sharpe": -7.94,
-    "max_dd_pct": 1.042,
-    "mean_daily_pct": -0.2605
+    "total_pct": -3.545,
+    "sharpe": -43.96,
+    "max_dd_pct": 3.545,
+    "mean_daily_pct": -0.898
    }
   }
  },
@@ -148,8 +148,8 @@
   }
  },
  "stamp": {
-  "commit": "bb92d2d",
-  "data_sha256": "cc1e4993879b3944",
+  "commit": "e437144",
+  "data_sha256": "cc06391242792c50",
   "data_files": 372,
   "versions": {
    "python": "3.13.18",
@@ -158,13 +158,13 @@
    "sklearn": "1.9.1",
    "scipy": "1.18.1"
   },
-  "at": "2026-11-19 21:10"
+  "at": "2026-11-20 04:24"
  },
  "latest_weights": {
   "date": "2026-11-19",
   "weights": {
-   "L10 Earnings drift": 0.0028,
-   "L11 SPY overnight": 0.1624
+   "L11 SPY overnight": 0.1624,
+   "L10 Earnings drift": 0.0028
   },
   "breakers": [
    "L2 VWAP pullback",

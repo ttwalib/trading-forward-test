@@ -113,14 +113,29 @@ After the existing steps:
    Twelve Data get_time_series (interval 1day, outputsize 5); save as {SYM: response} to /tmp/td.json; then
    `checks.py xcheck /tmp/repo /tmp/td.json`. Flagged days are excluded from ML automatically; list them in the digest.
    A Twelve Data error -> note "xcheck skipped" and go on.
+   RATE LIMIT (added 2026-11-20): Twelve Data allows 8 credits per minute and the night needs 11 calls (9 xcheck
+   symbols + BTC/USD and ETH/USD 1h). Send them in two batches: the first 6 xcheck symbols together, then
+   `sleep 65`, then the last 3 xcheck symbols plus BTC/USD and ETH/USD (5 calls). Never more than 6 in one minute.
+   A call answered "run out of API credits" -> wait 65 s and send that one call once more. For the BTC/ETH 1h check
+   (prompt STEP 3) use outputsize 5, not 3, so the hour of the last stored IBKR 1h bar is still in the reply.
 1c. LIVE vs REPLAY (full trading days): `python3 -I /tmp/repo/scripts/checks.py parity /tmp/repo DAY` (after today's 5m
    bars are stored). ok false -> one "Data check" row (date, "-", "parity", issue count, first issue, "CHECK").
 2. `python3 -I /tmp/repo/scripts/regime2.py /tmp/repo DAY` -> write regime_row_L_T to "Regime" L:T of today's row;
    LEDGER Regime with the full row.
 3. `python3 -I /tmp/repo/scripts/dq.py /tmp/repo DAY` -> append one "Data check" row per issue type (date, symbol or
    "-", "dq", count, first example, flag "CHECK"); none: one row "dq ok".
-4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> append its sheet_rows for phases "all", "v2" and
-   the current phase to "Stats" (first empty row >= 3); LEDGER Stats.
+4. `python3 -I /tmp/repo/scripts/stats.py /tmp/repo DAY > /tmp/stats.json` -> write its sheet_rows for phases "all", "v2",
+   "verdict" (from 2026-12-07) and the current phase to "Stats" by OVERWRITING rows 3+ (changed 2026-11-20: the tab
+   holds only the latest night; appending ~80 rows a night would fill its 1,000 rows in two weeks). Write the rows from
+   row 3 down in updates of at most ~900 cells, then clear (null) every old row below the new last row up to the tab's
+   previous filledRange end. The full history stays in the repo: data/ledger/Stats.jsonl and reports/stats/DAY.json.
+   LEDGER Stats.
+4-pre. LEDGER COMPLETE BEFORE STATS (added 2026-11-20): stats.py and allocator.py read the repo ledger, so before
+   step 4b run the ML NIGHTLY step 1 mirror check (`ledger.py count /tmp/repo` vs the sheet's filledRange of "Trades",
+   "Options", "Variant trades", "Crypto tracks", "Weekly options", "Agent trades", "Adaptive stocks"; add any missing
+   sheet rows with ledger.py add). On 2026-11-19 the ledger lacked the 11-16..11-18 baseline rows at 21:05 (the ML
+   task mirrored them at 22:05), so that night's Stats and Allocation rows were computed on 5 instead of 22 baseline
+   trades and had to be rewritten.
 4b. STRATEGY LIBRARY + AI ALLOCATOR (after stats): `python3 -I /tmp/repo/scripts/library.py /tmp/repo DAY > /tmp/lib.json`
    (rebuilds data/ledger/Library.jsonl and data/library/daily.json itself); append its new_closed_rows to "Library trades"
    (first empty row >= 3, A-L). Then the cost stress run `library.py /tmp/repo DAY --cost-mult 2 > /tmp/lib2.json`

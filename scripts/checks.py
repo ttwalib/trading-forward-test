@@ -75,8 +75,10 @@ def bar_timing(repo):
             if d in b1 and len(rth) >= (42 if tcal.is_half(d) else 78):
                 checked += 1; D = b1[d]
                 hi, lo, cl = max(b["h"] for b in rth), min(b["l"] for b in rth), rth[-1]["c"]
-                for name, a, z in (("high", hi, D["h"]), ("low", lo, D["l"]), ("close", cl, D["c"])):
-                    if z and abs(a / z - 1) > 0.002: issues.append("%s %s: 5m %s %.4f vs daily %.4f" % (s, d, name, a, z))
+                # close: the daily bar holds the official closing-auction price, the last 5m bar the last trade before
+                # 16:00, so up to 0.6% (or 3 cents on cheap stocks) is normal (changed 2026-11-20; high/low stay at 0.2%)
+                for name, a, z, tol in (("high", hi, D["h"], 0.002), ("low", lo, D["l"], 0.002), ("close", cl, D["c"], 0.006)):
+                    if z and abs(a / z - 1) > tol and abs(a - z) > 0.03: issues.append("%s %s: 5m %s %.4f vs daily %.4f" % (s, d, name, a, z))
     conv = "start" if votes["start"] and not votes["end"] else ("end" if votes["end"] and not votes["start"] else ("mixed" if votes["start"] else "unknown"))
     if conv in ("end", "mixed"): issues.insert(0, "5m timestamps are not all bar START times (%s): every intraday rule assumes start; fix before trusting intraday results" % votes)
     return {"convention": conv, "votes": votes, "days_compared_with_daily": checked, "ok": conv in ("start", "unknown") and not issues,

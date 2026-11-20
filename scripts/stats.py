@@ -20,6 +20,10 @@ Per strategy and phase (all / v2 = from 2026-11-20, the first full day of the ex
   more than 4 units in total, the losing streak is >= 6, or the drawdown from the cumulative peak exceeds 8 units.
 - verdict: promising (whole 90% interval > 0, q_bh <= 0.10, dsr >= 0.9) / losing (whole interval < 0) / benched
   (n >= 20 and p_gt0 < 0.2) / unproven.
+  Changed 2026-11-20: promising and losing need n >= MIN_N_VERDICT (20) closed trades, and q_bh / psr / dsr need
+  n >= MIN_N_SHARPE (10). With a handful of near-identical stop-outs (-1.02 R each) the bootstrap interval collapses
+  to a point and the Sharpe is a huge number, so labels on n < 20 were artefacts. Below 20 the verdict is
+  "unproven (n<20)"; the numbers are still shown.
 """
 import json, os, sys, math, random, datetime as dt
 from statistics import NormalDist
@@ -28,6 +32,7 @@ import ledger, tcal
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York"); N01 = NormalDist()
 SEED, B = 20261119, 10000
+MIN_N_VERDICT, MIN_N_SHARPE = 20, 10
 
 
 def boot(xs, rng):
@@ -177,29 +182,30 @@ def compute(repo, day):
                 lo, hi, p = boot(xs, rng); r.update(ci_lo=round(lo, 4), ci_hi=round(hi, 4), p_gt0=round(p, 4))
             m, sd, _, _ = moments(xs) if n > 1 else (xs[0], 0, 0, 3)
             r["sr"] = round(m / sd, 4) if sd else None
-            r["psr"] = round(psr(xs), 4) if n >= 3 else None
+            r["psr"] = round(psr(xs), 4) if n >= MIN_N_SHARPE else None
             pairs = [(t["result"], bench.ret(t)) for t in ts]; pairs = [(a, b) for a, b in pairs if b is not None]
             reg = ols_nw([a for a, _ in pairs], [b for _, b in pairs]) if len(pairs) >= 8 else None
             if reg: r.update(alpha=round(reg[0], 4), alpha_t=round(reg[1], 2) if reg[1] is not None else None, beta=round(reg[2], 4))
             r["breaker"] = breaker(xs)
             r["var"] = sum((x - m) ** 2 for x in xs) / (n - 1) if n > 1 else None
             rows[s] = r
-        elig = {s: 1 - r["p_gt0"] for s, r in rows.items() if r["n"] >= 5 and "p_gt0" in r}
+        elig = {s: 1 - r["p_gt0"] for s, r in rows.items() if r["n"] >= MIN_N_SHARPE and "p_gt0" in r}
         q = bh(elig) if elig else {}
-        srs = [r["sr"] for r in rows.values() if r.get("sr") is not None and r["n"] >= 5]
+        srs = [r["sr"] for r in rows.values() if r.get("sr") is not None and r["n"] >= MIN_N_SHARPE]
         sr0 = expected_max_sr(srs, NT)
         for s, r in rows.items():
             r["q_bh"] = round(q[s], 4) if s in q else None
             ts = sorted([t for t in T if t["strategy"] == s and inph(t["day"], ph)],
                         key=lambda t: (t["day"], str(t.get("entry") or "")))
-            r["dsr"] = round(psr([t["result"] for t in ts], sr0), 4) if r["n"] >= 5 else None
+            r["dsr"] = round(psr([t["result"] for t in ts], sr0), 4) if r["n"] >= MIN_N_SHARPE else None
             ok = (r["n"] >= 20 and r["q_bh"] is not None and r["q_bh"] <= 0.10 and (r["dsr"] or 0) >= 0.9
                   and r["breaker"] == "off" and r["mean"] > 0 and r.get("var"))
             r["kelly_raw"] = min(0.10, 0.25 * r["mean"] / r["var"]) if ok else 0.0
-            if r.get("ci_lo") is not None and r["ci_lo"] > 0 and (r["q_bh"] or 1) <= 0.10 and (r["dsr"] or 0) >= 0.9: v = "promising"
-            elif r.get("ci_hi") is not None and r["ci_hi"] < 0: v = "losing"
-            elif r["n"] >= 20 and r.get("p_gt0", 1) < 0.2: v = "benched"
-            else: v = "unproven"
+            big = r["n"] >= MIN_N_VERDICT
+            if big and r.get("ci_lo") is not None and r["ci_lo"] > 0 and (r["q_bh"] or 1) <= 0.10 and (r["dsr"] or 0) >= 0.9: v = "promising"
+            elif big and r.get("ci_hi") is not None and r["ci_hi"] < 0: v = "losing"
+            elif big and r.get("p_gt0", 1) < 0.2: v = "benched"
+            else: v = "unproven" if big else "unproven (n<20)"
             r["verdict"] = v
         tot = sum(r["kelly_raw"] for r in rows.values())
         for r in rows.values():

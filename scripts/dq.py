@@ -5,6 +5,11 @@
 Checks per data/bars/<tf>/<SYM>.jsonl:
 - OHLC sanity: high >= max(open, close), low <= min(open, close), all prices > 0.
 - Jumps: a close-to-close move above 25% (stocks, 5m/1d) or 15% (crypto, 1h/15m) between consecutive bars = suspect.
+  Changed 2026-11-20: daily stock bars are checked on the split/dividend-adjusted series (corp.tr_adjust), a move on
+  or the day after a known earnings date is not flagged (real earnings gaps), and only jumps in the last JUMP_DAYS
+  days are listed (older ones are history that was already reviewed: e.g. BKNG 25:1 split 2026-04-06, Covid 2020,
+  RTX/Carrier/Otis spin-off 2020-04-03, CHTR/IBM/INTC/NOW earnings gaps 2026). OHLC sanity allows 0.1% (an official
+  close can sit a cent outside the traded range).
 - Session gaps (5m): on each stored trading day of the test, regular-session bars 09:30-15:55 must all be present
   (78 per full day, 42 on half days); missing bars are listed, never filled.
 - Staleness: on a trading day after 16:30 New York, the 5m files of the watchlist and SPY must hold that day;
@@ -19,11 +24,32 @@ import json, os, sys, time, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tcal
+JUMP_DAYS, OHLC_TOL = 30, 0.001
 NY = ZoneInfo("America/New_York"); CRYPTO = {"BTC", "ETH", "SOL", "AVAX", "LINK", "DOGE", "SHIB"}
 
 
 def load(f):
     return [json.loads(l) for l in open(f) if l.strip()]
+
+
+def jumps_basis(repo, tf, sym, B):
+    """Closes used for the jump test: split/dividend-adjusted for daily stock bars, raw otherwise."""
+    if tf != "1d" or sym in CRYPTO or sym.startswith("VIX") or not B: return [b["c"] for b in B]
+    try:
+        import corp
+        rows = [(dt.datetime.fromtimestamp(b["t"], NY).date().isoformat(), b["o"], b["h"], b["l"], b["c"]) for b in B]
+        return [r[4] for r in corp.tr_adjust(repo, sym, rows)]
+    except Exception:
+        return [b["c"] for b in B]
+
+
+def earn_days(repo, sym):
+    """Known earnings dates of a symbol (data/events via corp.earnings_known_by), or an empty set."""
+    try:
+        import corp
+        return {str(d)[:10] for d, _ in corp.earnings_known_by(repo).get(sym, [])}
+    except Exception:
+        return set()
 
 
 def run(repo, day=None):
@@ -37,8 +63,11 @@ def run(repo, day=None):
             if not fn.endswith(".jsonl"): continue
             sym = fn[:-6]; B = load(os.path.join(d, fn)); per[tf] += 1
             lim = 0.15 if sym in CRYPTO else 0.25
+            adj = jumps_basis(repo, tf, sym, B); earn = earn_days(repo, sym)
+            cutoff = int((dt.datetime.fromisoformat(day).replace(tzinfo=NY) - dt.timedelta(days=JUMP_DAYS)).timestamp())
             for i, b in enumerate(B):
-                if min(b["o"], b["h"], b["l"], b["c"]) <= 0 or b["h"] < max(b["o"], b["c"]) - 1e-9 or b["l"] > min(b["o"], b["c"]) + 1e-9:
+                tol = OHLC_TOL * max(b["o"], b["c"])
+                if min(b["o"], b["h"], b["l"], b["c"]) <= 0 or b["h"] < max(b["o"], b["c"]) - tol or b["l"] > min(b["o"], b["c"]) + tol:
                     issues.append({"tf": tf, "sym": sym, "t": b["t"], "issue": "bad OHLC"})
                 if tf == "1d" and i and B[i - 1]["c"] > 0 and sym not in CRYPTO and not sym.startswith("VIX"):
                     r = B[i - 1]["c"] / b["o"] if b["o"] else 1
@@ -49,8 +78,12 @@ def run(repo, day=None):
                             known = json.load(open(cf)).get("splits", []) if os.path.exists(cf) else []
                             if not any(x["date"] == dd for x in known):
                                 issues.append({"tf": tf, "sym": sym, "day": dd, "issue": "suspected unrecorded split (prev close / open = %.3f)" % r})
-                if i and B[i - 1]["c"] >= 1 and abs(b["c"] / B[i - 1]["c"] - 1) > lim and not (tf == "1d" and sym.startswith("VIX")):
-                    issues.append({"tf": tf, "sym": sym, "t": b["t"], "issue": "jump %.1f%%" % (100 * (b["c"] / B[i - 1]["c"] - 1))})
+                if i and b["t"] >= cutoff and adj[i - 1] >= 1 and abs(adj[i] / adj[i - 1] - 1) > lim and not (tf == "1d" and sym.startswith("VIX")):
+                    dd = dt.datetime.fromtimestamp(b["t"], NY).date()
+                    if sym not in CRYPTO and (dd.isoformat() in earn or (dd - dt.timedelta(days=1)).isoformat() in earn
+                                              or any((dd - dt.timedelta(days=k)).isoformat() in earn for k in (2, 3))):
+                        continue   # earnings gap (the day after the report, weekends included)
+                    issues.append({"tf": tf, "sym": sym, "t": b["t"], "day": dd.isoformat(), "issue": "jump %.1f%%" % (100 * (adj[i] / adj[i - 1] - 1))})
             if tf == "5m":
                 by = {}
                 for b in B:
