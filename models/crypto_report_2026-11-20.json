@@ -1,0 +1,12 @@
+{
+ "date": "2026-11-20",
+ "crypto": {
+  "family": "crypto",
+  "rows": 90,
+  "fit_rows": 90,
+  "oos_rows": 0,
+  "oos_days": 0,
+  "status": "not enough out-of-sample rows yet (0 < 20)"
+ },
+ "at": "2026-11-20T13:40:44+00:00"
+}
