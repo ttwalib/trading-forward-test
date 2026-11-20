@@ -76,6 +76,10 @@ change-log row with decision "frozen holdout: no retune". LEDGER: AdaptiveStocks
 
 ## CRYPTO TRACKS
 
+DATA (changed 2026-11-20): GitHub stores crypto 15m / 1h / 1d bars from the free feed every 3 hours, 15 minutes before
+each run. First `git -C /tmp/repo pull -q --rebase`, then run the hist.py plan as before: if it asks for 0 new bars,
+skip every IBKR price call; if bars are still missing (the scheduled run was late), fetch only those from IBKR.
+
 If frozen: in REVIEW skip optimize (keep A3/C3) and log decision "frozen holdout: no retune". After STEP 3, ML shadow:
 LEDGER CryptoTracks first (closed trades and newly opened rows with status "open"), then
 `python3 -I /tmp/repo/scripts/ml.py predict-crypto /tmp/repo "NOWNY" > /tmp/mlc.json`; append its rows to "ML shadow"
@@ -136,17 +140,35 @@ After the existing steps:
    sheet rows with ledger.py add). On 2026-11-19 the ledger lacked the 11-16..11-18 baseline rows at 21:05 (the ML
    task mirrored them at 22:05), so that night's Stats and Allocation rows were computed on 5 instead of 22 baseline
    trades and had to be rewritten.
-4b. STRATEGY LIBRARY + AI ALLOCATOR (after stats): `python3 -I /tmp/repo/scripts/library.py /tmp/repo DAY > /tmp/lib.json`
-   (rebuilds data/ledger/Library.jsonl and data/library/daily.json itself); append its new_closed_rows to "Library trades"
-   (first empty row >= 3, A-L; 16 strategies since 2026-11-20: L1-L16). Then the cost stress run `library.py /tmp/repo DAY --cost-mult 2 > /tmp/lib2.json`
-   (writes data/library/daily_2x.json only) and the ideal-fill comparison `library.py /tmp/repo DAY --fill-lag 0`
-   (writes data/library/daily_ideal.json only). Then `python3 -I /tmp/repo/scripts/allocator.py /tmp/repo DAY > /tmp/alloc.json`; write
-   every sheet_rows row whose date is not yet in "Allocation" (first empty row >= 3, A-M) and LEDGER Allocation with
-   the same rows. From 2026-12-07 the report's freeze.code_matches_freeze must be true; false -> "Data check" row
-   "FREEZE BROKEN: <changed_files>" flagged CHECK and say so first in the digest (never edit ops/freeze.json).
-   Digest also carries: verdict_check (pass so far, per benchmark incl. vol-matched SPY "spy_vm"), the AI result with
-   implementable vs ideal fills (ideal_fills), turnover_per_day and rebal_cost_pct_total, the latest vol_forecast_pct,
-   and netted_exploratory (never part of the verdict).
+4b. STRATEGY LIBRARY + AI ALLOCATOR + STATS ON GITHUB (changed 2026-11-20: the maths runs on GitHub, not in this task).
+   After step 4-pre (the ledger must be complete and PUSHED first):
+   (i) write /tmp/repo/ops/fetch_request.json = {"mode": "compute", "day": "DAY", "requested": "<UTC now, ISO>"},
+       commit and push it. That starts scripts/nightly.py on GitHub: library.py, library.py --cost-mult 2,
+       library.py --fill-lag 0, allocator.py, stats.py, checks (engine-report, slip-report, health), dashboard.py, in
+       that fixed order, and commits data/nightly/, data/library/, data/allocator/, data/ledger/Library.jsonl,
+       reports/stats/DAY.json and data/dashboard.json.
+   (ii) wait: every 45 seconds `git -C /tmp/repo pull -q --rebase` and read data/nightly/stamp.json, for at most
+       6 minutes. Ready = stamp.day == DAY and stamp.ok == true and stamp.started is later than your request.
+   (iii) ready -> use the saved results and run nothing yourself: data/nightly/library.json (append its
+       new_closed_rows to "Library trades", first empty row >= 3, A-L; 17 strategies since 2026-11-20: L1-L17),
+       data/nightly/stats.json (step 4's sheet_rows; if step 4 already ran locally, keep one of the two, not both),
+       data/nightly/allocator.json (write every sheet_rows row whose date is not yet in "Allocation", first empty
+       row >= 3, A-M; LEDGER Allocation with the same rows), data/nightly/checks.json (steps 4c, 4d, 4f).
+   (iv) FALLBACK, not ready after 6 minutes or stamp.ok false: say so in the digest ("nightly maths on GitHub failed:
+       <failed step and its error from stamp.json>") and run the same chain yourself, in this order:
+       `library.py /tmp/repo DAY > /tmp/lib.json`, `library.py /tmp/repo DAY --cost-mult 2`,
+       `library.py /tmp/repo DAY --fill-lag 0`, `allocator.py /tmp/repo DAY > /tmp/alloc.json`, then use those outputs
+       as in (iii) and push.
+   From 2026-12-07 the allocator report's freeze.code_matches_freeze must be true; false -> "Data check" row
+   "FREEZE BROKEN: <changed_files>" flagged CHECK and say so first in the digest (never edit ops/freeze.json). The
+   freeze-guard workflow opens a GitHub issue for the same thing; an open issue titled "FREEZE BROKEN" or
+   "Health alert" goes first in the digest.
+   Digest also carries: verdict_check (result, robust, per benchmark incl. the vol-matched ones), the three shadow
+   allocators (phases.<phase>.shadows and p_ai_beats.sh_rp / sh_mv / sh_win; say plainly when a simple rival is ahead
+   of the AI), forced_fill (average weight held only to stay fully invested, and what that part returned), exposure
+   (beta to SPY and the return left after removing it), the AI result with implementable vs ideal fills
+   (ideal_fills), turnover_per_day and rebal_cost_pct_total, the latest vol_forecast_pct, and netted_exploratory
+   (never part of the verdict).
 4e. DASHBOARD: after the allocator and stats, `python3 -I /tmp/repo/scripts/dashboard.py /tmp/repo` (writes
    data/dashboard.json, which the dashboard artifact reads; GitHub Actions also refreshes it every 5 minutes).
 4d. ENGINE: count today's data/decisions/engine/DAY.jsonl rows and their median delay_min; ops/diag/engine.json
@@ -154,6 +176,13 @@ After the existing steps:
    Median delay_min above 20 -> one "Data check" row (date, "-", "engine delay", median, rows, "CHECK"): detections
    that late are ignored by fills.py (5-minute fallback), so the engine is not doing its job. Cause seen 2026-11-19:
    GitHub ran the */5 schedule only about hourly; fix = the external pinger in ops/engine_pinger.md (owner set-up).
+4f. HEALTH + ENGINE VS THE 5-MINUTE RULE (added 2026-11-20): data/nightly/checks.json (or `python3 -I
+   /tmp/repo/scripts/checks.py health /tmp/repo` and `... engine-report /tmp/repo`). One digest line: ticks today, longest
+   gap, median and slowest tick seconds, Actions minutes this month and projected vs 3,000, days until the pinger
+   token expires (2027-03-31). Every entry of health.alerts -> one "Data check" row flagged CHECK and first in the
+   digest. PINGER alert: the cron-job.org job is down or its token was rejected (ops/engine_pinger.md). TICK SLOW:
+   a tick over 45 s; over 60 s doubles the minutes, so set "intraday_wide": false in data/universe.json and say so.
+   engine_report: n, mean and median cost_vs_lag_pct for baseline and library rows. Measurement only until 100+ rows.
 4c. SLIPPAGE: `python3 -I /tmp/repo/scripts/checks.py slip-report /tmp/repo` -> one digest line: rows, median spread %,
    median drift % per delay bucket, model cost %; model_cheaper_than_spread true -> flag CHECK in the digest.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
@@ -213,6 +242,46 @@ After the existing steps:
   hourly); one backup tick a hour at :50 and the 17:40 nightly stay. If engine delay_min is over 20 again, check the
   cron-job.org job first (token expiry 2027-03-31).
 
+- (2026-11-20, later) SECOND BATCH, all before the freeze, owner request "implement the twelve suggestions":
+  1. Report instructions live here: the weekly and final report prompts only point to this runbook.
+  2. Nightly maths on GitHub (scripts/nightly.py, workflow mode "compute"; ORCHESTRATOR 4b). Tested twice on
+     2026-11-20: 44 s, one billed minute.
+  3. SHADOW ALLOCATORS (allocator.py): risk parity "sh_rp", minimum variance "sh_mv", recent winners "sh_win", same
+     sleeves, cap, weekly rebalancing and costs as the AI. A pass is called ROBUST only if the AI also beats the best
+     shadow on Sharpe (verdict_check.beats_best_shadow) and stays ahead of SPY at double costs.
+     Replay on library history 2025-06-02..2026-11-19 (reports/replay/2026-11-20-shadows.json, 3 trials logged):
+     AI +4.1% (Sharpe 0.38), risk parity +8.1% (1.00), minimum variance +3.9% (0.78), winners +7.5% (0.42), equal
+     weight +10.0% (0.88), SPY +23.5% (1.17). EVERY simple rival beat the AI on Sharpe on past data.
+  4. FORCED-FILL REPORT: on that history 19% of the book on average was held only to stay fully invested and it
+     returned +2.0 of the +7.7 points before rebalancing costs. EXPOSURE: beta to SPY 0.31; after removing it the AI
+     returned -2.5%. Both are reported nightly and never enter the verdict.
+  5. CRASH DRILL, run once, no tuning afterwards (reports/replay/2026-11-20-crash_drill.json, 1 trial): daily
+     sleeves only, today's S&P 100 (survivorship bias flatters it). 2020-02-19..04-30: AI -2.1% (max DD 7.5%),
+     equal weight -5.7%, risk parity -2.8%, minimum variance -1.6%, SPY -13.2% (max DD 33.8%). 2022-01-03..10-14:
+     AI -9.4% (max DD 10.8%), equal weight -8.6%, risk parity -7.1%, minimum variance -5.5%, winners -15.3%, SPY
+     -23.8%. 2017-2022 whole: AI +21.3% (Sharpe 0.42), equal weight +39.9% (0.76), risk parity +24.0% (0.67), SPY
+     +89.1% (0.64). Reading: the fully invested rule did not blow up in either crash, and it showed no edge over
+     the simple rivals.
+  6. BORROW COSTS: the IBKR connector has no borrow-fee or shortable field. fetch_free.py now tries Interactive
+     Brokers' public short-stock file each night (data/borrow/DAY.json; library.borrow_fee uses it point-in-time,
+     floor 0.25%); on 2026-11-20 that host did not answer from GitHub, so the flat 0.5%/year is still what is charged.
+  7. L17 MULTI-ASSET TREND added (TLT, IEF, GLD, DBC, EFA, EEM; library.py docstring; 1 trial). Its two-year history
+     (Sharpe about 1.1 on 504 days, 18 closed trades) entered the allocator's priors, so the four test days so far
+     were recomputed with it: AI 11-16..11-19 was -2.03%, is now -1.61%. This is before the verdict window.
+  8. WIDER INTRADAY UNIVERSE: switch "intraday_wide" in data/universe.json (5-minute feed, L2-L4, L14 and the engine's
+     library signals on the whole S&P 100; baseline A and the control list never change). 90 days of 5-minute bars
+     for the extra symbols were backfilled on 2026-11-20. It is turned on only if a tick stays under about 45 s; the
+     decision and the measured seconds are recorded in the line below this list.
+  9. CRYPTO DATA ROUND THE CLOCK: workflow cron every 3 hours (:32 UTC) stores crypto 15m / 1h / 1d bars from the free
+     feed, so the crypto tasks only pull the repo (CRYPTO TRACKS).
+  10. FREEZE GUARD: workflow freeze-guard.yml fails and opens an issue if a frozen script or ops/freeze.json changes
+     after the freeze. PROOF OF PRE-REGISTRATION: the first commit holding ops/freeze.json gets the permanent tag
+     "freeze-registered" (GitHub records the push time).
+  11. HEALTH LINE (checks.py health; ops/diag/ticks.json; ORCHESTRATOR 4f) and a WATCHDOG on the hourly backup tick
+     that opens one GitHub issue "Health alert" when the pinger has a gap over 20 minutes.
+  12. ENGINE VS THE 5-MINUTE RULE (checks.py engine-report): measurement only.
+  Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
+
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
 
 - From 2026-12-01 no new features, strategies of the library, benchmarks or rule changes: only fixes for defects
@@ -255,7 +324,9 @@ allocator turnover and rebalancing cost, vol forecast vs realised, netted_explor
 Live decisions (spreads, implementation shortfall; checks.py slip-report for the week and to date: spread cost, drift
 by delay bucket, and whether the simulated costs are cheaper than reality), the strategy library and the AI allocator (data/allocator/report.json:
 AI portfolio vs SPY / equal weight / baseline A, current weights, breakers, the 2x-cost stress result, and the
-"sharpe_gap_detectable" line so readers see how much evidence the window holds). Data integrity: dq summary, bar timing
+"sharpe_gap_detectable" line so readers see how much evidence the window holds). Added 2026-11-20: the three shadow allocators beside the AI (returns, Sharpe, drawdown and p_ai_beats for each; say plainly which is ahead), the forced-fill share and what it returned, the SPY beta and the
+return after removing it, the health line for the week (ticks per day, slowest tick, minutes used vs 3,000, alerts), engine vs the 5-minute rule (checks.py engine-report), and once, in the first report, the crash drill and the
+shadow replay from "CHANGES 2026-11-20 SECOND BATCH" with their limits. Data integrity: dq summary, bar timing
 convention, IBKR vs Twelve Data flags, live-vs-replay parity, freeze status, trial count, and the report's stamp
 (commit, data hash, package versions). Show stats for all data, v2 (from 2026-11-20) and the verdict window (from 2026-12-07) side by side. From 2027-02-05 mark everything as holdout evidence.
 
@@ -282,6 +353,10 @@ Added 2026-11-20, before the window (owner decisions):
   2026-12-07..2027-03-26 and is final, whatever it is. The extension needs the owner's go-ahead on 2027-02-16 (the
   calendar in tcal.py and the task dates must be moved in a session with the owner); nothing else may change.
 - Duplicate sleeves count once (allocator.py "Duplicates"), in the AI portfolio and in the equal-weight benchmark.
+- ROBUST (added 2026-11-20, later, before the window; stricter): a PASS is called robust only if the AI also stays
+  ahead of SPY at double costs AND its Sharpe beats the best of the three shadow allocators (risk parity, minimum
+  variance, recent winners; verdict_check "beats_best_shadow"). A PASS that is not robust is reported as "passed the
+  benchmarks, but a simple allocation rule did as well or better": the AI's allocation added nothing measurable.
 Why the window moved: 10 holdout days can only detect a Sharpe gap of about 6.4; 47 days about 3. Individual strategies are reported with BH q-values and deflated Sharpe but are
 exploratory. Strategies keep collecting data; the allocator and the strategy lab may favour, drop or add them only in
 the train phase through their fixed rules.
@@ -290,7 +365,9 @@ the train phase through their fixed rules.
 
 Answer the PRE-REGISTERED VERDICT first (data/allocator/report.json verdict_check and phase "verdict", then
 "holdout", "v2", "all"; show the ideal-fill comparison and the netted variant as context only;
-the stress_2x result; freeze.code_matches_freeze must be true or the verdict is void and you say so). Then judge every
+the stress_2x result; verdict_check "robust", "best_shadow" and "beats_best_shadow"; the forced-fill and exposure
+reports; freeze.code_matches_freeze must be true or the verdict is void and you say so; cite the git tag
+"freeze-registered" and its date as proof that code and rules predate the window). Then judge every
 strategy and the ML meta-labeller on the HOLDOUT (2027-02-01..02-12) with stats.py phase "holdout";
 train-phase results are context only. Run `review.py residual` for every strategy with q (BH) <= 0.2 on all data.
 Pre-registered question: does any strategy or the ML layer beat the frozen baseline A on the holdout with q <= 0.10
