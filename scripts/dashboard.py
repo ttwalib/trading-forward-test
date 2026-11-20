@@ -88,6 +88,9 @@ def build(repo, now=None):
         eng["latest"] = [{k: x.get(k) for k in ("strategy", "symbol", "list", "signal_end", "detected_at", "delay_min", "ideal_entry", "fill_price",
                                                  "stop")} for x in jl(ed[-1])][-30:]
     eng["status"] = js(os.path.join(repo, "ops", "diag", "engine.json"), {})
+    if ed:   # take-or-skip predictions made at detection (ml.py predict-engine, since 2026-11-20)
+        M = jl(os.path.join(repo, "data", "decisions", "engine_ml", os.path.basename(ed[-1])))
+        eng["ml_today"] = len(M); eng["ml_take"] = sum(1 for x in M if x.get("take"))
     out["engine"] = eng
     try:
         import checks
