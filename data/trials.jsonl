@@ -32,3 +32,4 @@
 {"at":"2026-11-20 05:00","n":1,"name":"fully invested, weekly rebalance","source":"allocator_replay"}
 {"at":"2026-11-20 08:15","n":1,"name":"crash drill 2020 and 2022, daily sleeves, run once","source":"allocator_replay"}
 {"at":"2026-11-20 08:15","n":3,"name":"shadow allocators replay (risk parity, min variance, winners)","source":"allocator_replay"}
+{"at":"2026-11-20 08:19","n":1,"name":"L17 Multi-asset trend","source":"library"}
