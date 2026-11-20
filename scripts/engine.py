@@ -110,6 +110,12 @@ def main():
                                      "delay_min": round((now - sig).total_seconds() / 60, 1), "ideal_entry": c["ideal_entry"],
                                      "fill_price": x.get("p"), "iex_bid": x.get("bp"), "iex_ask": x.get("ap"), "feed": "iex"},
                                     separators=(",", ":")) + "\n")
+    # New baseline breakouts go to the workflow's "Score" step (ml.py predict-engine): the take-or-skip model scores
+    # them now, not at the next hourly AI run. The step runs only on ticks that found something (added 2026-11-20).
+    out = os.environ.get("QV_ENGINE_NEW")
+    if out and new:
+        try: json.dump(new, open(out, "w"), default=str)
+        except Exception as e: log["errors"].append("engine new file: %s" % e)
     log.update({"candidates": len(cands), "new": len(new), "library_new": len(lib_new)})
     os.makedirs(os.path.join(repo, "ops", "diag"), exist_ok=True)
     json.dump(log, open(os.path.join(repo, "ops", "diag", "engine.json"), "w"), indent=1)

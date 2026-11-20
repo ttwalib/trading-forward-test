@@ -10,10 +10,11 @@ on:
     - cron: "50 14-20 * * 1-5"
     - cron: "40 22 * * 1-5"        # nightly daily bars, corporate actions, VIX (after the 17:00 ET cut)
     - cron: "32 0-23/3 * * *"      # crypto bars every 3 hours, before each crypto-tracks run (added 2026-11-20)
+    - cron: "17 10 * * *"          # second daily fit of the crypto ML family (05:17 ET; the nightly ML task is the first)
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -39,8 +40,9 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then M="${{ github.event.inputs.mode }}"; D="${{ github.event.inputs.day }}";
           elif [ "${{ github.event_name }}" = "push" ]; then M=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json'))['mode'])"); D=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json')).get('day',''))");
           elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly;
-          elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto; else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute) ;; *) echo "unknown mode"; exit 1;; esac
+          elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto;
+          elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto; else M=tick; fi
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -49,15 +51,32 @@ jobs:
         run: |
           pip install -q numpy
           python3 scripts/nightly.py . "${{ steps.m.outputs.day }}" || echo "nightly maths failed (see data/nightly/stamp.json)"
+      # Second daily crypto ML fit, no AI in the loop: rebuild the decision rows from the ledger, evaluate, refit.
+      - name: Crypto ML
+        if: steps.m.outputs.mode == 'mlcrypto'
+        run: |
+          pip install -q numpy==2.5.3 scikit-learn==1.9.1 || pip install -q numpy scikit-learn
+          python3 scripts/decisions.py build . > /dev/null || echo "decisions build failed"
+          python3 -c "import pickle;b=pickle.load(open('models/stock.pkl','rb'));print('stock model loads on this runner:',b['kind'],b['trained_on'])" || echo "stock model does not load here"
+          python3 scripts/ml.py train-crypto . "$(TZ=America/New_York date +%F)" | tail -n 25 || echo "crypto ML fit failed"
       - name: Fetch
-        if: steps.m.outputs.mode != 'compute'
+        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto'
         env:
+          QV_ENGINE_NEW: /tmp/engine_new.json
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
           ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
         run: |
           python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
           python3 scripts/dashboard.py . || echo "dashboard data failed"
+      # ML at detection: only on ticks where the engine sealed a new baseline breakout (a few a day), so the usual
+      # tick stays short. Same package versions as the ones the model file was saved with.
+      - name: Score
+        if: steps.m.outputs.mode == 'tick' && hashFiles('models/stock.pkl') != ''
+        run: |
+          if [ -s /tmp/engine_new.json ]; then
+            (pip install -q numpy==2.5.3 scikit-learn==1.9.1 && python3 scripts/ml.py predict-engine . /tmp/engine_new.json "$(TZ=America/New_York date '+%F %H:%M')" | tail -n 5) || echo "engine ML scoring failed"
+          fi
       # The hourly backup tick doubles as a watchdog: no pinger tick for 20 minutes in market hours -> one open issue.
       - name: Watchdog
         if: github.event_name == 'schedule' && steps.m.outputs.mode == 'tick'
@@ -73,12 +92,16 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/corp data/borrow ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/corp data/borrow data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then
+            for p in data/decisions/crypto.jsonl models/crypto.pkl models/crypto_report_*.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          fi
           if [ "${{ steps.m.outputs.mode }}" = "compute" ]; then
             for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
           git diff --cached --quiet && exit 0
           git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"
+          git checkout -q -- . || true     # drop rebuilt files that are not part of this run's commit
           for i in 1 2 3 4 5; do
             if git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main; then OK=1; break; fi
             sleep $((i * 7))

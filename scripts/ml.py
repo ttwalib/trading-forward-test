@@ -4,6 +4,15 @@
                                       fit + save models (refuses to refit during the frozen holdout: uses saved models)
   python3 ml.py predict REPO CANDS.json NOW_ISO   predictions for live candidates (decisions.py live output);
                                       prints MLShadow rows (logged BEFORE outcomes are known)
+  python3 ml.py predict-engine REPO CANDS.json NOW_ISO   the same prediction made by the 5-minute engine at the moment
+                                      it detects a breakout (added 2026-11-20): appended to
+                                      data/decisions/engine_ml/DAY.jsonl, one row per candidate, never overwritten.
+                                      `predict` then reuses that earlier row for the same candidate, so the shadow
+                                      record carries the time the model could first have acted, not the hourly run's.
+                                      Features come from the engine's real-time IEX bars, as a live system would have.
+  python3 ml.py train-crypto REPO DAY second daily fit of the crypto family only (added 2026-11-20; crypto trades
+                                      close round the clock, so new labels arrive between the nightly runs). Same
+                                      evaluation, champion rule and holdout freeze; report in models/crypto_report_DAY.json
   python3 ml.py predict-crypto REPO NOW   shadow predictions for newly opened crypto track trades (MLShadow rows)
   python3 ml.py score REPO            fill realized results into unscored MLShadow ledger rows; prints updated rows
   python3 ml.py drift REPO DAY        PSI of each feature: training distribution vs the last 10 trading days
@@ -174,10 +183,10 @@ def evaluate(fam, rows, feats, keys, ycol):
     return res, (cfgs[best]["model"], cfgs[best]["threshold"]) if best else None, X, t, y, fit_rows
 
 
-def train(repo, day):
+def train(repo, day, fams=("stock", "crypto")):
     os.makedirs(os.path.join(repo, "models"), exist_ok=True); out = {"date": day}; REPO_FOR_TRIALS[:] = [repo]
     frozen = tcal.info(day)["frozen"] if hasattr(tcal, "info") else False
-    for fam in ("stock", "crypto"):
+    for fam in fams:
         rows, feats, keys, ycol = family(repo, fam)
         res, best, X, t, y, fit_rows = evaluate(fam, rows, feats, keys, ycol)
         path = os.path.join(repo, "models", fam + ".pkl")
@@ -202,14 +211,38 @@ def train(repo, day):
             res["instrument_models"] = sorted(bundle["regs"])
         pickle.dump(bundle, open(path, "wb")); res["fit"] = "saved models/%s.pkl (%d rows)" % (fam, len(fit_rows))
         out[fam] = res
-    json.dump(out, open(os.path.join(repo, "models", "report_%s.json" % day), "w"), indent=1, default=str)
+    name = "report_%s.json" % day if tuple(fams) == ("stock", "crypto") else "%s_report_%s.json" % ("_".join(fams), day)
+    out["at"] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+    json.dump(out, open(os.path.join(repo, "models", name), "w"), indent=1, default=str)
     return out
 
 
-def predict(repo, cands, now):
+def engine_preds(repo, day):
+    f = os.path.join(repo, "data", "decisions", "engine_ml", day + ".jsonl"); out = {}
+    if os.path.exists(f):
+        for line in open(f):
+            if line.strip(): r = json.loads(line); out.setdefault(r["candidate_id"], r)     # the first prediction stands
+    return out
+
+
+def predict_engine(repo, cands, now):
+    """Predictions at the moment of detection. Appends only candidates that have no engine prediction yet."""
+    new = []
+    for r in predict(repo, cands, now, reuse=False):
+        if r["candidate_id"] and r["candidate_id"] not in engine_preds(repo, r["date"]):
+            r["source"] = "engine"; new.append(r)
+            f = os.path.join(repo, "data", "decisions", "engine_ml", r["date"] + ".jsonl"); os.makedirs(os.path.dirname(f), exist_ok=True)
+            with open(f, "a") as fh: fh.write(json.dumps(r, separators=(",", ":")) + "\n")
+    return new
+
+
+def predict(repo, cands, now, reuse=True):
     path = os.path.join(repo, "models", "stock.pkl"); rows = []
     b = pickle.load(open(path, "rb")) if os.path.exists(path) else None
     for c in cands:
+        early = engine_preds(repo, c["date"]).get(c.get("id")) if reuse else None
+        if early:      # the engine already predicted this candidate at detection: keep that earlier, sealed prediction
+            rows.append({k: v for k, v in early.items() if k != "source"}); continue
         if b is None:
             p, preds, choice, take = None, {}, "stock", True; model = "always_take (no model yet)"
         else:
@@ -316,6 +349,8 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "train": print(json.dumps(train(a[1], a[2]), indent=1, default=str))
     elif a[0] == "predict": print(json.dumps(predict(a[1], json.load(open(a[2])), a[3]), indent=1))
+    elif a[0] == "predict-engine": print(json.dumps(predict_engine(a[1], json.load(open(a[2])), a[3]), indent=1))
+    elif a[0] == "train-crypto": print(json.dumps(train(a[1], a[2], ("crypto",)), indent=1, default=str))
     elif a[0] == "predict-crypto": print(json.dumps(predict_crypto(a[1], a[2]), indent=1))
     elif a[0] == "score": print(json.dumps(score(a[1]), indent=1))
     elif a[0] == "drift": print(json.dumps(drift(a[1], a[2]), indent=1))

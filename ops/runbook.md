@@ -280,6 +280,18 @@ After the existing steps:
   11. HEALTH LINE (checks.py health; ops/diag/ticks.json; ORCHESTRATOR 4f) and a WATCHDOG on the hourly backup tick
      that opens one GitHub issue "Health alert" when the pinger has a gap over 20 minutes.
   12. ENGINE VS THE 5-MINUTE RULE (checks.py engine-report): measurement only.
+  13. ML AT DETECTION (owner request 2026-11-20): on a tick where the engine seals a new baseline breakout, the
+     workflow step "Score" runs `ml.py predict-engine` and appends the take-or-skip prediction to
+     data/decisions/engine_ml/DAY.jsonl (first prediction stands, never overwritten). `ml.py predict` in the hourly
+     LIVE DECISIONS run reuses that row for the same candidate id, so the "ML shadow" row carries the time the model
+     could first have acted (predicted_at up to 55 minutes earlier than before). Learning is unchanged: this is
+     scoring only, with features from the engine's real-time IEX bars. No effect on results while the champion is
+     "always take". If the step fails (package or model-file mismatch on GitHub) the hourly run predicts as before.
+  14. SECOND DAILY CRYPTO ML FIT (owner request 2026-11-20): workflow cron 10:17 UTC (05:17 ET), mode "mlcrypto":
+     `decisions.py build`, then `ml.py train-crypto` (crypto family only; same evaluation, champion rule and holdout
+     freeze; models/crypto.pkl, models/crypto_report_DAY.json). The nightly ML task stays the first fit. On
+     2026-11-20 the crypto family had 84 labelled rows and no out-of-sample rows, so there is no crypto model yet;
+     the extra fit changes nothing until the walk-forward has 20 out-of-sample rows.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
@@ -408,6 +420,11 @@ and DSR >= 0.9?
    "ML shadow" (A-N). LEDGER Live and MLShadow, then GIT ("live decisions").
 
 ## ML NIGHTLY (19:47 daily)
+
+Since 2026-11-20 GitHub also fits the crypto family once more each day at 05:17 ET (CHANGES 2026-11-20 item 14) and
+scores baseline breakouts at detection (item 13). `git pull` first; never delete data/decisions/engine_ml/. In step 5
+add one line: engine predictions today (rows in data/decisions/engine_ml/DAY.jsonl) and the latest
+models/crypto_report_*.json status.
 
 1. LEDGER mirror check: `ledger.py count /tmp/repo`; if a tab has fewer rows than the sheet (compare filledRange),
    read the missing sheet rows and add them.
