@@ -93,15 +93,18 @@ def main():
                         "ap": (qu.get("quotes") or {}).get(s, {}).get("ap")}
         except Exception as e: log["errors"].append("iex latest: %s" % e)
         with open(f, "a") as fh:
+            # A symbol already sealed today under another signal bar: the real-time (IEX) and the delayed (SIP)
+            # bars disagreed on which bar broke out. Keep the row (fills.py matches the replay's bar), flag it.
+            seen = {k[1] for k in sealed if k[0] == ""}
             for c in new:
-                t = c["trade"]; se = t["entry_time"]
+                t = c["trade"]; se = t["entry_time"]; rev = c["symbol"] in seen; seen.add(c["symbol"])
                 sig = now.replace(hour=int(se[:2]), minute=int(se[3:]), second=0, microsecond=0)
                 x = q.get(c["symbol"], {})
                 fh.write(json.dumps({"id": c.get("id"), "symbol": c["symbol"], "list": c.get("list"), "signal_end": se,
                                      "decided_at": c.get("decided_at"), "detected_at": now.isoformat(timespec="seconds"),
                                      "delay_min": round((now - sig).total_seconds() / 60, 1), "ideal_entry": t.get("entry"),
                                      "stop": t.get("stop"), "fill_price": x.get("p"), "iex_bid": x.get("bp"), "iex_ask": x.get("ap"),
-                                     "feed": "iex", "x": c.get("x")}, separators=(",", ":")) + "\n")
+                                     "feed": "iex", "x": c.get("x"), **({"revision": True} if rev else {})}, separators=(",", ":")) + "\n")
             for c in lib_new:
                 se = c["signal_end"]; sig = now.replace(hour=int(se[:2]), minute=int(se[3:]), second=0, microsecond=0)
                 x = q.get(c["symbol"], {})

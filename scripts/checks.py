@@ -257,6 +257,7 @@ def engine_report(repo, start=None):
             if not r.get("fill_price") or r.get("delay_min") is None or r["delay_min"] > 20 or not r.get("signal_end"): continue
             b = fills._bars5(repo, r["symbol"]).get((day, fills.plus(r["signal_end"], fills.LAG_MIN)))
             if not b or not b.get("o"): continue
+            if r.get("revision"): continue      # same breakout re-sealed under another bar: counted once
             sign = -1 if r.get("side") == "short" else 1
             out["library" if r.get("strategy") else "baseline"].append(
                 {"day": day, "symbol": r["symbol"], "delay_min": r["delay_min"], "cost_vs_lag_pct": round(sign * (float(r["fill_price"]) / b["o"] - 1) * 100, 4)})
