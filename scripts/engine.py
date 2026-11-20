@@ -12,6 +12,10 @@ trading engine works. Nothing is ever traded.
    time minus the signal bar's close), the ideal entry (signal close), the fill a real engine would get now
    (fill_price = latest IEX trade; IEX bid/ask beside it), the stop, and the features exactly as seen.
 fills.py uses fill_price as the implementable entry for that signal, so the real detection delay is charged.
+4. (added 2026-11-20) The intraday library strategies L2, L3, L4 and L14 run on the same real-time bars
+   (library.intraday_books); each new signal is sealed in the same file with "strategy" set. These rows measure the
+   detection delay and the real-time price against the library's own fill (the price 5 minutes after the signal);
+   the library keeps its fixed fill rule, so its results never depend on whether the engine ran.
 Keys: env ALPACA_API_KEY_ID / ALPACA_API_SECRET_KEY (repo secrets). Outside 09:45-15:35 ET on full trading days it
 does nothing.
 """
@@ -28,7 +32,7 @@ def main():
     repo = sys.argv[1]
     now = dt.datetime.fromisoformat(sys.argv[2]).astimezone(NY) if len(sys.argv) > 2 else dt.datetime.now(NY)
     day = now.date().isoformat(); hm = now.strftime("%H:%M")
-    if not tcal.is_trading(day) or not ("09:45" <= hm <= "15:35"):
+    if not tcal.is_trading(day) or not ("09:35" <= hm <= "15:35"):
         print(json.dumps({"engine": "idle", "at": hm})); return
     U = json.load(open(os.path.join(repo, "data", "universe.json"))); syms = U["watchlist"] + U["control"]
     sess = now.replace(hour=9, minute=30, second=0, microsecond=0)
@@ -57,14 +61,33 @@ def main():
     sealed = set()
     if os.path.exists(f):
         for line in open(f):
-            if line.strip(): r = json.loads(line); sealed.add((r["symbol"], r["signal_end"]))
-    new = [c for c in cands if (c["symbol"], c["trade"]["entry_time"]) not in sealed]
-    if new:
-        q = {}
+            if line.strip(): r = json.loads(line); sealed.add((r.get("strategy") or "", r["symbol"], r["signal_end"]))
+    new = [c for c in cands if ("", c["symbol"], c["trade"]["entry_time"]) not in sealed]
+    lib_new = []
+    try:
+        import library
+        library.FILL_LAG = 0                      # signal time and signal-bar close; the nightly library keeps its lag
+        I = {}
+        for s in syms:
+            B = decisions.bars(repo, "5m", s)[-200:]; days = {}
+            for b in B:
+                t = dt.datetime.fromtimestamp(b["t"], NY); h = t.strftime("%H:%M")
+                if "09:30" <= h < "16:00": days.setdefault(t.date().isoformat(), []).append((h, b["o"], b["h"], b["l"], b["c"], b.get("v", 0)))
+            I[s] = {d: sorted(v) for d, v in sorted(days.items())[-2:]}
+        for bk in library.intraday_books(I, syms, day):
+            if bk.name.startswith("L1 "): continue
+            for t in bk.trades:
+                if t["entry_date"] != day: continue
+                se = library._plus(t["entry_time"], 5) if bk.name.startswith("L2 ") else t["entry_time"]
+                if (bk.name, t["symbol"], se) not in sealed and se <= rnd:
+                    lib_new.append({"strategy": bk.name, "symbol": t["symbol"], "side": t["side"], "signal_end": se, "ideal_entry": t["entry"]})
+    except Exception as e: log["errors"].append("library signals: %s" % e)
+    if new or lib_new:
+        q = {}; want = sorted({c["symbol"] for c in new} | {c["symbol"] for c in lib_new})
         try:
-            tr = json.loads(get(DATA + "/v2/stocks/trades/latest", {"symbols": ",".join(sorted({c["symbol"] for c in new})), "feed": "iex"}))
-            qu = json.loads(get(DATA + "/v2/stocks/quotes/latest", {"symbols": ",".join(sorted({c["symbol"] for c in new})), "feed": "iex"}))
-            for s in {c["symbol"] for c in new}:
+            tr = json.loads(get(DATA + "/v2/stocks/trades/latest", {"symbols": ",".join(want), "feed": "iex"}))
+            qu = json.loads(get(DATA + "/v2/stocks/quotes/latest", {"symbols": ",".join(want), "feed": "iex"}))
+            for s in want:
                 q[s] = {"p": (tr.get("trades") or {}).get(s, {}).get("p"), "bp": (qu.get("quotes") or {}).get(s, {}).get("bp"),
                         "ap": (qu.get("quotes") or {}).get(s, {}).get("ap")}
         except Exception as e: log["errors"].append("iex latest: %s" % e)
@@ -78,7 +101,15 @@ def main():
                                      "delay_min": round((now - sig).total_seconds() / 60, 1), "ideal_entry": t.get("entry"),
                                      "stop": t.get("stop"), "fill_price": x.get("p"), "iex_bid": x.get("bp"), "iex_ask": x.get("ap"),
                                      "feed": "iex", "x": c.get("x")}, separators=(",", ":")) + "\n")
-    log.update({"candidates": len(cands), "new": len(new)})
+            for c in lib_new:
+                se = c["signal_end"]; sig = now.replace(hour=int(se[:2]), minute=int(se[3:]), second=0, microsecond=0)
+                x = q.get(c["symbol"], {})
+                fh.write(json.dumps({"strategy": c["strategy"], "symbol": c["symbol"], "list": "library", "side": c["side"],
+                                     "signal_end": se, "detected_at": now.isoformat(timespec="seconds"),
+                                     "delay_min": round((now - sig).total_seconds() / 60, 1), "ideal_entry": c["ideal_entry"],
+                                     "fill_price": x.get("p"), "iex_bid": x.get("bp"), "iex_ask": x.get("ap"), "feed": "iex"},
+                                    separators=(",", ":")) + "\n")
+    log.update({"candidates": len(cands), "new": len(new), "library_new": len(lib_new)})
     os.makedirs(os.path.join(repo, "ops", "diag"), exist_ok=True)
     json.dump(log, open(os.path.join(repo, "ops", "diag", "engine.json"), "w"), indent=1)
     print(json.dumps(log))

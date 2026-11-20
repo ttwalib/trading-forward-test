@@ -28,3 +28,5 @@
 {"at":"2026-11-20 04:29","n":2,"name":"allocator breaker: fixed 8%/4% vs vol-scaled (3x 20d vol, 2.5x 10d vol)","source":"learning"}
 {"at":"2026-11-20 04:35","n":5,"name":"allocator replay diagnostics: mean-not-sampled, no regime, both, band 5pp, no shrink (diagnosis only, none adopted)","source":"learning"}
 {"at":"2026-11-20 04:41","n":1,"name":"allocator weekly Thompson redraw (adopted on mechanics; replay run once)","source":"learning"}
+{"at":"2026-11-20 05:00","n":1,"name":"fully invested, daily rebalance","source":"allocator_replay"}
+{"at":"2026-11-20 05:00","n":1,"name":"fully invested, weekly rebalance","source":"allocator_replay"}

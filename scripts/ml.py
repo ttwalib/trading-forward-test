@@ -21,9 +21,11 @@ days that end at least 1 trading day (embargo) before the test block; at least 1
 out-of-sample predictions only: AUC, Brier, calibration table, mean result of taken trades vs always-take, share taken.
 Configs: {logistic, gradient boosting (depth 2), random forest (depth 3)} x take thresholds {0.45, 0.50, 0.55}
 (9 configs, all counted as trials). PBO by CSCV on the matrix of per-day OOS results (S = 8 blocks).
-Champion = best OOS mean-taken config, accepted only if n_oos >= 60, its OOS mean beats always-take with a paired
-day-bootstrap P >= 0.9, and either PBO < 0.5 or the median config also beats always-take (PBO alone is high when
-every config is similarly good); otherwise the champion is "always take" (no ML filter). Live predictions always log
+Champion = best OOS mean-taken config, accepted only if n_oos >= 60, it took at least 60 trades out of sample, its
+OOS mean beats always-take with a paired day-bootstrap P >= 0.9, and PBO < 0.5 (tightened 2026-11-20: a config that
+takes a handful of trades, or whose best setting is more likely luck than not, is never used; before that date a
+high PBO could be waived when the median config also beat always-take); otherwise the champion is "always take"
+(no ML filter). Live predictions always log
 the best config's own decision (shadow), so it keeps being scored as a challenger. The training set is train-phase (and pre-test backfill) rows;
 holdout rows are never used for fitting.
 """
@@ -151,7 +153,7 @@ def evaluate(fam, rows, feats, keys, ycol):
         import checks as _ck
         for nm in cfgs: _ck.trial(REPO_FOR_TRIALS[0], "ml_" + ycol, nm) if REPO_FOR_TRIALS else None
     except Exception: pass
-    ok = {n: c for n, c in cfgs.items() if c["mean_taken"] is not None and c["n_taken"] >= 20}
+    ok = {n: c for n, c in cfgs.items() if c["mean_taken"] is not None and c["n_taken"] >= 60}
     best = max(ok, key=lambda n: ok[n]["mean_taken"]) if ok else None
     if best:
         # paired day-level bootstrap: P(best config's daily result > always-take's daily result)
@@ -162,12 +164,12 @@ def evaluate(fam, rows, feats, keys, ycol):
         res["median_config_mean_taken"] = round(med, 4)
     accept = (best is not None and res["oos_rows"] >= 60 and ok[best]["mean_taken"] > res["always_take_mean"]
               and res["p_beats_always_take"] >= 0.9
-              and ((res["pbo"] is not None and res["pbo"] < 0.5) or res["median_config_mean_taken"] > res["always_take_mean"]))
+              and res["pbo"] is not None and res["pbo"] < 0.5)
     res["best_config"] = best; res["champion"] = best if accept else "always_take"
     res["why"] = ("accepted: OOS mean %.3f vs always-take %.3f, P(beats) %.2f, PBO %s, median config %.3f"
                   % (ok[best]["mean_taken"], res["always_take_mean"], res["p_beats_always_take"], res["pbo"], res["median_config_mean_taken"])
-                  if accept else "kept always-take: needs n_oos >= 60, an OOS mean above always-take with P(beats) >= 0.9, "
-                  "and PBO < 0.5 or the median config also above always-take")
+                  if accept else "kept always-take: needs n_oos >= 60, at least 60 taken trades, an OOS mean above always-take with "
+                  "P(beats) >= 0.9, and PBO < 0.5")
     if best: res["calibration"] = calib(P[cfgs[best]["model"]][tested], tt)
     return res, (cfgs[best]["model"], cfgs[best]["threshold"]) if best else None, X, t, y, fit_rows
 

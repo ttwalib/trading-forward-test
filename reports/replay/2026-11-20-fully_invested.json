@@ -1,0 +1,77 @@
+{
+ "rule": "always fully invested, weekly rebalancing, hedged sleeves L14-L16, duplicates merged (library sleeves only)",
+ "from": "2025-06-02",
+ "to": "2026-11-19",
+ "ai": {
+  "days": 371,
+  "total_pct": 4.106,
+  "sharpe": 0.38,
+  "max_dd_pct": 7.844,
+  "mean_daily_pct": 0.0121
+ },
+ "equal": {
+  "days": 371,
+  "total_pct": 10.019,
+  "sharpe": 0.88,
+  "max_dd_pct": 6.63,
+  "mean_daily_pct": 0.0269
+ },
+ "spy": {
+  "days": 371,
+  "total_pct": 23.474,
+  "sharpe": 1.17,
+  "max_dd_pct": 8.885,
+  "mean_daily_pct": 0.0602
+ },
+ "avg_invested": 1.0,
+ "turnover_per_day": 0.179,
+ "rebal_cost_pct": 3.22,
+ "p_ai_beats": {
+  "equal": 0.203,
+  "spy": 0.092
+ },
+ "first_run_daily_rebalance": {
+  "rule": "always fully invested + hedged sleeves L14-L16 + duplicates merged (library sleeves only)",
+  "from": "2025-06-02",
+  "to": "2026-11-19",
+  "ai": {
+   "days": 371,
+   "total_pct": 4.26,
+   "sharpe": 0.38,
+   "max_dd_pct": 7.998,
+   "mean_daily_pct": 0.0126
+  },
+  "equal": {
+   "days": 371,
+   "total_pct": 10.019,
+   "sharpe": 0.88,
+   "max_dd_pct": 6.63,
+   "mean_daily_pct": 0.0269
+  },
+  "spy": {
+   "days": 371,
+   "total_pct": 23.474,
+   "sharpe": 1.17,
+   "max_dd_pct": 8.885,
+   "mean_daily_pct": 0.0602
+  },
+  "avg_invested": 1.0,
+  "turnover_per_day": 0.33,
+  "rebal_cost_pct": 5.88,
+  "p_ai_beats": {
+   "equal": 0.214,
+   "spy": 0.093
+  },
+  "days_needing_fill": 157,
+  "avg_weight_top": {
+   "L13 Pairs reversion": 0.182,
+   "L12 Turn of month": 0.147,
+   "L15 Market-neutral momentum": 0.101,
+   "L9 Sector rotation": 0.097,
+   "L5 RSI(2) pullback": 0.081,
+   "L11 SPY overnight": 0.079,
+   "L16 SPY trend short": 0.076,
+   "L7 Donchian trend": 0.076
+  }
+ }
+}

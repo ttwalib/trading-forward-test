@@ -138,7 +138,7 @@ After the existing steps:
    trades and had to be rewritten.
 4b. STRATEGY LIBRARY + AI ALLOCATOR (after stats): `python3 -I /tmp/repo/scripts/library.py /tmp/repo DAY > /tmp/lib.json`
    (rebuilds data/ledger/Library.jsonl and data/library/daily.json itself); append its new_closed_rows to "Library trades"
-   (first empty row >= 3, A-L). Then the cost stress run `library.py /tmp/repo DAY --cost-mult 2 > /tmp/lib2.json`
+   (first empty row >= 3, A-L; 16 strategies since 2026-11-20: L1-L16). Then the cost stress run `library.py /tmp/repo DAY --cost-mult 2 > /tmp/lib2.json`
    (writes data/library/daily_2x.json only) and the ideal-fill comparison `library.py /tmp/repo DAY --fill-lag 0`
    (writes data/library/daily_ideal.json only). Then `python3 -I /tmp/repo/scripts/allocator.py /tmp/repo DAY > /tmp/alloc.json`; write
    every sheet_rows row whose date is not yet in "Allocation" (first empty row >= 3, A-M) and LEDGER Allocation with
@@ -192,6 +192,33 @@ After the existing steps:
 - ops/freeze.json does not exist yet: allocator.py records the hashes on its first run on or after 2026-12-07, so
   changes to frozen files before then (allocator.py today) need no owner action.
 
+- (this session, 2026-11-20, owner decisions) allocator.py: ALWAYS FULLY INVESTED (the 10% volatility target, which
+  worked by holding cash, is gone); weekly rebalancing; duplicate sleeves merged; equal weight and baseline A also
+  volatility-matched; three-way verdict with a pre-registered six-week extension when inconclusive. library.py: three
+  hedged sleeves so a fully invested book can defend itself: L14 opening-range breakdown (short), L15 market-neutral
+  momentum, L16 SPY trend short; the intraday strategies moved into intraday_books() (no rule change; old sleeves'
+  results are identical). ml.py: a champion needs at least 60 taken out-of-sample trades and PBO < 0.5, no waiver
+  (the forest@0.55 champion took 24 trades with PBO 0.71 and is replaced by always-take). engine.py: starts at 09:35
+  and also seals L2/L3/L4/L14 signals ("strategy" set; measurement only, fills.py ignores them).
+  Replay of the new allocator on the library history 2025-06-02..2026-11-19, run once per variant and logged as
+  trials (reports/replay/2026-11-20-fully_invested.json): daily rebalancing +4.26% (Sharpe 0.38, max DD 8.0%),
+  turnover 33% a day, 5.9% lost to rebalancing; weekly rebalancing +4.11% (Sharpe 0.38, max DD 7.8%), turnover 18%,
+  3.2% lost. Both are above the cash-heavy rule (-1.20%) and below equal weight (+10.0%, Sharpe 0.88) and SPY
+  (+23.5%, Sharpe 1.17). Weekly rebalancing was adopted for the lower turnover, not for the return. The allocator
+  has NOT shown skill on past data; the verdict window will show whether it has any.
+- Crypto track costs were checked: 0.2% per side for majors and 0.3% for small coins (crypto_tracks.py COST).
+
+## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
+
+- From 2026-12-01 no new features, strategies of the library, benchmarks or rule changes: only fixes for defects
+  found by the audit or by a failing task, each listed here with its date. (Strategy-lab candidates keep running
+  through their gate: that is part of the tested process.)
+- Independent audit on 2026-12-01 by a fresh session that did not build the system (scheduled task "Quantavius the
+  1st - independent audit"): look-ahead and data-snooping review of allocator.py, library.py, fills.py, corp.py,
+  decisions.py, ml.py, stats.py and engine.py; a re-run of the nightly chain on a copy; a freeze rehearsal (hashes of
+  the frozen files, twice, must match); report in reports/audit/2026-12-01.md. It changes no code.
+- 2026-12-07: allocator.py records the hashes in ops/freeze.json on its first run. Never edit that file.
+
 ## LEARNING + STRATEGY LAB
 
 If phase is holdout or after: reply "Holdout frozen: no learning or new strategies until the final report." and stop.
@@ -238,6 +265,18 @@ AND max drawdown, with block-bootstrap P(AI mean > benchmark) >= 0.9? It must al
 the bootstrap must ALSO beat SPY scaled to the AI portfolio's realised volatility ("spy_vm"), so a mostly-cash
 portfolio cannot win on drawdown for free; and every intraday result uses implementable fills (fills.py), including
 baseline A as the benchmark. The allocator report's verdict_check applies this rule mechanically. The Feb 1-12 holdout is a second, independent check (phase "holdout").
+Added 2026-11-20, before the window (owner decisions):
+- NO CASH: the AI portfolio is always 100% invested (allocator.py "ALWAYS FULLY INVESTED"). Sitting out is not an
+  option, so it can no longer beat a losing benchmark by holding cash.
+- All three benchmarks are also compared volatility-matched (spy_vm, equal_vm, base_a_vm): drawdown and the bootstrap
+  must beat both the raw and the volatility-matched version of each.
+- THREE-WAY RESULT (verdict_check "result"): PASS = every condition above for every benchmark. FAIL = for at least
+  one benchmark the bootstrap chance that the AI's mean beats it is 0.10 or lower. Otherwise INCONCLUSIVE.
+- EXTENSION: if the verdict-window result is INCONCLUSIVE, the final report says so plainly and the test is extended
+  once, by six weeks, to 2027-03-26, with the same frozen code; the result is then judged once on the whole window
+  2026-12-07..2027-03-26 and is final, whatever it is. The extension needs the owner's go-ahead on 2027-02-16 (the
+  calendar in tcal.py and the task dates must be moved in a session with the owner); nothing else may change.
+- Duplicate sleeves count once (allocator.py "Duplicates"), in the AI portfolio and in the equal-weight benchmark.
 Why the window moved: 10 holdout days can only detect a Sharpe gap of about 6.4; 47 days about 3. Individual strategies are reported with BH q-values and deflated Sharpe but are
 exploratory. Strategies keep collecting data; the allocator and the strategy lab may favour, drop or add them only in
 the train phase through their fixed rules.

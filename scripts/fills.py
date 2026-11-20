@@ -53,6 +53,7 @@ def _engine(repo, day):
             for line in open(f):
                 if line.strip():
                     r = json.loads(line)
+                    if r.get("strategy"): continue        # library signals are sealed for measurement only
                     if r.get("fill_price") and (r.get("delay_min") or 99) <= 20: rows.setdefault((r["symbol"], r.get("signal_end")), r)
         _ENG[day] = rows
     return _ENG[day]

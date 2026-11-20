@@ -59,6 +59,15 @@ Strategies (name: rule; universe; slots K):
     the next month (Lakonishok-Smidt / Ariel effect); K=1.
  L13 Pairs reversion: log price ratio z-score (60 days) beyond +/-2 -> long the cheap leg, short the rich leg; exit at
     z crossing 0 or after 20 days; pairs JPM/BAC, GS/MS, XOM/XLE, PEP/XLP, T/TMUS, GOOGL/META; K=6.
+Hedged sleeves (added 2026-11-20, before the freeze): the allocator is always fully invested, so it needs sleeves
+that can make money, or lose less, when the market falls. All three are conventional and simulated only.
+ L14 Opening-range breakdown (short): the mirror image of baseline A on the 44 stocks: first 15 minutes set the range;
+    a 5-minute close below the range low (signal bars ending 09:50-15:30) -> short; stop = range midpoint, target 2R,
+    flat at 15:55; first 5 signals of the day; implementable fill; K=5.
+ L15 Market-neutral momentum: each Friday long the top 8 and short the bottom 8 of the S&P 100 by the L8 score
+    (126-day return skipping the last 5 days), entered at Monday's open; shorts pay the borrow fee; K=16.
+ L16 SPY trend short: when SPY closes below its 50-day average and that average is lower than 5 days earlier, be
+    short SPY from the next open; cover at the open after the condition ends; borrow fee; K=1.
 """
 import json, os, sys, math, datetime as dt
 from zoneinfo import ZoneInfo
@@ -278,6 +287,41 @@ def build(repo, day=None):
             return rows[i][4] / rows[i - 63][4] - 1 if i >= 63 else None
         books.append(rotation("L9 Sector rotation", 3, [s for s in SECTORS if s in D], sec, "TLT"))
 
+        # L15 market-neutral momentum: long the top K, short the bottom K, rebalanced weekly
+        def ls_rotation(name, K, univ, score):
+            bk = Book(name, 2 * K); hold = {}; nxt = None
+            idx = {s: {r[0]: j for j, r in enumerate(D[s])} for s in univ if s in D}
+            for k, d in enumerate(cal):
+                if nxt is not None:
+                    for s in list(hold):
+                        if nxt.get(s) != hold[s]["sg"] and d in idx[s]:
+                            o = D[s][idx[s][d]][1]; p = hold.pop(s)
+                            bk.add_day(d, (o / p["mark"] - 1) * 100 * p["sg"] - C_DAY)
+                            bk.trade(s, "long" if p["sg"] > 0 else "short", p["ed"], "open", p["ep"], d, "open", o, C_DAY)
+                    for s, sg in nxt.items():
+                        if s not in hold and d in idx[s]:
+                            o = D[s][idx[s][d]][1]; hold[s] = {"ep": o, "mark": o, "ed": d, "sg": sg}; bk.add_day(d, -C_DAY)
+                    nxt = None
+                for s, p in hold.items():
+                    if d in idx[s]:
+                        c = D[s][idx[s][d]][4]
+                        bk.add_day(d, (c / p["mark"] - 1) * 100 * p["sg"] - (BORROW_PCT_YR / 252 if p["sg"] < 0 else 0.0)); p["mark"] = c
+                bk.daily.setdefault(d, 0.0)
+                last_of_week = k + 1 == len(cal) or dt.date.fromisoformat(cal[k + 1]).isocalendar()[1] != dt.date.fromisoformat(d).isocalendar()[1]
+                if last_of_week and k + 1 < len(cal):
+                    sc = []
+                    for s in univ:
+                        if s in idx and d in idx[s]:
+                            v = score(s, idx[s][d])
+                            if v is not None: sc.append((v, s))
+                    sc.sort()
+                    if len(sc) >= 4 * K:
+                        nxt = {s: 1 for _, s in sc[-K:]}; nxt.update({s: -1 for _, s in sc[:K]})
+            for s, p in hold.items():
+                bk.trade(s, "long" if p["sg"] > 0 else "short", p["ed"], "open", p["ep"], cal[-1], "mark", p["mark"], C_DAY, "open")
+            return bk
+        books.append(ls_rotation("L15 Market-neutral momentum", 8, [s for s in lib if s in D], mom))
+
         # L11 overnight, L12 turn of month (SPY)
         spy = D["SPY"]; sidx = {r[0]: i for i, r in enumerate(spy)}
         b11 = Book("L11 SPY overnight", 1); b12 = Book("L12 Turn of month", 1)
@@ -300,6 +344,22 @@ def build(repo, day=None):
             b12.add_day(cal[a], -C_DAY); b12.add_day(cal[b], -C_DAY)
             b12.trade("SPY", "long", cal[a], "close", spy[sidx[cal[a]]][4], cal[b], "close", spy[sidx[cal[b]]][4], C_DAY)
         books += [b11, b12]
+
+        # L16 SPY trend short: short while SPY is below a falling 50-day average
+        b16 = Book("L16 SPY trend short", 1); p16 = None; go = False
+        for k, d in enumerate(cal):
+            i = sidx[d]; b16.daily.setdefault(d, 0.0)
+            if go and p16 is None:
+                p16 = {"ep": spy[i][1], "mark": spy[i][1], "ed": d}; b16.add_day(d, -C_SPY)
+            elif not go and p16 is not None:
+                o = spy[i][1]; b16.add_day(d, -(o / p16["mark"] - 1) * 100 - C_SPY)
+                b16.trade("SPY", "short", p16["ed"], "open", p16["ep"], d, "open", o, C_SPY); p16 = None
+            if p16 is not None:
+                c = spy[i][4]; b16.add_day(d, -(c / p16["mark"] - 1) * 100 - BORROW_PCT_YR / 252); p16["mark"] = c
+            cl = closes(spy, i, 55)
+            go = len(cl) >= 55 and cl[-1] < sma(cl, 50) and sma(cl, 50) < sma(cl[:-5], 50)
+        if p16 is not None: b16.trade("SPY", "short", p16["ed"], "open", p16["ep"], cal[-1], "mark", p16["mark"], C_SPY, "open")
+        books.append(b16)
 
         # L13 pairs
         b13 = Book("L13 Pairs reversion", 6); pos = {}
@@ -332,8 +392,13 @@ def build(repo, day=None):
                     b13.add_day(d, -C_DAY)
         books.append(b13)
 
-    # Intraday strategies (5m)
-    I = {s: intraday(repo, s) for s in stocks + ["SPY"]}
+    books += intraday_books({s: intraday(repo, s) for s in stocks + ["SPY"]}, stocks, day)
+    return books
+
+
+def intraday_books(I, stocks, day=None):
+    """L1-L4 and L14 from {symbol: {date: [(hhmm, o, h, l, c, v)]}}. Also called by engine.py on today's bars."""
+    books = []
     b1 = Book("L1 SPY intraday momentum", 1)
     spyd = I.get("SPY", {}); sd_ = sorted(spyd)
     for k in range(1, len(sd_)):
@@ -350,12 +415,13 @@ def build(repo, day=None):
     books.append(b1)
 
     b2, b3, b4 = Book("L2 VWAP pullback", 5), Book("L3 Gap and go", 5), Book("L4 Gap fade", 5)
+    b14 = Book("L14 ORB breakdown short", 5)
     days_all = sorted({d for s in stocks for d in I.get(s, {})})
     for d in days_all:
         if day and d > day: continue
-        for bk in (b2, b3, b4): bk.daily.setdefault(d, 0.0)
+        for bk in (b2, b3, b4, b14): bk.daily.setdefault(d, 0.0)
         if not tcal.is_trading(d): continue
-        sig2, sig34 = [], []
+        sig2, sig34, sig14 = [], [], []
         for s in stocks:
             days = I.get(s, {})
             if d not in days: continue
@@ -366,6 +432,11 @@ def build(repo, day=None):
             o0, h0, l0, c0 = bars[0][1:5]; gap = o0 / pc - 1
             if gap >= 0.02 and c0 > o0: sig34.append(("L3", s, gap, bars, pc))
             elif 0.005 <= gap < 0.02 and c0 < o0: sig34.append(("L4", s, gap, bars, pc))
+            if len(bars) > 3 and [x[0] for x in bars[:3]] == ["09:30", "09:35", "09:40"]:
+                hi = max(x[2] for x in bars[:3]); lo = min(x[3] for x in bars[:3])
+                for j in range(3, len(bars)):
+                    if _plus(bars[j][0], 5) > "15:30": break
+                    if bars[j][4] < lo: sig14.append((bars[j][0], s, j, (hi + lo) / 2, bars)); break
             pv = vv = 0.0
             for j, (hm, o, h, l, c, v) in enumerate(bars):
                 tp = (h + l + c) / 3; pv += tp * max(v, 1); vv += max(v, 1); vw = pv / vv
@@ -384,6 +455,18 @@ def build(repo, day=None):
                 if hm2 >= "15:55": xp, xt = c, "16:00"; break
             if xp is None: xp, xt = bars[-1][4], "last"
             b2.add_day(d, (xp / ep - 1) * 100 - 2 * C_INTRA); b2.trade(s, "long", d, hm, ep, d, xt, xp, C_INTRA)
+        for hm, s, j, stop, bars in sorted(sig14)[:5]:
+            k = j + 1 + FILL_LAG if FILL_LAG else j + 1
+            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus(bars[j][0], 5 * (1 + FILL_LAG))): continue
+            ep = bars[k][1] if FILL_LAG else bars[j][4]; et = bars[k][0] if FILL_LAG else _plus(hm, 5); r = stop - ep
+            if r <= 0 or r / ep * 100 < 0.05: continue
+            tgt = ep - 2 * r; xp, xt = None, None
+            for hm2, o, h, l, c, v in bars[k:]:
+                if h >= stop: xp, xt = (o if o > stop else stop), hm2; break
+                if l <= tgt: xp, xt = (o if o < tgt else tgt), hm2; break
+                if hm2 >= "15:55": xp, xt = c, "16:00"; break
+            if xp is None: xp, xt = bars[-1][4], "last"
+            b14.add_day(d, -(xp / ep - 1) * 100 - 2 * C_INTRA); b14.trade(s, "short", d, et, ep, d, xt, xp, C_INTRA)
         for kind, s, gap, bars, pc in sorted(sig34, key=lambda x: -abs(x[2])):
             bk = b3 if kind == "L3" else b4
             if sum(1 for t in bk.trades if t["entry_date"] == d) >= 5: continue
@@ -402,7 +485,7 @@ def build(repo, day=None):
             if xp is None: xp, xt = bars[-1][4], "last"
             side = "long" if kind == "L3" else "short"; sg = 1 if side == "long" else -1
             bk.add_day(d, (xp / ep - 1) * 100 * sg - 2 * C_INTRA); bk.trade(s, side, d, et, ep, d, xt, xp, C_INTRA)
-    books += [b2, b3, b4]
+    books += [b2, b3, b4, b14]
     return books
 
 
