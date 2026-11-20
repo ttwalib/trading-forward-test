@@ -279,7 +279,12 @@ After the existing steps:
   8. WIDER INTRADAY UNIVERSE: switch "intraday_wide" in data/universe.json (5-minute feed, L2-L4, L14 and the engine's
      library signals on the whole S&P 100; baseline A and the control list never change). 90 days of 5-minute bars
      for the extra symbols were backfilled on 2026-11-20. It is turned on only if a tick stays under about 45 s; the
-     decision and the measured seconds are recorded in the line below this list.
+     decision and the measured seconds are recorded here.
+     DECISION 2026-11-20 10:20 ET: intraday_wide stays FALSE. Market-hours ticks 09:35-10:20: feed part median 2.6 s,
+     max 4.3 s, but whole GitHub runs took 31-45 s (checkout 5-8 s, feed + engine + dashboard 10-15 s, ML scoring
+     9-11 s on ticks with a new breakout, commit 3-4 s). A universe 2.5 times wider would push busy ticks near or over
+     60 s, which doubles the billed minutes (about 3,500 a month against 3,000). Revisit only with more minutes or a
+     faster tick.
   9. CRYPTO DATA ROUND THE CLOCK: workflow cron every 3 hours (:32 UTC) stores crypto 15m / 1h / 1d bars from the free
      feed, so the crypto tasks only pull the repo (CRYPTO TRACKS).
   10. FREEZE GUARD: workflow freeze-guard.yml fails and opens an issue if a frozen script or ops/freeze.json changes
@@ -306,6 +311,10 @@ After the existing steps:
      tuned. Effect on 2026-11-19 weights: L6 from 16.1% to 6.6%, L3 from 8.9% to 18.4%; L10 stays at the 25% cap.
      The four test days so far were recomputed: AI 11-16..11-19 was -1.61%, is now -1.18%. No replay on past data
      was run: in a replay every day counts as live, so the haircut does not act there. One trial logged.
+  16. ENGINE REVISIONS (2026-11-20, fix): when the real-time IEX bars and the delayed SIP bars disagree on which bar
+     broke out, the engine seals the same symbol twice (AMT 09:50 and 09:55, COIN 10:05 and 10:00 on 2026-11-20). The
+     second row now carries "revision": true; fills.py still matches whichever row equals the replay's bar (unchanged),
+     ml.py keeps the first prediction per candidate id, and checks.py engine-report counts revisions once.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
