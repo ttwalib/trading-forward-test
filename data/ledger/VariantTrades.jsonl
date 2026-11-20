@@ -101,3 +101,80 @@
 {"date":"2026-11-18","variant":"D baseline + SPY filter","symbol":"UBER","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
 {"date":"2026-11-18","variant":"E 5m/mid/2R + SPY filter","symbol":"AMZN","outcome":"target","r_net":1.95,"entry_time":"10:00"}
 {"date":"2026-11-18","variant":"E 5m/mid/2R + SPY filter","symbol":"MARA","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"AMZN","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"COIN","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"GOOGL","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"INTC","outcome":"target","r_net":1.97,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"META","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"MSFT","outcome":"stop","r_net":-1.04,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"PLTR","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"SOFI","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"A baseline 15m/mid/2R","symbol":"XOM","outcome":"target","r_net":1.92,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"AMZN","outcome":"target","r_net":1.96,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"BAC","outcome":"stop","r_net":-1.08,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"COIN","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"GOOGL","outcome":"stop","r_net":-1.03,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"INTC","outcome":"target","r_net":1.97,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"META","outcome":"stop","r_net":-1.04,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"MSFT","outcome":"target","r_net":1.93,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"NFLX","outcome":"stop","r_net":-1.06,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"PLTR","outcome":"stop","r_net":-1.04,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"SOFI","outcome":"stop","r_net":-1.04,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"UBER","outcome":"stop","r_net":-1.02,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"B 5m/mid/2R","symbol":"XOM","outcome":"target","r_net":1.85,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"AMZN","outcome":"target","r_net":1.46,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"BAC","outcome":"stop","r_net":-1.08,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"COIN","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"GOOGL","outcome":"target","r_net":1.47,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"INTC","outcome":"target","r_net":1.48,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"META","outcome":"stop","r_net":-1.04,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"MSFT","outcome":"target","r_net":1.43,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"NFLX","outcome":"stop","r_net":-1.06,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"PLTR","outcome":"stop","r_net":-1.04,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"SOFI","outcome":"stop","r_net":-1.04,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"UBER","outcome":"stop","r_net":-1.02,"entry_time":"09:40"}
+{"date":"2026-11-20","variant":"C 5m/mid/1.5R","symbol":"XOM","outcome":"target","r_net":1.36,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"AMZN","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"COIN","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"GOOGL","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"INTC","outcome":"target","r_net":1.97,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"META","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"MSFT","outcome":"stop","r_net":-1.04,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"PLTR","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"SOFI","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"D baseline + SPY filter","symbol":"XOM","outcome":"target","r_net":1.92,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"E 5m/mid/2R + SPY filter","symbol":"COIN","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"E 5m/mid/2R + SPY filter","symbol":"INTC","outcome":"target","r_net":1.97,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"E 5m/mid/2R + SPY filter","symbol":"PLTR","outcome":"stop","r_net":-1.04,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"E 5m/mid/2R + SPY filter","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"E 5m/mid/2R + SPY filter","symbol":"XOM","outcome":"target","r_net":1.85,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"F baseline, Reddit chatter rising","symbol":"INTC","outcome":"target","r_net":1.97,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"F baseline, Reddit chatter rising","symbol":"META","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"AMZN","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"COIN","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"GOOGL","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"MSFT","outcome":"stop","r_net":-1.04,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"PLTR","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"SOFI","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"G baseline, skip Reddit-hyped","symbol":"XOM","outcome":"target","r_net":1.92,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"T Reddit-trending pool, baseline rules","symbol":"GME","outcome":"stop","r_net":-1.03,"entry_time":"10:10"}
+{"date":"2026-11-20","variant":"T Reddit-trending pool, baseline rules","symbol":"GOOG","outcome":"stop","r_net":-1.03,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"T Reddit-trending pool, baseline rules","symbol":"SPCX","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"AC control","symbol":"ABBV","outcome":"stop","r_net":-1.09,"entry_time":"10:05"}
+{"date":"2026-11-20","variant":"AC control","symbol":"ACN","outcome":"stop","r_net":-1.03,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"AC control","symbol":"ADBE","outcome":"stop","r_net":-1.02,"entry_time":"10:00"}
+{"date":"2026-11-20","variant":"AC control","symbol":"AMT","outcome":"flat by close","r_net":-0.58,"entry_time":"09:55"}
+{"date":"2026-11-20","variant":"AC control","symbol":"CVS","outcome":"stop","r_net":-1.04,"entry_time":"10:40"}
+{"date":"2026-11-20","variant":"AC control","symbol":"GD","outcome":"stop","r_net":-1.06,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"AC control","symbol":"HON","outcome":"stop","r_net":-1.03,"entry_time":"09:50"}
+{"date":"2026-11-20","variant":"AC control","symbol":"JNJ","outcome":"stop","r_net":-1.08,"entry_time":"10:20"}
+{"date":"2026-11-20","variant":"AC control","symbol":"PEP","outcome":"stop","r_net":-1.05,"entry_time":"10:10"}
+{"date":"2026-11-20","variant":"AC control","symbol":"PFE","outcome":"stop","r_net":-1.07,"entry_time":"10:05"}
+{"date":"2026-11-20","variant":"AC control","symbol":"T","outcome":"flat by close","r_net":-0.71,"entry_time":"10:10"}
+{"date":"2026-11-20","variant":"AC control","symbol":"TMUS","outcome":"stop","r_net":-1.05,"entry_time":"10:10"}
+{"date":"2026-11-20","variant":"AC control","symbol":"UNP","outcome":"stop","r_net":-1.07,"entry_time":"10:35"}
