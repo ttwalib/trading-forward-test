@@ -3,7 +3,7 @@
  "phases": {
   "all": {
    "strategies_tested": 42,
-   "luck_sharpe": 0.9518,
+   "luck_sharpe": 0.9664,
    "rows": [
     {
      "strategy": "1h adaptive X2",
@@ -87,7 +87,7 @@
      "beta": 1.9248,
      "breaker": "off",
      "q_bh": 1.0,
-     "dsr": 0.0013,
+     "dsr": 0.0011,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -106,7 +106,7 @@
      "beta": 1.9248,
      "breaker": "off",
      "q_bh": 1.0,
-     "dsr": 0.0013,
+     "dsr": 0.0011,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -173,7 +173,7 @@
      "psr": 0.1088,
      "breaker": "on",
      "q_bh": 1.0,
-     "dsr": 0.0032,
+     "dsr": 0.0029,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -550,7 +550,7 @@
      "psr": 0.0099,
      "breaker": "on",
      "q_bh": 1.0,
-     "dsr": 0.0001,
+     "dsr": 0.0,
      "verdict": "losing",
      "kelly_share": 0.0
     },
@@ -706,7 +706,7 @@
   },
   "train": {
    "strategies_tested": 42,
-   "luck_sharpe": 0.9518,
+   "luck_sharpe": 0.9664,
    "rows": [
     {
      "strategy": "1h adaptive X2",
@@ -790,7 +790,7 @@
      "beta": 1.9248,
      "breaker": "off",
      "q_bh": 1.0,
-     "dsr": 0.0013,
+     "dsr": 0.0011,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -809,7 +809,7 @@
      "beta": 1.9248,
      "breaker": "off",
      "q_bh": 1.0,
-     "dsr": 0.0013,
+     "dsr": 0.0011,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -876,7 +876,7 @@
      "psr": 0.1088,
      "breaker": "on",
      "q_bh": 1.0,
-     "dsr": 0.0032,
+     "dsr": 0.0029,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1253,7 +1253,7 @@
      "psr": 0.0099,
      "breaker": "on",
      "q_bh": 1.0,
-     "dsr": 0.0001,
+     "dsr": 0.0,
      "verdict": "losing",
      "kelly_share": 0.0
     },
@@ -1404,26 +1404,27 @@
   }
  },
  "trials": {
-  "total_logged": 41,
-  "unique_trials": 16,
+  "total_logged": 42,
+  "unique_trials": 17,
   "by_source": {
    "ml_y_stock": 27,
    "learning": 8,
-   "allocator_replay": 6
+   "allocator_replay": 6,
+   "library": 1
   }
  },
  "stamp": {
-  "commit": "d601012",
-  "data_sha256": "80fbb5ff33bd511f",
-  "data_files": 372,
+  "commit": "89c3fa1",
+  "data_sha256": "de9a79892a446fbd",
+  "data_files": 380,
   "versions": {
-   "python": "3.13.18",
-   "numpy": "2.5.3",
-   "pandas": "3.0.5",
-   "sklearn": "1.9.1",
-   "scipy": "1.18.1"
+   "python": "3.14.4",
+   "numpy": "2.5.5",
+   "pandas": null,
+   "sklearn": null,
+   "scipy": null
   },
-  "at": "2026-11-20 08:16"
+  "at": "2026-11-20 08:22"
  },
  "sheet_rows": [
   [
@@ -1518,7 +1519,7 @@
    0.4405,
    1.0,
    0.4422,
-   0.0013,
+   0.0011,
    0.3576,
    1.65,
    1.9248,
@@ -1538,7 +1539,7 @@
    0.4344,
    1.0,
    0.4422,
-   0.0013,
+   0.0011,
    0.3576,
    1.65,
    1.9248,
@@ -1618,7 +1619,7 @@
    0.0141,
    1.0,
    0.1088,
-   0.0032,
+   0.0029,
    null,
    null,
    null,
@@ -2078,7 +2079,7 @@
    0.0,
    1.0,
    0.0099,
-   0.0001,
+   0.0,
    null,
    null,
    null,
@@ -2358,7 +2359,7 @@
    0.4396,
    1.0,
    0.4422,
-   0.0013,
+   0.0011,
    0.3576,
    1.65,
    1.9248,
@@ -2378,7 +2379,7 @@
    0.434,
    1.0,
    0.4422,
-   0.0013,
+   0.0011,
    0.3576,
    1.65,
    1.9248,
@@ -2458,7 +2459,7 @@
    0.0126,
    1.0,
    0.1088,
-   0.0032,
+   0.0029,
    null,
    null,
    null,
@@ -2918,7 +2919,7 @@
    0.0,
    1.0,
    0.0099,
-   0.0001,
+   0.0,
    null,
    null,
    null,
