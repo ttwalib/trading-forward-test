@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | vendor"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -42,7 +42,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly;
           elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto;
           elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto; else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|vendor) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -59,8 +59,16 @@ jobs:
           python3 scripts/decisions.py build . > /dev/null || echo "decisions build failed"
           python3 -c "import pickle;b=pickle.load(open('models/stock.pkl','rb'));print('stock model loads on this runner:',b['kind'],b['trained_on'])" || echo "stock model does not load here"
           python3 scripts/ml.py train-crypto . "$(TZ=America/New_York date +%F)" | tail -n 25 || echo "crypto ML fit failed"
+      # One-off: a pinned copy of TradingView Lightweight Charts (Apache 2.0) for the dashboard, so the page needs no CDN.
+      - name: Vendor
+        if: steps.m.outputs.mode == 'vendor'
+        run: |
+          mkdir -p ops/dashboard/vendor /tmp/lwc && cd /tmp/lwc && npm pack -q lightweight-charts@5.0.9 && tar xzf lightweight-charts-5.0.9.tgz
+          cp package/dist/lightweight-charts.standalone.production.js "$GITHUB_WORKSPACE/ops/dashboard/vendor/lightweight-charts-5.0.9.js"
+          for f in LICENSE NOTICE; do if [ -e package/$f ]; then cp package/$f "$GITHUB_WORKSPACE/ops/dashboard/vendor/lightweight-charts-$f"; fi; done
+          ls -la "$GITHUB_WORKSPACE/ops/dashboard/vendor"
       - name: Fetch
-        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto'
+        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'vendor'
         env:
           QV_ENGINE_NEW: /tmp/engine_new.json
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
@@ -93,6 +101,7 @@ jobs:
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           for p in data/bars data/corp data/borrow data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then
             for p in data/decisions/crypto.jsonl models/crypto.pkl models/crypto_report_*.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
