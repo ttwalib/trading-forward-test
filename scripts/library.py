@@ -87,6 +87,30 @@ ETFS = set(SECTORS + INDEX_ETFS + ["TLT", "GLD"])
 PAIRS = [("JPM", "BAC"), ("GS", "MS"), ("XOM", "XLE"), ("PEP", "XLP"), ("T", "TMUS"), ("GOOGL", "META")]
 C_DAY, C_INTRA, C_SPY = 0.05, 0.03, 0.01
 BORROW_PCT_YR = 0.5
+_BORROW = None
+
+
+def borrow_fee(repo, sym, day):
+    """Yearly stock-loan fee in % for a short in `sym` on `day`: the latest data/borrow file dated on or before `day`
+    (Interactive Brokers' public short-stock file, stored nightly from 2026-11-20), floor 0.25; the flat BORROW_PCT_YR
+    for earlier days, missing symbols or when no file exists. Point-in-time: a fee is never applied to days before
+    its file."""
+    global _BORROW
+    if _BORROW is None:
+        import glob
+        _BORROW = sorted((os.path.basename(f)[:10], f) for f in glob.glob(os.path.join(repo, "data", "borrow", "*.json")))
+        _BORROW = [(d, None, f) for d, f in _BORROW]
+    best = None
+    for k, (d, rows, f) in enumerate(_BORROW):
+        if d <= day: best = k
+    if best is None: return BORROW_PCT_YR
+    d, rows, f = _BORROW[best]
+    if rows is None:
+        try: rows = json.load(open(f)).get("rows", {})
+        except Exception: rows = {}
+        _BORROW[best] = (d, rows, f)
+    r = rows.get(sym)
+    return max(0.25, float(r["fee"])) if r and r.get("fee") is not None else BORROW_PCT_YR
 FILL_LAG = 1          # implementable fills; 0 = old ideal fills (comparison run only)
 
 
@@ -318,7 +342,7 @@ def build(repo, day=None):
                 for s, p in hold.items():
                     if d in idx[s]:
                         c = D[s][idx[s][d]][4]
-                        bk.add_day(d, (c / p["mark"] - 1) * 100 * p["sg"] - (BORROW_PCT_YR / 252 if p["sg"] < 0 else 0.0)); p["mark"] = c
+                        bk.add_day(d, (c / p["mark"] - 1) * 100 * p["sg"] - (borrow_fee(repo, s, d) / 252 if p["sg"] < 0 else 0.0)); p["mark"] = c
                 bk.daily.setdefault(d, 0.0)
                 last_of_week = k + 1 == len(cal) or dt.date.fromisoformat(cal[k + 1]).isocalendar()[1] != dt.date.fromisoformat(d).isocalendar()[1]
                 if last_of_week and k + 1 < len(cal):
@@ -368,7 +392,7 @@ def build(repo, day=None):
                 o = spy[i][1]; b16.add_day(d, -(o / p16["mark"] - 1) * 100 - C_SPY)
                 b16.trade("SPY", "short", p16["ed"], "open", p16["ep"], d, "open", o, C_SPY); p16 = None
             if p16 is not None:
-                c = spy[i][4]; b16.add_day(d, -(c / p16["mark"] - 1) * 100 - BORROW_PCT_YR / 252); p16["mark"] = c
+                c = spy[i][4]; b16.add_day(d, -(c / p16["mark"] - 1) * 100 - borrow_fee(repo, "SPY", d) / 252); p16["mark"] = c
             cl = closes(spy, i, 55)
             go = len(cl) >= 55 and cl[-1] < sma(cl, 50) and sma(cl, 50) < sma(cl[:-5], 50)
         if p16 is not None: b16.trade("SPY", "short", p16["ed"], "open", p16["ep"], cal[-1], "mark", p16["mark"], C_SPY, "open")
@@ -389,7 +413,7 @@ def build(repo, day=None):
                 key = a + "/" + b; p = pos.get(key)
                 if p:
                     ca, cb = D[a][ia][4], D[b][ib][4]
-                    r = ((ca / p["ma"] - 1) * p["sa"] + (cb / p["mb"] - 1) * -p["sa"]) * 50 - 0.5 * BORROW_PCT_YR / 252
+                    r = ((ca / p["ma"] - 1) * p["sa"] + (cb / p["mb"] - 1) * -p["sa"]) * 50 - 0.5 * borrow_fee(repo, b if p["sa"] > 0 else a, d) / 252
                     b13.add_day(d, r); p["ma"], p["mb"] = ca, cb; p["held"] += 1; p["cum"] += r
                     if (p["z0"] > 0 and z <= 0) or (p["z0"] < 0 and z >= 0) or p["held"] >= 20:
                         b13.add_day(d, -C_DAY)

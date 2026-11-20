@@ -14,6 +14,7 @@ Sources (all free, no extra cost):
                                            corporate actions 3 years, full Cboe VIX/VIX3M
   python3 fetch_free.py tick REPO       -> every 5 minutes in market hours: intraday 5m (crypto every 15 minutes),
                                            then engine.py (sealed real-time signal detections)
+  python3 fetch_free.py borrow REPO     -> today's stock-loan fees and shares available (also part of nightly)
   python3 fetch_free.py crypto REPO     -> crypto 15m / 1h / 1d only (scheduled every 3 hours, before each crypto-tracks run)
   python3 fetch_free.py etfs REPO       -> one-off history (2 years + archive since 2016) for the ETFs in universe.json
   python3 fetch_free.py wide5m REPO     -> one-off 90 days of 5m bars for the whole universe
@@ -232,6 +233,31 @@ def hist(repo, syms, tf, start, end):
             write_hist(repo, tf, s, conv(rows, tf, filt=rth if tf == "5m" else None))
 
 
+def borrow(repo, syms):
+    """Stock-loan fee and shares available to short, from Interactive Brokers' public short-stock file (no account, no
+    key; best effort). One small file per day in data/borrow/; library.py charges the real fee on shorts from the first
+    day a file exists and keeps the flat 0.5%/year before that or when the file is missing."""
+    try:
+        import ftplib
+        buf = []; f = ftplib.FTP("ftp3.interactivebrokers.com", timeout=40); f.login("shortstock", "")
+        f.retrlines("RETR usa.txt", buf.append); f.quit()
+        want = set(syms); out = {}; stamp = None
+        for line in buf:
+            if line.startswith("#BOF"): stamp = line[:60]
+            if line.startswith("#"): continue
+            c = line.split("|")
+            if len(c) >= 8 and c[0] in want:
+                try: out[c[0]] = {"fee": float(c[6]), "avail": int(c[7].replace(">", "").replace(",", "") or 0), "cap": c[7].startswith(">")}
+                except ValueError: pass
+        if len(out) < 20: raise RuntimeError("only %d symbols parsed" % len(out))
+        os.makedirs(os.path.join(repo, "data", "borrow"), exist_ok=True)
+        day = now().astimezone(ZoneInfo("America/New_York")).date().isoformat()
+        json.dump({"day": day, "source": "IBKR public short-stock file usa.txt", "file_stamp": stamp, "rows": out},
+                  open(os.path.join(repo, "data", "borrow", day + ".json"), "w"), separators=(",", ":"))
+        LOG["borrow_symbols"] = len(out)
+    except Exception as e: LOG["errors"].append("borrow file: %s" % str(e)[:120])
+
+
 def main():
     T0 = time.time()
     mode, repo = sys.argv[1], sys.argv[2]
@@ -258,6 +284,9 @@ def main():
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
+        borrow(repo, univ + etfs)
+    elif mode == "borrow":
+        borrow(repo, univ + etfs)
     elif mode == "hist":
         hist(repo, univ + etfs, "1d", dt.datetime(2016, 1, 1, tzinfo=UTC), end)
         hist(repo, intr, "5m", now() - dt.timedelta(days=731), end)

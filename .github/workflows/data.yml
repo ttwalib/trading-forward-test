@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | compute"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -40,7 +40,7 @@ jobs:
           elif [ "${{ github.event_name }}" = "push" ]; then M=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json'))['mode'])"); D=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json')).get('day',''))");
           elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly;
           elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto; else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|compute) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -73,7 +73,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/corp ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/corp data/borrow ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "compute" ]; then
             for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
