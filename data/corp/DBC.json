@@ -1,0 +1,55 @@
+{
+ "dividends": [
+  {
+   "ex": "2018-12-24",
+   "value": 0.18853,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2018-12-26",
+   "value": 0.18853,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2019-12-23",
+   "value": 0.25383,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2022-12-19",
+   "value": 0.14467,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2023-12-18",
+   "value": 1.08926,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2024-12-23",
+   "value": 1.11582,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  },
+  {
+   "ex": "2025-12-22",
+   "value": 0.74424,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
+  }
+ ],
+ "splits": [],
+ "fetched": "2026-11-20"
+}
