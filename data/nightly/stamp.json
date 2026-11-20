@@ -1,72 +1,37 @@
 {
  "day": "2026-11-19",
- "started": "2026-11-20 08:15:39",
+ "started": "2026-11-20 08:19:42",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 4.6,
+   "seconds": 5.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 4.8,
+   "seconds": 5.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 4.0,
+   "seconds": 5.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
-   "ok": true,
-   "seconds": 7.2,
-   "exit": 0,
-   "error": null
-  },
-  {
-   "step": "stats",
-   "ok": true,
-   "seconds": 3.2,
-   "exit": 0,
-   "error": null
-  },
-  {
-   "step": "engine_report",
-   "ok": true,
+   "ok": false,
    "seconds": 0.1,
-   "exit": 0,
-   "error": null
-  },
-  {
-   "step": "slip_report",
-   "ok": true,
-   "seconds": 0.4,
-   "exit": 0,
-   "error": null
-  },
-  {
-   "step": "health",
-   "ok": true,
-   "seconds": 0.1,
-   "exit": 0,
-   "error": null
-  },
-  {
-   "step": "dashboard",
-   "ok": true,
-   "seconds": 0.9,
-   "exit": 0,
-   "error": null
+   "exit": 1,
+   "error": "Traceback (most recent call last):\n  File \"/home/runner/work/trading-forward-test/trading-forward-test/scripts/allocator.py\", line 93, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
   }
  ],
- "commit": "d601012633ecf2c09e5c62744178dc5e97f60578",
- "ok": true,
- "finished": "2026-11-20 08:16:04"
+ "commit": "91cecd9fd414a88f784cfc2d813d23f4c5e8e5f3",
+ "ok": false,
+ "finished": "2026-11-20 08:19:58"
 }

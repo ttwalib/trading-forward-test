@@ -48,6 +48,14 @@
    "open": 3,
    "days": 508
   },
+  "L17 Multi-asset trend": {
+   "backtest_trades": 18,
+   "backtest_avg_pct": 3.446,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 2,
+   "days": 508
+  },
   "L15 Market-neutral momentum": {
    "backtest_trades": 233,
    "backtest_avg_pct": 1.825,
