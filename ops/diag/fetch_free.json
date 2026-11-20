@@ -1,383 +1,68 @@
 {
  "errors": [],
  "files": {
-  "5m/HOOD": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/MARA": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/MSFT": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/NVDA": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/TSLA": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/AAPL": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/DIS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/GOOGL": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/JPM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/ACN": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/AMD": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/AVGO": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/AXP": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/BAC": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/COIN": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/PLTR": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/ABBV": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/AMT": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/NFLX": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/UBER": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/ADBE": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/MU": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/META": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/SOFI": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/AMZN": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/CVS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/GD": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/INTC": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/MSTR": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/XOM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/T": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/PEP": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/PFE": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/QQQ": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/HON": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/IWM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/JNJ": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/LMT": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/SPY": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/UNP": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/GS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/PM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/V": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/TMUS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/GM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/MS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "5m/QCOM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5198,
-   "last": "2026-11-20T19:05:00Z"
-  },
-  "15m/LINK": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 8949,
-   "last": "2026-11-20T19:15:00Z"
-  },
-  "15m/SHIB": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 8946,
-   "last": "2026-11-20T19:15:00Z"
-  },
-  "15m/SOL": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 8948,
-   "last": "2026-11-20T19:15:00Z"
-  },
   "15m/AVAX": {
-   "added": 1,
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 8947,
    "last": "2026-11-20T19:15:00Z"
   },
   "15m/BTC": {
-   "added": 1,
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 8949,
    "last": "2026-11-20T19:15:00Z"
   },
   "15m/DOGE": {
-   "added": 1,
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 8944,
    "last": "2026-11-20T19:15:00Z"
   },
   "15m/ETH": {
-   "added": 1,
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 8927,
    "last": "2026-11-20T19:15:00Z"
+  },
+  "15m/LINK": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8949,
+   "last": "2026-11-20T19:15:00Z"
+  },
+  "15m/SHIB": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8946,
+   "last": "2026-11-20T19:15:00Z"
+  },
+  "15m/SOL": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8948,
+   "last": "2026-11-20T19:15:00Z"
+  },
+  "1h/AVAX": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8811,
+   "last": "2026-11-20T18:00:00Z"
+  },
+  "1h/BTC": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8811,
+   "last": "2026-11-20T18:00:00Z"
   },
   "1h/DOGE": {
    "added": 0,
@@ -393,14 +78,7 @@
    "total": 8811,
    "last": "2026-11-20T18:00:00Z"
   },
-  "1h/AVAX": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 8811,
-   "last": "2026-11-20T18:00:00Z"
-  },
-  "1h/BTC": {
+  "1h/SOL": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -421,155 +99,57 @@
    "total": 8811,
    "last": "2026-11-20T18:00:00Z"
   },
-  "1h/SOL": {
+  "1d/ETH": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8811,
-   "last": "2026-11-20T18:00:00Z"
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
+  },
+  "1d/LINK": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
+  },
+  "1d/SHIB": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
+  },
+  "1d/SOL": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
+  },
+  "1d/AVAX": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
+  },
+  "1d/BTC": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
+  },
+  "1d/DOGE": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 740,
+   "last": "2026-11-19T12:00:00Z"
   }
  },
  "mismatch": [
-  {
-   "tf": "15m",
-   "sym": "LINK",
-   "t": 1795161600,
-   "stored": 8.896,
-   "alpaca": 8.866975
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795164300,
-   "stored": 3.74e-06,
-   "alpaca": 3.72e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795165200,
-   "stored": 3.74e-06,
-   "alpaca": 3.715e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795166100,
-   "stored": 3.74e-06,
-   "alpaca": 3.715e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795167000,
-   "stored": 3.74e-06,
-   "alpaca": 3.72e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795167900,
-   "stored": 3.74e-06,
-   "alpaca": 3.71e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795168800,
-   "stored": 3.74e-06,
-   "alpaca": 3.71e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795169700,
-   "stored": 3.74e-06,
-   "alpaca": 3.705e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795170600,
-   "stored": 3.71e-06,
-   "alpaca": 3.725e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795171500,
-   "stored": 3.71e-06,
-   "alpaca": 3.72e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795174200,
-   "stored": 3.71e-06,
-   "alpaca": 3.69e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795175100,
-   "stored": 3.68e-06,
-   "alpaca": 3.695e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795176900,
-   "stored": 3.67e-06,
-   "alpaca": 3.685e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795185900,
-   "stored": 3.65e-06,
-   "alpaca": 3.68e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795186800,
-   "stored": 3.6e-06,
-   "alpaca": 3.615e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795187700,
-   "stored": 3.56e-06,
-   "alpaca": 3.59e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795188600,
-   "stored": 3.57e-06,
-   "alpaca": 3.555e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795196700,
-   "stored": 3.52e-06,
-   "alpaca": 3.53e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795198500,
-   "stored": 3.54e-06,
-   "alpaca": 3.565e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795199400,
-   "stored": 3.56e-06,
-   "alpaca": 3.55e-06
-  },
   {
    "tf": "15m",
    "sym": "AVAX",
@@ -788,151 +368,144 @@
    "alpaca": 0.05386925
   },
   {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795039200,
-   "stored": 0.05831,
-   "alpaca": 0.057934
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795042800,
-   "stored": 0.05842,
-   "alpaca": 0.0586959
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795050000,
-   "stored": 0.05845,
-   "alpaca": 0.0586255
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795053600,
-   "stored": 0.05849,
-   "alpaca": 0.05837265
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795057200,
-   "stored": 0.0586,
-   "alpaca": 0.0589385
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795068000,
-   "stored": 0.05908,
-   "alpaca": 0.05938605
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795071600,
-   "stored": 0.05932,
-   "alpaca": 0.05951
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795075200,
-   "stored": 0.05932,
-   "alpaca": 0.05947
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795086000,
-   "stored": 0.05932,
-   "alpaca": 0.05959795
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795096800,
-   "stored": 0.0595,
-   "alpaca": 0.059306
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795100400,
-   "stored": 0.05827,
-   "alpaca": 0.0585344
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795104000,
-   "stored": 0.05824,
-   "alpaca": 0.0584065
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795132800,
-   "stored": 0.05822,
-   "alpaca": 0.0580494
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795140000,
-   "stored": 0.0569,
-   "alpaca": 0.0576599
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795150800,
-   "stored": 0.05715,
-   "alpaca": 0.05757695
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795154400,
-   "stored": 0.0575,
-   "alpaca": 0.0576639
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
+   "tf": "15m",
+   "sym": "LINK",
    "t": 1795161600,
-   "stored": 0.05747,
-   "alpaca": 0.0572675
+   "stored": 8.896,
+   "alpaca": 8.866975
   },
   {
-   "tf": "1h",
-   "sym": "DOGE",
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795164300,
+   "stored": 3.74e-06,
+   "alpaca": 3.72e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795165200,
+   "stored": 3.74e-06,
+   "alpaca": 3.715e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795166100,
+   "stored": 3.74e-06,
+   "alpaca": 3.715e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795167000,
+   "stored": 3.74e-06,
+   "alpaca": 3.72e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795167900,
+   "stored": 3.74e-06,
+   "alpaca": 3.71e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
    "t": 1795168800,
-   "stored": 0.05703,
-   "alpaca": 0.057252
+   "stored": 3.74e-06,
+   "alpaca": 3.71e-06
   },
   {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795183200,
-   "stored": 0.05606,
-   "alpaca": 0.0563205
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795169700,
+   "stored": 3.74e-06,
+   "alpaca": 3.705e-06
   },
   {
-   "tf": "1h",
-   "sym": "DOGE",
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795170600,
+   "stored": 3.71e-06,
+   "alpaca": 3.725e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795171500,
+   "stored": 3.71e-06,
+   "alpaca": 3.72e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795174200,
+   "stored": 3.71e-06,
+   "alpaca": 3.69e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795175100,
+   "stored": 3.68e-06,
+   "alpaca": 3.695e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795176900,
+   "stored": 3.67e-06,
+   "alpaca": 3.685e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795185900,
+   "stored": 3.65e-06,
+   "alpaca": 3.68e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
    "t": 1795186800,
-   "stored": 0.05389,
-   "alpaca": 0.0537685
+   "stored": 3.6e-06,
+   "alpaca": 3.615e-06
   },
   {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795194000,
-   "stored": 0.05364,
-   "alpaca": 0.0537842
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795187700,
+   "stored": 3.56e-06,
+   "alpaca": 3.59e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795188600,
+   "stored": 3.57e-06,
+   "alpaca": 3.555e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795196700,
+   "stored": 3.52e-06,
+   "alpaca": 3.53e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795198500,
+   "stored": 3.54e-06,
+   "alpaca": 3.565e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795199400,
+   "stored": 3.56e-06,
+   "alpaca": 3.55e-06
   },
   {
    "tf": "1h",
@@ -1174,6 +747,153 @@
   },
   {
    "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795039200,
+   "stored": 0.05831,
+   "alpaca": 0.057934
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795042800,
+   "stored": 0.05842,
+   "alpaca": 0.0586959
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795050000,
+   "stored": 0.05845,
+   "alpaca": 0.0586255
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795053600,
+   "stored": 0.05849,
+   "alpaca": 0.05837265
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795057200,
+   "stored": 0.0586,
+   "alpaca": 0.0589385
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795068000,
+   "stored": 0.05908,
+   "alpaca": 0.05938605
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795071600,
+   "stored": 0.05932,
+   "alpaca": 0.05951
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795075200,
+   "stored": 0.05932,
+   "alpaca": 0.05947
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795086000,
+   "stored": 0.05932,
+   "alpaca": 0.05959795
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795096800,
+   "stored": 0.0595,
+   "alpaca": 0.059306
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795100400,
+   "stored": 0.05827,
+   "alpaca": 0.0585344
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795104000,
+   "stored": 0.05824,
+   "alpaca": 0.0584065
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795132800,
+   "stored": 0.05822,
+   "alpaca": 0.0580494
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795140000,
+   "stored": 0.0569,
+   "alpaca": 0.0576599
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795150800,
+   "stored": 0.05715,
+   "alpaca": 0.05757695
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795154400,
+   "stored": 0.0575,
+   "alpaca": 0.0576639
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795161600,
+   "stored": 0.05747,
+   "alpaca": 0.0572675
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795168800,
+   "stored": 0.05703,
+   "alpaca": 0.057252
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795183200,
+   "stored": 0.05606,
+   "alpaca": 0.0563205
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795186800,
+   "stored": 0.05389,
+   "alpaca": 0.0537685
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795194000,
+   "stored": 0.05364,
+   "alpaca": 0.0537842
+  },
+  {
+   "tf": "1h",
    "sym": "LINK",
    "t": 1795140000,
    "stored": 8.893,
@@ -1381,21 +1101,49 @@
    "t": 1795194000,
    "stored": 3.52e-06,
    "alpaca": 3.53e-06
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1794830400,
+   "stored": 63908.5,
+   "alpaca": 64816.5975
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1794916800,
+   "stored": 62539.25,
+   "alpaca": 64878.25
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1795003200,
+   "stored": 62054.0,
+   "alpaca": 62983.1135
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1795089600,
+   "stored": 61486.25,
+   "alpaca": 61911.288
   }
  ],
  "mismatch_count": {
-  "15m/LINK": 1,
-  "15m/SHIB": 19,
   "15m/AVAX": 19,
   "15m/BTC": 1,
   "15m/DOGE": 11,
-  "1h/DOGE": 21,
+  "15m/LINK": 1,
+  "15m/SHIB": 19,
   "1h/AVAX": 34,
+  "1h/DOGE": 21,
   "1h/LINK": 2,
-  "1h/SHIB": 28
+  "1h/SHIB": 28,
+  "1d/BTC": 4
  },
- "mode": "tick",
- "started": "2026-11-20T19:30:25Z",
- "tick": true,
- "finished": "2026-11-20T19:30:29Z"
+ "mode": "crypto",
+ "started": "2026-11-20T19:31:58Z",
+ "finished": "2026-11-20T19:31:59Z"
 }
