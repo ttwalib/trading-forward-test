@@ -68,13 +68,14 @@ def main():
         import library
         library.FILL_LAG = 0                      # signal time and signal-bar close; the nightly library keeps its lag
         I = {}
-        for s in syms:
+        lsyms = sorted(set(syms) | {x for x in U.get("universe", []) if x != "GOOG"}) if U.get("intraday_wide") else syms
+        for s in lsyms:
             B = decisions.bars(repo, "5m", s)[-200:]; days = {}
             for b in B:
                 t = dt.datetime.fromtimestamp(b["t"], NY); h = t.strftime("%H:%M")
                 if "09:30" <= h < "16:00": days.setdefault(t.date().isoformat(), []).append((h, b["o"], b["h"], b["l"], b["c"], b.get("v", 0)))
             I[s] = {d: sorted(v) for d, v in sorted(days.items())[-2:]}
-        for bk in library.intraday_books(I, syms, day):
+        for bk in library.intraday_books(I, [x for x in lsyms if I.get(x)], day):
             if bk.name.startswith("L1 "): continue
             for t in bk.trades:
                 if t["entry_date"] != day: continue

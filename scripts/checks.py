@@ -25,6 +25,8 @@ the weekly report).
                                                    signed so positive = worse) and the delay in minutes. Rows go to
                                                    data/quality/slippage.jsonl; quotes also feed the per-symbol spread
                                                    model (corp.ingest_snap).
+  python3 checks.py engine-report REPO [FROM]    -> engine detection price vs the 5-minute-lag price (measurement only)
+  python3 checks.py health REPO [NOW]            -> ticks today, tick seconds, Actions minutes vs quota, token expiry, alerts
   python3 checks.py slip-report REPO [FROM]      -> medians of spread cost, drift by delay bucket and total vs the cost
                                                    the simulation charges (library.side_cost); flags a model that is
                                                    cheaper than reality
@@ -34,7 +36,8 @@ the weekly report).
                                                    finished trading day. {"fresh": bool, "stale": [...]}. Tasks fetch
                                                    bars from IBKR only for the stale symbols.
 """
-import json, os, sys, hashlib, subprocess, platform, datetime as dt
+import math
+import glob, json, os, sys, hashlib, subprocess, platform, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tcal
@@ -239,11 +242,100 @@ def slip_report(repo, start=None):
     return out
 
 
+# ---------- engine fill vs the 5-minute rule (measurement only, added 2026-11-20) ----------
+def engine_report(repo, start=None):
+    """For every engine detection made within 20 minutes of its signal: the engine's detection price against the price
+    the 5-minute-lag rule would have used (open of the bar that starts 5 minutes after the signal bar ends). Positive
+    cost_vs_lag_pct = the engine fill was worse than the 5-minute rule (longs paid more, shorts received less).
+    Baseline rows are the ones fills.py uses; library rows (with "strategy") are sealed for this comparison only."""
+    import statistics as st, fills
+    out = {"baseline": [], "library": []}
+    for f in sorted(glob.glob(os.path.join(repo, "data", "decisions", "engine", "*.jsonl"))):
+        day = os.path.basename(f)[:10]
+        if start and day < start: continue
+        for r in jl(f):
+            if not r.get("fill_price") or r.get("delay_min") is None or r["delay_min"] > 20 or not r.get("signal_end"): continue
+            b = fills._bars5(repo, r["symbol"]).get((day, fills.plus(r["signal_end"], fills.LAG_MIN)))
+            if not b or not b.get("o"): continue
+            sign = -1 if r.get("side") == "short" else 1
+            out["library" if r.get("strategy") else "baseline"].append(
+                {"day": day, "symbol": r["symbol"], "delay_min": r["delay_min"], "cost_vs_lag_pct": round(sign * (float(r["fill_price"]) / b["o"] - 1) * 100, 4)})
+    rep = {}
+    for k, R in out.items():
+        x = [q["cost_vs_lag_pct"] for q in R]
+        rep[k] = {"n": len(R), "median_cost_vs_lag_pct": round(st.median(x), 4) if x else None, "mean_cost_vs_lag_pct": round(sum(x) / len(x), 4) if x else None,
+                  "worse_than_lag": sum(1 for v in x if v > 0), "median_delay_min": round(st.median([q["delay_min"] for q in R]), 1) if R else None}
+    rep["note"] = ("measurement only: fills.py keeps using engine prices for baseline rows detected within 20 minutes; a mean cost "
+                   "clearly above 0 over 100+ rows would mean the engine fill is harsher than the 5-minute rule, a mean below 0 that it flatters")
+    return rep
+
+
+# ---------- health line (added 2026-11-20) ----------
+TOKEN_EXPIRY = "2027-03-31"      # the pinger's GitHub token (owner's cron-job.org account); renew before this date
+MINUTES_QUOTA = 3000             # GitHub Pro Actions minutes per month (owner upgraded 2026-11-20)
+
+
+def tick_log(repo, mode, secs=None):
+    """Called by fetch_free.py after every run: ops/diag/ticks.json keeps {day: {mode: [HH:MM, ...]}} and seconds."""
+    p = os.path.join(repo, "ops", "diag", "ticks.json")
+    try: T = json.load(open(p))
+    except Exception: T = {}
+    now = dt.datetime.now(NY); d = T.setdefault(now.date().isoformat(), {})
+    d.setdefault(mode, []).append(now.strftime("%H:%M"))
+    if secs is not None: d.setdefault("secs", []).append(round(secs, 1))
+    for k in sorted(T)[:-45]: T.pop(k)
+    os.makedirs(os.path.dirname(p), exist_ok=True); json.dump(T, open(p, "w"), separators=(",", ":"))
+
+
+def health(repo, now=None):
+    """One line of plumbing health: are the ticks arriving, how long do they take, are the minutes inside the quota,
+    how long until the pinger's token expires. alerts lists what needs the owner or the orchestrator."""
+    import statistics as st
+    now = dt.datetime.fromisoformat(now).astimezone(NY) if now else dt.datetime.now(NY)
+    try: T = json.load(open(os.path.join(repo, "ops", "diag", "ticks.json")))
+    except Exception: T = {}
+    day = now.date().isoformat(); td = T.get(day, {}); ticks = td.get("tick", [])
+    hm = now.hour * 60 + now.minute; mins = lambda x: int(x[:2]) * 60 + int(x[3:])
+    open_now = tcal.is_open(now.date()) and 9 * 60 + 40 <= hm <= (13 if tcal.is_half(now.date()) else 16) * 60
+    last_age = hm - mins(ticks[-1]) if ticks else None
+    gaps = [mins(b) - mins(a) for a, b in zip(ticks, ticks[1:])]
+    month = day[:7]; used = 0
+    for d, v in T.items():
+        if d[:7] != month: continue
+        runs = sum(len(x) for k, x in v.items() if k != "secs"); secs = v.get("secs", [])
+        used += sum(max(1, math.ceil(x / 60 + 0.25)) for x in secs) + max(0, runs - len(secs))   # +15 s: checkout and commit
+    dom = now.day; days_in_month = (dt.date(now.year + (now.month == 12), now.month % 12 + 1, 1) - dt.timedelta(days=1)).day
+    tracked_days = max(1, sum(1 for d in T if d[:7] == month))
+    left = sum(1 for k in range(dom + 1, days_in_month + 1) if tcal.is_open(dt.date(now.year, now.month, k)))
+    proj = used + round(used / tracked_days * left)
+    secs_today = td.get("secs", [])
+    size_mb = None
+    try:
+        size_mb = round(sum(os.path.getsize(os.path.join(dp, f)) for dp, _, fs in os.walk(os.path.join(repo, "data")) for f in fs) / 1e6, 1)
+    except Exception: pass
+    days_to_expiry = (dt.date.fromisoformat(TOKEN_EXPIRY) - now.date()).days
+    H = {"at": now.strftime("%Y-%m-%d %H:%M"), "ticks_today": len(ticks), "last_tick": ticks[-1] if ticks else None,
+         "last_tick_age_min": last_age, "max_gap_min": max(gaps) if gaps else None,
+         "tick_seconds_median": round(st.median(secs_today), 1) if secs_today else None, "tick_seconds_max": max(secs_today) if secs_today else None,
+         "minutes_month_so_far": used, "minutes_month_projected": proj, "minutes_quota": MINUTES_QUOTA,
+         "token_expiry": TOKEN_EXPIRY, "token_days_left": days_to_expiry, "data_size_mb": size_mb, "alerts": []}
+    # The hourly backup tick logs itself just before this check, so the gap before the latest tick counts too.
+    worst = max([x for x in (last_age, gaps[-1] if gaps else None) if x is not None], default=None)
+    if open_now and ((worst is None and hm > 600) or (worst is not None and worst > 20) or (len(ticks) < 2 and hm > 600)):
+        H["alerts"].append("PINGER: gap of %s minutes between ticks in market hours (the external pinger may be down)" % (worst if worst is not None else "all"))
+    if secs_today and max(secs_today) > 45: H["alerts"].append("TICK SLOW: a tick took %.0f s (over 60 s doubles the minutes)" % max(secs_today))
+    if proj > 0.8 * MINUTES_QUOTA: H["alerts"].append("MINUTES: projected %d of %d this month" % (proj, MINUTES_QUOTA))
+    if days_to_expiry <= 21: H["alerts"].append("TOKEN: the pinger token expires in %d days (%s)" % (days_to_expiry, TOKEN_EXPIRY))
+    if size_mb and size_mb > 700: H["alerts"].append("REPO: data is %.0f MB (GitHub soft limit 1 GB)" % size_mb)
+    return H
+
+
 def fresh(repo, tf, now=None):
     now = dt.datetime.fromisoformat(now).astimezone(NY) if now else dt.datetime.now(NY)
     U = json.load(open(os.path.join(repo, "data", "universe.json"))); stocks = U["watchlist"] + U["control"]
     if tf == "5m":
-        syms = stocks + ["SPY", "QQQ", "IWM"]
+        wide = sorted(set(stocks) | {x for x in U.get("universe", []) if x != "GOOG"}) if U.get("intraday_wide") else stocks
+        syms = wide + ["SPY", "QQQ", "IWM"]
         close = now.replace(hour=13 if tcal.is_half(now.date()) else 16, minute=0, second=0, microsecond=0)
         ref = min(now, close)
         if not tcal.is_open(now.date()) or now.hour * 60 + now.minute < 615:   # before 10:15: last session's close
@@ -269,6 +361,7 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     fn = {"bar-timing": lambda: bar_timing(a[1]), "xcheck-plan": lambda: xcheck_plan(a[1], a[2]), "xcheck": lambda: xcheck(a[1], a[2]),
           "live-save": lambda: live_save(a[1], a[2], a[3]), "parity": lambda: parity(a[1], a[2]),
+          "engine-report": lambda: engine_report(a[1], a[2] if len(a) > 2 else None), "health": lambda: health(a[1], a[2] if len(a) > 2 else None),
           "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
           "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None),
           "fresh": lambda: fresh(a[1], a[2], a[3] if len(a) > 3 else None)}[a[0]]

@@ -14,6 +14,9 @@ Sources (all free, no extra cost):
                                            corporate actions 3 years, full Cboe VIX/VIX3M
   python3 fetch_free.py tick REPO       -> every 5 minutes in market hours: intraday 5m (crypto every 15 minutes),
                                            then engine.py (sealed real-time signal detections)
+  python3 fetch_free.py crypto REPO     -> crypto 15m / 1h / 1d only (scheduled every 3 hours, before each crypto-tracks run)
+  python3 fetch_free.py etfs REPO       -> one-off history (2 years + archive since 2016) for the ETFs in universe.json
+  python3 fetch_free.py wide5m REPO     -> one-off 90 days of 5m bars for the whole universe
   python3 fetch_free.py hist REPO       -> long archive for research (strategy lab, ML): daily bars since 2016 for the
                                            S&P 100 universe + ETFs, 5m bars for 2 years for the 47 intraday symbols,
                                            into data/hist/<tf>/<SYM>.csv.gz (t,o,h,l,c,v; same timestamp rules).
@@ -230,39 +233,49 @@ def hist(repo, syms, tf, start, end):
 
 
 def main():
+    T0 = time.time()
     mode, repo = sys.argv[1], sys.argv[2]
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     stocks = U["watchlist"] + U["control"]; etfs = [e for e in U["etfs"] if not e.startswith("VIX")]
     univ = sorted(set(stocks) | {s for s in U.get("universe", []) if s != "GOOG"})
+    intr = (univ if U.get("intraday_wide") else stocks) + INTRA_ETFS      # symbols with 5-minute bars
     end = now() - dt.timedelta(minutes=16)                  # free plan: SIP data must be at least 15 minutes old
     LOG.update({"mode": mode, "started": iso(now())})
     if mode == "tick":
         mode = "intraday"; LOG["tick"] = True
     if mode == "intraday":
-        lt = [last_t(repo, "5m", s) for s in stocks + INTRA_ETFS]
+        lt = [last_t(repo, "5m", s) for s in intr]
         known = [t for t in lt if t]
         sess = dt.datetime.now(NY).replace(hour=9, minute=30, second=0, microsecond=0)
         start = min(known) + 300 if known and len(known) == len(lt) else int(sess.timestamp())
         start = max(start, int((now() - dt.timedelta(days=5)).timestamp()))
-        stock_bars(repo, stocks + INTRA_ETFS, "5m", dt.datetime.fromtimestamp(start, UTC), end)
+        stock_bars(repo, intr, "5m", dt.datetime.fromtimestamp(start, UTC), end)
         if not LOG.get("tick") or now().minute % 15 < 5:
             crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
     elif mode == "nightly":
         stock_bars(repo, univ + etfs, "1d", now() - dt.timedelta(days=15), end)
-        stock_bars(repo, stocks + INTRA_ETFS, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars
+        stock_bars(repo, intr, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
     elif mode == "hist":
         hist(repo, univ + etfs, "1d", dt.datetime(2016, 1, 1, tzinfo=UTC), end)
-        hist(repo, stocks + INTRA_ETFS, "5m", now() - dt.timedelta(days=731), end)
+        hist(repo, intr, "5m", now() - dt.timedelta(days=731), end)
         corp_actions(repo, univ + etfs, dt.datetime(2015, 6, 1, tzinfo=UTC)); cboe(repo, True, to_hist=True)
+    elif mode == "crypto":        # scheduled around the clock, so the crypto tasks need no IBKR bars
+        crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
+        crypto_bars(repo, "1d", now() - dt.timedelta(days=5))
+    elif mode == "etfs":          # one-off: history for ETFs added to universe.json
+        stock_bars(repo, etfs, "1d", now() - dt.timedelta(days=740), end)
+        corp_actions(repo, etfs, dt.datetime(2015, 6, 1, tzinfo=UTC)); hist(repo, etfs, "1d", dt.datetime(2016, 1, 1, tzinfo=UTC), end)
+    elif mode == "wide5m":        # one-off: 90 days of 5-minute bars for the whole universe (before intraday_wide = true)
+        stock_bars(repo, univ + INTRA_ETFS, "5m", now() - dt.timedelta(days=92), end)
     elif mode == "universe":
         stock_bars(repo, univ, "1d", now() - dt.timedelta(days=740), end)
         corp_actions(repo, univ, now() - dt.timedelta(days=1100))
     elif mode == "backfill":
         stock_bars(repo, univ + etfs, "1d", now() - dt.timedelta(days=740), end)
-        stock_bars(repo, stocks + INTRA_ETFS, "5m", now() - dt.timedelta(days=92), end)
+        stock_bars(repo, intr, "5m", now() - dt.timedelta(days=92), end)
         crypto_bars(repo, "1d", now() - dt.timedelta(days=740)); crypto_bars(repo, "1h", now() - dt.timedelta(days=366))
         crypto_bars(repo, "15m", now() - dt.timedelta(days=92))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=1100)); cboe(repo, True)
@@ -270,6 +283,9 @@ def main():
     LOG["finished"] = iso(now()); LOG["mismatch"] = LOG["mismatch"][-200:]
     os.makedirs(os.path.join(repo, "ops", "diag"), exist_ok=True)
     json.dump(LOG, open(os.path.join(repo, "ops", "diag", "fetch_free.json"), "w"), indent=1)
+    try:      # plumbing health: when each run happened and how long it took (ops/diag/ticks.json)
+        import checks; checks.tick_log(repo, mode, time.time() - T0)
+    except Exception as e: print("tick log failed:", e)
     print(json.dumps({"mode": mode, "files": len(LOG["files"]), "added": sum(v["added"] for v in LOG["files"].values()),
                       "errors": LOG["errors"][:5], "mismatch": len(LOG["mismatch"])}))
 

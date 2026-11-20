@@ -9,15 +9,20 @@ on:
     # workflow_dispatch with mode "tick": GitHub ran its own */5 schedule only about hourly. Backup tick at :50 each hour.
     - cron: "50 14-20 * * 1-5"
     - cron: "40 22 * * 1-5"        # nightly daily bars, corporate actions, VIX (after the 17:00 ET cut)
+    - cron: "32 0-23/3 * * *"      # crypto bars every 3 hours, before each crypto-tracks run (added 2026-11-20)
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | compute"
         default: backfill
+      day:
+        description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
+        default: ""
   push:
     paths: ["ops/fetch_request.json"]   # edit this file to request a run (mode inside) without the GitHub UI
 permissions:
   contents: write
+  issues: write
 concurrency:
   group: market-data
   cancel-in-progress: false
@@ -30,11 +35,22 @@ jobs:
       - name: Pick mode
         id: m
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then M="${{ github.event.inputs.mode }}";
-          elif [ "${{ github.event_name }}" = "push" ]; then M=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json'))['mode'])");
-          elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly; else M=tick; fi
-          echo "mode=$M" >> "$GITHUB_OUTPUT"
+          D=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then M="${{ github.event.inputs.mode }}"; D="${{ github.event.inputs.day }}";
+          elif [ "${{ github.event_name }}" = "push" ]; then M=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json'))['mode'])"); D=$(python3 -c "import json;print(json.load(open('ops/fetch_request.json')).get('day',''))");
+          elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly;
+          elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto; else M=tick; fi
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|compute) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
+          echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
+      # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
+      - name: Compute
+        if: steps.m.outputs.mode == 'compute'
+        run: |
+          pip install -q numpy
+          python3 scripts/nightly.py . "${{ steps.m.outputs.day }}" || echo "nightly maths failed (see data/nightly/stamp.json)"
       - name: Fetch
+        if: steps.m.outputs.mode != 'compute'
         env:
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
           ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
@@ -42,16 +58,34 @@ jobs:
           python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
           python3 scripts/dashboard.py . || echo "dashboard data failed"
+      # The hourly backup tick doubles as a watchdog: no pinger tick for 20 minutes in market hours -> one open issue.
+      - name: Watchdog
+        if: github.event_name == 'schedule' && steps.m.outputs.mode == 'tick'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          A=$(python3 -c "import sys;sys.path.insert(0,'scripts');import checks;print(' | '.join(a for a in checks.health('.')['alerts'] ))" || true)
+          if [ -n "$A" ]; then
+            N=$(gh issue list --state open --search "Health alert in:title" --json number --jq 'length' || echo 1)
+            if [ "$N" = "0" ]; then gh issue create --title "Health alert $(date -u +%F)" --body "$A  (from scripts/checks.py health; see ops/engine_pinger.md and the runbook HEALTH section)" || true; fi
+          fi
       - name: Commit
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/bars data/corp ops/diag/fetch_free.json
-          for p in data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/corp ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          if [ "${{ steps.m.outputs.mode }}" = "compute" ]; then
+            for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          fi
           git diff --cached --quiet && exit 0
           git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"
           for i in 1 2 3 4 5; do
-            git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main && exit 0
+            if git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main; then OK=1; break; fi
             sleep $((i * 7))
           done
-          exit 1
+          [ "$OK" = "1" ] || exit 1
+          # Proof of pre-registration: the first commit that holds ops/freeze.json gets a permanent tag (GitHub stores
+          # the push time), so anyone can check that the frozen code and the verdict rules predate the results.
+          if [ -e ops/freeze.json ] && ! git ls-remote --exit-code --tags origin freeze-registered >/dev/null 2>&1; then
+            git tag -a freeze-registered -m "Change freeze recorded: hashes in ops/freeze.json, rules in ops/runbook.md" && git push -q origin freeze-registered || true
+          fi

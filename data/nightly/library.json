@@ -1,0 +1,134 @@
+{
+ "summary": {
+  "L5 RSI(2) pullback": {
+   "backtest_trades": 61,
+   "backtest_avg_pct": 0.425,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 2,
+   "days": 508
+  },
+  "L6 Bollinger reversion": {
+   "backtest_trades": 239,
+   "backtest_avg_pct": -0.023,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 10,
+   "days": 508
+  },
+  "L7 Donchian trend": {
+   "backtest_trades": 212,
+   "backtest_avg_pct": 1.006,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 8,
+   "days": 508
+  },
+  "L10 Earnings drift": {
+   "backtest_trades": 33,
+   "backtest_avg_pct": -1.216,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 0,
+   "days": 508
+  },
+  "L8 Momentum top 8": {
+   "backtest_trades": 100,
+   "backtest_avg_pct": 5.179,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 8,
+   "days": 508
+  },
+  "L9 Sector rotation": {
+   "backtest_trades": 54,
+   "backtest_avg_pct": 0.501,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 3,
+   "days": 508
+  },
+  "L15 Market-neutral momentum": {
+   "backtest_trades": 233,
+   "backtest_avg_pct": 1.825,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 16,
+   "days": 508
+  },
+  "L11 SPY overnight": {
+   "backtest_trades": 504,
+   "backtest_avg_pct": 0.018,
+   "forward_trades": 3,
+   "forward_avg_pct": 0.279,
+   "open": 0,
+   "days": 508
+  },
+  "L12 Turn of month": {
+   "backtest_trades": 24,
+   "backtest_avg_pct": 0.589,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 0,
+   "days": 508
+  },
+  "L16 SPY trend short": {
+   "backtest_trades": 5,
+   "backtest_avg_pct": 0.17,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 1,
+   "days": 508
+  },
+  "L13 Pairs reversion": {
+   "backtest_trades": 58,
+   "backtest_avg_pct": 0.441,
+   "forward_trades": 0,
+   "forward_avg_pct": null,
+   "open": 0,
+   "days": 508
+  },
+  "L1 SPY intraday momentum": {
+   "backtest_trades": 61,
+   "backtest_avg_pct": -0.054,
+   "forward_trades": 4,
+   "forward_avg_pct": -0.143,
+   "open": 0,
+   "days": 66
+  },
+  "L2 VWAP pullback": {
+   "backtest_trades": 267,
+   "backtest_avg_pct": -0.2,
+   "forward_trades": 9,
+   "forward_avg_pct": -0.468,
+   "open": 0,
+   "days": 66
+  },
+  "L3 Gap and go": {
+   "backtest_trades": 84,
+   "backtest_avg_pct": -0.172,
+   "forward_trades": 5,
+   "forward_avg_pct": -1.854,
+   "open": 0,
+   "days": 66
+  },
+  "L4 Gap fade": {
+   "backtest_trades": 223,
+   "backtest_avg_pct": -0.236,
+   "forward_trades": 19,
+   "forward_avg_pct": -0.157,
+   "open": 0,
+   "days": 66
+  },
+  "L14 ORB breakdown short": {
+   "backtest_trades": 304,
+   "backtest_avg_pct": -0.233,
+   "forward_trades": 20,
+   "forward_avg_pct": 0.227,
+   "open": 0,
+   "days": 66
+  }
+ },
+ "new_closed": 0,
+ "new_closed_rows": []
+}

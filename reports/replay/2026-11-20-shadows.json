@@ -1,0 +1,54 @@
+{
+ "ai": {
+  "days": 371,
+  "total_pct": 4.106,
+  "sharpe": 0.38,
+  "max_dd_pct": 7.844,
+  "mean_daily_pct": 0.0121
+ },
+ "equal": {
+  "days": 371,
+  "total_pct": 10.019,
+  "sharpe": 0.88,
+  "max_dd_pct": 6.63,
+  "mean_daily_pct": 0.0269
+ },
+ "spy": {
+  "days": 371,
+  "total_pct": 23.474,
+  "sharpe": 1.17,
+  "max_dd_pct": 8.885,
+  "mean_daily_pct": 0.0602
+ },
+ "sh_rp": {
+  "days": 371,
+  "total_pct": 8.092,
+  "sharpe": 1.0,
+  "max_dd_pct": 4.502,
+  "mean_daily_pct": 0.0216
+ },
+ "sh_mv": {
+  "days": 371,
+  "total_pct": 3.871,
+  "sharpe": 0.78,
+  "max_dd_pct": 4.661,
+  "mean_daily_pct": 0.0105
+ },
+ "sh_win": {
+  "days": 371,
+  "total_pct": 7.49,
+  "sharpe": 0.42,
+  "max_dd_pct": 12.358,
+  "mean_daily_pct": 0.0233
+ },
+ "forced_fill": {
+  "avg_weight": 0.1908,
+  "return_pct_total": 1.9856,
+  "backed_return_pct_total": 5.7375,
+  "days_with_fill": 158
+ },
+ "exposure": {
+  "beta_spy": 0.313,
+  "after_beta_pct_total": -2.4808
+ }
+}

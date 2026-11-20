@@ -68,9 +68,45 @@
     "base_a": null,
     "spy_vm": null,
     "equal_vm": null,
-    "base_a_vm": null
+    "base_a_vm": null,
+    "sh_rp": null,
+    "sh_mv": null,
+    "sh_win": null
    },
    "avg_invested": 1.0,
+   "shadows": {
+    "sh_rp": {
+     "days": 4,
+     "total_pct": -0.432,
+     "sharpe": -17.18,
+     "max_dd_pct": 0.432,
+     "mean_daily_pct": -0.1082
+    },
+    "sh_mv": {
+     "days": 4,
+     "total_pct": 0.195,
+     "sharpe": 7.72,
+     "max_dd_pct": 0.056,
+     "mean_daily_pct": 0.0486
+    },
+    "sh_win": {
+     "days": 4,
+     "total_pct": -3.827,
+     "sharpe": -71.53,
+     "max_dd_pct": 3.827,
+     "mean_daily_pct": -0.9706
+    }
+   },
+   "forced_fill": {
+    "avg_weight": 0.0,
+    "return_pct_total": 0,
+    "backed_return_pct_total": -2.0061,
+    "days_with_fill": 0
+   },
+   "exposure": {
+    "beta_spy": 0.254,
+    "after_beta_pct_total": -0.7267
+   },
    "sharpe_gap_detectable": 10.17,
    "turnover_per_day": 0.25,
    "rebal_cost_pct_total": 0.0375
@@ -137,9 +173,45 @@
     "base_a": null,
     "spy_vm": null,
     "equal_vm": null,
-    "base_a_vm": null
+    "base_a_vm": null,
+    "sh_rp": null,
+    "sh_mv": null,
+    "sh_win": null
    },
    "avg_invested": 1.0,
+   "shadows": {
+    "sh_rp": {
+     "days": 4,
+     "total_pct": -0.432,
+     "sharpe": -17.18,
+     "max_dd_pct": 0.432,
+     "mean_daily_pct": -0.1082
+    },
+    "sh_mv": {
+     "days": 4,
+     "total_pct": 0.195,
+     "sharpe": 7.72,
+     "max_dd_pct": 0.056,
+     "mean_daily_pct": 0.0486
+    },
+    "sh_win": {
+     "days": 4,
+     "total_pct": -3.827,
+     "sharpe": -71.53,
+     "max_dd_pct": 3.827,
+     "mean_daily_pct": -0.9706
+    }
+   },
+   "forced_fill": {
+    "avg_weight": 0.0,
+    "return_pct_total": 0,
+    "backed_return_pct_total": -2.0061,
+    "days_with_fill": 0
+   },
+   "exposure": {
+    "beta_spy": 0.254,
+    "after_beta_pct_total": -0.7267
+   },
    "sharpe_gap_detectable": 10.17,
    "turnover_per_day": 0.25,
    "rebal_cost_pct_total": 0.0375
@@ -160,7 +232,10 @@
     "base_a": null,
     "spy_vm": null,
     "equal_vm": null,
-    "base_a_vm": null
+    "base_a_vm": null,
+    "sh_rp": null,
+    "sh_mv": null,
+    "sh_win": null
    }
   }
  },
@@ -194,8 +269,8 @@
   }
  },
  "stamp": {
-  "commit": "aaef38e",
-  "data_sha256": "963d7b68b06db1f9",
+  "commit": "d601012",
+  "data_sha256": "80fbb5ff33bd511f",
   "data_files": 372,
   "versions": {
    "python": "3.13.18",
@@ -204,14 +279,14 @@
    "sklearn": "1.9.1",
    "scipy": "1.18.1"
   },
-  "at": "2026-11-20 05:00"
+  "at": "2026-11-20 08:15"
  },
  "latest_weights": {
   "date": "2026-11-19",
   "weights": {
-   "L6 Bollinger reversion": 0.25,
-   "L3 Gap and go": 0.25,
    "L13 Pairs reversion": 0.25,
+   "L3 Gap and go": 0.25,
+   "L6 Bollinger reversion": 0.25,
    "L10 Earnings drift": 0.25
   },
   "breakers": [
@@ -226,6 +301,49 @@
    "backed": 5,
    "backed_weight": 1.0,
    "filled": 0
+  },
+  "forced": [],
+  "shadows": {
+   "sh_rp": {
+    "L1 SPY intraday momentum": 0.1839,
+    "L10 Earnings drift": 0.0532,
+    "L11 SPY overnight": 0.0531,
+    "L12 Turn of month": 0.0572,
+    "L13 Pairs reversion": 0.1339,
+    "L14 ORB breakdown short": 0.0342,
+    "L15 Market-neutral momentum": 0.0165,
+    "L16 SPY trend short": 0.0814,
+    "L2 VWAP pullback": 0.0774,
+    "L3 Gap and go": 0.0331,
+    "L4 Gap fade": 0.1105,
+    "L5 RSI(2) pullback": 0.0719,
+    "L6 Bollinger reversion": 0.0269,
+    "L7 Donchian trend": 0.0217,
+    "L8 Momentum top 8": 0.0109,
+    "L9 Sector rotation": 0.0342
+   },
+   "sh_mv": {
+    "L1 SPY intraday momentum": 0.1739,
+    "L10 Earnings drift": 0.074,
+    "L11 SPY overnight": 0.061,
+    "L12 Turn of month": 0.0227,
+    "L13 Pairs reversion": 0.1542,
+    "L14 ORB breakdown short": 0.047,
+    "L16 SPY trend short": 0.1293,
+    "L2 VWAP pullback": 0.0939,
+    "L3 Gap and go": 0.0113,
+    "L4 Gap fade": 0.1197,
+    "L5 RSI(2) pullback": 0.0881,
+    "L6 Bollinger reversion": 0.0082,
+    "L7 Donchian trend": 0.0033,
+    "L9 Sector rotation": 0.0135
+   },
+   "sh_win": {
+    "L7 Donchian trend": 0.25,
+    "L6 Bollinger reversion": 0.25,
+    "L9 Sector rotation": 0.25,
+    "L11 SPY overnight": 0.25
+   }
   }
  }
 }

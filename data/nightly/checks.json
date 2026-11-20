@@ -1,0 +1,110 @@
+{
+ "engine_report": {
+  "baseline": {
+   "n": 0,
+   "median_cost_vs_lag_pct": null,
+   "mean_cost_vs_lag_pct": null,
+   "worse_than_lag": 0,
+   "median_delay_min": null
+  },
+  "library": {
+   "n": 0,
+   "median_cost_vs_lag_pct": null,
+   "mean_cost_vs_lag_pct": null,
+   "worse_than_lag": 0,
+   "median_delay_min": null
+  },
+  "note": "measurement only: fills.py keeps using engine prices for baseline rows detected within 20 minutes; a mean cost clearly above 0 over 100+ rows would mean the engine fill is harsher than the 5-minute rule, a mean below 0 that it flatters"
+ },
+ "slip_report": {
+  "n": 7,
+  "from": "2026-11-19 10:06",
+  "to": "2026-11-19 11:10",
+  "spread_pct_median": 0.0261,
+  "drift_pct_median_by_delay": {
+   "0-15": {
+    "n": 1,
+    "median": 0.3436
+   },
+   "15-30": {
+    "n": 4,
+    "median": -0.6401
+   },
+   "30-65": {
+    "n": 0,
+    "median": null
+   },
+   "65+": {
+    "n": 2,
+    "median": -2.6006
+   }
+  },
+  "total_pct_median": -0.8594,
+  "model_side_cost_pct_median": 0.1324,
+  "worst": [
+   {
+    "ask": 759.5,
+    "at": "2026-11-19 10:06",
+    "bid": 759.26,
+    "decided_at": "2026-11-19 10:05",
+    "delay_min": 1.0,
+    "drift_pct": 0.34356,
+    "id": "65c1c6390fa0",
+    "outcome_open": true,
+    "side": "long",
+    "sim_entry": 756.78,
+    "spread_pct": 0.0158,
+    "symbol": "MU",
+    "total_pct": 0.35942
+   },
+   {
+    "ask": 59.230000000000004,
+    "at": "2026-11-19 10:06",
+    "bid": 59.22,
+    "decided_at": "2026-11-19 09:50",
+    "delay_min": 16.0,
+    "drift_pct": 0.1268,
+    "id": "e389ac113c3d",
+    "outcome_open": true,
+    "side": "long",
+    "sim_entry": 59.15,
+    "spread_pct": 0.00844,
+    "symbol": "INTC",
+    "total_pct": 0.13525
+   },
+   {
+    "ask": 523.3100000000001,
+    "at": "2026-11-19 10:06",
+    "bid": 523.1800000000001,
+    "decided_at": "2026-11-19 09:50",
+    "delay_min": 16.0,
+    "drift_pct": -0.395,
+    "id": "365c99ed0f0d",
+    "outcome_open": true,
+    "side": "long",
+    "sim_entry": 525.32,
+    "spread_pct": 0.01242,
+    "symbol": "MSFT",
+    "total_pct": -0.38262
+   }
+  ],
+  "model_cheaper_than_spread": false,
+  "note": "spread = what a market order pays now; drift = price move between the simulated fill and the quote (mostly the hourly-run delay); the simulation charges model_side_cost per side"
+ },
+ "health": {
+  "at": "2026-11-20 08:16",
+  "ticks_today": 0,
+  "last_tick": null,
+  "last_tick_age_min": null,
+  "max_gap_min": null,
+  "tick_seconds_median": null,
+  "tick_seconds_max": null,
+  "minutes_month_so_far": 0,
+  "minutes_month_projected": 0,
+  "minutes_quota": 3000,
+  "token_expiry": "2027-03-31",
+  "token_days_left": 131,
+  "data_size_mb": 72.4,
+  "alerts": []
+ }
+}

@@ -65,6 +65,16 @@ Benchmarks: SPY buy-and-hold (close to close), equal weight of all live sleeves,
 (added 2026-11-19 for SPY, 2026-11-20 for the other two; stricter) each benchmark scaled to the AI portfolio's
 realised volatility over the same phase ("spy_vm", "equal_vm", "base_a_vm"), so that neither side can win on
 drawdown just by carrying less risk.
+Shadow allocators (added 2026-11-20, before the freeze): three simple rivals run beside the AI allocator under the
+same rules (always 100% invested, 25% cap, weekly rebalancing, the same rebalancing costs, duplicates counted once,
+only data up to the day before, sleeves with at least 10 active days): "sh_rp" risk parity (weights proportional to
+1 / volatility), "sh_mv" minimum variance (Ledoit-Wolf covariance, long only), "sh_win" recent winners (the four
+sleeves with the best mean over the last 20 days, 25% each). They never decide pass or fail, but a pass is called
+ROBUST only if the AI's Sharpe is also above the best shadow's (and it beats SPY at double costs): otherwise its
+complexity added nothing over a simple rule.
+Reported, never part of the verdict: "forced_fill" (the average share of the book held only to stay fully
+invested, and what those holdings returned, against the backed holdings) and "exposure" (the beta of the AI's daily
+returns to SPY over the phase, and the return left after removing beta x SPY).
 Verdict (three-way since 2026-11-20, set before the window): PASS = beats every benchmark on Sharpe AND max drawdown
 (raw and volatility-matched) with bootstrap P >= 0.9 (raw and volatility-matched); FAIL = for at least one benchmark
 the chance that the AI's mean beats it is <= 0.10; otherwise INCONCLUSIVE (the pre-registered consequence of
@@ -267,12 +277,40 @@ def weights_for(d, S, cal_idx, regime, cal):
         act = [i for i in act if i not in neg]
         if not act: wv = np.zeros(len(names)); break
     backed = {names[i]: float(wv[i]) for i in range(len(names)) if wv[i] > 0}
+    info["_backed"] = sorted(backed)
     full = fill_to_one([backed, t2, t3, t4])            # always fully invested: no cash
     wf = np.array([full.get(k, 0.0) for k in names])
     info["_vol_forecast_pct"] = round(float(np.sqrt(max(wf @ Sig @ wf, 0.0) * 252)), 3)   # backed sleeves only
     info["_fill"] = {"backed": len(backed), "backed_weight": round(sum(full.get(k, 0.0) for k in backed), 4),
                      "filled": len(full) - len([k for k in backed if k in full])}
     return {k: round(x, 4) for k, x in full.items() if x > 0.0005}, info
+
+
+def shadow_targets(d, S, cal_idx, cal):
+    """Target weights of the simple rival allocators for day d, from data before d only."""
+    i = cal_idx[d]; hist = cal[max(0, i - WIN):i]; dup = duplicates(S, hist); el = {}
+    for name, series in S.items():
+        if name in dup: continue
+        raw = [series.get(x, 0.0) for x in hist if x >= min(series, default="9999")]
+        if sum(1 for x in raw if x) < MIN_DAYS: continue
+        el[name] = raw
+    if not el: return {"sh_rp": {}, "sh_mv": {}, "sh_win": {}}
+    names = sorted(el); rp = {k: 1.0 / math.sqrt(max(stats(el[k])[1], 0.01)) for k in names}
+    days = hist[-COV_WIN:]
+    X = np.array([[S[k].get(x, 0.0) for k in names] for x in days]) if len(days) >= 2 else np.zeros((2, len(names)))
+    Sig = ledoit_wolf(X); Sig[np.diag_indices_from(Sig)] = np.maximum(np.diag(Sig), 0.01)
+    act = list(range(len(names))); mv = {}
+    for _ in range(len(names) + 1):
+        sol = np.linalg.solve(Sig[np.ix_(act, act)], np.ones(len(act)))
+        neg = [a for a, x in zip(act, sol) if x <= 0]
+        if not neg: mv = {names[a]: float(x) for a, x in zip(act, sol)}; break
+        act = [a for a in act if a not in neg]
+        if not act: break
+    top = sorted(names, key=lambda k: -(sum(el[k][-20:]) / max(1, len(el[k][-20:]))))[:4]
+    return {"sh_rp": fill_to_one([rp]), "sh_mv": fill_to_one([mv, rp]), "sh_win": fill_to_one([{k: 1.0 for k in top}, rp])}
+
+
+SHADOWS = ("sh_rp", "sh_mv", "sh_win")
 
 
 def perf(xs):
@@ -322,10 +360,19 @@ def simulate(repo, day, S, spy, vix):
     if not cal: return None
     cal_idx = {d: i for i, d in enumerate(cal)}; regime = regime_of(spy, vix, cal)
     start = tcal.START.isoformat(); rows = []; W = []; spy_keys = sorted(spy); wprev = {}; wk_prev = None
+    backed_ref = set(); shw = {k: {} for k in SHADOWS}
     for d in cal:
         if d < start: continue
         tgt, info = weights_for(d, S, cal_idx, regime, cal)
-        wk = dt.date.fromisoformat(d).isocalendar()[:2]
+        wk = dt.date.fromisoformat(d).isocalendar()[:2]; sh_ret = {}
+        new_week = wk != wk_prev
+        if new_week or not any(shw.values()):
+            tg = shadow_targets(d, S, cal_idx, cal)
+        for k in SHADOWS:
+            old = shw[k]; cur = {a: round(b, 4) for a, b in tg[k].items() if b > 0.0005} if (new_week or not old) and tg[k] else old
+            cst = sum(abs(cur.get(a, 0.0) - old.get(a, 0.0)) * rebal_cost(a) for a in set(cur) | set(old))
+            sh_ret[k] = sum(b * S[a].get(d, 0.0) for a, b in cur.items()) - cst; shw[k] = cur
+        if new_week or not wprev: backed_ref = set(info.get("_backed") or [])
         if REBALANCE == "weekly" and wprev and wk == wk_prev:
             keep = {k: v for k, v in wprev.items() if info.get(k) != "breaker" and not str(info.get(k, "")).startswith("duplicate")}
             w = dict(wprev) if len(keep) == len(wprev) else fill_to_one([keep, tgt])
@@ -340,6 +387,8 @@ def simulate(repo, day, S, spy, vix):
         turn = {k: abs(w.get(k, 0.0) - wprev.get(k, 0.0)) for k in set(w) | set(wprev)}
         rcost = sum(v * rebal_cost(k) for k, v in turn.items()); wprev = w
         ai = sum(wt * S[k].get(d, 0.0) for k, wt in w.items()) - rcost
+        fill_w = sum(wt for k, wt in w.items() if k not in backed_ref)
+        fill_ret = sum(wt * S[k].get(d, 0.0) for k, wt in w.items() if k not in backed_ref)
         i0 = cal_idx[d]; dup = duplicates(S, cal[max(0, i0 - WIN):i0])
         live = [k for k, s in S.items() if s and min(s) <= d and k not in dup]
         eq = sum(S[k].get(d, 0.0) for k in live) / len(live) if live else 0.0
@@ -348,10 +397,13 @@ def simulate(repo, day, S, spy, vix):
         base = S.get(BASE, {}).get(d, 0.0)
         rows.append({"date": d, "phase": tcal.phase(d), "regime": regime.get(d), "ai": round(ai, 5), "spy": round(sp, 5),
                      "equal": round(eq, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4),
-                     "turnover": round(sum(turn.values()), 4), "rebal_cost": round(rcost, 5)})
+                     "turnover": round(sum(turn.values()), 4), "rebal_cost": round(rcost, 5),
+                     "fill_w": round(fill_w, 4), "fill_ret": round(fill_ret, 5),
+                     **{k: round(v, 5) for k, v in sh_ret.items()}})
         W.append({"date": d, "weights": w, "breakers": sorted(k for k, v in info.items() if v == "breaker"),
                   "duplicates": sorted(k for k, v in info.items() if isinstance(v, str) and v.startswith("duplicate")),
-                  "vol_forecast_pct": info.get("_vol_forecast_pct"), "fill": info.get("_fill")})
+                  "vol_forecast_pct": info.get("_vol_forecast_pct"), "fill": info.get("_fill"),
+                  "forced": sorted(k for k in w if k not in backed_ref), "shadows": {k: dict(v) for k, v in shw.items()}})
     return rows, W
 
 
@@ -372,6 +424,16 @@ def phase_report(rows):
         P["spy_vm_scale"] = round(k_vm, 3); P["vm_scales"] = {k: round(v, 3) for k, v in scales.items()}
         P["p_ai_beats"] = {k: p_beats(ai, [r[k] for r in sel]) for k in BM}
         P["avg_invested"] = round(sum(r.get("invested", 0) for r in sel) / len(sel), 4)
+        P["shadows"] = {k: perf([r.get(k, 0.0) for r in sel]) for k in SHADOWS}
+        for k in SHADOWS: P["p_ai_beats"][k] = p_beats(ai, [r.get(k, 0.0) for r in sel])
+        fr = sum(r.get("fill_ret", 0) for r in sel); fw = sum(r.get("fill_w", 0) for r in sel) / len(sel)
+        P["forced_fill"] = {"avg_weight": round(fw, 4), "return_pct_total": round(fr, 4),
+                            "backed_return_pct_total": round(sum(r["ai"] + r.get("rebal_cost", 0) for r in sel) - fr, 4),
+                            "days_with_fill": sum(1 for r in sel if r.get("fill_w", 0) > 0.0005)}
+        ms, vs = stats(sp) if len(sp) > 1 else (0.0, 0.0)
+        beta = (sum((a - sum(ai) / len(ai)) * (b - ms) for a, b in zip(ai, sp)) / (len(sp) - 1) / vs) if len(sp) > 2 and vs > 0 else None
+        P["exposure"] = {"beta_spy": round(beta, 3) if beta is not None else None,
+                         "after_beta_pct_total": round(sum(a - beta * b for a, b in zip(ai, sp)), 4) if beta is not None else None}
         P["sharpe_gap_detectable"] = power(len(sel))
         P["turnover_per_day"] = round(sum(r.get("turnover", 0) for r in sel) / len(sel), 4)
         P["rebal_cost_pct_total"] = round(sum(r.get("rebal_cost", 0) for r in sel), 4)
@@ -396,8 +458,12 @@ def verdict_check(P, stress=None):
     lost = [b for b in res if pa.get(b) is not None and pa[b] <= 0.10]
     rob = None
     if stress: rob = (stress["ai"].get("sharpe") or -9) > (P["spy"].get("sharpe") or 0) and (stress["p_ai_beats"].get("spy") or 0) >= 0.9
+    sh = {k: v.get("sharpe") for k, v in (P.get("shadows") or {}).items() if v.get("days") and v.get("sharpe") is not None}
+    best = max(sh, key=sh.get) if sh else None
+    beats_sh = best is None or (ai.get("sharpe") is not None and ai["sharpe"] > sh[best])
     return {"result": "pass" if ok else "fail" if lost else "inconclusive", "pass": ok, "clearly_behind": lost,
-            "robust_2x": rob if ok else None, "by_benchmark": res}
+            "robust_2x": rob if ok else None, "best_shadow": best, "beats_best_shadow": beats_sh,
+            "robust": bool(ok and rob and beats_sh) if ok else None, "by_benchmark": res}
 
 
 def netting(repo, rows, W):

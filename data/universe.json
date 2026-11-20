@@ -1,5 +1,5 @@
 {
- "note": "Static S&P 100 membership snapshot (Nov 2026, approximate) used as the liquid universe. control = 22 names drawn with random.Random(20261119).sample from the universe minus the watchlist, GOOG and BRK.B. Fixed for the whole test: it measures whether watchlist selection adds edge beyond the rules. etfs = index, bond, gold and the 11 sector ETFs used by the strategy library (daily bars).",
+ "note": "Static S&P 100 membership snapshot (Nov 2026, approximate) used as the liquid universe. control = 22 names drawn with random.Random(20261119).sample from the universe minus the watchlist, GOOG and BRK.B. Fixed for the whole test: it measures whether watchlist selection adds edge beyond the rules. etfs = index, bond, gold and the 11 sector ETFs used by the strategy library (daily bars). Added 2026-11-20: IEF, DBC, EFA, EEM (multi-asset trend sleeve L17). intraday_wide = true makes the 5-minute feed, the intraday library strategies (L2-L4, L14) and the engine's library signals use the whole universe instead of watchlist + control; baseline A, its variants and the control list never change.",
  "seed": 20261119,
  "watchlist": [
   "AAPL",
@@ -68,7 +68,11 @@
   "XLRE",
   "XLU",
   "XLV",
-  "XLY"
+  "XLY",
+  "IEF",
+  "DBC",
+  "EFA",
+  "EEM"
  ],
  "universe": [
   "AAPL",
@@ -174,5 +178,6 @@
   "WFC",
   "WMT",
   "XOM"
- ]
+ ],
+ "intraday_wide": false
 }

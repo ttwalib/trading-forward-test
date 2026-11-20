@@ -41,13 +41,16 @@ def build(repo, now=None):
     ph = {}
     for k, v in (A.get("phases") or {}).items():
         ph[k] = {b: v.get(b) for b in ("ai", "spy", "spy_vm", "equal", "equal_vm", "base_a", "base_a_vm")}
-        ph[k].update({x: v.get(x) for x in ("p_ai_beats", "sharpe_gap_detectable", "turnover_per_day", "rebal_cost_pct_total", "spy_vm_scale", "vm_scales", "avg_invested")})
+        ph[k].update({x: v.get(x) for x in ("p_ai_beats", "sharpe_gap_detectable", "turnover_per_day", "rebal_cost_pct_total", "spy_vm_scale", "vm_scales", "avg_invested", "shadows", "forced_fill", "exposure")})
+    out["nightly"] = js(os.path.join(repo, "data", "nightly", "stamp.json"))
+    out["crash_drill"] = js(os.path.join(repo, "reports", "replay", "2026-11-20-crash_drill.json"))
     out["allocator"] = {"date": A.get("date"), "sleeves": A.get("sleeves"), "phases": ph, "verdict_check": A.get("verdict_check"),
                         "stress_2x": A.get("stress_2x"), "ideal_fills": A.get("ideal_fills"),
                         "netted": A.get("netted_exploratory"), "freeze": A.get("freeze"), "stamp": A.get("stamp"),
                         "weights": A.get("latest_weights")}
     P = jl(os.path.join(repo, "data", "allocator", "portfolio.jsonl"))
     out["curve"] = [{"d": p["date"], "ai": r(p.get("ai")), "spy": r(p.get("spy")), "eq": r(p.get("equal")), "a": r(p.get("base_a")),
+                     "rp": r(p.get("sh_rp")), "mv": r(p.get("sh_mv")), "win": r(p.get("sh_win")),
                      "inv": r(p.get("invested"), 3)} for p in P]
     W = jl(os.path.join(repo, "data", "allocator", "weights.jsonl"))[-30:]
     out["weights_hist"] = [{"d": w["date"], "w": w.get("weights"), "vol": w.get("vol_forecast_pct"), "br": len(w.get("breakers") or []),
@@ -88,6 +91,8 @@ def build(repo, now=None):
     out["engine"] = eng
     try:
         import checks
+        out["health"] = checks.health(repo, now.isoformat())
+        out["engine_vs_lag"] = checks.engine_report(repo)
         out["slippage"] = checks.slip_report(repo)
         out["fresh"] = {"5m": checks.fresh(repo, "5m", now.isoformat()), "1d": checks.fresh(repo, "1d", now.isoformat())}
         for v in out["fresh"].values(): v["stale"] = v["stale"][:12]

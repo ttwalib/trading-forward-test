@@ -68,6 +68,11 @@ that can make money, or lose less, when the market falls. All three are conventi
     (126-day return skipping the last 5 days), entered at Monday's open; shorts pay the borrow fee; K=16.
  L16 SPY trend short: when SPY closes below its 50-day average and that average is lower than 5 days earlier, be
     short SPY from the next open; cover at the open after the condition ends; borrow fee; K=1.
+Multi-asset sleeve (added 2026-11-20, before the freeze): the other sleeves are all US equities, so they tend to fall
+together. This one holds assets that follow different cycles.
+ L17 Multi-asset trend: each Friday, of TLT, IEF, GLD, DBC, EFA, EEM hold every one whose close is above its 200-day
+    average (one fifth of the sleeve each, at most 5, strongest distance above the average first), entered at Monday's
+    open; an asset below its average is sold and its share stays in cash inside the sleeve; K=5.
 """
 import json, os, sys, math, datetime as dt
 from zoneinfo import ZoneInfo
@@ -77,6 +82,7 @@ NY = ZoneInfo("America/New_York")
 START = tcal.START.isoformat()
 SECTORS = ["XLB", "XLC", "XLE", "XLF", "XLI", "XLK", "XLP", "XLRE", "XLU", "XLV", "XLY"]
 INDEX_ETFS = ["SPY", "QQQ", "IWM", "DIA"]
+MULTI = ["TLT", "IEF", "GLD", "DBC", "EFA", "EEM"]
 ETFS = set(SECTORS + INDEX_ETFS + ["TLT", "GLD"])
 PAIRS = [("JPM", "BAC"), ("GS", "MS"), ("XOM", "XLE"), ("PEP", "XLP"), ("T", "TMUS"), ("GOOGL", "META")]
 C_DAY, C_INTRA, C_SPY = 0.05, 0.03, 0.01
@@ -194,7 +200,7 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     stocks = U["watchlist"] + U["control"]
     lib = sorted(set(stocks) | {s for s in U.get("universe", []) if s != "GOOG"})
-    D = {s: daily(repo, s) for s in set(lib + SECTORS + INDEX_ETFS + ["TLT", "GLD"] + [x for p in PAIRS for x in p])}
+    D = {s: daily(repo, s) for s in set(lib + SECTORS + INDEX_ETFS + MULTI + [x for p in PAIRS for x in p])}
     D = {s: r for s, r in D.items() if r}
     cal = [r[0] for r in D.get("SPY", [])]
     if day: cal = [d for d in cal if d <= day]
@@ -247,7 +253,7 @@ def build(repo, day=None):
         if dd10: books.append(run_daily("L10 Earnings drift", 5, dd10, cal, sig10, lambda s, i, p: False, 10))
 
         # L8 / L9 weekly rotations
-        def rotation(name, K, univ, score, fallback=None):
+        def rotation(name, K, univ, score, fallback=None, allow_empty=False):
             bk = Book(name, K); hold = {}; nxt = None
             idx = {s: {r[0]: j for j, r in enumerate(D[s])} for s in univ + ([fallback] if fallback else []) if s in D}
             for k, d in enumerate(cal):
@@ -275,7 +281,7 @@ def build(repo, day=None):
                     if fallback:
                         sp = closes(D["SPY"], k, 200)
                         if len(sp) >= 200 and sp[-1] < sma(sp, 200): pick = [fallback]
-                    if pick: nxt = set(pick)
+                    if pick or allow_empty: nxt = set(pick)
             for s, p in hold.items(): bk.trade(s, "long", p["ed"], "open", p["ep"], cal[-1], "mark", p["mark"], C_DAY, "open")
             return bk
         def mom(s, i):
@@ -286,6 +292,13 @@ def build(repo, day=None):
             rows = D[s]
             return rows[i][4] / rows[i - 63][4] - 1 if i >= 63 else None
         books.append(rotation("L9 Sector rotation", 3, [s for s in SECTORS if s in D], sec, "TLT"))
+
+        # L17 multi-asset trend: hold each asset only while it is above its 200-day average
+        def trend17(s, i):
+            cl = closes(D[s], i, 200)
+            return cl[-1] / sma(cl, 200) - 1 if len(cl) >= 200 and cl[-1] > sma(cl, 200) else None
+        if sum(1 for s in MULTI if s in D and len(D[s]) >= 200) >= 4:
+            books.append(rotation("L17 Multi-asset trend", 5, [s for s in MULTI if s in D], trend17, None, True))
 
         # L15 market-neutral momentum: long the top K, short the bottom K, rebalanced weekly
         def ls_rotation(name, K, univ, score):
@@ -392,7 +405,9 @@ def build(repo, day=None):
                     b13.add_day(d, -C_DAY)
         books.append(b13)
 
-    books += intraday_books({s: intraday(repo, s) for s in stocks + ["SPY"]}, stocks, day)
+    istocks = lib if U.get("intraday_wide") else stocks      # baseline A lists never change; this is the library only
+    istocks = [s for s in istocks if os.path.exists(os.path.join(repo, "data", "bars", "5m", s + ".jsonl"))]
+    books += intraday_books({s: intraday(repo, s) for s in istocks + ["SPY"]}, istocks, day)
     return books
 
 
