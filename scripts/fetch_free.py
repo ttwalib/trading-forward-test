@@ -239,7 +239,7 @@ def borrow(repo, syms):
     day a file exists and keeps the flat 0.5%/year before that or when the file is missing."""
     try:
         import ftplib
-        buf = []; f = ftplib.FTP("ftp3.interactivebrokers.com", timeout=40); f.login("shortstock", "")
+        buf = []; f = ftplib.FTP("ftp3.interactivebrokers.com", timeout=15); f.login("shortstock", "")
         f.retrlines("RETR usa.txt", buf.append); f.quit()
         want = set(syms); out = {}; stamp = None
         for line in buf:
