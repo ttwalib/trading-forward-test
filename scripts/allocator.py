@@ -34,7 +34,11 @@ after that date, and every later report says whether the code still matches):
   could have got (engine detection price, else the price 5 minutes after the signal bar); library sleeves come from
   daily.json, which uses the same rule. The ideal-fill version is reported beside it ("ideal_fills").
 - Drawdown breaker: a sleeve whose last 10 days sum below -4% or whose drawdown from its 120-day peak exceeds 8%
-  gets weight 0 until it recovers.
+  gets weight 0 until it recovers. Revised 2026-11-20 (before the freeze; user decision): the limits scale with the
+  sleeve's own volatility so that volatile, stock-like sleeves are not benched permanently by normal swings:
+  drawdown limit = max(8%, BRK_DD_K x its 20-day volatility), 10-day limit = max(4%, BRK_10_K x its 10-day
+  volatility), volatility = sample sd of its daily returns over the 120-day window. The rule is never stricter than
+  the original fixed limits (BREAKER_MODE = "fixed" restores them exactly).
 - In the holdout the code and parameters stay frozen; weights keep updating day by day from new evidence, because
   the process itself is what is being tested.
 Benchmarks: SPY buy-and-hold (close to close), equal weight of all live sleeves, baseline A sleeve alone, and
@@ -57,6 +61,7 @@ NY = ZoneInfo("America/New_York")
 WIN, MIN_DAYS, K_REG, K_ALL, CAP, KELLY, CORR, SEED = 120, 10, 20, 30, 0.25, 0.25, 0.7, 20261119
 PRIOR_HAIR, PRIOR_EQ = 0.5, 20
 COV_WIN, VOL_TARGET, VOL_SCALE_MAX, BAND = 60, 10.0, 1.5, 0.02
+BREAKER_MODE, BRK_DD_K, BRK_10_K = "vol", 3.0, 2.5
 FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py"]
 BASE = "A baseline (watchlist)"
 
@@ -168,7 +173,11 @@ def weights_for(d, S, cal_idx, regime, cal):
         mu = (nr * mr + K_REG * m0) / (nr + K_REG)
         last10 = raw[-10:]; cum = peak = dd = 0.0
         for x in raw: cum += x; peak = max(peak, cum); dd = max(dd, peak - cum)
-        if sum(last10) < -4 or dd > 8: info[name] = "breaker"; continue
+        lim_dd, lim_10 = 8.0, 4.0
+        if BREAKER_MODE == "vol" and len(raw) > 1:
+            mr = sum(raw) / len(raw); sd = math.sqrt(sum((x - mr) ** 2 for x in raw) / (len(raw) - 1))
+            lim_dd, lim_10 = max(8.0, BRK_DD_K * sd * math.sqrt(20)), max(4.0, BRK_10_K * sd * math.sqrt(10))
+        if sum(last10) < -lim_10 or dd > lim_dd: info[name] = "breaker"; continue
         h = int(hashlib.sha1(f"{SEED}|{d}|{name}".encode()).hexdigest()[:12], 16)
         theta = random.Random(h).gauss(mu, math.sqrt(v / max(n, 1.0)))
         if theta > 0: w[name] = theta

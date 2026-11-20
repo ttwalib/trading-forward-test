@@ -151,12 +151,35 @@ After the existing steps:
    data/dashboard.json, which the dashboard artifact reads; GitHub Actions also refreshes it every 5 minutes).
 4d. ENGINE: count today's data/decisions/engine/DAY.jsonl rows and their median delay_min; ops/diag/engine.json
    errors -> one "Data check" row. No rows on a full trading day while live runs found breakouts -> flag CHECK.
+   Median delay_min above 20 -> one "Data check" row (date, "-", "engine delay", median, rows, "CHECK"): detections
+   that late are ignored by fills.py (5-minute fallback), so the engine is not doing its job. Cause seen 2026-11-19:
+   GitHub ran the */5 schedule only about hourly; fix = the external pinger in ops/engine_pinger.md (owner set-up).
 4c. SLIPPAGE: `python3 -I /tmp/repo/scripts/checks.py slip-report /tmp/repo` -> one digest line: rows, median spread %,
    median drift % per delay bucket, model cost %; model_cheaper_than_spread true -> flag CHECK in the digest.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
 6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues, the AI portfolio vs SPY / equal weight /
    baseline A (verdict window from 2026-12-07, v2 and all) with the 2x-cost stress line, the top 3 allocator weights,
    xcheck flags, parity result and the trial count.
+
+## CHANGES 2026-11-20 (before the verdict window; listed for the final report)
+
+- dq.py: daily stock jumps are tested on the split/dividend-adjusted series, earnings-day gaps are skipped, only the
+  last 30 days are listed, and OHLC sanity allows 0.1%. checks.bar_timing: the close tolerance is 0.6% (official
+  closing auction vs the last 5m trade). This took the nightly dq list from 48 to 8 issues. The archive itself was
+  checked: after corp.tr_adjust no unrecorded splits remain. BKNG's 25:1 split (2026-04-06) is recorded and adjusted
+  in library and allocator prices. The remaining large moves are real (Covid 2020, 2025-04-09, earnings gaps; RTX
+  2020-04-03 is the Carrier/Otis spin-off and only touches the 2020 research archive).
+- stats.py: promising / losing / benched need n >= 20; q_bh, psr and dsr need n >= 10. Below that the verdict is
+  "unproven (n<20)".
+- allocator.py: drawdown breaker limits scale with each sleeve's volatility: max(8%, 3 x 20-day vol) and
+  max(4%, 2.5 x 10-day vol). They are never stricter than before. Replay on the library history 2025-06-02..2026-11-19
+  (reports/replay/2026-11-20-breaker.json): breaker-days fell from 1,321 to 362; the AI went from -4.04% (Sharpe
+  -1.25, max DD 5.4%) to -3.68% (Sharpe -1.04, max DD 4.9%), against equal weight +11.8% and SPY +23.5% over the same
+  days. Logged as 2 trials.
+- Orchestrator: Stats tab overwritten nightly; ledger mirror check before stats/allocator; Twelve Data in two
+  batches; engine delay flag. The 2026-11-19 Stats and Allocation rows were recomputed on the complete ledger.
+- ops/freeze.json does not exist yet: allocator.py records the hashes on its first run on or after 2026-12-07, so
+  changes to frozen files before then (allocator.py today) need no owner action.
 
 ## LEARNING + STRATEGY LAB
 

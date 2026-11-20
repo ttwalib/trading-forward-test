@@ -1,4 +1,4 @@
-{"date":"2026-11-16","weights":{"L12 Turn of month":0.0022,"L13 Pairs reversion":0.0334,"L11 SPY overnight":0.0865,"L9 Sector rotation":0.0851},"breakers":["L2 VWAP pullback","L3 Gap and go","L4 Gap fade","L6 Bollinger reversion","L7 Donchian trend","L8 Momentum top 8"],"vol_forecast_pct":1.129}
-{"date":"2026-11-17","weights":{"L10 Earnings drift":0.0254},"breakers":["L2 VWAP pullback","L3 Gap and go","L4 Gap fade","L6 Bollinger reversion","L7 Donchian trend","L8 Momentum top 8"],"vol_forecast_pct":0.184}
-{"date":"2026-11-18","weights":{"L13 Pairs reversion":0.0953,"L5 RSI(2) pullback":0.0749},"breakers":["L2 VWAP pullback","L3 Gap and go","L4 Gap fade","L6 Bollinger reversion","L7 Donchian trend","L8 Momentum top 8"],"vol_forecast_pct":0.63}
-{"date":"2026-11-19","weights":{"L11 SPY overnight":0.1624,"L10 Earnings drift":0.0028},"breakers":["L2 VWAP pullback","L3 Gap and go","L4 Gap fade","L6 Bollinger reversion","L7 Donchian trend","L8 Momentum top 8"],"vol_forecast_pct":1.221}
+{"date":"2026-11-16","weights":{"L6 Bollinger reversion":0.0564,"L9 Sector rotation":0.0352,"L11 SPY overnight":0.0353,"L13 Pairs reversion":0.0316},"breakers":["L2 VWAP pullback","L4 Gap fade"],"vol_forecast_pct":1.351}
+{"date":"2026-11-17","weights":{"L3 Gap and go":0.0758,"L6 Bollinger reversion":0.0026,"L10 Earnings drift":0.0068},"breakers":["L2 VWAP pullback","L4 Gap fade"],"vol_forecast_pct":1.051}
+{"date":"2026-11-18","weights":{"L8 Momentum top 8":0.0151,"L5 RSI(2) pullback":0.0219,"L13 Pairs reversion":0.0817},"breakers":["L2 VWAP pullback","L4 Gap fade"],"vol_forecast_pct":0.673}
+{"date":"2026-11-19","weights":{"L11 SPY overnight":0.1106,"L7 Donchian trend":0.0303,"L3 Gap and go":0.0311},"breakers":["L2 VWAP pullback","L4 Gap fade"],"vol_forecast_pct":1.281}

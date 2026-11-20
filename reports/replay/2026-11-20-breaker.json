@@ -1,0 +1,92 @@
+{
+ "fixed": {
+  "days": 371,
+  "ai": {
+   "total_pct": -4.04,
+   "sharpe": -1.25,
+   "max_dd_pct": 5.4
+  },
+  "spy": {
+   "total_pct": 23.47,
+   "sharpe": 1.17,
+   "max_dd_pct": 8.88
+  },
+  "equal": {
+   "total_pct": 11.82,
+   "sharpe": 0.97,
+   "max_dd_pct": 5.5
+  },
+  "avg_invested": 0.268,
+  "breaker_days": {
+   "L10 Earnings drift": 119,
+   "L11 SPY overnight": 90,
+   "L12 Turn of month": 58,
+   "L2 VWAP pullback": 15,
+   "L3 Gap and go": 14,
+   "L4 Gap fade": 13,
+   "L6 Bollinger reversion": 241,
+   "L7 Donchian trend": 335,
+   "L8 Momentum top 8": 262,
+   "L9 Sector rotation": 174
+  },
+  "avg_weight": {
+   "L1 SPY intraday momentum": 0.004,
+   "L10 Earnings drift": 0.003,
+   "L11 SPY overnight": 0.048,
+   "L12 Turn of month": 0.062,
+   "L13 Pairs reversion": 0.068,
+   "L2 VWAP pullback": 0.001,
+   "L3 Gap and go": 0.008,
+   "L4 Gap fade": 0.0,
+   "L5 RSI(2) pullback": 0.042,
+   "L6 Bollinger reversion": 0.002,
+   "L7 Donchian trend": 0.002,
+   "L8 Momentum top 8": 0.014,
+   "L9 Sector rotation": 0.016
+  }
+ },
+ "vol": {
+  "days": 371,
+  "ai": {
+   "total_pct": -3.68,
+   "sharpe": -1.04,
+   "max_dd_pct": 4.93
+  },
+  "spy": {
+   "total_pct": 23.47,
+   "sharpe": 1.17,
+   "max_dd_pct": 8.88
+  },
+  "equal": {
+   "total_pct": 11.82,
+   "sharpe": 0.97,
+   "max_dd_pct": 5.5
+  },
+  "avg_invested": 0.224,
+  "breaker_days": {
+   "L10 Earnings drift": 41,
+   "L11 SPY overnight": 87,
+   "L12 Turn of month": 44,
+   "L2 VWAP pullback": 15,
+   "L4 Gap fade": 13,
+   "L6 Bollinger reversion": 40,
+   "L7 Donchian trend": 63,
+   "L9 Sector rotation": 59
+  },
+  "avg_weight": {
+   "L1 SPY intraday momentum": 0.004,
+   "L10 Earnings drift": 0.002,
+   "L11 SPY overnight": 0.035,
+   "L12 Turn of month": 0.042,
+   "L13 Pairs reversion": 0.051,
+   "L2 VWAP pullback": 0.001,
+   "L3 Gap and go": 0.007,
+   "L4 Gap fade": 0.0,
+   "L5 RSI(2) pullback": 0.022,
+   "L6 Bollinger reversion": 0.009,
+   "L7 Donchian trend": 0.013,
+   "L8 Momentum top 8": 0.019,
+   "L9 Sector rotation": 0.018
+  }
+ }
+}

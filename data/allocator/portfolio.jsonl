@@ -1,4 +1,4 @@
-{"date":"2026-11-16","phase":"train","regime":"down-calm","ai":-0.12727,"spy":-1.91153,"equal":-0.54247,"base_a":-0.73067,"n_live":20,"invested":0.2072,"turnover":0.2072,"rebal_cost":0.01036}
-{"date":"2026-11-17","phase":"train","regime":"down-stress","ai":-0.01163,"spy":-1.01493,"equal":-1.85199,"base_a":-1.43257,"n_live":24,"invested":0.0254,"turnover":0.2326,"rebal_cost":0.01163}
-{"date":"2026-11-18","phase":"train","regime":"down-stress","ai":-0.0188,"spy":-0.30583,"equal":-0.55271,"base_a":-0.66778,"n_live":28,"invested":0.1702,"turnover":0.1956,"rebal_cost":0.00978}
-{"date":"2026-11-19","phase":"train","regime":"down-stress","ai":0.13989,"spy":-1.96248,"equal":-0.81231,"base_a":-0.57823,"n_live":37,"invested":0.1652,"turnover":0.3354,"rebal_cost":0.01677}
+{"date":"2026-11-16","phase":"train","regime":"down-calm","ai":-0.10582,"spy":-1.91153,"equal":-0.54247,"base_a":-0.73067,"n_live":20,"invested":0.1585,"turnover":0.1585,"rebal_cost":0.00793}
+{"date":"2026-11-17","phase":"train","regime":"down-stress","ai":-0.01084,"spy":-1.01493,"equal":-1.85199,"base_a":-1.43257,"n_live":24,"invested":0.0852,"turnover":0.2385,"rebal_cost":0.00813}
+{"date":"2026-11-18","phase":"train","regime":"down-stress","ai":-0.03258,"spy":-0.30583,"equal":-0.55271,"base_a":-0.66778,"n_live":28,"invested":0.1187,"turnover":0.2039,"rebal_cost":0.00641}
+{"date":"2026-11-19","phase":"train","regime":"down-stress","ai":-0.00739,"spy":-1.96248,"equal":-0.81231,"base_a":-0.57823,"n_live":37,"invested":0.172,"turnover":0.2907,"rebal_cost":0.01298}

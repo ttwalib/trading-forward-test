@@ -25,3 +25,4 @@
 {"at":"2026-11-19 22:10","n":1,"name":"forest@0.45","source":"ml_y_stock"}
 {"at":"2026-11-19 22:10","n":1,"name":"forest@0.50","source":"ml_y_stock"}
 {"at":"2026-11-19 22:10","n":1,"name":"forest@0.55","source":"ml_y_stock"}
+{"at":"2026-11-20 04:29","n":2,"name":"allocator breaker: fixed 8%/4% vs vol-scaled (3x 20d vol, 2.5x 10d vol)","source":"learning"}
