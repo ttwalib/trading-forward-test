@@ -113,7 +113,7 @@
   "importance": [
    {
     "feature": "nh_nl",
-    "auc_drop": 0.039
+    "auc_drop": 0.0388
    },
    {
     "feature": "breadth20",
@@ -129,15 +129,15 @@
    },
    {
     "feature": "vix_chg",
-    "auc_drop": 0.0066
+    "auc_drop": 0.0065
    },
    {
     "feature": "crypto_score",
-    "auc_drop": 0.006
+    "auc_drop": 0.0059
    },
    {
     "feature": "breadth50",
-    "auc_drop": 0.0053
+    "auc_drop": 0.0052
    },
    {
     "feature": "spy_vs20",
@@ -167,8 +167,8 @@
  },
  "crypto": {
   "family": "crypto",
-  "rows": 30,
-  "fit_rows": 30,
+  "rows": 84,
+  "fit_rows": 84,
   "oos_rows": 0,
   "oos_days": 0,
   "status": "not enough out-of-sample rows yet (0 < 20)"

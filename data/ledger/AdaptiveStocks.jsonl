@@ -3,3 +3,11 @@
 {"date":"2026-11-19","symbol":"JPM","outcome":"stop","r_net":-1.09,"entry_time":"09:50","params":"15m/mid/2R"}
 {"date":"2026-11-19","symbol":"MSFT","outcome":"stop","r_net":-1.06,"entry_time":"09:50","params":"15m/mid/2R"}
 {"date":"2026-11-19","symbol":"MU","outcome":"stop","r_net":-1.02,"entry_time":"10:05","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"AMD","outcome":"flat","r_net":0.46,"entry_time":"12:30","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"AMZN","outcome":"target","r_net":1.95,"entry_time":"10:00","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"AVGO","outcome":"stop","r_net":-1.02,"entry_time":"10:20","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"HOOD","outcome":"stop","r_net":-1.03,"entry_time":"12:25","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"MARA","outcome":"stop","r_net":-1.02,"entry_time":"10:00","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"MSFT","outcome":"flat","r_net":-0.41,"entry_time":"13:40","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"NFLX","outcome":"stop","r_net":-1.06,"entry_time":"13:35","params":"15m/mid/2R"}
+{"date":"2026-11-18","symbol":"UBER","outcome":"stop","r_net":-1.03,"entry_time":"10:00","params":"15m/mid/2R"}
