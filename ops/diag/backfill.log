@@ -13,3 +13,4 @@
 2026-11-19 17:25 | 1 | 1 | 0 | none; backfill complete (EARNINGS 406 events from 703 insights); decisions build + ml train run (stock.pkl written, crypto.pkl not produced)
 2026-11-19 18:25 | 0 | 0 | 0 | backfill already complete (status complete true, 108/135 done, 0 left); no jobs to process
 2026-11-19 19:26 | 0 | 0 | 0 | backfill already complete (108/135 done, 0 left); no jobs to process; training already ran earlier (crypto.pkl still absent, not retried)
+2026-11-19 20:26 | 0 | 0 | 0 | backfill already complete (jobs 135, done 108, left 0)
