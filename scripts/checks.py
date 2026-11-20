@@ -282,7 +282,7 @@ def tick_log(repo, mode, secs=None):
     except Exception: T = {}
     now = dt.datetime.now(NY); d = T.setdefault(now.date().isoformat(), {})
     d.setdefault(mode, []).append(now.strftime("%H:%M"))
-    if secs is not None: d.setdefault("secs", []).append(round(secs, 1))
+    if secs is not None: d.setdefault("secs" if mode == "tick" else "secs_other", []).append(round(secs, 1))
     for k in sorted(T)[:-45]: T.pop(k)
     os.makedirs(os.path.dirname(p), exist_ok=True); json.dump(T, open(p, "w"), separators=(",", ":"))
 
@@ -302,7 +302,7 @@ def health(repo, now=None):
     month = day[:7]; used = 0
     for d, v in T.items():
         if d[:7] != month: continue
-        runs = sum(len(x) for k, x in v.items() if k != "secs"); secs = v.get("secs", [])
+        runs = sum(len(x) for k, x in v.items() if not k.startswith("secs")); secs = v.get("secs", []) + v.get("secs_other", [])
         used += sum(max(1, math.ceil(x / 60 + 0.25)) for x in secs) + max(0, runs - len(secs))   # +15 s: checkout and commit
     dom = now.day; days_in_month = (dt.date(now.year + (now.month == 12), now.month % 12 + 1, 1) - dt.timedelta(days=1)).day
     tracked_days = max(1, sum(1 for d in T if d[:7] == month))
