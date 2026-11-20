@@ -1,0 +1,3698 @@
+{
+ "step": 900,
+ "train_bars": 960,
+ "test_bars": 96,
+ "bars": 8874,
+ "from": "2026-08-19 10:15",
+ "to": "2026-11-19 19:30",
+ "strategies": {
+  "X1": {
+   "tuned_oos": {
+    "trades": 185,
+    "win_rate": 28.6,
+    "avg_net_pct": -0.4889
+   },
+   "fixed_oos": {
+    "trades": 129,
+    "win_rate": 0.8,
+    "avg_net_pct": -0.9474
+   },
+   "verdict": "retuning helped",
+   "folds": 82,
+   "picks": [
+    {
+     "fold_start": "2026-08-29 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-08-30 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-08-31 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-01 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-02 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-03 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-04 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-05 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-06 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-07 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-08 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-09 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-10 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-11 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-12 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-13 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-14 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-15 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-16 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-17 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-18 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-19 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-20 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-21 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-22 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-23 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-24 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-25 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-26 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-27 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-28 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-29 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-30 10:15",
+     "settings": {
+      "fast": 50,
+      "slow": 100,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-01 10:15",
+     "settings": {
+      "fast": 50,
+      "slow": 100,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-02 10:15",
+     "settings": {
+      "fast": 50,
+      "slow": 100,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-03 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-04 10:15",
+     "settings": {
+      "fast": 50,
+      "slow": 100,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-05 10:15",
+     "settings": {
+      "fast": 50,
+      "slow": 100,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-06 10:15",
+     "settings": {
+      "fast": 50,
+      "slow": 100,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-07 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-08 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-09 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-10 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-11 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-12 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-13 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-14 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-15 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-16 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-17 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-18 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-19 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-20 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-21 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-22 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-23 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-24 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-25 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-26 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-27 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-28 10:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-29 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-30 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-31 10:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-01 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-02 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-03 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-04 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-05 09:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-06 09:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-07 09:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-08 09:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-09 09:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-10 09:15",
+     "settings": {
+      "fast": 10,
+      "slow": 30,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-11 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-12 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-13 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-14 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-15 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-16 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-17 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-18 09:15",
+     "settings": {
+      "fast": 20,
+      "slow": 50,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    }
+   ]
+  },
+  "X2": {
+   "tuned_oos": {
+    "trades": 272,
+    "win_rate": 39.7,
+    "avg_net_pct": -0.421
+   },
+   "fixed_oos": {
+    "trades": 269,
+    "win_rate": 34.9,
+    "avg_net_pct": -0.4295
+   },
+   "verdict": "retuning helped",
+   "folds": 82,
+   "picks": [
+    {
+     "fold_start": "2026-08-29 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-30 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-31 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-01 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-02 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-03 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-04 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-05 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-06 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-07 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-08 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-09 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-10 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-11 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-12 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-13 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-14 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-15 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-16 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-17 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-18 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-19 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-20 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-21 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-22 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-23 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-24 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-25 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-26 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-27 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-28 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-29 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-30 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-01 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-02 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-03 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-04 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-05 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-06 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-07 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-08 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 2,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-09 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-10 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-11 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-12 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-13 10:15",
+     "settings": {
+      "rsi_max": 35,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-14 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-15 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-16 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-17 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-18 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-19 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-20 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-21 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-22 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-23 10:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-24 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-25 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-26 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-27 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-28 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-29 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-30 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-31 10:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-01 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-02 09:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-03 09:15",
+     "settings": {
+      "rsi_max": 30,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-04 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-05 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-06 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-07 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-08 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-09 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-10 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-11 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-12 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-13 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-14 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-15 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-16 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-17 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-18 09:15",
+     "settings": {
+      "rsi_max": 25,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    }
+   ]
+  },
+  "X3": {
+   "tuned_oos": {
+    "trades": 344,
+    "win_rate": 28.2,
+    "avg_net_pct": -0.4922
+   },
+   "fixed_oos": {
+    "trades": 353,
+    "win_rate": 10.5,
+    "avg_net_pct": -0.6533
+   },
+   "verdict": "retuning helped",
+   "folds": 82,
+   "picks": [
+    {
+     "fold_start": "2026-08-29 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-30 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-31 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-01 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-02 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-03 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-04 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-05 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-06 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-07 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-08 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-09 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-10 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-11 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-12 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-13 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-14 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-15 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-16 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-17 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-18 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-19 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-20 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-21 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-22 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-23 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-24 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-25 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-26 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": null,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-27 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-28 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-29 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-30 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-01 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-02 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-03 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-04 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-05 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-06 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-07 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-08 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-09 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-10 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-11 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-12 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-13 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-14 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-15 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-16 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-17 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-18 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-19 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-20 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-21 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-22 10:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-23 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-24 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-25 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-26 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-27 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-28 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-29 10:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-30 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-31 10:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-01 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-02 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-03 09:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-04 09:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-05 09:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-06 09:15",
+     "settings": {
+      "entry_n": 40,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-07 09:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-08 09:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-09 09:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-10 09:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-11 09:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-12 09:15",
+     "settings": {
+      "entry_n": 60,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-13 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-14 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-15 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-16 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-17 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-18 09:15",
+     "settings": {
+      "entry_n": 20,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    }
+   ]
+  },
+  "M1": {
+   "tuned_oos": {
+    "trades": 158,
+    "win_rate": 32.3,
+    "avg_net_pct": -0.6395
+   },
+   "fixed_oos": {
+    "trades": 165,
+    "win_rate": 23.6,
+    "avg_net_pct": -0.6204
+   },
+   "verdict": "mixed",
+   "folds": 82,
+   "picks": [
+    {
+     "fold_start": "2026-08-29 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-30 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-31 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-01 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-02 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-03 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-04 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-05 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-06 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-07 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-08 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-09 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-10 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-11 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-12 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-13 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-14 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-15 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-16 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-17 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-18 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-19 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 3,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-20 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-21 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-22 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-23 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-24 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-25 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-26 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-27 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-28 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-29 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-30 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-01 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-02 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-03 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-04 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-05 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-06 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-07 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-08 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-09 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-10 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-11 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-12 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-13 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-14 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-15 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-16 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-17 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-18 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-19 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-20 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-21 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-22 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-23 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-24 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-25 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-26 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-27 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-28 10:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-29 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-30 10:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-31 10:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-01 09:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-02 09:15",
+     "settings": {
+      "vol_mult": 4,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-03 09:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-04 09:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-05 09:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-06 09:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-07 09:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-08 09:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-09 09:15",
+     "settings": {
+      "vol_mult": 6,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-10 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-11 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-12 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-13 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-14 09:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-15 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-16 09:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-17 09:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-11-18 09:15",
+     "settings": {
+      "vol_mult": 3,
+      "stop_atr": 1.5,
+      "target_r": 2,
+      "min_edge": null
+     }
+    }
+   ]
+  },
+  "M2": {
+   "tuned_oos": {
+    "trades": 6,
+    "win_rate": 50.0,
+    "avg_net_pct": -0.0132
+   },
+   "fixed_oos": {
+    "trades": 6,
+    "win_rate": 50.0,
+    "avg_net_pct": -0.0132
+   },
+   "verdict": "not enough trades",
+   "folds": 82,
+   "picks": [
+    {
+     "fold_start": "2026-08-29 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-08-30 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-08-31 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-01 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-02 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-03 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-04 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-05 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-06 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-07 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-08 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-09 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-10 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-11 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-12 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-13 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-14 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-15 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-16 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-17 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-18 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-19 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-20 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-21 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-22 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-23 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-24 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-25 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-26 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-27 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-28 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-29 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-30 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-01 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-02 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-03 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-04 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-05 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-06 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-07 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-08 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-09 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-10 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-11 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-12 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-13 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-14 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-15 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-16 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-17 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-18 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-19 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-20 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-21 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-22 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-23 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-24 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-25 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-26 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-27 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-28 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-29 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-30 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-31 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-01 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-02 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-03 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-04 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-05 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-06 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-07 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-08 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-09 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-10 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-11 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-12 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-13 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-14 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-15 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-16 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-17 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-18 09:15",
+     "settings": "original"
+    }
+   ]
+  },
+  "M3": {
+   "tuned_oos": {
+    "trades": 55,
+    "win_rate": 38.2,
+    "avg_net_pct": -0.7866
+   },
+   "fixed_oos": {
+    "trades": 21,
+    "win_rate": 33.3,
+    "avg_net_pct": -0.5879
+   },
+   "verdict": "mixed",
+   "folds": 82,
+   "picks": [
+    {
+     "fold_start": "2026-08-29 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-30 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-08-31 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-01 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-02 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-03 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-04 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-05 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-06 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-07 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-08 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-09 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-10 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-11 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-12 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-13 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-14 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-15 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-16 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-17 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-09-18 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-19 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-20 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-21 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-22 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-23 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-24 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-25 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-26 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-27 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-28 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-29 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-09-30 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-01 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-02 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-03 10:15",
+     "settings": {
+      "mom": 0.03,
+      "stop_atr": 2,
+      "target_r": 1,
+      "min_edge": null
+     }
+    },
+    {
+     "fold_start": "2026-10-04 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-05 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-06 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-07 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-08 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-09 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-10 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-11 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-12 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-13 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-14 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-15 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-16 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-17 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-18 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-19 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-20 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-21 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-22 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-23 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-24 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-25 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-26 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-27 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-28 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-29 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-30 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-10-31 10:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-01 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-02 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-03 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-04 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-05 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-06 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-07 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-08 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-09 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-10 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-11 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-12 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-13 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-14 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-15 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-16 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-17 09:15",
+     "settings": "original"
+    },
+    {
+     "fold_start": "2026-11-18 09:15",
+     "settings": "original"
+    }
+   ]
+  }
+ }
+}

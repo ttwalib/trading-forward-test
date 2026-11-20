@@ -1,0 +1,179 @@
+{
+ "date": "2026-11-19",
+ "sleeves": 34,
+ "freeze": {
+  "frozen": false,
+  "freeze_date": "2026-12-07"
+ },
+ "phases": {
+  "all": {
+   "ai": {
+    "days": 4,
+    "total_pct": -0.018,
+    "sharpe": -0.64,
+    "max_dd_pct": 0.158,
+    "mean_daily_pct": -0.0045
+   },
+   "spy": {
+    "days": 4,
+    "total_pct": -5.104,
+    "sharpe": -26.03,
+    "max_dd_pct": 5.104,
+    "mean_daily_pct": -1.2987
+   },
+   "equal": {
+    "days": 4,
+    "total_pct": -2.158,
+    "sharpe": -52.68,
+    "max_dd_pct": 2.158,
+    "mean_daily_pct": -0.5439
+   },
+   "base_a": {
+    "days": 4,
+    "total_pct": -0.578,
+    "sharpe": -7.94,
+    "max_dd_pct": 0.578,
+    "mean_daily_pct": -0.1446
+   },
+   "spy_vm": {
+    "days": 4,
+    "total_pct": -0.718,
+    "sharpe": -26.03,
+    "max_dd_pct": 0.718,
+    "mean_daily_pct": -0.18
+   },
+   "spy_vm_scale": 0.139,
+   "p_ai_beats": {
+    "spy": null,
+    "equal": null,
+    "base_a": null,
+    "spy_vm": null
+   },
+   "sharpe_gap_detectable": 10.17,
+   "turnover_per_day": 0.2427,
+   "rebal_cost_pct_total": 0.0485
+  },
+  "train": {
+   "ai": {
+    "days": 4,
+    "total_pct": -0.018,
+    "sharpe": -0.64,
+    "max_dd_pct": 0.158,
+    "mean_daily_pct": -0.0045
+   },
+   "spy": {
+    "days": 4,
+    "total_pct": -5.104,
+    "sharpe": -26.03,
+    "max_dd_pct": 5.104,
+    "mean_daily_pct": -1.2987
+   },
+   "equal": {
+    "days": 4,
+    "total_pct": -2.158,
+    "sharpe": -52.68,
+    "max_dd_pct": 2.158,
+    "mean_daily_pct": -0.5439
+   },
+   "base_a": {
+    "days": 4,
+    "total_pct": -0.578,
+    "sharpe": -7.94,
+    "max_dd_pct": 0.578,
+    "mean_daily_pct": -0.1446
+   },
+   "spy_vm": {
+    "days": 4,
+    "total_pct": -0.718,
+    "sharpe": -26.03,
+    "max_dd_pct": 0.718,
+    "mean_daily_pct": -0.18
+   },
+   "spy_vm_scale": 0.139,
+   "p_ai_beats": {
+    "spy": null,
+    "equal": null,
+    "base_a": null,
+    "spy_vm": null
+   },
+   "sharpe_gap_detectable": 10.17,
+   "turnover_per_day": 0.2427,
+   "rebal_cost_pct_total": 0.0485
+  }
+ },
+ "stress_2x": {
+  "all": {
+   "ai": {
+    "days": 4,
+    "total_pct": -0.027,
+    "sharpe": -1.01,
+    "max_dd_pct": 0.156,
+    "mean_daily_pct": -0.0066
+   },
+   "p_ai_beats": {
+    "spy": null,
+    "equal": null,
+    "base_a": null,
+    "spy_vm": null
+   }
+  }
+ },
+ "verdict_check": {},
+ "ideal_fills": {
+  "all": {
+   "ai": {
+    "days": 4,
+    "total_pct": -0.018,
+    "sharpe": -0.64,
+    "max_dd_pct": 0.158,
+    "mean_daily_pct": -0.0045
+   },
+   "base_a": {
+    "days": 4,
+    "total_pct": -1.042,
+    "sharpe": -7.94,
+    "max_dd_pct": 1.042,
+    "mean_daily_pct": -0.2605
+   }
+  }
+ },
+ "netted_exploratory": {
+  "saving_pct_total": 0.0017,
+  "ai_netted": {
+   "days": 4,
+   "total_pct": -0.016,
+   "sharpe": -0.58,
+   "max_dd_pct": 0.156,
+   "mean_daily_pct": -0.004
+  }
+ },
+ "stamp": {
+  "commit": "bb92d2d",
+  "data_sha256": "cc1e4993879b3944",
+  "data_files": 372,
+  "versions": {
+   "python": "3.13.18",
+   "numpy": "2.5.3",
+   "pandas": "3.0.5",
+   "sklearn": "1.9.1",
+   "scipy": "1.18.1"
+  },
+  "at": "2026-11-19 21:10"
+ },
+ "latest_weights": {
+  "date": "2026-11-19",
+  "weights": {
+   "L10 Earnings drift": 0.0028,
+   "L11 SPY overnight": 0.1624
+  },
+  "breakers": [
+   "L2 VWAP pullback",
+   "L3 Gap and go",
+   "L4 Gap fade",
+   "L6 Bollinger reversion",
+   "L7 Donchian trend",
+   "L8 Momentum top 8"
+  ],
+  "vol_forecast_pct": 1.221
+ }
+}
