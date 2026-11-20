@@ -32,7 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 def step(name, args, out, timeout=900):
     t = time.time()
     try:
-        p = subprocess.run([sys.executable, "-I"] + args, capture_output=True, text=True, timeout=timeout)
+        p = subprocess.run([sys.executable] + args, capture_output=True, text=True, timeout=timeout)
         code, txt, err = p.returncode, p.stdout, p.stderr[-400:]
     except Exception as e:
         code, txt, err = 99, "", str(e)[:400]
