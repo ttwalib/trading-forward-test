@@ -26,6 +26,14 @@ the whole S&P 100 snapshot (library universe). data/hist holds the long research
 years); only the strategy lab and the ML read it. IMPLEMENTABLE FILLS (scripts/fills.py): every intraday result used
 for the verdict fills at the engine's detection price, else at the price 5 minutes after the signal bar; the ideal
 signal-close version is reported beside it. Never call the ideal version the result.
+CURRENT SCHEDULE OF THE FEED (since 2026-11-20; supersedes the times above): ticks every 5 minutes Mon-Fri
+09:00-15:55 ET come from the external pinger (cron-job.org, ops/engine_pinger.md) calling workflow_dispatch; GitHub's own
+backup tick runs at :50 each hour 09:50-15:50 ET and doubles as the watchdog (GitHub issue "Health alert"). The engine
+seals signals from 09:35. Nightly bars, corporate actions, VIX and the borrow file at 17:40 ET; crypto bars every 3 hours
+at :32 (15 minutes before each crypto-tracks run); second daily crypto ML fit at 05:17 ET; nightly maths ("compute") when
+the orchestrator requests it. Every run is logged in ops/diag/ticks.json; `checks.py health` reads it. GitHub Pro gives
+3,000 Actions minutes a month; projected use is shown by the health line. Workflow files must be committed under the
+owner's identity or GitHub stops their schedules.
 
 ## DATES (every task)
 
