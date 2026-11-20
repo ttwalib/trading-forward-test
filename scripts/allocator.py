@@ -18,8 +18,12 @@ after that date, and every later report says whether the code still matches):
 - Regime of day t = SPY close vs its 50-day average (up/down) x VIX close <= 20 / > 20, both from day t-1.
 - Mean estimate per sleeve: regime mean shrunk to the sleeve's overall mean (k = 20 days), overall mean shrunk to
   zero (k = 30 days). Variance = sample variance (floor 0.01).
-- Thompson sampling: draw theta ~ Normal(mean, variance / n), seeded by (date, sleeve) so reruns are identical.
+- Thompson sampling: draw theta ~ Normal(mean, variance / n), seeded by (ISO week, sleeve) so reruns are identical.
   This keeps trying sleeves whose evidence is thin while backing those with consistent results.
+  Revised 2026-11-20 (before the freeze; user decision): the random draw is renewed once a week instead of every day.
+  A daily redraw flipped the weights every day (median holding run 1 day, 25% turnover a day) and rebalancing costs
+  ate the whole result in the replay; exploration does not need a new draw each day. Means, variances, breakers
+  and the no-trade band still update daily. Chosen on the mechanics, not on which variant scored best.
 - Weights (revised 2026-11-19, before the freeze): multivariate quarter Kelly w = 0.25 x Sigma^-1 x theta over the
   sleeves with theta > 0, where Sigma is the Ledoit-Wolf shrunk covariance of the sleeves' last 60 daily returns
   (correlated sleeves share risk automatically; this replaces the old "halve the smaller of a pair with correlation
@@ -178,7 +182,8 @@ def weights_for(d, S, cal_idx, regime, cal):
             mr = sum(raw) / len(raw); sd = math.sqrt(sum((x - mr) ** 2 for x in raw) / (len(raw) - 1))
             lim_dd, lim_10 = max(8.0, BRK_DD_K * sd * math.sqrt(20)), max(4.0, BRK_10_K * sd * math.sqrt(10))
         if sum(last10) < -lim_10 or dd > lim_dd: info[name] = "breaker"; continue
-        h = int(hashlib.sha1(f"{SEED}|{d}|{name}".encode()).hexdigest()[:12], 16)
+        wk = "%d-W%02d" % dt.date.fromisoformat(d).isocalendar()[:2]
+        h = int(hashlib.sha1(f"{SEED}|{wk}|{name}".encode()).hexdigest()[:12], 16)
         theta = random.Random(h).gauss(mu, math.sqrt(v / max(n, 1.0)))
         if theta > 0: w[name] = theta
         info[name] = round(mu, 4)

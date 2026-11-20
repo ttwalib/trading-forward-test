@@ -258,7 +258,7 @@ def crypto_rows(repo, status="closed"):
     out = []; cache = {}
     R = {}
     for r in ledger.load(repo, "CryptoTracks"):
-        if r.get("status") != status: continue
+        if r.get("status") != status or ledger.void_data(r): continue   # void (data) trades: see ledger.void_data
         sym = str(r.get("symbol")); t0 = str(r.get("entry_time"))
         try: te = int(dt.datetime.fromisoformat(t0[:16]).replace(tzinfo=NY).timestamp())
         except ValueError: continue

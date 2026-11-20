@@ -178,6 +178,17 @@ After the existing steps:
   days. Logged as 2 trials.
 - Orchestrator: Stats tab overwritten nightly; ledger mirror check before stats/allocator; Twelve Data in two
   batches; engine delay flag. The 2026-11-19 Stats and Allocation rows were recomputed on the complete ledger.
+- allocator.py (second change 2026-11-20): the Thompson draw is renewed weekly (seed = ISO week + sleeve), not
+  daily. Replay 2025-06-02..2026-11-19, run once (reports/replay/2026-11-20-weekly_redraw.json): turnover 25% -> 8.5%
+  a day, rebalancing cost 4.29% -> 1.48%, AI -3.68% -> -1.20% (Sharpe -0.42, max DD 2.2%); still below cash and below
+  equal weight. Five diagnostic variants were tried first and logged as trials; none of them was adopted.
+- VOID (DATA) rule: a crypto-track trade whose stop distance is below 10% of its round-trip cost (0.04% X, 0.06% M)
+  is void: ledger.trades(), stats.py, allocator.py and the ML crypto rows skip it; crypto_tracks.py refuses such a
+  signal (data_ok). The rule uses entry and stop only. It voids exactly one trade, in both 1h tracks: DOGE M2
+  2026-11-17 18:00, -80.21 R, opened on IBKR bars rounded to the cent (stop 0.0075% away); on the corrected bars it
+  is about -0.46 R (2.3% stop, 12-bar time stop). The rows stay in data/ledger/CryptoTracks.jsonl and on the sheet;
+  `ledger.py voids /tmp/repo` lists them. Reports name void trades next to the crypto results. The six 15m M1
+  trades with stops of 0.4-0.5% (below their 0.6% cost) are real and stay in.
 - ops/freeze.json does not exist yet: allocator.py records the hashes on its first run on or after 2026-12-07, so
   changes to frozen files before then (allocator.py today) need no owner action.
 

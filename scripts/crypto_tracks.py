@@ -41,8 +41,20 @@ def P(params, s):
     p = dict(DEFAULTS[s]); p["min_edge"] = None; p.update((params or {}).get(s, {})); return p
 
 
+VOID_FRAC = 0.1   # data guard (2026-11-20): a stop closer than 10% of the round-trip cost can only come from broken bars
+
+
+def data_ok(stop_atr, s, a, px):
+    """Data-validity guard, not a strategy rule: False when the stop distance (stop_atr x ATR) is below VOID_FRAC x the
+    round-trip cost, i.e. ATR is about zero because the bars were rounded or flat (DOGE quoted to the cent by IBKR
+    on 2026-11-17 gave a 0.0075% stop and a -80 R trade). Real trades so far have stops >= 0.4% of price."""
+    return px > 0 and stop_atr * a / px >= VOID_FRAC * 2 * COST[s[0]]
+
+
 def edge_ok(q, s, a, px):
-    """Cost filter: skip a signal when ATR/price is below min_edge x the round-trip cost (None = off)."""
+    """Cost filter: skip a signal when ATR/price is below min_edge x the round-trip cost (None = off).
+    Always applies the data guard first."""
+    if not data_ok(q["stop_atr"], s, a, px): return False
     return not q.get("min_edge") or a / px >= q["min_edge"] * 2 * COST[s[0]]
 
 

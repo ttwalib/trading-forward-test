@@ -1,0 +1,10 @@
+{
+ "days": 371,
+ "total_pct": -1.2,
+ "sharpe": -0.42,
+ "max_dd_pct": 2.18,
+ "avg_invested": 0.201,
+ "turnover_per_day": 0.085,
+ "rebal_cost_pct": 1.48,
+ "gross_pct": 0.3
+}

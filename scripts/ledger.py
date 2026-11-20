@@ -107,6 +107,21 @@ def num(x):
     except (TypeError, ValueError): return None
 
 
+VOID_FRAC, CRYPTO_COST = 0.1, {"X": 0.002, "M": 0.003}   # same numbers as crypto_tracks.py
+
+
+def void_data(r):
+    """Pre-set void rule (2026-11-20): a crypto-track trade whose stop distance is below 10% of its round-trip cost
+    was opened on broken bars (ATR about zero). It depends only on entry and stop, never on the outcome. Void trades
+    stay in the ledger file but are left out of trades(), so stats.py and allocator.py do not see them."""
+    e, s0 = num(r.get("entry")), num(r.get("stop")); c = CRYPTO_COST.get(str(r.get("strategy") or " ")[0])
+    return bool(e and s0 is not None and c and e > 0 and (e - s0) / e < VOID_FRAC * 2 * c)
+
+
+def voids(repo):
+    return [r for r in load(repo, "CryptoTracks") if r.get("status") == "closed" and void_data(r)]
+
+
 def trades(repo):
     """Closed trades of every strategy in one table. result = return per unit risked (R, or % / 100)."""
     T = []
@@ -141,6 +156,7 @@ def trades(repo):
                 {"iv": num(r.get("iv_entry_pct")), "theta": num(r.get("theta_day")), "vega": num(r.get("vega_1pct"))})
     for r in load(repo, "CryptoTracks"):
         if r.get("status") == "closed":
+            if void_data(r): continue
             put("%s %s" % (r.get("track"), r.get("strategy")), "R", str(r.get("entry_time"))[:10], r.get("r"), r.get("symbol"),
                 r.get("entry_time"), r.get("exit_time"), "crypto")
     for r in load(repo, "AgentTrades"):
@@ -176,6 +192,8 @@ def main():
         print(json.dumps({t: len(load(a[1], t)) for t in SPECS}))
     elif a[0] == "trades":
         print(json.dumps(trades(a[1]), separators=(",", ":")))
+    elif a[0] == "voids":
+        print(json.dumps(voids(a[1]), indent=1))
 
 
 if __name__ == "__main__":
