@@ -313,7 +313,7 @@ def main():
     os.makedirs(os.path.join(repo, "ops", "diag"), exist_ok=True)
     json.dump(LOG, open(os.path.join(repo, "ops", "diag", "fetch_free.json"), "w"), indent=1)
     try:      # plumbing health: when each run happened and how long it took (ops/diag/ticks.json)
-        import checks; checks.tick_log(repo, mode, time.time() - T0)
+        import checks; checks.tick_log(repo, "tick" if LOG.get("tick") else mode, time.time() - T0)
     except Exception as e: print("tick log failed:", e)
     print(json.dumps({"mode": mode, "files": len(LOG["files"]), "added": sum(v["added"] for v in LOG["files"].values()),
                       "errors": LOG["errors"][:5], "mismatch": len(LOG["mismatch"])}))
