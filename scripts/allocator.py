@@ -13,6 +13,10 @@ the verdict window: ops/freeze.json records the hash of allocator.py, library.py
 after that date, and every later report says whether the code still matches):
 - Backtest evidence (days before 2026-11-16) is haircut by 50% (survivorship: today's S&P 100 universe; publication
   decay of well-known strategies) and, together, weighs at most as much as 20 live days.
+  Revised 2026-11-20 (before the freeze; owner decision): the five stock-picking sleeves whose backtest runs on
+  today's S&P 100 list (L6, L7, L8, L10, L15) are haircut by 75% instead (their past returns count at a quarter).
+  Their history leaves out companies that later dropped out of the index, so it is rosier than the truth. The
+  number was declared before any run and is not tuned.
 - Weights for day t use only returns up to day t-1 (no look-ahead).
 - Evidence window: the last 120 sleeve-days; a sleeve needs >= 10 non-zero days to be eligible.
 - Regime of day t = SPY close vs its 50-day average (up/down) x VIX close <= 20 / > 20, both from day t-1.
@@ -95,6 +99,7 @@ import ledger, tcal, corp, fills
 NY = ZoneInfo("America/New_York")
 WIN, MIN_DAYS, K_REG, K_ALL, CAP, KELLY, CORR, SEED = 120, 10, 20, 30, 0.25, 0.25, 0.7, 20261119
 PRIOR_HAIR, PRIOR_EQ = 0.5, 20
+PRIOR_HAIR_SURV, SURV_SLEEVES = 0.25, ("L6 ", "L7 ", "L8 ", "L10 ", "L15 ")
 COV_WIN, BAND, REBALANCE = 60, 0.02, "weekly"
 BREAKER_MODE, BRK_DD_K, BRK_10_K = "vol", 3.0, 2.5
 FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py"]
@@ -211,11 +216,12 @@ def wstats(xs, ws):
     return m, max(v, 0.01), W
 
 
-def evidence(series, days):
+def evidence(series, days, name=""):
     """Returns and weights: live days weight 1; backtest days haircut and capped to PRIOR_EQ live days in total."""
+    hair = PRIOR_HAIR_SURV if str(name).startswith(SURV_SLEEVES) else PRIOR_HAIR
     start = tcal.START.isoformat(); prior = [d for d in days if d < start]
     wp = min(1.0, PRIOR_EQ / len(prior)) if prior else 1.0
-    xs = [series.get(d, 0.0) * (PRIOR_HAIR if d < start else 1.0) for d in days]
+    xs = [series.get(d, 0.0) * (hair if d < start else 1.0) for d in days]
     ws = [wp if d < start else 1.0 for d in days]
     return xs, ws
 
@@ -239,7 +245,7 @@ def weights_for(d, S, cal_idx, regime, cal):
         if nz < MIN_DAYS:
             if nz >= 1: t4[name] = 1.0 / stats(raw)[1]
             continue
-        xs, ws = evidence(series, live)
+        xs, ws = evidence(series, live, name)
         m_all, v, n = wstats(xs, ws)
         m0 = n * m_all / (n + K_ALL)
         rk = [k for k, x in enumerate(live) if regime.get(x) == reg]

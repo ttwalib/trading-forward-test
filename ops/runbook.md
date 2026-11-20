@@ -292,6 +292,12 @@ After the existing steps:
      freeze; models/crypto.pkl, models/crypto_report_DAY.json). The nightly ML task stays the first fit. On
      2026-11-20 the crypto family had 84 labelled rows and no out-of-sample rows, so there is no crypto model yet;
      the extra fit changes nothing until the walk-forward has 20 out-of-sample rows.
+  15. HARSHER HAIRCUT FOR SURVIVORSHIP (owner decision 2026-11-20, "Proceed"): in allocator.py the backtest days of
+     L6, L7, L8, L10 and L15 count at 25% instead of 50% (PRIOR_HAIR_SURV). Their past record uses today's S&P 100
+     list, which leaves out companies that later dropped out. The number was declared before any run and is not
+     tuned. Effect on 2026-11-19 weights: L6 from 16.1% to 6.6%, L3 from 8.9% to 18.4%; L10 stays at the 25% cap.
+     The four test days so far were recomputed: AI 11-16..11-19 was -1.61%, is now -1.18%. No replay on past data
+     was run: in a replay every day counts as live, so the haircut does not act there. One trial logged.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
