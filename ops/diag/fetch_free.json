@@ -1,340 +1,340 @@
 {
  "errors": [],
  "files": {
-  "5m/MSFT": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/INTC": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/NFLX": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/NVDA": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/TSLA": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/ACN": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/COIN": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/CVS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/GOOGL": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/MSTR": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/UBER": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/AAPL": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/ADBE": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/DIS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/GD": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/SOFI": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/AMZN": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/AXP": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/META": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
   "5m/PLTR": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/AVGO": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/MARA": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/AMT": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
-  "5m/BAC": {
+  "5m/AMZN": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
-  "5m/XOM": {
+  "5m/CVS": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/AMD": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/HOOD": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/MU": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/MARA": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/MSFT": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/GD": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/UBER": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/MSTR": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/NVDA": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/TSLA": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/AAPL": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/ACN": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/ADBE": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/AVGO": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/BAC": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/ABBV": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/AMD": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/NFLX": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/INTC": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/JPM": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
-  "5m/UNP": {
+  "5m/META": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
-  "5m/IWM": {
+  "5m/SOFI": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
-  "5m/JNJ": {
+  "5m/XOM": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/AXP": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/COIN": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/DIS": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/GOOGL": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/GM": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/PEP": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/V": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/HON": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/PM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/QCOM": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/QQQ": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/SPY": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/TMUS": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
-  },
-  "5m/T": {
-   "added": 1,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/GS": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
-  "5m/LMT": {
+  "5m/IWM": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/MS": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   },
   "5m/PFE": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5157,
-   "last": "2026-11-20T15:40:00Z"
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/SPY": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/TMUS": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/JNJ": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/PEP": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/PM": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/QCOM": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/T": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/V": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/HON": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/LMT": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/QQQ": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
+  },
+  "5m/UNP": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5158,
+   "last": "2026-11-20T15:45:00Z"
   }
  },
  "mismatch": [],
  "mismatch_count": {},
  "mode": "tick",
- "started": "2026-11-20T16:05:16Z",
+ "started": "2026-11-20T16:10:18Z",
  "tick": true,
- "finished": "2026-11-20T16:05:18Z"
+ "finished": "2026-11-20T16:10:21Z"
 }
