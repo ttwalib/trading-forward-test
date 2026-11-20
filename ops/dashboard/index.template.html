@@ -90,7 +90,7 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
 <main class="wrap">
 <section id="v-overview">
   <h1 id="finding">AI-managed portfolio, simulated forward test</h1>
-  <p class="lede" id="sub">Nothing is ever traded. Every strategy runs on real market prices; Quantavius decides each day how much pretend money each one gets.</p>
+  <p class="lede" id="sub">Nothing is ever traded. Every strategy runs on real market prices; Quantavius keeps all the pretend money invested and decides how to split it.</p>
   <div class="banner" id="verdictBanner"></div>
   <div class="figs" id="topFigs"></div>
   <div class="grid">
@@ -129,7 +129,7 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
   <div class="scroll"><table id="tStats"><thead><tr><th>Strategy</th><th>Unit</th><th class="n">Trades</th><th class="n">Average</th><th class="n">90% range</th><th class="n">P(&gt;0)</th><th class="n">q</th><th class="n">DSR</th><th>Verdict</th><th>Breaker</th></tr></thead><tbody></tbody></table></div>
   <p class="note" id="statsNote"></p>
   <section>
-    <h2>Strategy library (13 conventional strategies)</h2>
+    <h2>Strategy library (16 conventional strategies)</h2>
     <p class="lede">Forward results since 16 November use realistic fills; the "instant fill" column shows what the old, slightly too generous fills would have given. The backtest columns use up to 2 years before the test and count only as cautious evidence.</p>
     <div class="scroll"><table id="tLib"><thead><tr><th>Strategy</th><th class="n">Live days</th><th class="n">Live total %</th><th class="n">Instant-fill total %</th><th class="n">Backtest days</th><th class="n">Backtest avg % / day</th><th class="n">Backtest Sharpe</th></tr></thead><tbody></tbody></table></div>
   </section>
@@ -142,10 +142,10 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
 
 <section id="v-live" hidden>
   <h1>Live signals, costs and data health</h1>
-  <p class="lede">The 5-minute engine runs on GitHub every 5 minutes in market hours with no AI in the loop: it seals each baseline-A breakout with the time and the real-time price at that moment. Slippage compares what a real order would have paid with the simulated fill, without placing any order.</p>
+  <p class="lede">The 5-minute engine runs on GitHub every 5 minutes in market hours with no AI in the loop: it seals each baseline-A breakout and each intraday library signal with the time and the real-time price at that moment. Slippage compares what a real order would have paid with the simulated fill, without placing any order.</p>
   <h2>5-minute engine</h2>
   <div class="kv" id="engKv"></div>
-  <div class="scroll"><table id="tEng"><thead><tr><th>Stock</th><th>List</th><th>Signal bar ended</th><th>Detected</th><th class="n">Delay (min)</th><th class="n">Signal price</th><th class="n">Engine fill</th><th class="n">Difference</th></tr></thead><tbody></tbody></table></div>
+  <div class="scroll"><table id="tEng"><thead><tr><th>Stock</th><th>Strategy</th><th>Signal bar ended</th><th>Detected</th><th class="n">Delay (min)</th><th class="n">Signal price</th><th class="n">Engine fill</th><th class="n">Difference</th></tr></thead><tbody></tbody></table></div>
   <p class="note" id="engNote"></p>
   <div class="grid2">
     <div class="panel">
@@ -223,7 +223,7 @@ function render(){if(!D)return;setSrc();
   const vc=(A.verdict_check||{}).verdict;
   const b=$("verdictBanner");
   if(!win){b.className="banner";b.innerHTML=`<b>The verdict window has not started.</b> It runs ${esc(vStart[0])} to ${esc(vStart[1])}${dleft>0?` (starts in ${dleft} day${dleft>1?"s":""})`:""}; until then everything below is warm-up evidence. The allocator and library code freeze on ${esc(vStart[0])}.`;}
-  else if(vc&&vc.pass!=null){b.className="banner "+(vc.pass?"ok":"bad");b.innerHTML=vc.pass?`<b>So far the AI portfolio passes the pre-registered test</b> over the verdict window${vc.robust_2x?", including at double costs":""}. The final answer comes on ${esc(D.windows.final_report)}.`:`<b>So far the AI portfolio does not pass the pre-registered test</b> over the verdict window. The final answer comes on ${esc(D.windows.final_report)}.`;}
+  else if(vc&&vc.result){const r=vc.result;b.className="banner "+(r==="pass"?"ok":r==="fail"?"bad":"");b.innerHTML=(r==="pass"?`<b>So far: PASS.</b> The AI portfolio beats every benchmark over the verdict window${vc.robust_2x?", including at double costs":""}.`:r==="fail"?`<b>So far: FAIL.</b> The AI portfolio is clearly behind ${esc((vc.clearly_behind||[]).join(", "))} over the verdict window.`:`<b>So far: INCONCLUSIVE.</b> The AI portfolio is neither clearly ahead of every benchmark nor clearly behind one. If it stays that way, the test is extended once by six weeks.`)+` The final answer comes on ${esc(D.windows.final_report)}.`;}
   else{b.className="banner";b.innerHTML=`<b>Verdict window running</b>: ${esc((vc&&vc.status)||"not enough days yet")}.`;}
   $("topFigs").innerHTML=[["AI portfolio",ai.total_pct,"%"],["SPY",spy.total_pct,"%"],["SPY, vol-matched",vm.total_pct,"%"],["Equal weight",eq.total_pct,"%"],["Baseline A",ba.total_pct,"%"]].map(([l,v,u])=>`<div><b class="${cls(v)}">${sgn(v,2,u)}</b><span>${l}, total</span></div>`).join("")
     +`<div><b>${num(ai.sharpe,2)}</b><span>AI Sharpe (SPY ${num(spy.sharpe,2)})</span></div><div><b>${sgn(ai.max_dd_pct!=null?-Math.abs(ai.max_dd_pct):null,2,"%")}</b><span>AI worst fall (SPY ${sgn(spy.max_dd_pct!=null?-Math.abs(spy.max_dd_pct):null,2,"%")})</span></div>`;
@@ -232,11 +232,11 @@ function render(){if(!D)return;setSrc();
   const LW=A.weights||{},W=(LW.weights&&typeof LW.weights==="object")?LW.weights:LW,ent=Object.entries(W).filter(x=>typeof x[1]==="number").sort((a,b)=>b[1]-a[1]),inv=ent.reduce((a,x)=>a+x[1],0);
   $("weights").innerHTML=ent.length?ent.map(([k,v])=>`<div class="row"><div>${esc(k)}<div class="track"><div class="fill" style="width:${Math.min(100,v/0.25*100)}%"></div></div></div><div class="v">${(v*100).toFixed(1)}%</div></div>`).join(""):`<p class="note">All in cash today.</p>`;
   const wh=(D.weights_hist||[]).slice(-1)[0]||{};
-  $("weightsCap").textContent=`Invested ${(inv*100).toFixed(1)}%, the rest in cash. Forecast volatility ${num(wh.vol,1)}% a year (target 10%). Sleeves switched off by the losing-streak rule: ${wh.br??"–"}. Bars are scaled to the 25% cap.`;
+  $("weightsCap").textContent=`Always fully invested: ${(inv*100).toFixed(0)}% across ${ent.length} strategies, no cash, rebalanced weekly. Forecast volatility of the backed strategies ${num(wh.vol,1)}% a year. Switched off by the losing-streak rule: ${wh.br??"–"}; duplicates merged: ${wh.dup??0}${wh.fill&&wh.fill.filled?`; ${wh.fill.filled} strategies were added only to stay fully invested`:""}. Bars are scaled to the 25% cap.`;
   const vk=A.verdict_check||{};
   const rowsV=Object.entries(vk).map(([phn,v])=>{if(!v||v.status)return `<p class="note">${esc(phn)}: ${esc(v&&v.status||"–")}</p>`;
-    return `<h3>${esc(phn)} ${v.pass?'<span class="pill pos">pass</span>':'<span class="pill neg">not yet</span>'}</h3><div class="scroll"><table><thead><tr><th>Benchmark</th><th>Sharpe</th><th>Drawdown</th><th>P ≥ 0.9</th></tr></thead><tbody>${Object.entries(v.by_benchmark||{}).map(([k,x])=>`<tr><td>${esc({spy:"SPY (+ vol-matched)",equal:"Equal weight",base_a:"Baseline A"}[k]||k)}</td>${["sharpe","drawdown","p_ge_0.9"].map(f=>`<td>${x[f]?"✓":"✗"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}).join("");
-  $("vcheck").innerHTML=rowsV||`<p class="note">Applies from ${esc(vStart[0])}. Rule: beat SPY, equal weight and baseline A on Sharpe and on worst fall, with at least 90% bootstrap probability; against SPY also beat volatility-matched SPY; robust only if it still beats SPY at double costs. Realistic fills throughout.</p><p class="note">Bootstrap chance the AI beats each benchmark so far (all data): ${Object.entries(all.p_ai_beats||{}).map(([k,v])=>esc(k)+" "+num(v,2)).join(" · ")||"–"}</p>`;
+    return `<h3>${esc(phn)} <span class="pill ${v.result==="pass"?"pos":v.result==="fail"?"neg":""}">${esc(v.result||(v.pass?"pass":"not yet"))}</span></h3><div class="scroll"><table><thead><tr><th>Benchmark</th><th>Sharpe</th><th>Drawdown</th><th>P ≥ 0.9</th></tr></thead><tbody>${Object.entries(v.by_benchmark||{}).map(([k,x])=>`<tr><td>${esc({spy:"SPY",equal:"Equal weight",base_a:"Baseline A"}[k]||k)}</td>${["sharpe","drawdown","p_ge_0.9"].map(f=>`<td>${x[f]?"✓":"✗"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}).join("");
+  $("vcheck").innerHTML=rowsV||`<p class="note">Applies from ${esc(vStart[0])}. Rule: always fully invested (no cash). PASS = beat SPY, equal weight and baseline A on Sharpe and on worst fall, with at least 90% bootstrap probability, each also against its risk-matched version. FAIL = clearly behind any one of them (10% chance or less of being ahead). Otherwise INCONCLUSIVE, which triggers one six-week extension. Robust only if a pass also beats SPY at double costs. Realistic fills throughout.</p><p class="note">Bootstrap chance the AI beats each benchmark so far (all data): ${Object.entries(all.p_ai_beats||{}).map(([k,v])=>esc(k)+" "+num(v,2)).join(" · ")||"–"}</p>`;
   const s2=((A.stress_2x||{}).all||{}).ai||{},idf=((A.ideal_fills||{}).all||{}).ai||{},nt=A.netted||{};
   $("context").innerHTML=[["At double costs",sgn(s2.total_pct,2,"%")],["With instant fills",sgn(idf.total_pct,2,"%")],["If trades were netted",sgn((nt.ai_netted||{}).total_pct,2,"%")],["Turnover per day",num(all.turnover_per_day,3)],["Rebalancing cost",sgn(all.rebal_cost_pct_total!=null?-all.rebal_cost_pct_total:null,3,"%")],["Strategies (sleeves)",A.sleeves??"–"]].map(([l,v])=>`<div>${l}<b>${v}</b></div>`).join("");
   const fz=A.freeze||{};$("freeze").textContent=fz.frozen===false||!fz.code_matches_freeze&&fz.code_matches_freeze!==false?`Code freeze: from ${vStart[0]}.`:`Code freeze: ${fz.code_matches_freeze?"code matches the frozen fingerprint":"CODE CHANGED since the freeze"}.`;
@@ -251,7 +251,7 @@ function render(){if(!D)return;setSrc();
   /* live */
   const E=D.engine||{},ed=E.days||[],last=ed[ed.length-1]||{};
   $("engKv").innerHTML=[["Latest day",last.d||"–"],["Signals sealed",last.n??"–"],["Median delay",last.median_delay!=null?last.median_delay+" min":"–"],["Within 20 min",last.within20??"–"],["Last engine run",(E.status||{}).at?String(E.status.at).slice(0,16).replace("T"," "):"–"],["Engine errors",((E.status||{}).errors||[]).length]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
-  $("tEng").tBodies[0].innerHTML=[...(E.latest||[])].reverse().map(x=>{const df=x.ideal_entry&&x.fill_price?(x.fill_price/x.ideal_entry-1)*100:null;return `<tr><td><b>${esc(x.symbol)}</b></td><td>${esc(x.list)}</td><td>${esc(x.signal_end)}</td><td>${esc(String(x.detected_at||"").slice(11,16))}</td><td class="n">${num(x.delay_min,1)}</td><td class="n">${num(x.ideal_entry,2)}</td><td class="n">${num(x.fill_price,2)}</td><td class="n ${cls(df)}">${sgn(df,2,"%")}</td></tr>`}).join("");
+  $("tEng").tBodies[0].innerHTML=[...(E.latest||[])].reverse().map(x=>{const df=x.ideal_entry&&x.fill_price?(x.fill_price/x.ideal_entry-1)*100:null;return `<tr><td><b>${esc(x.symbol)}</b></td><td>${esc(x.strategy||"Baseline A · "+(x.list||""))}</td><td>${esc(x.signal_end)}</td><td>${esc(String(x.detected_at||"").slice(11,16))}</td><td class="n">${num(x.delay_min,1)}</td><td class="n">${num(x.ideal_entry,2)}</td><td class="n">${num(x.fill_price,2)}</td><td class="n ${cls(df)}">${sgn(df,2,"%")}</td></tr>`}).join("");
   $("engNote").textContent=ed.length?"Detections more than 20 minutes late (engine outage or a late GitHub start) are not used as fills; the price 5 minutes after the signal is used instead.":"No engine detections yet.";
   const SL=D.slippage||{},db=SL.drift_pct_median_by_delay||{};
   $("slip").innerHTML=SL.n?[["Quotes recorded",SL.n],["Median spread cost",num(SL.spread_pct_median,3)+"%"],["Model cost per side",num(SL.model_side_cost_pct_median,3)+"%"],["Model cheaper than reality?",SL.model_cheaper_than_spread?"YES – check":"no"],["Drift, 0–15 min",num((db["0-15"]||{}).median,2)+"% (n "+((db["0-15"]||{}).n??0)+")"],["Drift, 15–30 min",num((db["15-30"]||{}).median,2)+"% (n "+((db["15-30"]||{}).n??0)+")"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join(""):`<p class="note">No slippage readings yet.</p>`;
