@@ -1,42 +1,7 @@
 {
  "errors": [],
  "files": {
-  "5m/MSFT": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/TSLA": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/AAPL": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/INTC": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/BAC": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/MSTR": {
+  "5m/DIS": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -50,6 +15,41 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
+  "5m/CVS": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/GOOGL": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/INTC": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/JPM": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/PLTR": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
   "5m/ABBV": {
    "added": 0,
    "vol_filled": 0,
@@ -57,28 +57,28 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/SOFI": {
+  "5m/AVGO": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/META": {
+  "5m/COIN": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/NFLX": {
+  "5m/MARA": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/DIS": {
+  "5m/UBER": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -99,56 +99,21 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/COIN": {
+  "5m/MSFT": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/HOOD": {
+  "5m/MSTR": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/JPM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/GOOGL": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/MU": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/PLTR": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/XOM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/CVS": {
+  "5m/AAPL": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -162,6 +127,27 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
+  "5m/BAC": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/NFLX": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/NVDA": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
   "5m/AMT": {
    "added": 0,
    "vol_filled": 0,
@@ -169,14 +155,42 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/AVGO": {
+  "5m/HOOD": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/MARA": {
+  "5m/META": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/MU": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/SOFI": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/TSLA": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/XOM": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -197,21 +211,7 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/NVDA": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/UBER": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/HON": {
+  "5m/IWM": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -225,42 +225,7 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/T": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/GM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/QCOM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/QQQ": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/TMUS": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
-  "5m/LMT": {
+  "5m/V": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -274,13 +239,6 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/PEP": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
   "5m/PFE": {
    "added": 0,
    "vol_filled": 0,
@@ -288,14 +246,49 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/UNP": {
+  "5m/PM": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/V": {
+  "5m/QCOM": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/TMUS": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/GM": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/HON": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/LMT": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/QQQ": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -309,13 +302,6 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/IWM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5142,
-   "last": "2026-11-19T20:55:00Z"
-  },
   "5m/JNJ": {
    "added": 0,
    "vol_filled": 0,
@@ -323,7 +309,21 @@
    "total": 5142,
    "last": "2026-11-19T20:55:00Z"
   },
-  "5m/PM": {
+  "5m/PEP": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/T": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5142,
+   "last": "2026-11-19T20:55:00Z"
+  },
+  "5m/UNP": {
    "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
@@ -334,7 +334,7 @@
  "mismatch": [],
  "mismatch_count": {},
  "mode": "tick",
- "started": "2026-11-20T14:20:26Z",
+ "started": "2026-11-20T14:25:17Z",
  "tick": true,
- "finished": "2026-11-20T14:20:28Z"
+ "finished": "2026-11-20T14:25:18Z"
 }
