@@ -373,7 +373,7 @@ allocator turnover and rebalancing cost, vol forecast vs realised, netted_explor
 Live decisions (spreads, implementation shortfall; checks.py slip-report for the week and to date: spread cost, drift
 by delay bucket, and whether the simulated costs are cheaper than reality), the strategy library and the AI allocator (data/allocator/report.json:
 AI portfolio vs SPY / equal weight / baseline A, current weights, breakers, the 2x-cost stress result, and the
-"sharpe_gap_detectable" line so readers see how much evidence the window holds). Added 2026-11-20: the three shadow allocators beside the AI (returns, Sharpe, drawdown and p_ai_beats for each; say plainly which is ahead), the forced-fill share and what it returned, the SPY beta and the
+"sharpe_gap_detectable" line so readers see how much evidence the window holds). Added 2026-11-21: the Monte Carlo risk table (data/nightly/montecarlo.json; say which basis, replay or live, and that it is never part of the verdict). Added 2026-11-20: the three shadow allocators beside the AI (returns, Sharpe, drawdown and p_ai_beats for each; say plainly which is ahead), the forced-fill share and what it returned, the SPY beta and the
 return after removing it, the health line for the week (ticks per day, slowest tick, minutes used vs 3,000, alerts), engine vs the 5-minute rule (checks.py engine-report), and once, in the first report, the crash drill and the
 shadow replay from "CHANGES 2026-11-20 SECOND BATCH" with their limits. Data integrity: dq summary, bar timing
 convention, IBKR vs Twelve Data flags, live-vs-replay parity, freeze status, trial count, and the report's stamp
