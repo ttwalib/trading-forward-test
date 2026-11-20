@@ -117,6 +117,18 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
       <p class="note" id="freeze"></p>
     </div>
   </div>
+  <section class="panel" style="margin-top:22px">
+    <h2>Does the AI's allocation beat simple rules?</h2>
+    <p class="note">Three simple allocation rules run beside the AI on the same strategies, with the same 25% cap, weekly rebalancing and costs. If a simple rule does as well, the AI's allocation adds nothing measurable.</p>
+    <div class="scroll"><table id="tShadow"><thead><tr><th>Allocation rule</th><th class="n">Total %</th><th class="n">Sharpe</th><th class="n">Worst fall %</th><th class="n">Chance the AI is ahead</th></tr></thead><tbody></tbody></table></div>
+    <p class="note" id="shadowNote"></p>
+    <div class="kv" id="exposure"></div>
+  </section>
+  <section class="panel" style="margin-top:22px">
+    <h2>Crash drill (past data, run once)</h2>
+    <div class="scroll"><table id="tDrill"><thead><tr><th>Period</th><th class="n">AI %</th><th class="n">AI worst fall %</th><th class="n">Equal weight %</th><th class="n">Risk parity %</th><th class="n">Min variance %</th><th class="n">SPY %</th><th class="n">SPY worst fall %</th></tr></thead><tbody></tbody></table></div>
+    <p class="note" id="drillNote"></p>
+  </section>
   <section>
     <h2>Market regime</h2>
     <div class="kv" id="regime"></div>
@@ -129,7 +141,7 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
   <div class="scroll"><table id="tStats"><thead><tr><th>Strategy</th><th>Unit</th><th class="n">Trades</th><th class="n">Average</th><th class="n">90% range</th><th class="n">P(&gt;0)</th><th class="n">q</th><th class="n">DSR</th><th>Verdict</th><th>Breaker</th></tr></thead><tbody></tbody></table></div>
   <p class="note" id="statsNote"></p>
   <section>
-    <h2>Strategy library (16 conventional strategies)</h2>
+    <h2>Strategy library (17 conventional strategies)</h2>
     <p class="lede">Forward results since 16 November use realistic fills; the "instant fill" column shows what the old, slightly too generous fills would have given. The backtest columns use up to 2 years before the test and count only as cautious evidence.</p>
     <div class="scroll"><table id="tLib"><thead><tr><th>Strategy</th><th class="n">Live days</th><th class="n">Live total %</th><th class="n">Instant-fill total %</th><th class="n">Backtest days</th><th class="n">Backtest avg % / day</th><th class="n">Backtest Sharpe</th></tr></thead><tbody></tbody></table></div>
   </section>
@@ -156,6 +168,9 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
     <div class="panel">
       <h2>Data feed and freshness</h2>
       <div class="kv" id="feed"></div>
+      <h2 style="margin-top:18px">Plumbing health</h2>
+      <div class="kv" id="health"></div>
+      <p class="note" id="healthNote"></p>
       <p class="note">Prices come from Alpaca's free plan (all US exchanges, at least 15 minutes old), Cboe for VIX and Interactive Brokers for the newest minutes, options and earnings.</p>
     </div>
   </div>
@@ -236,10 +251,20 @@ function render(){if(!D)return;setSrc();
   const vk=A.verdict_check||{};
   const rowsV=Object.entries(vk).map(([phn,v])=>{if(!v||v.status)return `<p class="note">${esc(phn)}: ${esc(v&&v.status||"–")}</p>`;
     return `<h3>${esc(phn)} <span class="pill ${v.result==="pass"?"pos":v.result==="fail"?"neg":""}">${esc(v.result||(v.pass?"pass":"not yet"))}</span></h3><div class="scroll"><table><thead><tr><th>Benchmark</th><th>Sharpe</th><th>Drawdown</th><th>P ≥ 0.9</th></tr></thead><tbody>${Object.entries(v.by_benchmark||{}).map(([k,x])=>`<tr><td>${esc({spy:"SPY",equal:"Equal weight",base_a:"Baseline A"}[k]||k)}</td>${["sharpe","drawdown","p_ge_0.9"].map(f=>`<td>${x[f]?"✓":"✗"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}).join("");
-  $("vcheck").innerHTML=rowsV||`<p class="note">Applies from ${esc(vStart[0])}. Rule: always fully invested (no cash). PASS = beat SPY, equal weight and baseline A on Sharpe and on worst fall, with at least 90% bootstrap probability, each also against its risk-matched version. FAIL = clearly behind any one of them (10% chance or less of being ahead). Otherwise INCONCLUSIVE, which triggers one six-week extension. Robust only if a pass also beats SPY at double costs. Realistic fills throughout.</p><p class="note">Bootstrap chance the AI beats each benchmark so far (all data): ${Object.entries(all.p_ai_beats||{}).map(([k,v])=>esc(k)+" "+num(v,2)).join(" · ")||"–"}</p>`;
+  $("vcheck").innerHTML=rowsV||`<p class="note">Applies from ${esc(vStart[0])}. Rule: always fully invested (no cash). PASS = beat SPY, equal weight and baseline A on Sharpe and on worst fall, with at least 90% bootstrap probability, each also against its risk-matched version. FAIL = clearly behind any one of them (10% chance or less of being ahead). Otherwise INCONCLUSIVE, which triggers one six-week extension. Robust only if a pass also beats SPY at double costs and beats the best of the three simple allocation rules on Sharpe. Realistic fills throughout.</p><p class="note">Bootstrap chance the AI beats each benchmark so far (all data): ${Object.entries(all.p_ai_beats||{}).map(([k,v])=>esc(k)+" "+num(v,2)).join(" · ")||"–"}</p>`;
   const s2=((A.stress_2x||{}).all||{}).ai||{},idf=((A.ideal_fills||{}).all||{}).ai||{},nt=A.netted||{};
   $("context").innerHTML=[["At double costs",sgn(s2.total_pct,2,"%")],["With instant fills",sgn(idf.total_pct,2,"%")],["If trades were netted",sgn((nt.ai_netted||{}).total_pct,2,"%")],["Turnover per day",num(all.turnover_per_day,3)],["Rebalancing cost",sgn(all.rebal_cost_pct_total!=null?-all.rebal_cost_pct_total:null,3,"%")],["Strategies (sleeves)",A.sleeves??"–"]].map(([l,v])=>`<div>${l}<b>${v}</b></div>`).join("");
   const fz=A.freeze||{};$("freeze").textContent=fz.frozen===false||!fz.code_matches_freeze&&fz.code_matches_freeze!==false?`Code freeze: from ${vStart[0]}.`:`Code freeze: ${fz.code_matches_freeze?"code matches the frozen fingerprint":"CODE CHANGED since the freeze"}.`;
+  const SH=all.shadows||{},pb=all.p_ai_beats||{};
+  const shRows=[["AI allocator (Quantavius)",ai,null],["Risk parity",SH.sh_rp,pb.sh_rp],["Minimum variance",SH.sh_mv,pb.sh_mv],["Recent winners",SH.sh_win,pb.sh_win],["Equal weight",eq,pb.equal]];
+  $("tShadow").tBodies[0].innerHTML=shRows.map(([l,x,p])=>{x=x||{};return `<tr><td>${l}</td><td class="n ${cls(x.total_pct)}">${sgn(x.total_pct,2)}</td><td class="n">${num(x.sharpe,2)}</td><td class="n">${num(x.max_dd_pct,2)}</td><td class="n">${p==null?"–":num(p,2)}</td></tr>`}).join("");
+  const vcv=(A.verdict_check||{}).verdict||{};
+  $("shadowNote").textContent=`All data since 16 November (${days} days: far too few to judge). ${vcv.best_shadow?`Best simple rule in the verdict window: ${vcv.best_shadow}; AI ahead of it: ${vcv.beats_best_shadow?"yes":"no"}.`:""} On past data (June 2025 to November 2026) every simple rule beat the AI on Sharpe: AI 0.38, risk parity 1.00, minimum variance 0.78, recent winners 0.42, equal weight 0.88.`;
+  const FF=all.forced_fill||{},EX=all.exposure||{};
+  $("exposure").innerHTML=[["Held only to stay fully invested",FF.avg_weight!=null?(FF.avg_weight*100).toFixed(1)+"% of the book":"–"],["Return of that forced part",sgn(FF.return_pct_total,2,"%")],["Return of the backed part",sgn(FF.backed_return_pct_total,2,"%")],["Sensitivity to SPY (beta)",num(EX.beta_spy,2)],["Return after removing SPY's move",sgn(EX.after_beta_pct_total,2,"%")]].map(([l,v])=>`<div>${l}<b>${v}</b></div>`).join("");
+  const CD=D.crash_drill||{},cw=CD.windows||{};
+  $("tDrill").tBodies[0].innerHTML=[["2020 crash (19 Feb – 30 Apr 2020)","crash_2020"],["2022 bear market (3 Jan – 14 Oct 2022)","bear_2022"],["2017 – 2022, whole period","whole_2017_2022"]].map(([l,k])=>{const x=cw[k];if(!x)return "";const g=(a,f)=>(x[a]||{})[f];return `<tr><td>${l}</td><td class="n ${cls(g("ai","total_pct"))}">${sgn(g("ai","total_pct"),1)}</td><td class="n">${num(g("ai","max_dd_pct"),1)}</td><td class="n">${sgn(g("equal","total_pct"),1)}</td><td class="n">${sgn(g("sh_rp","total_pct"),1)}</td><td class="n">${sgn(g("sh_mv","total_pct"),1)}</td><td class="n">${sgn(g("spy","total_pct"),1)}</td><td class="n">${num(g("spy","max_dd_pct"),1)}</td></tr>`}).join("");
+  $("drillNote").textContent=CD.windows?"Same allocation rules replayed on the two worst recent markets. Daily strategies only, on today's list of large companies, which flatters the result (companies that later dropped out are missing). It shows the always-invested rule did not blow up; it shows no edge over the simple rules. Not tuned afterwards.":"No crash drill stored.";
   const R=D.regime||{};$("regime").innerHTML=R.date?[["Date",R.date],["Label",R.label],["VIX",num(R.vix,1)+" ("+(R.vix_band||"")+")"],["SPY vs 20-day",sgn(R.spy_vs20,1,"%")],["Breadth (above 20-day)",num(R.breadth20,0)+"%"],["New highs − lows",R.nh_nl??"–"],["BTC vs 20-day",sgn(R.btc_vs20,1,"%")],["VIX term (3M/1M)",num(R.vix_term,2)]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join(""):`<p class="note">No regime row yet.</p>`;
   /* strategies */
   const S=D.stats||{rows:[]};
@@ -257,6 +282,9 @@ function render(){if(!D)return;setSrc();
   $("slip").innerHTML=SL.n?[["Quotes recorded",SL.n],["Median spread cost",num(SL.spread_pct_median,3)+"%"],["Model cost per side",num(SL.model_side_cost_pct_median,3)+"%"],["Model cheaper than reality?",SL.model_cheaper_than_spread?"YES – check":"no"],["Drift, 0–15 min",num((db["0-15"]||{}).median,2)+"% (n "+((db["0-15"]||{}).n??0)+")"],["Drift, 15–30 min",num((db["15-30"]||{}).median,2)+"% (n "+((db["15-30"]||{}).n??0)+")"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join(""):`<p class="note">No slippage readings yet.</p>`;
   const F=D.feed||{},fr=D.fresh||{};
   $("feed").innerHTML=[["Last feed run",(F.mode||"–")+" · "+String(F.finished||"–").slice(11,16)+" UTC"],["Feed errors",(F.errors||[]).length],["5-minute bars current",fr["5m"]?(fr["5m"].fresh?"yes":"stale: "+fr["5m"].stale.length):"–"],["Daily bars current",fr["1d"]?(fr["1d"].fresh?"yes":"stale: "+fr["1d"].stale.length):"–"],["Price mismatches logged",F.mismatch??"–"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
+  const HL=D.health||{},EV=D.engine_vs_lag||{},NG=D.nightly||{};
+  $("health").innerHTML=[["Ticks today",HL.ticks_today??"–"],["Longest gap",HL.max_gap_min!=null?HL.max_gap_min+" min":"–"],["Tick time, median / slowest",HL.tick_seconds_median!=null?HL.tick_seconds_median+" s / "+HL.tick_seconds_max+" s":"–"],["GitHub minutes, month so far",HL.minutes_month_so_far??"–"],["Projected / allowance",(HL.minutes_month_projected??"–")+" / "+(HL.minutes_quota??"–")],["Pinger token expires",HL.token_expiry?HL.token_expiry+" ("+HL.token_days_left+" days)":"–"],["Nightly maths on GitHub",NG&&NG.day?NG.day+(NG.ok?" · ok":" · FAILED"):"–"],["Engine fill vs 5-minute rule",(EV.baseline||{}).n?sgn(EV.baseline.mean_cost_vs_lag_pct,3,"%")+" (n "+EV.baseline.n+")":"no rows yet"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
+  $("healthNote").textContent=(HL.alerts||[]).length?"ALERTS: "+HL.alerts.join(" · "):"No alerts.";
   const M=D.ml||{},ms=M.stock||{},cs=ms.champion_stats||{};
   $("ml").innerHTML=[["Training rows (stocks)",ms.rows??"–"],["Out-of-sample days",ms.oos_days??"–"],["Take-everything average (R)",sgn(ms.always_take_mean,3)],["Champion",ms.champion||"–"],["Champion takes",cs.share_taken!=null?(cs.share_taken*100).toFixed(1)+"% of signals":"–"],["Champion average (R)",sgn(cs.mean_taken,3)],["PBO",num(ms.pbo,2)],["Crypto model",(M.crypto||{}).status||((M.crypto||{}).champion)||"–"]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
   const w=D.windows||{};$("dates").innerHTML=[["Test start",w.start],["Verdict window",(w.verdict||[]).join(" to ")],["Frozen holdout",(w.holdout||[]).join(" to ")],["Stocks end",w.end],["Crypto end",w.crypto_end],["Final report",w.final_report]].map(([l,v])=>`<div>${l}<b>${esc(v)}</b></div>`).join("");
