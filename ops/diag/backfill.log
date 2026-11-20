@@ -18,3 +18,4 @@
 2026-11-19 22:26 | 0 | 0 | 0 | backfill already complete (108/135 done, 0 left); no jobs to process; training ran earlier (crypto.pkl still absent, not retried)
 2026-11-19 23:25 | 0 | 0 | 0 | backfill already complete (108/135 done, 0 left); no jobs to process; crypto.pkl still absent, training not retried
 2026-11-20 00:26 | 0 | 0 | 0 | status complete=true (108 done, 0 left, none given up)
+2026-11-20 01:26 | 0 | 0 | 0 | status complete=true (108/135 done, 0 left), nothing to process
