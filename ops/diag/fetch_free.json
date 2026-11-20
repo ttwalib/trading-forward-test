@@ -1,340 +1,340 @@
 {
  "errors": [],
  "files": {
-  "5m/INTC": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/AAPL": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/AMZN": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/COIN": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/CVS": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/JPM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/MSFT": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/UBER": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/AVGO": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/DIS": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/TSLA": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/BAC": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/GD": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/HOOD": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/NVDA": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
   "5m/GOOGL": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/META": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/MSTR": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/MU": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/PLTR": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/AMD": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/XOM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/ABBV": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/ADBE": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/MARA": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/NFLX": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/TSLA": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/AMD": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/COIN": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/MU": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/SOFI": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/BAC": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/MARA": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/MSFT": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/MSTR": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/UBER": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/XOM": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/GD": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/AAPL": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/ACN": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/CVS": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/HOOD": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/ABBV": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/INTC": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/NVDA": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/AMZN": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/JPM": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/META": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/PLTR": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/AMT": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/AVGO": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/DIS": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/ADBE": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/AXP": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/QQQ": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/V": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/LMT": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/PEP": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/T": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/GM": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/GS": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/SPY": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/TMUS": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/HON": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/JNJ": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/MS": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/PFE": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/QCOM": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
-  },
-  "5m/UNP": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/IWM": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/PEP": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/PFE": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/QQQ": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/TMUS": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/T": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/LMT": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   },
   "5m/PM": {
-   "added": 0,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 5211,
-   "last": "2026-11-20T20:10:00Z"
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/V": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/HON": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/JNJ": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/MS": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/QCOM": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/SPY": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
+  },
+  "5m/UNP": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 5212,
+   "last": "2026-11-20T20:15:00Z"
   }
  },
  "mismatch": [],
  "mismatch_count": {},
  "mode": "tick",
- "started": "2026-11-20T20:35:17Z",
+ "started": "2026-11-20T20:40:23Z",
  "tick": true,
- "finished": "2026-11-20T20:35:18Z"
+ "finished": "2026-11-20T20:40:25Z"
 }
