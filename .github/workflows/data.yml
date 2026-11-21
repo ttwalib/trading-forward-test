@@ -119,11 +119,10 @@ jobs:
           [ "$OK" = "1" ] || exit 1
           # Proof of pre-registration: the first commit that holds ops/freeze.json gets a permanent tag (GitHub stores
           # the push time), so anyone can check that the frozen code and the verdict rules predate the results.
-          # The same for the pre-registration record (ops/preregistration.md, 2026-11-21): tag the commit that first held it.
+          # The same for the pre-registration record (ops/preregistration.md, 2026-11-21). The tag goes on this run's own
+          # data commit: GitHub refuses a workflow token that tags a commit which itself changed a workflow file.
           if [ -e ops/preregistration.md ] && ! git ls-remote --exit-code --tags origin prereg-2026-11-21 >/dev/null 2>&1; then
-            git fetch -q --unshallow origin main 2>/dev/null || true
-            C=$(git log --diff-filter=A --format=%H -- ops/preregistration.md | tail -1)
-            if [ -n "$C" ]; then git tag -a prereg-2026-11-21 -m "Pre-registration record: hypotheses, amendments, response rule (ops/preregistration.md)" "$C" && git push -q origin prereg-2026-11-21 || true; fi
+            git tag -a prereg-2026-11-21 -m "Pre-registration record: hypotheses, amendments, response rule (ops/preregistration.md)" && git push -q origin prereg-2026-11-21 || true
           fi
           if [ -e ops/freeze.json ] && ! git ls-remote --exit-code --tags origin freeze-registered >/dev/null 2>&1; then
             git tag -a freeze-registered -m "Change freeze recorded: hashes in ops/freeze.json, rules in ops/runbook.md" && git push -q origin freeze-registered || true
