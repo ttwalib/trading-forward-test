@@ -100,6 +100,7 @@ def info(d=None):
 def main():
     a = sys.argv[1:]
     if a[0] == "today": print(json.dumps(info(a[1] if len(a) > 1 else None)))
+    elif len(a[0]) == 10 and a[0][4] == "-": print(json.dumps(info(a[0])))   # "tcal.py YYYY-MM-DD" = "today YYYY-MM-DD"
     elif a[0] == "days": print(json.dumps(trading_days(a[1], a[2])))
     elif a[0] == "weeks":
         d, out = START, []
