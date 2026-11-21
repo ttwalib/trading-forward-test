@@ -1,6 +1,6 @@
 {
  "date": "2026-11-20",
- "sleeves": 42,
+ "sleeves": 45,
  "freeze": {
   "frozen": false,
   "freeze_date": "2026-12-07"
@@ -23,10 +23,10 @@
    },
    "equal": {
     "days": 5,
-    "total_pct": -2.044,
-    "sharpe": -31.95,
-    "max_dd_pct": 2.044,
-    "mean_daily_pct": -0.412
+    "total_pct": -1.983,
+    "sharpe": -39.49,
+    "max_dd_pct": 1.983,
+    "mean_daily_pct": -0.3996
    },
    "base_a": {
     "days": 5,
@@ -44,10 +44,10 @@
    },
    "equal_vm": {
     "days": 5,
-    "total_pct": -3.172,
-    "sharpe": -31.95,
-    "max_dd_pct": 3.172,
-    "mean_daily_pct": -0.6422
+    "total_pct": -3.908,
+    "sharpe": -39.49,
+    "max_dd_pct": 3.908,
+    "mean_daily_pct": -0.7938
    },
    "base_a_vm": {
     "days": 5,
@@ -59,7 +59,7 @@
    "spy_vm_scale": 0.255,
    "vm_scales": {
     "spy": 0.255,
-    "equal": 1.559,
+    "equal": 1.986,
     "base_a": 0.936
    },
    "p_ai_beats": {
@@ -128,10 +128,10 @@
    },
    "equal": {
     "days": 1,
-    "total_pct": -0.113,
+    "total_pct": -0.209,
     "sharpe": null,
-    "max_dd_pct": 0.113,
-    "mean_daily_pct": -0.1131
+    "max_dd_pct": 0.209,
+    "mean_daily_pct": -0.2088
    },
    "base_a": {
     "days": 1,
@@ -233,10 +233,10 @@
    },
    "equal": {
     "days": 5,
-    "total_pct": -2.044,
-    "sharpe": -31.95,
-    "max_dd_pct": 2.044,
-    "mean_daily_pct": -0.412
+    "total_pct": -1.983,
+    "sharpe": -39.49,
+    "max_dd_pct": 1.983,
+    "mean_daily_pct": -0.3996
    },
    "base_a": {
     "days": 5,
@@ -254,10 +254,10 @@
    },
    "equal_vm": {
     "days": 5,
-    "total_pct": -3.172,
-    "sharpe": -31.95,
-    "max_dd_pct": 3.172,
-    "mean_daily_pct": -0.6422
+    "total_pct": -3.908,
+    "sharpe": -39.49,
+    "max_dd_pct": 3.908,
+    "mean_daily_pct": -0.7938
    },
    "base_a_vm": {
     "days": 5,
@@ -269,7 +269,7 @@
    "spy_vm_scale": 0.255,
    "vm_scales": {
     "spy": 0.255,
-    "equal": 1.559,
+    "equal": 1.986,
     "base_a": 0.936
    },
    "p_ai_beats": {
@@ -410,9 +410,9 @@
   }
  },
  "stamp": {
-  "commit": "be63458",
-  "data_sha256": "e5f5bfa2ed412d48",
-  "data_files": 458,
+  "commit": "03a1819",
+  "data_sha256": "7f58b899ae3d52c1",
+  "data_files": 506,
   "versions": {
    "python": "3.14.4",
    "numpy": "2.5.5",
@@ -420,7 +420,7 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-20 21:09"
+  "at": "2026-11-21 15:38"
  },
  "latest_weights": {
   "date": "2026-11-20",
@@ -439,11 +439,7 @@
    "L4 Gap fade",
    "L6 Bollinger reversion"
   ],
-  "duplicates": [
-   "A variant (watchlist)",
-   "Crypto 15m fixed (pooled)",
-   "Crypto 1h fixed (pooled)"
-  ],
+  "duplicates": [],
   "vol_forecast_pct": 2.931,
   "fill": {
    "backed": 5,
@@ -505,11 +501,11 @@
    "down-calm",
    -0.23421,
    -1.91153,
-   -0.37202,
+   -0.32856,
    -0.73067,
    -0.234,
    -1.912,
-   -0.372,
+   -0.329,
    -0.731,
    1.0,
    "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
@@ -520,11 +516,11 @@
    "down-stress",
    -0.13727,
    -1.01493,
-   -0.39033,
+   -0.35255,
    -1.43257,
    -0.371,
    -2.907,
-   -0.761,
+   -0.68,
    -2.153,
    1.0,
    "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
@@ -535,11 +531,11 @@
    "down-stress",
    -0.24333,
    -0.30583,
-   -0.51727,
+   -0.47742,
    -0.66778,
    -0.614,
    -3.204,
-   -1.274,
+   -1.154,
    -2.806,
    1.0,
    "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
@@ -550,11 +546,11 @@
    "down-stress",
    -0.56721,
    -1.96248,
-   -0.66711,
+   -0.6309,
    -0.57823,
    -1.177,
    -5.104,
-   -1.933,
+   -1.778,
    -3.368,
    1.0,
    "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
@@ -565,11 +561,11 @@
    "down-stress",
    0.31883,
    -3.64033,
-   -0.11306,
+   -0.20876,
    -0.9217,
    -0.862,
    -8.558,
-   -2.044,
+   -1.983,
    -4.259,
    1.0,
    "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L16 SPY trend short 15%"
