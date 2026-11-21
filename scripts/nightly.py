@@ -72,6 +72,8 @@ def main():
         # Monte Carlo risk report (report only, never part of the verdict; added 2026-11-21)
         stamp["steps"].append(step("montecarlo", [S("montecarlo.py"), "report", repo], os.path.join(N, "montecarlo.json"), 300))
         stamp["steps"].append(step("dashboard", [S("dashboard.py"), repo], None, 300))
+        # the current specification, regenerated from the configuration every night (2026-11-21)
+        stamp["steps"].append(step("spec", [S("spec.py"), repo, os.path.join(repo, "ops", "SPEC.md")], None, 120))
     need = {"library", "library_2x", "library_ideal", "allocator", "stats"}
     stamp["ok"] = need <= {s["step"] for s in stamp["steps"] if s["ok"]}
     stamp["finished"] = dt.datetime.now(NY).strftime("%Y-%m-%d %H:%M:%S")
