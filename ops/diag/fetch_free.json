@@ -4,11 +4,11 @@
  "mismatch": [],
  "mismatch_count": {},
  "mode": "pit",
- "started": "2026-11-21T00:14:47Z",
+ "started": "2026-11-21T00:17:19Z",
  "pit": {
-  "symbols": 451,
-  "bars": 316047,
-  "missing": 53
+  "symbols": 561,
+  "bars": 396087,
+  "missing": 0
  },
- "finished": "2026-11-21T00:15:28Z"
+ "finished": "2026-11-21T00:18:04Z"
 }
