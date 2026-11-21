@@ -36,3 +36,12 @@
 {"at":"2026-11-20 09:04","n":1,"name":"backtest haircut 0.25 for L6 L7 L8 L10 L15","source":"allocator_rule"}
 {"at":"2026-11-20 19:20","n":3,"name":"point-in-time universe experiment: top100 stand-in, S&P 500 at the time, S&P 500 today's list","source":"library_pit"}
 {"at":"2026-11-20 19:22","n":1,"name":"AI-judgment allocator sh_judge as a fourth rival","source":"allocator_rule"}
+{"at":"2026-11-20 22:08","n":1,"name":"logistic@0.45","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"logistic@0.50","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"logistic@0.55","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"gbm@0.45","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"gbm@0.50","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"gbm@0.55","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"forest@0.45","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"forest@0.50","source":"ml_y_stock"}
+{"at":"2026-11-20 22:08","n":1,"name":"forest@0.55","source":"ml_y_stock"}
