@@ -116,6 +116,13 @@ FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py",
                 "tcal.py", "judge.py", "ledger.py", "weekly_opts.py", "deep_otm.py", "options_sim.py", "fees.py", "crypto_tracks.py", 
                 "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py"]
 BASE = "A baseline (watchlist)"
+# Short-premium option sleeves (they sell option premium on SPY and fall together in a sell-off): together they may
+# hold at most GROUP_CAP of the book, in the AI portfolio and in every rival allocator. Added 2026-11-21, before the
+# freeze, after the external review; the stress test behind it is scripts/stress_short_premium.py. Duplicates: since
+# 2026-11-21 two sleeves count as one only if they are equal to within rounding (DUP_TOL) on at least DUP_DAYS days on
+# which both traded, so two different sleeves that each took one similar stop on a few days cannot be merged.
+SHORT_PREMIUM, GROUP_CAP = ("W1", "W2", "D2 ", "D3 "), 0.25
+DUP_DAYS, DUP_TOL = 5, 0.005
 
 
 def jl(path): return [json.loads(l) for l in open(path) if l.strip()] if os.path.exists(path) else []
@@ -145,13 +152,13 @@ def sleeves(repo, lib_file="daily.json", realistic=True):
 
 def duplicates(S, days):
     """{sleeve: representative} for sleeves that are the same strategy in practice: on the days in `days` where both
-    have a result they have at least 3 such days and never differ by more than 0.05 (% of sleeve capital)."""
+    have a result they have at least DUP_DAYS such days and never differ by more than DUP_TOL (% of sleeve capital)."""
     order = sorted(S, key=lambda k: (k != BASE, k)); out = {}; reps = []
     for name in order:
         a = S[name]; hit = None
         for r in reps:
             b = S[r]; common = [x for x in days if a.get(x) and b.get(x)]
-            if len(common) >= 3 and all(abs(a[x] - b[x]) <= 0.05 for x in common): hit = r; break
+            if len(common) >= DUP_DAYS and all(abs(a[x] - b[x]) <= DUP_TOL for x in common): hit = r; break
         if hit: out[name] = hit
         else: reps.append(name)
     return out
@@ -177,6 +184,28 @@ def fill_to_one(tiers):
             if v > 0: w[k] = v
         left = 1.0 - sum(w.values())
     return w
+
+
+def group_cap(w):
+    """Scales the short-premium option sleeves down to GROUP_CAP in total and hands the freed weight to the other
+    sleeves in proportion to their weights, each still limited to CAP. Stays fully invested; if every other sleeve
+    is at its cap the remainder stays where it was."""
+    g = [k for k in w if k.startswith(SHORT_PREMIUM)]; tot = sum(w[k] for k in g)
+    if tot <= GROUP_CAP + 1e-9: return w
+    out = dict(w); f = GROUP_CAP / tot
+    for k in g: out[k] = w[k] * f
+    room = tot - GROUP_CAP; free = {k: v for k, v in w.items() if k not in g and v > 0}
+    for _ in range(len(free) + 1):
+        ft = sum(free.values())
+        if ft <= 0 or room <= 1e-12: break
+        over = [k for k, v in free.items() if out[k] + room * v / ft >= CAP - 1e-12]
+        if not over:
+            for k, v in free.items(): out[k] += room * v / ft
+            room = 0.0; break
+        for k in over: room -= CAP - out[k]; out[k] = CAP; free.pop(k)
+    if room > 1e-9:
+        for k in g: out[k] += room * w[k] / tot
+    return out
 
 
 def rebal_cost(name):
@@ -278,7 +307,7 @@ def weights_for(d, S, cal_idx, regime, cal):
         info[name] = round(mu, 4)
     names = sorted(w)
     if not names:
-        full = fill_to_one([t2, t3, t4])
+        full = group_cap(fill_to_one([t2, t3, t4]))
         info["_vol_forecast_pct"] = None; info["_fill"] = {"backed": 0, "filled": len(full)}
         return {k: round(x, 4) for k, x in full.items() if x > 0.0005}, info
     days60 = hist_days[-COV_WIN:]
@@ -296,7 +325,7 @@ def weights_for(d, S, cal_idx, regime, cal):
         if not act: wv = np.zeros(len(names)); break
     backed = {names[i]: float(wv[i]) for i in range(len(names)) if wv[i] > 0}
     info["_backed"] = sorted(backed)
-    full = fill_to_one([backed, t2, t3, t4])            # always fully invested: no cash
+    full = group_cap(fill_to_one([backed, t2, t3, t4]))            # always fully invested: no cash
     wf = np.array([full.get(k, 0.0) for k in names])
     info["_vol_forecast_pct"] = round(float(np.sqrt(max(wf @ Sig @ wf, 0.0) * 252)), 3)   # backed sleeves only
     info["_fill"] = {"backed": len(backed), "backed_weight": round(sum(full.get(k, 0.0) for k in backed), 4),
@@ -325,7 +354,8 @@ def shadow_targets(d, S, cal_idx, cal):
         act = [a for a in act if a not in neg]
         if not act: break
     top = sorted(names, key=lambda k: -(sum(el[k][-20:]) / max(1, len(el[k][-20:]))))[:4]
-    return {"sh_rp": fill_to_one([rp]), "sh_mv": fill_to_one([mv, rp]), "sh_win": fill_to_one([{k: 1.0 for k in top}, rp])}
+    return {"sh_rp": group_cap(fill_to_one([rp])), "sh_mv": group_cap(fill_to_one([mv, rp])),
+            "sh_win": group_cap(fill_to_one([{k: 1.0 for k in top}, rp]))}
 
 
 SHADOWS = ("sh_rp", "sh_mv", "sh_win")

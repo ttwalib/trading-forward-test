@@ -148,6 +148,9 @@ After the existing steps:
    (prompt STEP 3) use outputsize 5, not 3, so the hour of the last stored IBKR 1h bar is still in the reply.
 1c. LIVE vs REPLAY (full trading days): `python3 -I /tmp/repo/scripts/checks.py parity /tmp/repo DAY` (after today's 5m
    bars are stored). ok false -> one "Data check" row (date, "-", "parity", issue count, first issue, "CHECK").
+   Since 2026-11-21 the check has tolerances (checks.py parity docstring): OUTCOME flags (a candidate missing on one
+   side, an entry more than 0.3% apart) always fail the day; FEATURE flags (a feature more than 2% apart) fail it only
+   above 10% of the compared candidates. A routine day raises no flag, so every flag needs a look.
 2. `python3 -I /tmp/repo/scripts/regime2.py /tmp/repo DAY` -> write regime_row_L_T to "Regime" L:T of today's row;
    LEDGER Regime with the full row.
 3. `python3 -I /tmp/repo/scripts/dq.py /tmp/repo DAY` -> append one "Data check" row per issue type (date, symbol or
@@ -381,6 +384,30 @@ After the existing steps:
      change, not a rule change: entries, exits, strikes, fees and scripts are unchanged; only the source of option
      bars moved from IBKR (through the AI's hands) to Alpaca (straight into the repo). New: scripts/optlegs.py,
      fetch_free.py mode optbars, data/opt_legs.json, data/bars/opt5m/. dq.py does not check opt5m.
+  25. RESPONSE TO THE EXTERNAL REVIEW (2026-11-21, owner: "go"). ops/preregistration.md is the dated record:
+     amendment log, hypotheses H1 (unchanged), H2 (strategy lab) and H3 (agent picks), the owner's rule for the case
+     that a simple rule wins, the defect protocol and the shakedown thresholds; tagged prereg-2026-11-21. The freeze
+     list grew from 4 to 17 scripts. Checks: parity now has tolerances (item above, ORCHESTRATOR 1c); checks.py
+     leaktest plants a look-ahead leak and must see parity fail; checks.py replay-day re-runs the baseline rules on
+     one random past day against the ledger every night (data/quality/replay_day.jsonl; nightly step "replay_day");
+     scripts/no_orders.py and the no-orders workflow fail the build if an order-related call appears in the repo.
+     First replay-day results: 2026-11-19 and 2026-11-20 identical; 2026-11-17 one difference (MARA: the ledger has a
+     stopped trade, the stored bars give none; the ledger row came from IBKR bars before the feed existed).
+  26. SHORT-PREMIUM OPTION SLEEVES (2026-11-21, before the freeze; one trial each for the stress test and the cap):
+     scripts/stress_short_premium.py -> reports/replay/2026-11-21-short_premium_stress.json. W1, W2, D2 and D3
+     together are capped at 25% of the book (allocator.GROUP_CAP) for the formula, the simple rivals and the
+     AI-judgment seals (judge.py refuses a seal above it). No effect on any result so far: these sleeves have two
+     live days and no weight yet. The positive averages in the stress file come from the fixed credit assumption and
+     are not evidence of profit; the file is about the size of the losses.
+  27. ALLOCATOR INTERNALS (2026-11-21, before the freeze; one trial): duplicates are now sleeves that are equal to
+     within 0.005 on at least 5 days on which both traded (was 0.05 on 3 days: two different sleeves that each took
+     one similar stop on three days could have been merged). Idle days never counted. Effect so far: the AI
+     portfolio is unchanged; the equal-weight benchmark counts the A variant and the adaptive ORB separately until
+     they share 5 active days with baseline A. The L3 weight jump after the survivorship haircut (8.9% to 18.4%) is
+     renormalisation: cutting five sleeves' evidence lowered their Kelly scores, and a fully invested book hands the
+     freed weight to the remaining backed sleeves. Thin history is not favoured: every sleeve's backtest counts for
+     at most 20 day-equivalents however long it is, and a sleeve needs 10 active days before the formula may back
+     it. L3 has been in its drawdown breaker (weight 0) since the test began.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
@@ -394,7 +421,12 @@ After the existing steps:
   the frozen files, twice, must match); report in reports/audit/2026-12-01.md. It changes no code.
   Since 2026-11-21 it also works through ops/audit_checklist.md (look-ahead tests by truncation and by corrupting
   future data, fill feasibility, the AI-judgment seals, trial count, protocol, reproducibility).
-- 2026-12-07: allocator.py records the hashes in ops/freeze.json on its first run. Never edit that file.
+- 2026-12-07: allocator.py records the hashes in ops/freeze.json on its first run. Never edit that file. Since
+  2026-11-21 the freeze covers 17 scripts (allocator.FROZEN_FILES; ops/preregistration.md section 5), not 4.
+- Defects found after 2026-12-07 follow ops/preregistration.md section 6 (log, both results reported).
+- The audit also runs `checks.py leaktest REPO DAY` on a day whose parity is ok (a planted look-ahead leak must make
+  the parity check fail; it did on 2026-11-19 when first tried) and `no_orders.py REPO`, and records both results.
+  A human reviewer is the owner's to arrange; ops/audit_checklist.md is written so a person can follow it.
 
 ## LEARNING + STRATEGY LAB
 
@@ -511,6 +543,14 @@ regime, breadth and event-day splits; data quality; task, pinger and GitHub reli
 STEP 3 - Out-of-sample checks: the week-1 candidate named in the week 1 report, judged on trades after 2026-11-20
 only; strategies whose average changed sign between train and holdout. Pre-registered question for single
 strategies: does any strategy or the ML layer beat the frozen baseline A on the holdout with q <= 0.10 and DSR >= 0.9?
+STEP 3b - SEPARATE HYPOTHESES AND THE RESPONSE RULE (ops/preregistration.md, registered 2026-11-21): compute H2
+(strategy lab, forward trades of APPROVED strategies against the fixed crypto strategies) and H3 (agent picks against
+the control list) exactly as its section 3 says, each with its own pass / fail / inconclusive / too few to judge;
+never pool them with H1. Give the short-premium sleeves' contribution to the AI portfolio (section 7). Check the
+trigger of section 4: if the best simple rule has a higher Sharpe than both the formula and the AI-judgment allocator
+over the verdict window so far, write the REVIEW that section lists and the declared "version 2" approach (aim: the
+highest return after costs, with Sharpe and worst drawdown beside it), and say plainly that H1 is still judged on the
+frozen formula. Report the shakedown thresholds of section 8 and any defect logged under section 6.
 STEP 4 - A NEW Claude Doc (Docs guide items ["topic.instructions"] first) with the title above: 1) headline (3-4
 sentences: the result, robust or not, interim or final); 2) AI portfolio vs benchmarks, raw and volatility-matched,
 and vs the rivals incl. the AI-judgment allocator (table, cumulative chart, 2x-cost line, ideal-fill line);

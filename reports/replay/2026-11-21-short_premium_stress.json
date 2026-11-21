@@ -1,0 +1,87 @@
+{
+ "what": "short-premium option sleeves held to expiry on SPY daily history, fixed calm-market credits, stops ignored",
+ "from": "2016-01-04",
+ "to": "2026-11-19",
+ "risk_per_trade_pct_of_sleeve": 0.2,
+ "assumed_credit_share_of_width": {
+  "W1": 0.13,
+  "W2": 0.075,
+  "D2": 0.03,
+  "D3": 0.015
+ },
+ "sleeves": {
+  "W1": {
+   "trades": 1136,
+   "win_rate_pct": 89.1,
+   "avg_pct_of_risk": 5.46,
+   "avg_win_pct_of_risk": 14.89,
+   "full_max_loss_trades": 55,
+   "worst_trade_pct_of_risk": -100.0,
+   "worst_week": {
+    "iso_week": "2016-W01",
+    "sum_pct_of_risk": -200.0,
+    "pct_of_sleeve": -0.4
+   },
+   "worst_4_weeks_pct_of_sleeve": -1.08,
+   "total_pct_of_sleeve": 12.4,
+   "crash_2020_02_19_to_04_30_pct_of_sleeve": -1.15,
+   "bear_2022_01_03_to_10_14_pct_of_sleeve": -1.81
+  },
+  "W2": {
+   "trades": 1136,
+   "win_rate_pct": 87.0,
+   "avg_pct_of_risk": 5.56,
+   "avg_win_pct_of_risk": 17.45,
+   "full_max_loss_trades": 80,
+   "worst_trade_pct_of_risk": -100.0,
+   "worst_week": {
+    "iso_week": "2018-W12",
+    "sum_pct_of_risk": -200.0,
+    "pct_of_sleeve": -0.4
+   },
+   "worst_4_weeks_pct_of_sleeve": -1.17,
+   "total_pct_of_sleeve": 12.63,
+   "crash_2020_02_19_to_04_30_pct_of_sleeve": -1.94,
+   "bear_2022_01_03_to_10_14_pct_of_sleeve": -2.68
+  },
+  "D2": {
+   "trades": 2735,
+   "win_rate_pct": 96.8,
+   "avg_pct_of_risk": 1.24,
+   "avg_win_pct_of_risk": 3.09,
+   "full_max_loss_trades": 25,
+   "worst_trade_pct_of_risk": -100.0,
+   "worst_week": {
+    "iso_week": "2025-W14",
+    "sum_pct_of_risk": -331.0,
+    "pct_of_sleeve": -0.66
+   },
+   "worst_4_weeks_pct_of_sleeve": -1.45,
+   "total_pct_of_sleeve": 6.76,
+   "crash_2020_02_19_to_04_30_pct_of_sleeve": -1.7,
+   "bear_2022_01_03_to_10_14_pct_of_sleeve": -1.43
+  },
+  "D3": {
+   "trades": 2735,
+   "win_rate_pct": 97.1,
+   "avg_pct_of_risk": 0.13,
+   "avg_win_pct_of_risk": 1.52,
+   "full_max_loss_trades": 15,
+   "worst_trade_pct_of_risk": -100.0,
+   "worst_week": {
+    "iso_week": "2020-W13",
+    "sum_pct_of_risk": -325.1,
+    "pct_of_sleeve": -0.65
+   },
+   "worst_4_weeks_pct_of_sleeve": -1.24,
+   "total_pct_of_sleeve": 0.73,
+   "crash_2020_02_19_to_04_30_pct_of_sleeve": -1.45,
+   "bear_2022_01_03_to_10_14_pct_of_sleeve": -1.7
+  }
+ },
+ "combined": {
+  "worst_week": "2025-W14",
+  "worst_week_sum_pct_of_sleeve_if_all_four_equal": -0.36,
+  "worst_4_weeks_pct_if_all_four_equal": -0.86
+ }
+}

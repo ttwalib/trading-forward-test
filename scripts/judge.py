@@ -15,6 +15,7 @@ rival (weekly rebalancing, same costs). Nothing is traded.
 Rules the seal enforces (a seal that breaks one is refused, nothing is written):
   - only eligible sleeves (the list in the brief: at least 10 active days in the last 120, duplicates excluded);
   - every share between 0.02 and 0.25, shares add up to 1.00 (fully invested, no cash);
+  - the short-premium option sleeves (W1, W2, D2, D3) together at most 0.25 (allocator.GROUP_CAP, since 2026-11-21);
   - sealed while the stock market is closed, before 09:30 New York of the first trading day it applies to
     ("effective"), and only one seal per effective day;
   - bull, bear and decision texts are present (at least 40 characters each), so the reasoning is on record.
@@ -84,7 +85,8 @@ def brief(repo, now=None):
     eff = effective_day(now)
     return {"now_new_york": now.strftime("%Y-%m-%d %H:%M"), "evidence_through": cal[-1] if cal else None, "effective": eff.isoformat(),
             "market_closed_now": market_closed(now), "phase_of_effective_day": tcal.phase(eff),
-            "rules": {"min_share": LO, "max_share": HI, "sum": 1.0, "cash": "not allowed", "only_listed_sleeves": True,
+            "rules": {"min_share": LO, "max_share": HI, "sum": 1.0, "short_premium_group_max": allocator.GROUP_CAP,
+                      "short_premium_group": "W1, W2, D2, D3 together", "cash": "not allowed", "only_listed_sleeves": True,
                       "rebalancing": "weekly; changing a share costs 0% (intraday sleeves), 0.05% (daily library), 0.15% (crypto), 0.5% (options) of the amount moved"},
             "regime_last_day": regime.get(cal[-1]) if cal else None,
             "regime_last_10_days": [regime.get(d) for d in cal[-10:]],
@@ -108,6 +110,8 @@ def seal(repo, path, dry=False, now=None):
     if bad: err.append("not eligible: " + ", ".join(bad))
     if any(v < LO - 1e-9 or v > HI + 1e-9 for v in w.values()): err.append("every share must be between %.2f and %.2f" % (LO, HI))
     if abs(sum(w.values()) - 1.0) > 0.001: err.append("shares add up to %.4f, not 1.00" % sum(w.values()))
+    sp = sum(v for k, v in w.items() if k.startswith(allocator.SHORT_PREMIUM))
+    if sp > allocator.GROUP_CAP + 1e-9: err.append("the short-premium option sleeves (W1, W2, D2, D3) hold %.2f together; the limit is %.2f" % (sp, allocator.GROUP_CAP))
     for k in ("bull", "bear", "decision"):
         if len(str(D.get(k) or "").strip()) < 40: err.append("'%s' text is missing or too short" % k)
     if not market_closed(now): err.append("the stock market is open: seal only while it is closed")

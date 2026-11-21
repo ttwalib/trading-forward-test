@@ -122,8 +122,17 @@ exploratory tables, machine learning (it has its own freeze on 2027-01-29) and t
 
 The sleeves that sell option premium (W1, W2, D2, D3) can lose several times their usual gain in one bad week, and a
 calm test window flatters them. The stress test and the weight cap that follow from it are recorded in
-`reports/replay/2026-11-21-short_premium_stress.json` and in the runbook (CHANGES, item 26). The final report gives H1
-with and without these sleeves.
+`reports/replay/2026-11-21-short_premium_stress.json` and in the runbook (CHANGES, item 26).
+
+- Stress test (SPY daily history 2016 to 2026, every position held to expiry, stops ignored, calm-market credits):
+  each position risks 0.20% of its sleeve, so the worst single week cost a sleeve 0.4% to 0.7%, the worst four weeks
+  1.1% to 1.5%, the 2020 crash 1.2% to 1.9% and the 2022 bear market 1.4% to 2.7%. The losses are bounded by the
+  position size, not by luck: a spread cannot lose more than its max risk.
+- Weight cap: W1, W2, D2 and D3 together hold at most 25% of the book (`GROUP_CAP` in `allocator.py`), in the AI
+  portfolio, in every simple rival and in the AI-judgment seals. With the cap, the worst four weeks of the stress
+  test would have cost the whole book about 0.4%.
+- The interim and final reports give, next to H1, how much of the AI portfolio's return came from these four sleeves
+  (weight times sleeve return, day by day), so the reader can see H1's result without them.
 
 ## 8. Shakedown thresholds (checked weekly from 2026-12-07; a breach is reported first in the weekly report)
 

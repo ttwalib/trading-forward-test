@@ -45,3 +45,6 @@
 {"at":"2026-11-20 22:08","n":1,"name":"forest@0.45","source":"ml_y_stock"}
 {"at":"2026-11-20 22:08","n":1,"name":"forest@0.50","source":"ml_y_stock"}
 {"at":"2026-11-20 22:08","n":1,"name":"forest@0.55","source":"ml_y_stock"}
+{"at":"2026-11-21 15:36","n":1,"name":"short-premium stress test (SPY daily, held to expiry)","source":"review"}
+{"at":"2026-11-21 15:36","n":1,"name":"short-premium group cap 0.25","source":"allocator"}
+{"at":"2026-11-21 15:36","n":1,"name":"duplicate rule: 5 common active days, tolerance 0.005","source":"allocator"}
