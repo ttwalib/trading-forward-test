@@ -407,7 +407,7 @@ After the existing steps:
      renormalisation: cutting five sleeves' evidence lowered their Kelly scores, and a fully invested book hands the
      freed weight to the remaining backed sleeves. Thin history is not favoured: every sleeve's backtest counts for
      at most 20 day-equivalents however long it is, and a sleeve needs 10 active days before the formula may back
-     it. L3 has been in its drawdown breaker (weight 0) since the test began.
+     it. L3 held weight on 2026-11-16 to 11-19 and has been in its drawdown breaker (weight 0) since 2026-11-20.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)

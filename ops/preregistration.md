@@ -3,7 +3,8 @@
 This file is the dated record of what the forward test will be judged on. Everything here was written before the
 verdict window opens on 2026-12-07. The runbook (`ops/runbook.md`) holds the working detail; where the two differ on a
 judging rule, this file and the runbook section PRE-REGISTERED VERDICT are meant to agree, and a difference is a defect
-to be logged below. The commit that first holds this file is tagged `prereg-2026-11-21`.
+to be logged below. The commit that first holds this file (2e4faf8, 2026-11-21) is tagged `prereg-2026-11-21` by the
+data workflow; GitHub stores the push time.
 
 Nothing is traded. All results are simulated on real market prices. This is testing, not financial advice.
 
