@@ -6,12 +6,14 @@
 
 Library: from tcal import info, trading_days, is_trading, is_half, weekly_expiry, PHASES
 
-Test window (extended on 2026-11-19): 2026-11-16 .. 2027-02-12 for stocks/options, crypto through 2027-02-14,
-settlement-only runs for open option positions through 2027-02-19, final report 2027-02-16.
+Test window (extended to six months on 2026-11-21 by the owner, before any data in the verdict window):
+2026-11-16 .. 2027-05-14 for stocks/options, crypto through 2027-05-16, settlement-only runs for open option
+positions through 2027-05-21. INTERIM report 2027-02-16 (data to 2027-02-12, as first planned); FINAL report 2027-05-18.
 Phases: "train" 2026-11-16 .. 2027-01-29 (tuning, learning and ML training allowed);
-        "holdout" 2027-02-01 .. 2027-02-12 (FROZEN: no retuning, no challenger promotion, no new learning proposals,
-        ML models frozen as of 2027-01-29; every change made during the test is judged on these two weeks only).
-Verdict window (revised 2026-11-19, before any data in it): 2026-12-07 .. 2027-02-12. allocator.py and library.py are
+        "holdout" 2027-02-01 .. 2027-05-14 (FROZEN: no retuning, no challenger promotion, no new learning proposals,
+        ML models frozen as of 2027-01-29; every change made during the test is judged on these 73 trading days).
+Verdict window: 2026-12-07 .. 2027-05-14 (it was 2026-12-07 .. 2027-02-12 until 2026-11-21; that shorter span is now
+the interim reading). There is no further extension: the six-week extension rule of 2026-11-20 is replaced by this. allocator.py and library.py are
 frozen from 2026-12-07 (hash recorded in ops/freeze.json); the allocator sets each day's weights from data up to the day
 before, so every day from the freeze on is out-of-sample for the AI portfolio verdict. Feb 1-12 stays the holdout for
 ML models, champion/challenger tuning and strategy-lab additions.
@@ -20,13 +22,16 @@ No new stock or option trades on half days (2026-11-27, 2026-12-24); open positi
 import json, sys, datetime as dt
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
-START, END = dt.date(2026, 11, 16), dt.date(2027, 2, 12)
-CRYPTO_END, SETTLE_END = dt.date(2027, 2, 14), dt.date(2027, 2, 19)
+START, END = dt.date(2026, 11, 16), dt.date(2027, 5, 14)
+INTERIM_END = dt.date(2027, 2, 12)     # the interim report (2027-02-16) reads the verdict window up to here
+CRYPTO_END, SETTLE_END = dt.date(2027, 5, 16), dt.date(2027, 5, 21)
+FINAL_REPORT = dt.date(2027, 5, 18)
 HOLDOUT_START = dt.date(2027, 2, 1)
 V2_START = dt.date(2026, 11, 20)   # first full day of the extended setup (ledger, control list, ML, live runs)
 ALLOC_FREEZE = dt.date(2026, 12, 7)   # allocator + library code frozen from here; Dec 7 .. END is the verdict window
 VERDICT = (ALLOC_FREEZE, END)
-HOLIDAYS = {dt.date(2026, 11, 26), dt.date(2026, 12, 25), dt.date(2027, 1, 1), dt.date(2027, 1, 18), dt.date(2027, 2, 15)}
+HOLIDAYS = {dt.date(2026, 11, 26), dt.date(2026, 12, 25), dt.date(2027, 1, 1), dt.date(2027, 1, 18), dt.date(2027, 2, 15),
+            dt.date(2027, 3, 26)}      # Good Friday 2027; the next NYSE holiday, Memorial Day (May 31), is after the test
 HALF = {dt.date(2026, 11, 27): "13:00", dt.date(2026, 12, 24): "13:00"}
 PHASES = {"train": (START, dt.date(2027, 1, 29)), "holdout": (HOLDOUT_START, END)}
 
@@ -84,6 +89,7 @@ def info(d=None):
             "close_time": HALF.get(d, "16:00") if is_open(d) else None,
             "phase": phase(d), "frozen": phase(d) == "holdout",
             "allocator_frozen": d >= ALLOC_FREEZE, "verdict_window": ALLOC_FREEZE <= d <= END,
+            "interim_end": INTERIM_END.isoformat(), "test_end": END.isoformat(), "final_report": FINAL_REPORT.isoformat(),
             "weekly_expiry": exp.isoformat().replace("-", "") if exp else None, "weekly_expiry_close": last_settle.get("close"),
             "weekly_entry_day": d in ent and START <= d <= END,
             "week_entry_days": [x.isoformat() for x in ent],

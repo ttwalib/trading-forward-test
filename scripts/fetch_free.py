@@ -14,6 +14,7 @@ Sources (all free, no extra cost):
                                            corporate actions 3 years, full Cboe VIX/VIX3M
   python3 fetch_free.py tick REPO       -> every 5 minutes in market hours: intraday 5m (crypto every 15 minutes),
                                            then engine.py (sealed real-time signal detections)
+  python3 fetch_free.py pit REPO        -> one-off: point-in-time S&P 500 membership + prices incl. departed members (data/pit/)
   python3 fetch_free.py borrow REPO     -> today's stock-loan fees and shares available (also part of nightly)
   python3 fetch_free.py crypto REPO     -> crypto 15m / 1h / 1d only (scheduled every 3 hours, before each crypto-tracks run)
   python3 fetch_free.py etfs REPO       -> one-off history (2 years + archive since 2016) for the ETFs in universe.json
@@ -258,6 +259,65 @@ def borrow(repo, syms):
     except Exception as e: LOG["errors"].append("borrow file: %s" % str(e)[:120])
 
 
+def pit(repo, start="2024-01-01", end="2026-11-14"):
+    """Point-in-time S&P 500 membership and prices (free build, owner decision 2026-11-21). One-off.
+    Membership: the community file "S&P 500 Historical Components & Changes" (github.com/fja05680/sp500, compiled from
+    Wikipedia's change lists; one row per change date with every member on that date). Prices: Alpaca daily bars, fully
+    adjusted, for every symbol that was a member at any time in the window, INCLUDING the ones that later left; a
+    symbol that left is requested "as of" its last member date, so a later reuse of the ticker is not picked up.
+    Output: data/pit/sp500_members.csv.gz (the source file, unchanged), data/pit/bars_1d.csv.gz (sym,date,o,h,l,c,v),
+    data/pit/source.json (file name, last change date, symbols asked and found). Read only by library.py --pit."""
+    import gzip
+    def gh(url):
+        h = {"User-Agent": "quantavius-forward-test/1.0", "Accept": "application/vnd.github+json"}
+        if os.environ.get("GH_TOKEN") and "api.github.com" in url: h["Authorization"] = "Bearer " + os.environ["GH_TOKEN"]
+        with urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=60) as r: return r.read()
+    files = [f for f in json.loads(gh("https://api.github.com/repos/fja05680/sp500/contents/"))
+             if f["name"].lower().endswith(".csv") and "historical components" in f["name"].lower()]
+    def fdate(f):
+        import re
+        m = re.search(r"(\d{2})-(\d{2})-(\d{4})", f["name"]); return (m.group(3), m.group(1), m.group(2)) if m else ("0", "0", "0")
+    f = sorted(files, key=fdate)[-1]; raw = gh(f["download_url"])
+    out = os.path.join(repo, "data", "pit"); os.makedirs(out, exist_ok=True)
+    with gzip.open(os.path.join(out, "sp500_members.csv.gz"), "wb") as fh: fh.write(raw)
+    rows = [(r[0], [t.strip() for t in r[1].split(",") if t.strip()]) for r in list(csv.reader(io.StringIO(raw.decode("utf-8"))))[1:] if len(r) >= 2]
+    rows.sort(); last_change = rows[-1][0]
+    seen = {}; prev = None
+    for d, ts in rows:
+        if d < start: prev = (d, ts); continue
+        if prev: 
+            for t in prev[1]: seen.setdefault(t, [start, start])
+            prev = None
+        for t in ts: seen.setdefault(t, [d, d])[1] = d
+    if prev:
+        for t in prev[1]: seen.setdefault(t, [start, start])
+    current = set(rows[-1][1]); gone = sorted(t for t in seen if t not in current); cur = sorted(current)
+    S0 = dt.datetime.fromisoformat(start).replace(tzinfo=UTC); E0 = dt.datetime.fromisoformat(end).replace(tzinfo=UTC)
+    base = {"timeframe": "1Day", "start": iso(S0), "end": iso(E0), "limit": 10000, "adjustment": "all", "feed": "sip", "sort": "asc"}
+    got = {}
+    for i in range(0, len(cur), 25):
+        try: got.update(paged(DATA + "/v2/stocks/bars", dict(base, symbols=",".join(cur[i:i + 25])), "bars"))
+        except Exception as e: LOG["errors"].append("pit bars %s: %s" % (cur[i], str(e)[:120]))
+        time.sleep(0.4)
+    for t in gone:
+        try:
+            g = paged(DATA + "/v2/stocks/bars", dict(base, symbols=t, asof=seen[t][1]), "bars")
+            if g: got[t] = next(iter(g.values()))
+        except Exception as e: LOG["errors"].append("pit bars %s: %s" % (t, str(e)[:120]))
+        time.sleep(0.35)
+    n = 0
+    with gzip.open(os.path.join(out, "bars_1d.csv.gz"), "wt") as fh:
+        fh.write("sym,date,o,h,l,c,v\n")
+        for sym in sorted(got):
+            for r in got[sym]:
+                fh.write("%s,%s,%s,%s,%s,%s,%d\n" % (sym, r["t"][:10], r["o"], r["h"], r["l"], r["c"], int(r.get("v") or 0))); n += 1
+    json.dump({"fetched": now().isoformat(timespec="seconds"), "source": "github.com/fja05680/sp500", "file": f["name"], "file_sha": f.get("sha"),
+               "last_change_date": last_change, "window": [start, end], "members_ever_in_window": len(seen), "current": len(cur),
+               "left_in_window": gone, "symbols_with_bars": len(got), "symbols_without_bars": sorted(t for t in seen if t not in got),
+               "bars": n, "prices": "Alpaca SIP daily, adjustment=all"}, open(os.path.join(out, "source.json"), "w"), indent=1)
+    LOG["pit"] = {"symbols": len(got), "bars": n, "missing": len(seen) - len(got)}
+
+
 def main():
     T0 = time.time()
     mode, repo = sys.argv[1], sys.argv[2]
@@ -285,6 +345,8 @@ def main():
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
         borrow(repo, univ + etfs)
+    elif mode == "pit":
+        pit(repo)
     elif mode == "borrow":
         borrow(repo, univ + etfs)
     elif mode == "hist":

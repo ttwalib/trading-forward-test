@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | vendor"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | vendor | pit"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -42,7 +42,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly;
           elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto;
           elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto; else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|vendor) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|vendor|pit) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -71,6 +71,7 @@ jobs:
         if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'vendor'
         env:
           QV_ENGINE_NEW: /tmp/engine_new.json
+          GH_TOKEN: ${{ github.token }}
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
           ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
         run: |
@@ -100,7 +101,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/corp data/borrow data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then
             for p in data/decisions/crypto.jsonl models/crypto.pkl models/crypto_report_*.json; do if [ -e "$p" ]; then git add "$p"; fi; done
