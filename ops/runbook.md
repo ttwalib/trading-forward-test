@@ -349,6 +349,9 @@ After the existing steps:
      hindsight. DECISION: the stand-in is NOT used as the backtest record (it would raise the priors on a universe
      the live test does not trade). The allocator's priors are unchanged, and the 25% haircut for L6, L7, L8, L10,
      L15 stays; result A supports it. A true S&P 100 history (paid, about $30) would be needed to replace the priors.
+  22. AUDIT CHECKLIST (owner decision 2026-11-21): ops/audit_checklist.md, adapted from an open-source checklist
+     (github.com/Kryhr/26-quant-trading-skills, MIT) after a review of its files (text only, no code, no outside
+     links). The independent audit of 2026-12-01 runs it step by step and records the actual result of every check.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
@@ -360,6 +363,8 @@ After the existing steps:
   1st - independent audit"): look-ahead and data-snooping review of allocator.py, library.py, fills.py, corp.py,
   decisions.py, ml.py, stats.py and engine.py; a re-run of the nightly chain on a copy; a freeze rehearsal (hashes of
   the frozen files, twice, must match); report in reports/audit/2026-12-01.md. It changes no code.
+  Since 2026-11-21 it also works through ops/audit_checklist.md (look-ahead tests by truncation and by corrupting
+  future data, fill feasibility, the AI-judgment seals, trial count, protocol, reproducibility).
 - 2026-12-07: allocator.py records the hashes in ops/freeze.json on its first run. Never edit that file.
 
 ## LEARNING + STRATEGY LAB
