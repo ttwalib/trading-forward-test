@@ -389,7 +389,7 @@ After the existing steps:
      that a simple rule wins, the defect protocol and the shakedown thresholds; tagged prereg-2026-11-21. The freeze
      list grew from 4 to 17 scripts. Checks: parity now has tolerances (item above, ORCHESTRATOR 1c); checks.py
      leaktest plants a look-ahead leak and must see parity fail; checks.py replay-day re-runs the baseline rules on
-     one random past day against the ledger every night (data/quality/replay_day.jsonl; nightly step "replay_day");
+     one random past day against the ledger every night (nightly step "replay_day"; result in data/nightly/checks.json);
      scripts/no_orders.py and the no-orders workflow fail the build if an order-related call appears in the repo.
      First replay-day results: 2026-11-19 and 2026-11-20 identical; 2026-11-17 one difference (MARA: the ledger has a
      stopped trade, the stored bars give none; the ledger row came from IBKR bars before the feed existed).
