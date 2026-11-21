@@ -277,7 +277,8 @@ def pit(repo, start="2024-01-01", end="2026-11-14"):
     def fdate(f):
         import re
         m = re.search(r"(\d{2})-(\d{2})-(\d{4})", f["name"]); return (m.group(3), m.group(1), m.group(2)) if m else ("0", "0", "0")
-    f = sorted(files, key=fdate)[-1]; raw = gh(f["download_url"])
+    upd = [x for x in files if "updated" in x["name"].lower()]       # the maintained file; the undated one stops in 2019
+    f = upd[0] if upd else sorted(files, key=fdate)[-1]; raw = gh(f["download_url"])
     out = os.path.join(repo, "data", "pit"); os.makedirs(out, exist_ok=True)
     with gzip.open(os.path.join(out, "sp500_members.csv.gz"), "wb") as fh: fh.write(raw)
     rows = [(r[0], [t.strip() for t in r[1].split(",") if t.strip()]) for r in list(csv.reader(io.StringIO(raw.decode("utf-8"))))[1:] if len(r) >= 2]
