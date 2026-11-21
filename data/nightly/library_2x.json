@@ -34,7 +34,7 @@
   },
   "L11 SPY overnight": {
    "backtest_avg_pct_2x": -0.002,
-   "forward_avg_pct_2x": 0.104
+   "forward_avg_pct_2x": 0.105
   },
   "L12 Turn of month": {
    "backtest_avg_pct_2x": 0.489,
@@ -50,7 +50,7 @@
   },
   "L1 SPY intraday momentum": {
    "backtest_avg_pct_2x": -0.074,
-   "forward_avg_pct_2x": -0.193
+   "forward_avg_pct_2x": -0.205
   },
   "L2 VWAP pullback": {
    "backtest_avg_pct_2x": -0.455,
