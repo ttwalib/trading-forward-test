@@ -1,256 +1,1183 @@
 {
  "errors": [],
  "files": {
-  "opt5m/OPT_932563002": {
-   "added": 78,
+  "15m/LINK": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 9044,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932563146": {
-   "added": 78,
+  "15m/SHIB": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 9041,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932585091": {
-   "added": 74,
+  "15m/SOL": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 74,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 9043,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932585256": {
-   "added": 57,
-   "vol_filled": 0,
+  "15m/AVAX": {
+   "added": 2,
+   "vol_filled": 2,
    "coarse_fixed": 0,
-   "total": 57,
-   "last": "2026-11-20T20:50:00Z"
+   "total": 9042,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932593134": {
-   "added": 78,
+  "15m/BTC": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 9044,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932630022": {
-   "added": 77,
+  "15m/DOGE": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 77,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 9039,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932655505": {
-   "added": 76,
+  "15m/ETH": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 76,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 9022,
+   "last": "2026-11-21T19:00:00Z"
   },
-  "opt5m/OPT_932655593": {
-   "added": 72,
+  "1h/AVAX": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 72,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_932655647": {
-   "added": 77,
+  "1h/BTC": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 77,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_932667655": {
-   "added": 42,
+  "1h/DOGE": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 42,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_932667680": {
-   "added": 74,
+  "1h/ETH": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 74,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_932667700": {
-   "added": 57,
+  "1h/LINK": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 57,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_933015400": {
-   "added": 78,
+  "1h/SHIB": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_933037522": {
-   "added": 47,
+  "1h/SOL": {
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 47,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 8835,
+   "last": "2026-11-21T18:00:00Z"
   },
-  "opt5m/OPT_942175425": {
-   "added": 78,
+  "1d/BTC": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   },
-  "opt5m/OPT_942175497": {
-   "added": 78,
+  "1d/DOGE": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   },
-  "opt5m/OPT_943201503": {
-   "added": 78,
+  "1d/ETH": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   },
-  "opt5m/OPT_943209792": {
-   "added": 73,
+  "1d/LINK": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 73,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   },
-  "opt5m/OPT_943209874": {
-   "added": 71,
+  "1d/SHIB": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 71,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   },
-  "opt5m/OPT_943217242": {
-   "added": 74,
+  "1d/SOL": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 74,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   },
-  "opt5m/OPT_943217287": {
-   "added": 68,
+  "1d/AVAX": {
+   "added": 0,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 68,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_943241037": {
-   "added": 44,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 44,
-   "last": "2026-11-20T20:50:00Z"
-  },
-  "opt5m/OPT_943252956": {
-   "added": 49,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 49,
-   "last": "2026-11-20T20:50:00Z"
-  },
-  "opt5m/OPT_943285980": {
-   "added": 74,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 74,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_943286622": {
-   "added": 61,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 61,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_943797359": {
-   "added": 39,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 39,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_943798932": {
-   "added": 23,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 23,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_943823008": {
-   "added": 64,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 64,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_943823447": {
-   "added": 26,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 26,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_945316414": {
-   "added": 52,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 52,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_945316480": {
-   "added": 36,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 36,
-   "last": "2026-11-20T20:40:00Z"
-  },
-  "opt5m/OPT_946775029": {
-   "added": 35,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 35,
-   "last": "2026-11-20T20:55:00Z"
-  },
-  "opt5m/OPT_947572977": {
-   "added": 41,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 41,
-   "last": "2026-11-20T20:40:00Z"
-  },
-  "opt5m/OPT_947620477": {
-   "added": 78,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 78,
-   "last": "2026-11-20T20:55:00Z"
+   "total": 741,
+   "last": "2026-11-20T12:00:00Z"
   }
  },
- "mismatch": [],
- "mismatch_count": {},
- "mode": "optbars",
- "started": "2026-11-21T18:28:32Z",
- "optbars": {
-  "legs": 48,
-  "fetched": 34,
-  "bars": 2107,
-  "no_bars": [],
-  "errors": [],
-  "at": "2026-11-21T18:28:33Z"
+ "mismatch": [
+  {
+   "tf": "15m",
+   "sym": "LINK",
+   "t": 1795246200,
+   "stored": 8.37,
+   "alpaca": 8.3373
+  },
+  {
+   "tf": "15m",
+   "sym": "LINK",
+   "t": 1795250700,
+   "stored": 8.316,
+   "alpaca": 8.29312
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795246200,
+   "stored": 3.41e-06,
+   "alpaca": 3.51e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795247100,
+   "stored": 3.41e-06,
+   "alpaca": 3.495e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795248000,
+   "stored": 3.41e-06,
+   "alpaca": 3.495e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795248900,
+   "stored": 3.41e-06,
+   "alpaca": 3.475e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795249800,
+   "stored": 3.41e-06,
+   "alpaca": 3.465e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795250700,
+   "stored": 3.41e-06,
+   "alpaca": 3.475e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795251600,
+   "stored": 3.41e-06,
+   "alpaca": 3.485e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795252500,
+   "stored": 3.41e-06,
+   "alpaca": 3.505e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795253400,
+   "stored": 3.41e-06,
+   "alpaca": 3.515e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795256100,
+   "stored": 3.5e-06,
+   "alpaca": 3.49e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795257000,
+   "stored": 3.5e-06,
+   "alpaca": 3.49e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795257900,
+   "stored": 3.5e-06,
+   "alpaca": 3.485e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795258800,
+   "stored": 3.5e-06,
+   "alpaca": 3.51e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795260600,
+   "stored": 3.55e-06,
+   "alpaca": 3.53e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795261500,
+   "stored": 3.52e-06,
+   "alpaca": 3.535e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795263300,
+   "stored": 3.54e-06,
+   "alpaca": 3.55e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795264200,
+   "stored": 3.54e-06,
+   "alpaca": 3.55e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795266900,
+   "stored": 3.54e-06,
+   "alpaca": 3.575e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795267800,
+   "stored": 3.54e-06,
+   "alpaca": 3.61e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795269600,
+   "stored": 3.63e-06,
+   "alpaca": 3.61e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795271400,
+   "stored": 3.61e-06,
+   "alpaca": 3.63e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795272300,
+   "stored": 3.62e-06,
+   "alpaca": 3.63e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795273200,
+   "stored": 3.62e-06,
+   "alpaca": 3.64e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795275000,
+   "stored": 3.63e-06,
+   "alpaca": 3.645e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795276800,
+   "stored": 3.63e-06,
+   "alpaca": 3.615e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795280400,
+   "stored": 3.63e-06,
+   "alpaca": 3.62e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795282200,
+   "stored": 3.63e-06,
+   "alpaca": 3.62e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795283100,
+   "stored": 3.63e-06,
+   "alpaca": 3.615e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "SHIB",
+   "t": 1795284900,
+   "stored": 3.62e-06,
+   "alpaca": 3.61e-06
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795246200,
+   "stored": 6.32,
+   "alpaca": 6.2856
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795247100,
+   "stored": 6.32,
+   "alpaca": 6.265435
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795248000,
+   "stored": 6.32,
+   "alpaca": 6.282
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795248900,
+   "stored": 6.32,
+   "alpaca": 6.26265
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795249800,
+   "stored": 6.32,
+   "alpaca": 6.264605
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795250700,
+   "stored": 6.32,
+   "alpaca": 6.28563
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795252500,
+   "stored": 6.32,
+   "alpaca": 6.37225
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795253400,
+   "stored": 6.32,
+   "alpaca": 6.379805
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795257000,
+   "stored": 6.39,
+   "alpaca": 6.37318
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795257900,
+   "stored": 6.39,
+   "alpaca": 6.36942
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795260600,
+   "stored": 6.39,
+   "alpaca": 6.4295
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795261500,
+   "stored": 6.39,
+   "alpaca": 6.430885
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795262400,
+   "stored": 6.44,
+   "alpaca": 6.46
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795263300,
+   "stored": 6.44,
+   "alpaca": 6.47395
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795264200,
+   "stored": 6.44,
+   "alpaca": 6.51342
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795266900,
+   "stored": 6.44,
+   "alpaca": 6.55225
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795267800,
+   "stored": 6.44,
+   "alpaca": 6.6353
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795268700,
+   "stored": 6.44,
+   "alpaca": 6.662835
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795269600,
+   "stored": 6.44,
+   "alpaca": 6.631585
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795270500,
+   "stored": 6.44,
+   "alpaca": 6.6346
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795273200,
+   "stored": 6.63,
+   "alpaca": 6.6558
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795275000,
+   "stored": 6.62,
+   "alpaca": 6.63948
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795276800,
+   "stored": 6.62,
+   "alpaca": 6.60305
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795281300,
+   "stored": 6.61,
+   "alpaca": 6.6392
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795282200,
+   "stored": 6.61,
+   "alpaca": 6.625745
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795285800,
+   "stored": 6.64,
+   "alpaca": 6.62351
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795246200,
+   "stored": 0.05328,
+   "alpaca": 0.0531444
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795247100,
+   "stored": 0.05292,
+   "alpaca": 0.05279345
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795248900,
+   "stored": 0.05272,
+   "alpaca": 0.052556
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795249800,
+   "stored": 0.0525,
+   "alpaca": 0.05267
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795250700,
+   "stored": 0.0525,
+   "alpaca": 0.0526834
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795251600,
+   "stored": 0.0525,
+   "alpaca": 0.05287515
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795252500,
+   "stored": 0.0525,
+   "alpaca": 0.0531316
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795253400,
+   "stored": 0.053,
+   "alpaca": 0.053158
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795257900,
+   "stored": 0.05313,
+   "alpaca": 0.0529775
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795263300,
+   "stored": 0.05374,
+   "alpaca": 0.05393525
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795268700,
+   "stored": 0.05507,
+   "alpaca": 0.05524805
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795269600,
+   "stored": 0.05494,
+   "alpaca": 0.05505015
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795270500,
+   "stored": 0.05506,
+   "alpaca": 0.0551864
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795271400,
+   "stored": 0.05504,
+   "alpaca": 0.055248
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795273200,
+   "stored": 0.05527,
+   "alpaca": 0.05554
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795275000,
+   "stored": 0.05502,
+   "alpaca": 0.05529605
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795276800,
+   "stored": 0.05488,
+   "alpaca": 0.05501725
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795281300,
+   "stored": 0.05515,
+   "alpaca": 0.05529
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795125600,
+   "stored": 6.9,
+   "alpaca": 6.977335
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795129200,
+   "stored": 6.9,
+   "alpaca": 6.987
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795136400,
+   "stored": 6.96,
+   "alpaca": 6.88745
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795140000,
+   "stored": 6.86,
+   "alpaca": 6.932
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795143600,
+   "stored": 6.86,
+   "alpaca": 6.9
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795147200,
+   "stored": 6.81,
+   "alpaca": 6.830375
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795150800,
+   "stored": 6.88,
+   "alpaca": 6.91563
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795154400,
+   "stored": 6.88,
+   "alpaca": 6.91385
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795158000,
+   "stored": 6.88,
+   "alpaca": 6.9057
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795161600,
+   "stored": 6.9,
+   "alpaca": 6.8855
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795172400,
+   "stored": 6.91,
+   "alpaca": 6.86
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795183200,
+   "stored": 6.81,
+   "alpaca": 6.78328
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795186800,
+   "stored": 6.46,
+   "alpaca": 6.48761
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795190400,
+   "stored": 6.52,
+   "alpaca": 6.55275
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795197600,
+   "stored": 6.56,
+   "alpaca": 6.52265
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795201200,
+   "stored": 6.5,
+   "alpaca": 6.480535
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795204800,
+   "stored": 6.41,
+   "alpaca": 6.44365
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795212000,
+   "stored": 6.55,
+   "alpaca": 6.58125
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795215600,
+   "stored": 6.55,
+   "alpaca": 6.509075
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795219200,
+   "stored": 6.55,
+   "alpaca": 6.50805
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795222800,
+   "stored": 6.47,
+   "alpaca": 6.495345
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795226400,
+   "stored": 6.46,
+   "alpaca": 6.434865
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795230000,
+   "stored": 6.27,
+   "alpaca": 6.189725
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795233600,
+   "stored": 6.2,
+   "alpaca": 6.17169
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795237200,
+   "stored": 6.13,
+   "alpaca": 6.09135
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795244400,
+   "stored": 6.32,
+   "alpaca": 6.265435
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795248000,
+   "stored": 6.32,
+   "alpaca": 6.28563
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795255200,
+   "stored": 6.39,
+   "alpaca": 6.36942
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795258800,
+   "stored": 6.39,
+   "alpaca": 6.430885
+  },
+  {
+   "tf": "1h",
+   "sym": "AVAX",
+   "t": 1795266000,
+   "stored": 6.44,
+   "alpaca": 6.662835
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795132800,
+   "stored": 0.05822,
+   "alpaca": 0.0580494
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795140000,
+   "stored": 0.0569,
+   "alpaca": 0.0576599
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795150800,
+   "stored": 0.05715,
+   "alpaca": 0.05757695
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795154400,
+   "stored": 0.0575,
+   "alpaca": 0.0576639
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795161600,
+   "stored": 0.05747,
+   "alpaca": 0.0572675
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795168800,
+   "stored": 0.05703,
+   "alpaca": 0.057252
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795183200,
+   "stored": 0.05606,
+   "alpaca": 0.0563205
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795186800,
+   "stored": 0.05389,
+   "alpaca": 0.0537685
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795212000,
+   "stored": 0.05422,
+   "alpaca": 0.05445695
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795244400,
+   "stored": 0.05292,
+   "alpaca": 0.05279345
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795248000,
+   "stored": 0.0525,
+   "alpaca": 0.0526834
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795255200,
+   "stored": 0.05313,
+   "alpaca": 0.0529775
+  },
+  {
+   "tf": "1h",
+   "sym": "DOGE",
+   "t": 1795266000,
+   "stored": 0.05507,
+   "alpaca": 0.05524805
+  },
+  {
+   "tf": "1h",
+   "sym": "LINK",
+   "t": 1795140000,
+   "stored": 8.893,
+   "alpaca": 8.91625
+  },
+  {
+   "tf": "1h",
+   "sym": "LINK",
+   "t": 1795150800,
+   "stored": 8.876,
+   "alpaca": 8.8955
+  },
+  {
+   "tf": "1h",
+   "sym": "LINK",
+   "t": 1795248000,
+   "stored": 8.316,
+   "alpaca": 8.29312
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795125600,
+   "stored": 3.8e-06,
+   "alpaca": 3.78e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795132800,
+   "stored": 3.77e-06,
+   "alpaca": 3.785e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795143600,
+   "stored": 3.73e-06,
+   "alpaca": 3.74e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795147200,
+   "stored": 3.73e-06,
+   "alpaca": 3.715e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795150800,
+   "stored": 3.71e-06,
+   "alpaca": 3.76e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795161600,
+   "stored": 3.74e-06,
+   "alpaca": 3.72e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795165200,
+   "stored": 3.74e-06,
+   "alpaca": 3.71e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795168800,
+   "stored": 3.71e-06,
+   "alpaca": 3.72e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795172400,
+   "stored": 3.68e-06,
+   "alpaca": 3.695e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795176000,
+   "stored": 3.69e-06,
+   "alpaca": 3.675e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795183200,
+   "stored": 3.65e-06,
+   "alpaca": 3.68e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795190400,
+   "stored": 3.54e-06,
+   "alpaca": 3.53e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795194000,
+   "stored": 3.52e-06,
+   "alpaca": 3.53e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795215600,
+   "stored": 3.59e-06,
+   "alpaca": 3.58e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795237200,
+   "stored": 3.41e-06,
+   "alpaca": 3.4e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795244400,
+   "stored": 3.41e-06,
+   "alpaca": 3.495e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795248000,
+   "stored": 3.41e-06,
+   "alpaca": 3.475e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795255200,
+   "stored": 3.5e-06,
+   "alpaca": 3.485e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795258800,
+   "stored": 3.52e-06,
+   "alpaca": 3.535e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795269600,
+   "stored": 3.62e-06,
+   "alpaca": 3.63e-06
+  },
+  {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795280400,
+   "stored": 3.63e-06,
+   "alpaca": 3.615e-06
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1794916800,
+   "stored": 62539.25,
+   "alpaca": 64878.25
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1795003200,
+   "stored": 62054.0,
+   "alpaca": 62983.1135
+  },
+  {
+   "tf": "1d",
+   "sym": "BTC",
+   "t": 1795089600,
+   "stored": 58344.25,
+   "alpaca": 61911.288
+  }
+ ],
+ "mismatch_count": {
+  "15m/LINK": 2,
+  "15m/SHIB": 29,
+  "15m/AVAX": 26,
+  "15m/DOGE": 18,
+  "1h/AVAX": 30,
+  "1h/DOGE": 13,
+  "1h/LINK": 3,
+  "1h/SHIB": 21,
+  "1d/BTC": 3
  },
- "finished": "2026-11-21T18:28:33Z"
+ "mode": "crypto",
+ "started": "2026-11-21T19:22:46Z",
+ "finished": "2026-11-21T19:22:47Z"
 }
