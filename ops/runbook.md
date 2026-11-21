@@ -352,6 +352,17 @@ After the existing steps:
   22. AUDIT CHECKLIST (owner decision 2026-11-21): ops/audit_checklist.md, adapted from an open-source checklist
      (github.com/Kryhr/26-quant-trading-skills, MIT) after a review of its files (text only, no code, no outside
      links). The independent audit of 2026-12-01 runs it step by step and records the actual result of every check.
+  23. FIX (check-in of 2026-11-21, from the live-vs-replay parity check of 2026-11-20): the 10:05 live run's features
+     differed from the nightly replay on 16 of 23 candidates (opening-range volume about half, entry a few cents
+     off). Cause: in the task's own copy, store.py let IBKR bars overwrite the free feed's stored 5-minute bars, so
+     the live features came from IBKR bars while the replay and the ML training use the feed's bars. store.py now
+     follows the feed's merge rule for intraday bars (a stored bar keeps its prices and volume; only missing bars
+     are added, zero volumes filled); daily bars are still overwritten (corporate-action adjustments). No effect on
+     any decision so far: the stock ML champion is "always take", so no prediction used these features. Still open
+     for the audit: (a) the 5-minute engine computes the opening-range volume at 09:50-10:00 while the newest
+     opening-range bar may still carry IEX-only volume (engine 1.09 vs replay 1.50 for AMZN on 2026-11-20); (b) the
+     replay recomputes the prior day's crypto_score from today's crypto bars (16.4) where the live run read the
+     stored regime row (17.5).
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
