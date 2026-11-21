@@ -149,6 +149,45 @@ def stock_bars(repo, syms, tf, start, end):
                                   if dt.datetime.fromtimestamp(b["t"], UTC).date() < today or done])
 
 
+def option_bars(repo):
+    """5-minute bars of every registered option leg (data/opt_legs.json, scripts/optlegs.py) into
+    data/bars/opt5m/OPT_<cid>.jsonl. Alpaca historical option bars: trades from OPRA, at least 15 minutes old on the
+    free plan. A leg is marked final once it has been fetched after its expiry day."""
+    p = os.path.join(repo, "data", "opt_legs.json")
+    if not os.path.exists(p): return
+    reg = json.load(open(p)); end = now() - dt.timedelta(minutes=16); todo = {}
+    for cid, v in reg.items():
+        if v.get("final"): continue
+        lt = last_t(repo, "opt5m", "OPT_" + cid)
+        frm = dt.datetime.fromisoformat(v["from"]).replace(tzinfo=NY, hour=9, minute=30)
+        start = max(frm, dt.datetime.fromtimestamp(lt + 300, UTC)) if lt else frm
+        todo[v["occ"]] = (cid, start)
+    by = {}; res = {"legs": len(reg), "fetched": 0, "bars": 0, "no_bars": [], "errors": []}
+    for o, (cid, start) in todo.items(): by.setdefault(start.astimezone(UTC).strftime("%Y-%m-%d"), []).append(o)
+    got = {}; failed = set()
+    for day, syms in sorted(by.items()):
+        for i in range(0, len(syms), 50):
+            chunk = syms[i:i + 50]
+            try:
+                got.update(paged(DATA + "/v1beta1/options/bars", {"symbols": ",".join(chunk), "timeframe": "5Min",
+                                 "start": day + "T00:00:00Z", "end": iso(end), "limit": 10000, "sort": "asc"}, "bars"))
+            except Exception as e:
+                res["errors"].append("%s.. from %s: %s" % (chunk[0], day, e)); LOG["errors"].append("optbars %s: %s" % (chunk[0], e))
+                failed.update(chunk)
+    cut = int(end.timestamp()); today = dt.datetime.now(NY).strftime("%Y%m%d")
+    for o, (cid, start) in todo.items():
+        if o in failed: continue                     # request failed: keep the leg open for the next run
+        rows = got.get(o, []); b = conv(rows, "opt5m", closed_before=cut, step=300, filt=rth)
+        if b: merge(repo, "opt5m", "OPT_" + cid, b); res["bars"] += len(b)
+        else: res["no_bars"].append(o)
+        res["fetched"] += 1
+        if reg[cid]["expiry"] < today: reg[cid]["final"] = True
+    with open(p, "w") as f: json.dump(reg, f, indent=0, sort_keys=True); f.write("\n")
+    res["at"] = iso(now()); LOG["optbars"] = res
+    d = os.path.join(repo, "ops", "diag"); os.makedirs(d, exist_ok=True)
+    with open(os.path.join(d, "optbars.json"), "w") as f: json.dump(res, f, indent=1); f.write("\n")
+
+
 def crypto_bars(repo, tf, start):
     tfa = {"15m": "15Min", "1h": "1Hour", "1d": "1Day"}[tf]; step = {"15m": 900, "1h": 3600, "1d": 86400}[tf]
     try:
@@ -345,7 +384,9 @@ def main():
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
-        borrow(repo, univ + etfs)
+        borrow(repo, univ + etfs); option_bars(repo)
+    elif mode == "optbars":       # requested by the deep OTM + weekly options task (ops/fetch_request.json)
+        option_bars(repo)
     elif mode == "pit":
         pit(repo)
     elif mode == "borrow":
