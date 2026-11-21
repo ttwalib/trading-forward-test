@@ -1,11 +1,11 @@
-# Quantavius the 1st - freeze guard (added 2026-11-20). From the change freeze (2026-12-07) the four result-defining
+# Quantavius the 1st - freeze guard (added 2026-11-20). From the change freeze (2026-12-07) the result-defining
 # scripts must stay byte-identical to the hashes in ops/freeze.json. Any push that touches them, or the hash file
 # itself, is checked here; a mismatch fails the run and opens an issue, so a silent change cannot go unnoticed.
 # Read-only: this workflow changes nothing in the repo.
 name: freeze-guard
 on:
   push:
-    paths: ["scripts/allocator.py", "scripts/library.py", "scripts/corp.py", "scripts/fills.py", "ops/freeze.json"]
+    paths: ["scripts/allocator.py", "scripts/library.py", "scripts/corp.py", "scripts/fills.py", "scripts/tcal.py", "scripts/judge.py", "scripts/ledger.py", "scripts/weekly_opts.py", "scripts/deep_otm.py", "scripts/options_sim.py", "scripts/fees.py", "scripts/crypto_tracks.py", "scripts/orb_daily.py", "scripts/orb_variants.py", "scripts/orb_adaptive.py", "scripts/agent_score.py", "scripts/smart_opt.py", "ops/freeze.json"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,7 +24,7 @@ jobs:
         run: |
           python3 - <<'PY' > /tmp/guard.txt || true
           import hashlib, json, os, subprocess
-          F = ["allocator.py", "library.py", "corp.py", "fills.py"]
+          F = ["allocator.py", "library.py", "corp.py", "fills.py", "tcal.py", "judge.py", "ledger.py", "weekly_opts.py", "deep_otm.py", "options_sim.py", "fees.py", "crypto_tracks.py", "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py"]
           msg = []
           if os.path.exists("ops/freeze.json"):
               rec = json.load(open("ops/freeze.json"))["sha256"]

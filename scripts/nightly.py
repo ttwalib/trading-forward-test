@@ -64,7 +64,8 @@ def main():
         if not r["ok"] and name in ("library", "allocator"): break       # later steps would read stale inputs
     if all(s["ok"] for s in stamp["steps"]):
         ck = {}
-        for name, args in (("engine_report", ["engine-report", repo]), ("slip_report", ["slip-report", repo]), ("health", ["health", repo])):
+        for name, args in (("engine_report", ["engine-report", repo]), ("slip_report", ["slip-report", repo]), ("health", ["health", repo]),
+                           ("replay_day", ["replay-day", repo])):      # random past day re-run against the ledger (2026-11-21)
             tmp = os.path.join(N, "_tmp.json"); r = step(name, [S("checks.py")] + args, tmp, 300); stamp["steps"].append(r)
             if r["ok"]: ck[name] = json.load(open(tmp)); os.remove(tmp)
         json.dump(ck, open(os.path.join(N, "checks.json"), "w"), indent=1)

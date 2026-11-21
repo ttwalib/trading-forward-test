@@ -131,34 +131,104 @@ def live_save(repo, path, now):
     return {"saved": len(rows)}
 
 
-def parity(repo, day):
+FEAT_TOL, FEAT_SHARE, ENTRY_TOL = 0.02, 0.10, 0.003
+
+
+def parity(repo, day, replay=None, save=True):
+    """Live candidates (saved before the outcome was known) against the end-of-day replay of the same day.
+
+    Since 2026-11-21 the flags come in two kinds, so that a routine day raises none and every flag needs action:
+    OUTCOME flags (always a failure): a candidate seen live that the replay does not have, a replay candidate that no
+    live run saw while it could have, or an entry price more than 0.3% apart. FEATURE flags: a feature that differs by
+    more than 2% (0.02 for values near zero) between the live row and the replay. A few of those are data revisions
+    (late-reported volume); the day fails only when more than 10% of the compared candidates carry one, which is what
+    a look-ahead leak would produce (checks.py leaktest plants one to prove it)."""
     import decisions
     live = jl(os.path.join(repo, "data", "decisions", "live", day + ".jsonl"))
     if not live: return {"day": day, "status": "no live candidates saved"}
     first = {}
     for r in live: first.setdefault((r["symbol"], r["trade"]["entry_time"]), r)
-    replay = decisions.candidates(repo, day, "16:00")
+    replay = decisions.candidates(repo, day, "16:00") if replay is None else replay
     rp = {(r["symbol"], r["trade"]["entry_time"]): r for r in replay}
-    issues = []; feat_moved = 0; compared = 0
+    outcome = []; feature = []; compared = 0
     for k, r in first.items():
         q = rp.get(k)
-        if q is None: issues.append("%s %s seen live, missing in replay" % k); continue
+        if q is None: outcome.append("%s %s seen live, missing in replay" % k); continue
         compared += 1
-        if abs(q["trade"]["entry"] / r["trade"]["entry"] - 1) > 0.001: issues.append("%s %s entry live %.4f vs replay %.4f" % (k + (r["trade"]["entry"], q["trade"]["entry"])))
+        if abs(q["trade"]["entry"] / r["trade"]["entry"] - 1) > ENTRY_TOL: outcome.append("%s %s entry live %.4f vs replay %.4f" % (k + (r["trade"]["entry"], q["trade"]["entry"])))
         moved = [f for f, v in r.get("x", {}).items() if isinstance(v, (int, float)) and isinstance(q["x"].get(f), (int, float))
-                 and abs(v - q["x"][f]) > 1e-3 * max(1.0, abs(v))]
-        if moved: feat_moved += 1; issues.append("%s %s features changed after the fact: %s" % (k + (",".join(moved[:6]),)))
+                 and abs(v - q["x"][f]) > FEAT_TOL * max(1.0, abs(v))]
+        if moved: feature.append("%s %s features changed after the fact: %s" % (k + (",".join(moved[:6]),)))
     # signals the replay finds that no live run saw while it could have (entries up to 15:00; the 15:05 run is the last)
     late = [k for k, q in rp.items() if k not in first and q["trade"]["entry_time"] <= "15:00"]
-    for k in late: issues.append("%s %s in replay but never seen live" % k)
+    for k in late: outcome.append("%s %s in replay but never seen live" % k)
     rr = [q["y"].get("y_stock") for k, q in rp.items() if q["y"].get("y_stock") is not None]
     lr = [rp[k]["y"].get("y_stock") for k in first if k in rp and rp[k]["y"].get("y_stock") is not None]
-    res = {"day": day, "live": len(first), "replay": len(rp), "compared": compared, "features_moved": feat_moved,
+    share = round(len(feature) / compared, 3) if compared else 0.0
+    res = {"day": day, "live": len(first), "replay": len(rp), "compared": compared, "outcome_flags": len(outcome),
+           "features_moved": len(feature), "feature_share": share,
            "replay_only": len(late), "mean_r_replay": round(sum(rr) / len(rr), 4) if rr else None,
-           "mean_r_live_set": round(sum(lr) / len(lr), 4) if lr else None, "issues": issues[:30]}
-    res["ok"] = not issues
-    ajl(os.path.join(repo, "data", "quality", "parity.jsonl"), [{k: v for k, v in res.items() if k != "issues"}])
+           "mean_r_live_set": round(sum(lr) / len(lr), 4) if lr else None, "issues": (outcome + feature)[:30]}
+    res["ok"] = not outcome and share <= FEAT_SHARE
+    if save: ajl(os.path.join(repo, "data", "quality", "parity.jsonl"), [{k: v for k, v in res.items() if k != "issues"}])
     return res
+
+
+def leaktest(repo, day):
+    """Plants a look-ahead leak in a copy of the replay (one feature is nudged by the trade's own outcome, which is
+    what a feature built with future bars looks like) and confirms that parity() fails. Writes nothing to the repo's
+    quality log. Used by the independent audit; passed means the check can see a leak."""
+    import decisions, copy
+    clean = decisions.candidates(repo, day, "16:00"); base = parity(repo, day, replay=clean, save=False)
+    if base.get("status"): return {"day": day, "status": base["status"]}
+    leaky = copy.deepcopy(clean); planted = 0
+    for q in leaky:
+        y = q["y"].get("y_stock")
+        if y is None or "or_vol_rel" not in q["x"]: continue
+        q["x"]["or_vol_rel"] = q["x"]["or_vol_rel"] * (1.25 if y > 0 else 0.75); planted += 1
+    hit = parity(repo, day, replay=leaky, save=False)
+    return {"day": day, "planted_in": planted, "clean_ok": base["ok"], "clean_feature_share": base["feature_share"],
+            "leak_ok": hit["ok"], "leak_feature_share": hit["feature_share"],
+            "passed": planted > 0 and base["ok"] and not hit["ok"],
+            "note": None if base["ok"] else "the clean replay already fails on this day: pick a day whose parity is ok"}
+
+
+# ---------- weekly random-day replay ----------
+def replay_day(repo, day=None, seed=None):
+    """Re-runs the baseline-A rules (orb_daily.py) on the stored 5-minute bars of one past test day and compares the
+    trades with the ledger (watchlist "Trades" and the control list in "VariantTrades"). The day is drawn at random
+    from the test days that have ledger rows, seeded by the ISO week, so the same week always checks the same day."""
+    import subprocess, random, tempfile, tcal
+    T = jl(os.path.join(repo, "data", "ledger", "Trades.jsonl")); days = sorted({r["date"] for r in T})
+    today = dt.datetime.now(NY).date().isoformat(); days = [d for d in days if d < today]
+    if not days: return {"status": "no past days"}
+    if day is None:
+        iso = dt.datetime.now(NY).isocalendar(); seed = seed if seed is not None else iso[0] * 100 + iso[1]
+        day = random.Random(seed).choice(days)
+    u = U(repo); here = os.path.dirname(os.path.abspath(__file__)); out = {"day": day, "sets": {}, "diffs": []}
+    d0 = int(dt.datetime.fromisoformat(day).replace(tzinfo=NY, hour=9, minute=30).timestamp())
+    ctl = [r for r in jl(os.path.join(repo, "data", "ledger", "VariantTrades.jsonl")) if r["date"] == day and "control" in str(r["variant"]).lower()]
+    for name, syms, led in (("watchlist", u["watchlist"], [r for r in T if r["date"] == day]), ("control", u["control"], ctl)):
+        if name == "control" and day < "2026-11-19": continue          # the control list started on 2026-11-19
+        bars = {}
+        for s in syms:
+            B = [b for b in jl(os.path.join(repo, "data", "bars", "5m", s + ".jsonl")) if d0 <= b["t"] < d0 + 23400]
+            if B: bars[s] = {"time": [dt.datetime.fromtimestamp(b["t"], dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") for b in B],
+                             "open": [b["o"] for b in B], "high": [b["h"] for b in B], "low": [b["l"] for b in B], "close": [b["c"] for b in B]}
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f: json.dump(bars, f); tmp = f.name
+        p = subprocess.run([sys.executable, os.path.join(here, "orb_daily.py"), tmp, day, "16:00"], capture_output=True, text=True); os.remove(tmp)
+        if p.returncode: out["diffs"].append("%s: orb_daily failed: %s" % (name, p.stderr[-200:])); continue
+        new = {t["symbol"]: t for t in json.loads(p.stdout)["trades"]}; old = {r["symbol"]: r for r in led}
+        out["sets"][name] = {"ledger": len(old), "replay": len(new), "bars_for": len(bars)}
+        for s in sorted(set(new) | set(old)):
+            a, b = old.get(s), new.get(s)
+            if a is None: out["diffs"].append("%s %s: replay has a trade (%s %.2fR), ledger has none" % (name, s, b["outcome"], b["r_net"]))
+            elif b is None: out["diffs"].append("%s %s: ledger has a trade (%s), replay has none" % (name, s, a["outcome"]))
+            elif a["outcome"] != b["outcome"] or abs(float(a["r_net"]) - b["r_net"]) > 0.05:
+                out["diffs"].append("%s %s: ledger %s %.2fR vs replay %s %.2fR" % (name, s, a["outcome"], float(a["r_net"]), b["outcome"], b["r_net"]))
+    out["identical"] = not out["diffs"]; out["diffs"] = out["diffs"][:30]
+    ajl(os.path.join(repo, "data", "quality", "replay_day.jsonl"), [{"day": day, "at": today, "identical": out["identical"], "n_diffs": len(out["diffs"])}])
+    return out
 
 
 # ---------- trial ledger ----------
@@ -362,6 +432,7 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     fn = {"bar-timing": lambda: bar_timing(a[1]), "xcheck-plan": lambda: xcheck_plan(a[1], a[2]), "xcheck": lambda: xcheck(a[1], a[2]),
           "live-save": lambda: live_save(a[1], a[2], a[3]), "parity": lambda: parity(a[1], a[2]),
+          "leaktest": lambda: leaktest(a[1], a[2]), "replay-day": lambda: replay_day(a[1], a[2] if len(a) > 2 else None),
           "engine-report": lambda: engine_report(a[1], a[2] if len(a) > 2 else None), "health": lambda: health(a[1], a[2] if len(a) > 2 else None),
           "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
           "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None),

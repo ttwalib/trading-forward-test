@@ -110,7 +110,11 @@ PRIOR_HAIR, PRIOR_EQ = 0.5, 20
 PRIOR_HAIR_SURV, SURV_SLEEVES = 0.25, ("L6 ", "L7 ", "L8 ", "L10 ", "L15 ")
 COV_WIN, BAND, REBALANCE = 60, 0.02, "weekly"
 BREAKER_MODE, BRK_DD_K, BRK_10_K = "vol", 3.0, 2.5
-FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py"]
+# Every script that can change a number in the verdict (extended 2026-11-21 after the external review: the calendar,
+# the AI-judgment seal rules, the ledger and the scripts that score the ledger sleeves were not covered before).
+FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py", 
+                "tcal.py", "judge.py", "ledger.py", "weekly_opts.py", "deep_otm.py", "options_sim.py", "fees.py", "crypto_tracks.py", 
+                "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py"]
 BASE = "A baseline (watchlist)"
 
 
