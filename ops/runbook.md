@@ -78,11 +78,18 @@ Use DATES: open new D1/D2/D3/W positions only when full_trading_day; W1-W3 only 
 Late-run rule: an entry day of the current week in week_entry_days that has no W1-W3 rows and is earlier than today.
 W4 expiry = weekly_expiry of the entry day if after DAY, else next week's. Mark and settle every day of
 settle_only_window as well. LEDGER: DeepD1, DeepSpreads, Weekly, then GIT ("deep otm").
-BARS (since 2026-11-21): SPY and stock 5-minute bars come from the store (hist.py export 5m). Option legs are fetched
-from IBKR one day at a time (ONE_DAY) and kept in data/bars/opt5m/OPT_<cid>.jsonl (store.py opt5m); hist.py export
-opt5m gives every stored day of a leg for multi-day positions. Before this, each run fetched a whole week of bars for
-every leg, which was too large to bring into files, and the runs of 2026-11-18 and 2026-11-20 wrote nothing (the W1-W3
-positions of 2026-11-16 and 2026-11-18 stayed "pending"). RUN LOG: ops/diag/deep_otm.log, one line per run.
+BARS (since 2026-11-21): no price passes through the AI. SPY and stock 5-minute bars come from the store (hist.py
+export 5m). Option legs: the task picks strikes and contract ids with IBKR (small results), registers every leg with
+scripts/optlegs.py (data/opt_legs.json: IBKR contract id -> OCC symbol, expiry, entry day), and requests
+ops/fetch_request.json {"mode": "optbars"}. GitHub then fetches the legs' 5-minute bars (fetch_free.py option_bars:
+Alpaca historical option bars, trades reported to OPRA, at least 15 minutes old, expired contracts included) into
+data/bars/opt5m/OPT_<cid>.jsonl and writes ops/diag/optbars.json; optlegs.py bars hands them to the scripts. The
+17:40 ET nightly fetch refreshes all open legs as well. RUN LOG: ops/diag/deep_otm.log, one line per run.
+History: until 2026-11-20 each run fetched a week of bars per leg from IBKR and pasted them into files; that was too
+large, and the runs of 2026-11-18 and 2026-11-20 wrote nothing. The 2026-11-20 rows were written on 2026-11-21 from
+hand-pasted IBKR bars; recomputed from the feed's bars, 17 of 22 rows are identical and the largest difference is 3.2
+points (XOM W4 42.2 vs 45.4), so the rows stand as written. The six W1-W3 positions of week 1 were settled on
+2026-11-21 from the feed's bars (strikes were fixed on 2026-11-16 and 2026-11-18; the settlement is mechanical).
 CATCH-UP: a run fired with "CATCH-UP DAY: YYYY-MM-DD" does that past day's work from that day's bars (no discretion:
 the strikes and fills follow the same fixed rules); it is listed here when used. Used once: 2026-11-20 (on 2026-11-21).
 
@@ -370,6 +377,10 @@ After the existing steps:
      opening-range bar may still carry IEX-only volume (engine 1.09 vs replay 1.50 for AMZN on 2026-11-20); (b) the
      replay recomputes the prior day's crypto_score from today's crypto bars (16.4) where the live run read the
      stored regime row (17.5).
+  24. OPTION BARS FROM THE FREE FEED (2026-11-21, owner: "proceed"): see DEEP OTM + WEEKLY, BARS. A data-plumbing
+     change, not a rule change: entries, exits, strikes, fees and scripts are unchanged; only the source of option
+     bars moved from IBKR (through the AI's hands) to Alpaca (straight into the repo). New: scripts/optlegs.py,
+     fetch_free.py mode optbars, data/opt_legs.json, data/bars/opt5m/. dq.py does not check opt5m.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
