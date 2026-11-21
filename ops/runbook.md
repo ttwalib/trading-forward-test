@@ -78,6 +78,13 @@ Use DATES: open new D1/D2/D3/W positions only when full_trading_day; W1-W3 only 
 Late-run rule: an entry day of the current week in week_entry_days that has no W1-W3 rows and is earlier than today.
 W4 expiry = weekly_expiry of the entry day if after DAY, else next week's. Mark and settle every day of
 settle_only_window as well. LEDGER: DeepD1, DeepSpreads, Weekly, then GIT ("deep otm").
+BARS (since 2026-11-21): SPY and stock 5-minute bars come from the store (hist.py export 5m). Option legs are fetched
+from IBKR one day at a time (ONE_DAY) and kept in data/bars/opt5m/OPT_<cid>.jsonl (store.py opt5m); hist.py export
+opt5m gives every stored day of a leg for multi-day positions. Before this, each run fetched a whole week of bars for
+every leg, which was too large to bring into files, and the runs of 2026-11-18 and 2026-11-20 wrote nothing (the W1-W3
+positions of 2026-11-16 and 2026-11-18 stayed "pending"). RUN LOG: ops/diag/deep_otm.log, one line per run.
+CATCH-UP: a run fired with "CATCH-UP DAY: YYYY-MM-DD" does that past day's work from that day's bars (no discretion:
+the strikes and fills follow the same fixed rules); it is listed here when used. Used once: 2026-11-20 (on 2026-11-21).
 
 ## ADAPTIVE STOCKS
 

@@ -11,7 +11,7 @@ that crypto_tracks.py / orb_adaptive.py / agent_score.py read, so the scripts ge
 run only fetches the few new bars.
 """
 import json, os, sys, math, datetime as dt
-SECS = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600, "1d": 86400}
+SECS = {"1m": 60, "5m": 300, "opt5m": 300, "15m": 900, "1h": 3600, "1d": 86400}   # opt5m: option legs (deep OTM task)
 
 
 def load(repo, tf, sym):

@@ -57,7 +57,7 @@ def run(repo, day=None):
     base = os.path.join(repo, "data", "bars")
     for tf in sorted(os.listdir(base)):
         d = os.path.join(base, tf)
-        if not os.path.isdir(d): continue
+        if not os.path.isdir(d) or tf == "opt5m": continue   # option legs trade sparsely: no OHLC/jump/gap checks
         per[tf] = 0
         for fn in sorted(os.listdir(d)):
             if not fn.endswith(".jsonl"): continue

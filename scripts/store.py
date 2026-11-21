@@ -14,7 +14,7 @@ still overwritten, because they carry corporate-action adjustments. Prints {SYM:
 "total", "first", "last"}}; "kept" counts fetched bars that differed from the stored bar and were not applied.
 """
 import json, os, sys, time, datetime as dt
-SECS = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600, "1d": 86400}
+SECS = {"1m": 60, "5m": 300, "opt5m": 300, "15m": 900, "1h": 3600, "1d": 86400}   # opt5m: option legs (deep OTM task)
 
 
 def parse_t(s):
