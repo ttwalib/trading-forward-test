@@ -212,6 +212,13 @@ After the existing steps:
    engine_report: n, mean and median cost_vs_lag_pct for baseline and library rows. Measurement only until 100+ rows.
 4c. SLIPPAGE: `python3 -I /tmp/repo/scripts/checks.py slip-report /tmp/repo` -> one digest line: rows, median spread %,
    median drift % per delay bucket, model cost %; model_cheaper_than_spread true -> flag CHECK in the digest.
+   USAGE LOG (part of 4f since 2026-11-21; the external review asked for a usage baseline): from the list_triggers
+   result you already have from the pipeline check, append one line per forward-test task to
+   /tmp/repo/ops/diag/usage.jsonl with python: {"day": DAY, "task": short name, "fired_at": last_run.fired_at,
+   "finished_at": last_run.finished_at, "minutes": difference rounded to 0.1, "status": last_run.status, "model": the
+   task's model}. Copy the times exactly as list_triggers gives them. For tasks that run several times a day this is
+   the latest run only; ops/tasks.json gives the number of runs a day. Token counts are not visible to a task: run
+   minutes and sessions per day are the measure, and the owner's usage page in Claude settings shows the total.
 5. The pipeline check also covers the Live decisions task (hourly at :05 from 10:05 to 15:05 on full trading days) and the ML nightly task.
 6. Digest adds: breadth score, Stats verdicts (promising / losing), dq issues, the AI portfolio vs SPY / equal weight /
    baseline A (verdict window from 2026-12-07, v2 and all) with the 2x-cost stress line, the top 3 allocator weights,

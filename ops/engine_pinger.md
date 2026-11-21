@@ -16,7 +16,7 @@ or change any other repo.
 GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token.
 
 - Name: `quantavius-engine-pinger`
-- Expiration: 2027-02-20 (just after the test ends)
+- Expiration: 2027-06-15 (after the six-month test ends on 2027-05-21; see RENEWAL below if the token is older)
 - Repository access: **Only select repositories** → `ttwalib/trading-forward-test`
 - Permissions → Repository permissions → **Actions: Read and write** (everything else: No access)
 
@@ -57,4 +57,20 @@ day.
 ## Turning it off
 
 Delete the cron job and revoke the token (GitHub → Settings → Developer settings → Fine-grained tokens) after
-2027-02-12.
+2027-05-21.
+
+## RENEWAL (added 2026-11-21: the test now runs to 2027-05-21, the first token expires on 2027-03-31)
+
+Do this on a weekend, when no ticks are due. About 3 minutes.
+
+1. GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → `quantavius-engine-pinger`
+   → **Regenerate token**. Expiration: custom date **2027-06-15**. Leave repository access and permissions as they are.
+2. Copy the new token. The old one stops working at once.
+3. cron-job.org → the job → Headers → replace the value of `Authorization` with `Bearer <new token>` → Save.
+4. Press "Test run" on cron-job.org: the response must be **HTTP 204**.
+5. Tell Quantavius the new expiry date, so `TOKEN_EXPIRY` in `scripts/checks.py` can be updated (the health line
+   warns 21 days before that date).
+
+Never paste the token into the chat, the sheet or the repo. If the pinger ever stops, the test does not: GitHub's own
+backup tick still runs about once an hour, `fills.py` falls back to the price 5 minutes after the signal, and the
+health line raises an alert. A second person who can do steps 1 to 4 (a backup owner) is worth naming.
