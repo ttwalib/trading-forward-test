@@ -70,13 +70,18 @@ def build(repo, now=None):
     out = {"generated": now.strftime("%Y-%m-%d %H:%M"), "tz": "America/New_York"}
     try: out["calendar"] = {k: v for k, v in tcal.info(now.date()).items() if not isinstance(v, (list, dict))}
     except Exception as e: out["calendar"] = {"error": str(e)[:80]}
-    out["windows"] = {"start": "2026-11-16", "verdict": ["2026-12-07", "2027-02-12"], "holdout": ["2027-02-01", "2027-02-12"],
-                      "end": "2027-02-12", "crypto_end": "2027-02-14", "final_report": "2027-02-16"}
+    out["windows"] = {"start": tcal.START.isoformat(), "verdict": [tcal.ALLOC_FREEZE.isoformat(), tcal.END.isoformat()],
+                      "holdout": [tcal.HOLDOUT_START.isoformat(), tcal.END.isoformat()], "end": tcal.END.isoformat(),
+                      "crypto_end": tcal.CRYPTO_END.isoformat(), "interim_report": "2027-02-16", "final_report": tcal.FINAL_REPORT.isoformat()}
+    out["pit"] = (js(os.path.join(repo, "data", "pit", "report.json")) or {}).get("survivorship_measured_on_sp500")
     A = js(os.path.join(repo, "data", "allocator", "report.json"), {}) or {}
     ph = {}
     for k, v in (A.get("phases") or {}).items():
         ph[k] = {b: v.get(b) for b in ("ai", "spy", "spy_vm", "equal", "equal_vm", "base_a", "base_a_vm")}
         ph[k].update({x: v.get(x) for x in ("p_ai_beats", "sharpe_gap_detectable", "turnover_per_day", "rebal_cost_pct_total", "spy_vm_scale", "vm_scales", "avg_invested", "shadows", "forced_fill", "exposure")})
+    out["judge"] = {"latest": A.get("judge_latest"), "check": (A.get("judge_check") or {}).get("verdict")}
+    jf = jl(os.path.join(repo, "data", "allocator", "judge.jsonl"))
+    if jf: out["judge"]["last_seal"] = {k: jf[-1].get(k) for k in ("effective", "sealed_at", "weights", "decision", "bull", "bear")}
     out["nightly"] = js(os.path.join(repo, "data", "nightly", "stamp.json"))
     out["montecarlo"] = js(os.path.join(repo, "data", "nightly", "montecarlo.json"))
     out["crash_drill"] = js(os.path.join(repo, "reports", "replay", "2026-11-20-crash_drill.json"))

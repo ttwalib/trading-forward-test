@@ -1,0 +1,245 @@
+{
+ "built": "2026-11-21",
+ "window": [
+  "2024-01-02",
+  "2026-11-15"
+ ],
+ "months": 34,
+ "list_size": 100,
+ "symbols_used": 161,
+ "symbols_carried_flat_after_prices_stopped": [
+  "PXD",
+  "WBD"
+ ],
+ "ever_listed_but_not_in_todays_list": [
+  "AAL",
+  "ABNB",
+  "ADI",
+  "AMAT",
+  "ANET",
+  "APH",
+  "APP",
+  "AZO",
+  "BSX",
+  "BX",
+  "CCL",
+  "CDNS",
+  "CEG",
+  "CI",
+  "CIEN",
+  "CMG",
+  "COHR",
+  "CRWD",
+  "CVNA",
+  "DASH",
+  "DDOG",
+  "DELL",
+  "ELV",
+  "ENPH",
+  "EQIX",
+  "ETN",
+  "FCX",
+  "FI",
+  "FSLR",
+  "GEV",
+  "GLW",
+  "HPE",
+  "HUM",
+  "KKR",
+  "KLAC",
+  "LITE",
+  "LRCX",
+  "LULU",
+  "MCHP",
+  "MPC",
+  "MPWR",
+  "MRNA",
+  "MRVL",
+  "NEM",
+  "NXPI",
+  "ON",
+  "OXY",
+  "PANW",
+  "PGR",
+  "PXD",
+  "RCL",
+  "REGN",
+  "SHW",
+  "SLB",
+  "SMCI",
+  "SNDK",
+  "SNPS",
+  "SPGI",
+  "STX",
+  "TER",
+  "TJX",
+  "TTD",
+  "UAL",
+  "VLO",
+  "VRT",
+  "VRTX",
+  "VST",
+  "WBD",
+  "WDAY",
+  "WDC",
+  "ZTS"
+ ],
+ "overlap_of_latest_list_with_todays_list": 70,
+ "comparison_before_test": {
+  "L6 Bollinger reversion": {
+   "hindsight_list": {
+    "days": 504,
+    "total_pct": 0.44,
+    "mean_daily_pct": 0.0009,
+    "sharpe": 0.02
+   },
+   "point_in_time_list": {
+    "days": 504,
+    "total_pct": 24.34,
+    "mean_daily_pct": 0.0483,
+    "sharpe": 0.59
+   },
+   "closed_trades_pit": 326
+  },
+  "L7 Donchian trend": {
+   "hindsight_list": {
+    "days": 504,
+    "total_pct": 22.55,
+    "mean_daily_pct": 0.0447,
+    "sharpe": 0.58
+   },
+   "point_in_time_list": {
+    "days": 504,
+    "total_pct": 38.84,
+    "mean_daily_pct": 0.0771,
+    "sharpe": 0.78
+   },
+   "closed_trades_pit": 209
+  },
+  "L8 Momentum top 8": {
+   "hindsight_list": {
+    "days": 504,
+    "total_pct": 48.96,
+    "mean_daily_pct": 0.0972,
+    "sharpe": 0.84
+   },
+   "point_in_time_list": {
+    "days": 504,
+    "total_pct": 104.72,
+    "mean_daily_pct": 0.2078,
+    "sharpe": 1.08
+   },
+   "closed_trades_pit": 125
+  },
+  "L15 Market-neutral momentum": {
+   "hindsight_list": {
+    "days": 504,
+    "total_pct": 13.77,
+    "mean_daily_pct": 0.0273,
+    "sharpe": 0.36
+   },
+   "point_in_time_list": {
+    "days": 504,
+    "total_pct": 23.69,
+    "mean_daily_pct": 0.047,
+    "sharpe": 0.44
+   },
+   "closed_trades_pit": 305
+  }
+ },
+ "limits": "the monthly \"top 100 by dollar volume\" list is a stand-in for the\nS&P 100, not the index itself; the membership file is community-maintained; L10 (earnings drift) is NOT covered,\nbecause earnings dates exist only for today's list, so its past record stays hindsight-based.",
+ "survivorship_measured_on_sp500": {
+  "symbols_pit": 561,
+  "symbols_today": 503,
+  "carried_flat": [
+   "ANSS",
+   "AVB",
+   "CDAY",
+   "CMA",
+   "CTLT",
+   "CTRA",
+   "DAY",
+   "DFS",
+   "EA",
+   "HES",
+   "HOLX",
+   "IPG",
+   "JNPR",
+   "K",
+   "KVUE",
+   "MRO",
+   "PARA",
+   "PSKY",
+   "PXD",
+   "QRVO",
+   "WBA",
+   "WBD"
+  ],
+  "by_sleeve": {
+   "L6 Bollinger reversion": {
+    "todays_list_hindsight": {
+     "days": 504,
+     "total_pct": -0.98,
+     "mean_daily_pct": -0.0019,
+     "sharpe": -0.02
+    },
+    "members_at_the_time": {
+     "days": 504,
+     "total_pct": -12.11,
+     "mean_daily_pct": -0.024,
+     "sharpe": -0.28
+    },
+    "flattery_pct_points_total": 11.13,
+    "flattery_mean_daily_pct": 0.0221
+   },
+   "L7 Donchian trend": {
+    "todays_list_hindsight": {
+     "days": 504,
+     "total_pct": 42.12,
+     "mean_daily_pct": 0.0836,
+     "sharpe": 0.89
+    },
+    "members_at_the_time": {
+     "days": 504,
+     "total_pct": 12.6,
+     "mean_daily_pct": 0.025,
+     "sharpe": 0.3
+    },
+    "flattery_pct_points_total": 29.52,
+    "flattery_mean_daily_pct": 0.0586
+   },
+   "L8 Momentum top 8": {
+    "todays_list_hindsight": {
+     "days": 504,
+     "total_pct": 195.73,
+     "mean_daily_pct": 0.3884,
+     "sharpe": 1.82
+    },
+    "members_at_the_time": {
+     "days": 504,
+     "total_pct": 128.53,
+     "mean_daily_pct": 0.255,
+     "sharpe": 1.33
+    },
+    "flattery_pct_points_total": 67.2,
+    "flattery_mean_daily_pct": 0.1334
+   },
+   "L15 Market-neutral momentum": {
+    "todays_list_hindsight": {
+     "days": 504,
+     "total_pct": 55.23,
+     "mean_daily_pct": 0.1096,
+     "sharpe": 0.89
+    },
+    "members_at_the_time": {
+     "days": 504,
+     "total_pct": 31.08,
+     "mean_daily_pct": 0.0617,
+     "sharpe": 0.52
+    },
+    "flattery_pct_points_total": 24.15,
+    "flattery_mean_daily_pct": 0.0479
+   }
+  }
+ }
+}

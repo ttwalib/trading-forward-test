@@ -217,6 +217,12 @@ def run_daily(name, K, data, cal, signal, exit_rule, max_hold, cost=C_DAY):
     return bk
 
 
+# Point-in-time hook (added 2026-11-21): None in every normal run, so nothing changes there. scripts/pit.py sets it to
+# a function (symbol, date) -> bool for its one-off backtest on the point-in-time universe; a stock that was not in
+# that month's list gives no entry signal and no rotation score (open positions still exit by their own rules).
+ELIGIBLE = None
+
+
 def closes(rows, i, n): return [r[4] for r in rows[max(0, i - n + 1):i + 1]]
 
 
@@ -242,7 +248,7 @@ def build(repo, day=None):
         dd6 = sub(lib)
         def sig6(s, i):
             cl = closes(dd6[s], i, 210)
-            if len(cl) < 200: return None
+            if len(cl) < 200 or (ELIGIBLE and not ELIGIBLE(s, dd6[s][i][0])): return None
             m20 = sma(cl, 20); sd = (sum((x - m20) ** 2 for x in cl[-20:]) / 20) ** 0.5
             return (m20 - 2 * sd - cl[-1]) / m20 if cl[-1] < m20 - 2 * sd and cl[-1] > sma(cl, 200) else None
         books.append(run_daily("L6 Bollinger reversion", 10, dd6, cal, sig6, lambda s, i, p: closes(dd6[s], i, 1)[-1] >= sma(closes(dd6[s], i, 20), 20), 10))
@@ -250,7 +256,7 @@ def build(repo, day=None):
         dd7 = sub(lib + SECTORS + ["QQQ", "IWM", "DIA", "TLT", "GLD"])
         def sig7(s, i):
             rows = dd7[s]
-            if i < 21: return None
+            if i < 21 or (ELIGIBLE and not ELIGIBLE(s, rows[i][0])): return None
             hi = max(r[2] for r in rows[i - 20:i]); c = rows[i][4]
             return c / hi - 1 if c > hi else None
         def ex7(s, i, p):
@@ -310,6 +316,7 @@ def build(repo, day=None):
             return bk
         def mom(s, i):
             rows = D[s]
+            if ELIGIBLE and not ELIGIBLE(s, rows[i][0]): return None
             return rows[i - 5][4] / rows[i - 131][4] - 1 if i >= 131 else None
         books.append(rotation("L8 Momentum top 8", 8, [s for s in lib if s in D], mom))
         def sec(s, i):

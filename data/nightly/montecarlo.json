@@ -136,7 +136,7 @@
   "caveat": "past data replayed with the allocator's rules; survivorship and hindsight flatter it"
  },
  "live": {
-  "days": 4,
+  "days": 5,
   "waiting": "reported from 20 live days"
  }
 }

@@ -76,18 +76,26 @@ only data up to the day before, sleeves with at least 10 active days): "sh_rp" r
 sleeves with the best mean over the last 20 days, 25% each). They never decide pass or fail, but a pass is called
 ROBUST only if the AI's Sharpe is also above the best shadow's (and it beats SPY at double costs): otherwise its
 complexity added nothing over a simple rule.
+AI-JUDGMENT ALLOCATOR "sh_judge" (added 2026-11-21, owner decision, before the freeze): each weekend a language-model
+task reads the same evidence (scripts/judge.py brief), argues the case for and against, and seals next week's weights
+in data/allocator/judge.jsonl (same rules: fully invested, at most 25% per sleeve, eligible sleeves only). A seal
+counts only if it was made before 09:30 New York on the first trading day it applies to; a week without a valid seal
+keeps the previous week's weights. It trades weekly with the same rebalancing costs as the other rivals. It is a
+fourth rival in the "robust" test, and "judge_check" applies the same three-way rule to it as a candidate, so the
+report shows formula, AI judgment and simple rules side by side.
 Reported, never part of the verdict: "forced_fill" (the average share of the book held only to stay fully
 invested, and what those holdings returned, against the backed holdings) and "exposure" (the beta of the AI's daily
 returns to SPY over the phase, and the return left after removing beta x SPY).
 Verdict (three-way since 2026-11-20, set before the window): PASS = beats every benchmark on Sharpe AND max drawdown
 (raw and volatility-matched) with bootstrap P >= 0.9 (raw and volatility-matched); FAIL = for at least one benchmark
 the chance that the AI's mean beats it is <= 0.10; otherwise INCONCLUSIVE (the pre-registered consequence of
-inconclusive is an extension of the test with the same frozen code; see the runbook).
+inconclusive was a six-week extension until 2026-11-21; since then the test runs a fixed six months instead:
+verdict window 2026-12-07..2027-05-14, interim reading on 2027-02-12, no further extension).
 Benchmarks use total-return SPY (dividends added via corp.py), the same footing as the strategies.
 Stress: the same rule run on the library at double costs (daily_2x.json) is reported beside the main result.
 Netting (exploratory, never part of the verdict): what the AI portfolio would save if opposite trades in the same
 stock from different daily library sleeves were netted before trading ("netted_exploratory").
-Verdict metrics per phase (verdict = 2026-12-07..2027-02-12, the pre-registered primary window / train / holdout / v2 / all): total return, annualised Sharpe (sqrt 252), max drawdown, and
+Verdict metrics per phase (verdict = 2026-12-07..2027-05-14, the pre-registered primary window / train / holdout / v2 / all): total return, annualised Sharpe (sqrt 252), max drawdown, and
 the chance that the AI portfolio's mean daily return beats each benchmark (stationary block bootstrap, block 5,
 5,000 resamples, seed 20261119).
 """
@@ -317,6 +325,24 @@ def shadow_targets(d, S, cal_idx, cal):
 
 
 SHADOWS = ("sh_rp", "sh_mv", "sh_win")
+JUDGE = "sh_judge"
+
+
+def judge_seals(repo):
+    """Valid sealed weights of the AI-judgment allocator: {effective day: weights}. A row counts only if sealed
+    before 09:30 New York on its effective day; the first valid row per effective day stands."""
+    out = {}; f = os.path.join(repo, "data", "allocator", "judge.jsonl")
+    if not os.path.exists(f): return out
+    for line in open(f):
+        if not line.strip(): continue
+        try:
+            r = json.loads(line); eff = r["effective"]
+            sealed = dt.datetime.fromisoformat(r["sealed_at"]).astimezone(NY)
+            limit = dt.datetime.fromisoformat(eff + "T09:30:00").replace(tzinfo=NY)
+            w = {k: float(v) for k, v in r["weights"].items() if float(v) > 0}
+            if sealed < limit and w and eff not in out: out[eff] = w
+        except Exception: continue
+    return out
 
 
 def perf(xs):
@@ -361,12 +387,13 @@ def power(n):
     return round(1.2816 * math.sqrt(252 / n), 2) if n else None
 
 
-def simulate(repo, day, S, spy, vix):
+def simulate(repo, day, S, spy, vix, judge=True):
     cal = sorted(d for d in set(spy) | {d for s in S.values() for d in s} if d <= day and tcal.is_open(d))
     if not cal: return None
     cal_idx = {d: i for i, d in enumerate(cal)}; regime = regime_of(spy, vix, cal)
     start = tcal.START.isoformat(); rows = []; W = []; spy_keys = sorted(spy); wprev = {}; wk_prev = None
     backed_ref = set(); shw = {k: {} for k in SHADOWS}
+    seals = judge_seals(repo) if judge else {}; jw = {}; j_missed = 0
     for d in cal:
         if d < start: continue
         tgt, info = weights_for(d, S, cal_idx, regime, cal)
@@ -378,6 +405,17 @@ def simulate(repo, day, S, spy, vix):
             old = shw[k]; cur = {a: round(b, 4) for a, b in tg[k].items() if b > 0.0005} if (new_week or not old) and tg[k] else old
             cst = sum(abs(cur.get(a, 0.0) - old.get(a, 0.0)) * rebal_cost(a) for a in set(cur) | set(old))
             sh_ret[k] = sum(b * S[a].get(d, 0.0) for a, b in cur.items()) - cst; shw[k] = cur
+        jret = None; jnew = None
+        if seals:
+            # the seal for this week is the one whose effective day falls in this ISO week and is not after d
+            cand = sorted(e for e in seals if e <= d and dt.date.fromisoformat(e).isocalendar()[:2] == wk)
+            if cand and (new_week or d in seals): jnew = fill_to_one([{k: v for k, v in seals[cand[-1]].items() if k in S}])
+            elif new_week and jw: j_missed += 1
+            if jnew is not None:
+                jnew = {a: round(b, 4) for a, b in jnew.items() if b > 0.0005}
+                jc = sum(abs(jnew.get(a, 0.0) - jw.get(a, 0.0)) * rebal_cost(a) for a in set(jnew) | set(jw)); jw = jnew
+            else: jc = 0.0
+            if jw: jret = sum(b * S[a].get(d, 0.0) for a, b in jw.items()) - jc
         if new_week or not wprev: backed_ref = set(info.get("_backed") or [])
         if REBALANCE == "weekly" and wprev and wk == wk_prev:
             keep = {k: v for k, v in wprev.items() if info.get(k) != "breaker" and not str(info.get(k, "")).startswith("duplicate")}
@@ -405,11 +443,13 @@ def simulate(repo, day, S, spy, vix):
                      "equal": round(eq, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4),
                      "turnover": round(sum(turn.values()), 4), "rebal_cost": round(rcost, 5),
                      "fill_w": round(fill_w, 4), "fill_ret": round(fill_ret, 5),
-                     **{k: round(v, 5) for k, v in sh_ret.items()}})
+                     **{k: round(v, 5) for k, v in sh_ret.items()},
+                     **({JUDGE: round(jret, 5)} if jret is not None else {})})
         W.append({"date": d, "weights": w, "breakers": sorted(k for k, v in info.items() if v == "breaker"),
                   "duplicates": sorted(k for k, v in info.items() if isinstance(v, str) and v.startswith("duplicate")),
                   "vol_forecast_pct": info.get("_vol_forecast_pct"), "fill": info.get("_fill"),
-                  "forced": sorted(k for k in w if k not in backed_ref), "shadows": {k: dict(v) for k, v in shw.items()}})
+                  "forced": sorted(k for k in w if k not in backed_ref), "shadows": {k: dict(v) for k, v in shw.items()},
+                  **({"judge": dict(jw), "judge_weeks_without_seal": j_missed} if jw else {})})
     return rows, W
 
 
@@ -432,6 +472,11 @@ def phase_report(rows):
         P["avg_invested"] = round(sum(r.get("invested", 0) for r in sel) / len(sel), 4)
         P["shadows"] = {k: perf([r.get(k, 0.0) for r in sel]) for k in SHADOWS}
         for k in SHADOWS: P["p_ai_beats"][k] = p_beats(ai, [r.get(k, 0.0) for r in sel])
+        js = [r for r in sel if r.get(JUDGE) is not None]
+        if js:      # the AI-judgment allocator, on the days it has sealed weights for (all of the verdict window)
+            P["shadows"][JUDGE] = dict(perf([r[JUDGE] for r in js]), covers_phase=len(js) == len(sel))
+            P["p_ai_beats"][JUDGE] = p_beats([r["ai"] for r in js], [r[JUDGE] for r in js])
+            P["ai_on_judge_days"] = perf([r["ai"] for r in js])
         fr = sum(r.get("fill_ret", 0) for r in sel); fw = sum(r.get("fill_w", 0) for r in sel) / len(sel)
         P["forced_fill"] = {"avg_weight": round(fw, 4), "return_pct_total": round(fr, 4),
                             "backed_return_pct_total": round(sum(r["ai"] + r.get("rebal_cost", 0) for r in sel) - fr, 4),
@@ -450,7 +495,8 @@ def phase_report(rows):
 def verdict_check(P, stress=None):
     """Pre-registered three-way rule for one phase. PASS: beat every benchmark on Sharpe AND max drawdown with
     P >= 0.9, raw and volatility-matched. FAIL: for some benchmark P(AI mean > benchmark) <= 0.10. Else INCONCLUSIVE.
-    Robust = a pass that also beats SPY at double costs."""
+    Robust = a pass that also beats SPY at double costs AND beats the best rival allocator on Sharpe (risk parity,
+    minimum variance, recent winners and, since 2026-11-21, the AI-judgment allocator)."""
     if not P or P["ai"].get("days", 0) < 10: return {"status": "not enough days"}
     ai = P["ai"]; res = {}; pa = P["p_ai_beats"]
     for b in ("spy", "equal", "base_a"):
@@ -470,6 +516,26 @@ def verdict_check(P, stress=None):
     return {"result": "pass" if ok else "fail" if lost else "inconclusive", "pass": ok, "clearly_behind": lost,
             "robust_2x": rob if ok else None, "best_shadow": best, "beats_best_shadow": beats_sh,
             "robust": bool(ok and rob and beats_sh) if ok else None, "by_benchmark": res}
+
+
+def judge_check(rows, ph="verdict"):
+    """The same three-way rule with the AI-judgment allocator as the candidate (benchmarks volatility-matched to it).
+    Its rivals are the formula allocator and the three simple rules."""
+    sel = [dict(r) for r in rows if r.get(JUDGE) is not None and (ph == "all" or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat()) or r["phase"] == ph)]
+    if len(sel) < 10: return {"status": "not enough days", "days": len(sel)}
+    j = [r[JUDGE] for r in sel]; sj = math.sqrt(stats(j)[1]); scales = {}
+    for b in ("spy", "equal", "base_a"):
+        xs = [r[b] for r in sel]; sb = math.sqrt(stats(xs)[1]) if any(xs) else 0
+        scales[b] = sj / sb if sb else 0.0
+        for r in sel: r[b + "_vm"] = r[b] * scales[b]
+    BM = ("spy", "equal", "base_a", "spy_vm", "equal_vm", "base_a_vm")
+    P = {k: perf([r[k] for r in sel]) for k in BM}; P["ai"] = perf(j)
+    P["vm_scales"] = scales; P["p_ai_beats"] = {k: p_beats(j, [r[k] for r in sel]) for k in BM}
+    P["shadows"] = {k: perf([r.get(k, 0.0) for r in sel]) for k in SHADOWS}; P["shadows"]["formula"] = perf([r["ai"] for r in sel])
+    out = verdict_check(P); out["judge"] = P["ai"]; out["p_judge_beats_formula"] = p_beats(j, [r["ai"] for r in sel])
+    out["note"] = "candidate = AI-judgment allocator; robust_2x is not computed for it (robust here = pass and ahead of every rival on Sharpe)"
+    if out.get("pass"): out["robust"] = bool(out.get("beats_best_shadow"))
+    return out
 
 
 def netting(repo, rows, W):
@@ -514,6 +580,9 @@ def run(repo, day=None):
         if s2: rep["stress_2x"] = {ph: {"ai": v["ai"], "p_ai_beats": v["p_ai_beats"]} for ph, v in phase_report(s2[0]).items() if ph in ("verdict", "all", "v2")}
     rep["verdict_check"] = {ph: verdict_check(rep["phases"].get(ph), (rep.get("stress_2x") or {}).get(ph))
                             for ph in ("verdict", "holdout") if ph in rep["phases"]}
+    if any(r.get(JUDGE) is not None for r in rows):
+        rep["judge_check"] = {ph: judge_check(rows, ph) for ph in ("verdict", "holdout", "all")}
+        rep["judge_latest"] = {"weights": W[-1].get("judge"), "weeks_without_seal": W[-1].get("judge_weeks_without_seal"), "seals": len(judge_seals(repo))}
     lib_ideal = "daily_ideal.json" if os.path.exists(os.path.join(repo, "data", "library", "daily_ideal.json")) else "daily.json"
     si = simulate(repo, day, sleeves(repo, lib_ideal, realistic=False), spy, vix)
     if si: rep["ideal_fills"] = {ph: {"ai": v["ai"], "base_a": v["base_a"]} for ph, v in phase_report(si[0]).items() if ph in ("verdict", "all", "v2")}

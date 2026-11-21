@@ -1,72 +1,79 @@
 {
- "day": "2026-11-19",
- "started": "2026-11-20 09:04:19",
+ "day": "2026-11-20",
+ "started": "2026-11-20 19:22:50",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 9.6,
+   "seconds": 6.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 9.4,
+   "seconds": 5.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 9.3,
+   "seconds": 5.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 7.1,
+   "seconds": 9.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 2.0,
+   "seconds": 3.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 6.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.3,
+   "seconds": 0.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "health",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "montecarlo",
+   "ok": true,
+   "seconds": 3.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 1.5,
+   "seconds": 7.5,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "3e99f2af7527992424d6ac75ff6b28158be1367f",
+ "commit": "a6cf7cd0be7ce477b5200911963b276d09ac9ece",
  "ok": true,
- "finished": "2026-11-20 09:04:59"
+ "finished": "2026-11-20 19:23:39"
 }
