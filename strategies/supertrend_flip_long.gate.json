@@ -1,0 +1,28 @@
+{
+ "id": "supertrend_flip_long",
+ "verdict": "REJECT",
+ "n_oos": 58,
+ "oos_mean": -0.0139,
+ "p_gt0": 0.0,
+ "dsr": 0.0,
+ "luck_sharpe": 0.2014,
+ "checks": {
+  "n_oos>=30": true,
+  "oos_mean>0_and_P>=0.9": false,
+  "dsr>=0.9": false,
+  "cpcv_pass": false,
+  "edge_reviewer_PASS": false
+ },
+ "reviewer": {
+  "verdict": "REVISE",
+  "confidence": 73,
+  "findings": [
+   "C5_exit_calibration: take_profit_rr=1.1 below 1.5",
+   "C7_execution_realism: No volume filter in entry conditions."
+  ],
+  "revision_instructions": [
+   "Tighten stop-loss to <=15% and ensure reward-to-risk >= 1.5.",
+   "Add volume filter (e.g., avg_volume > 500000) for execution realism."
+  ]
+ }
+}
