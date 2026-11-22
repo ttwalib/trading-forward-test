@@ -1,6 +1,6 @@
 {
  "champion": "formula",
- "day": "2026-11-21",
+ "day": "2026-11-22",
  "entries": {
   "ai_judgment": {
    "deflated_sharpe_p": null,
@@ -36,7 +36,7 @@
    }
   }
  },
- "lifetime_unique_trials": 25,
+ "lifetime_unique_trials": 26,
  "yardsticks": [
   "spy",
   "equal",

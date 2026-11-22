@@ -1,53 +1,53 @@
 {
- "day": "2026-11-21",
- "started": "2026-11-21 21:09:32",
+ "day": "2026-11-20",
+ "started": "2026-11-22 07:55:01",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 6.8,
+   "seconds": 5.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 6.7,
+   "seconds": 4.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 6.6,
+   "seconds": 5.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 7.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 2.7,
+   "seconds": 1.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 7.2,
+   "seconds": 5.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.4,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
@@ -61,33 +61,47 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 0.5,
+   "seconds": 0.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 2.8,
+   "seconds": 2.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 8.2,
+   "seconds": 6.3,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "lane_auto",
+   "ok": true,
+   "seconds": 0.0,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "lane",
+   "ok": true,
+   "seconds": 0.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "spec",
    "ok": true,
-   "seconds": 8.9,
+   "seconds": 6.8,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "4633458c4f3153d36dfb61cc21b3e3bc3368548a",
+ "commit": "4561ad7e52334e30426fff8481792f6b25ffbd00",
  "ok": true,
- "finished": "2026-11-21 21:10:33"
+ "finished": "2026-11-22 07:55:47"
 }
