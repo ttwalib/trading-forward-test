@@ -1,0 +1,18 @@
+{
+ "live": {
+  "or_min": 5,
+  "stop": "mid",
+  "target_r": 1,
+  "spy": false
+ },
+ "challenger": {
+  "params": {
+   "or_min": 30,
+   "stop": "low",
+   "target_r": 1.5,
+   "spy": false
+  },
+  "since": "2026-11-20"
+ },
+ "migrated": "2026-11-22 from sheet 'Adaptive'!B3/D3 (sheet revision 177)"
+}
