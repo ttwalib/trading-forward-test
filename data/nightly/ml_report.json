@@ -1,0 +1,265 @@
+{
+ "date": "2026-11-22",
+ "ok": true,
+ "steps": {
+  "build": {
+   "stock": {
+    "rows": 1492,
+    "days": 66,
+    "labelled": {
+     "y_none": 1492,
+     "y_stock": 1492,
+     "y_stock_ideal": 1492,
+     "fill": 1492,
+     "y_atm": 31,
+     "y_d1": 15,
+     "y_w4": 0,
+     "best": 1492
+    }
+   },
+   "crypto": {
+    "rows": 170,
+    "days": 6,
+    "labelled": {
+     "y": 170
+    }
+   }
+  },
+  "scored": 18,
+  "train": "done"
+ },
+ "report": {
+  "date": "2026-11-22",
+  "train": {
+   "date": "2026-11-22",
+   "stock": {
+    "family": "stock",
+    "rows": 12519,
+    "fit_rows": 12519,
+    "oos_rows": 12149,
+    "oos_days": 486,
+    "always_take_mean": -0.0651,
+    "pbo": 0.7,
+    "configs": {
+     "logistic@0.45": {
+      "model": "logistic",
+      "threshold": 0.45,
+      "n_taken": 4559,
+      "share_taken": 0.375,
+      "mean_taken": 0.0127,
+      "auc": 0.534,
+      "brier": 0.2554
+     },
+     "logistic@0.50": {
+      "model": "logistic",
+      "threshold": 0.5,
+      "n_taken": 2850,
+      "share_taken": 0.235,
+      "mean_taken": 0.013,
+      "auc": 0.534,
+      "brier": 0.2554
+     },
+     "logistic@0.55": {
+      "model": "logistic",
+      "threshold": 0.55,
+      "n_taken": 1702,
+      "share_taken": 0.14,
+      "mean_taken": 0.0454,
+      "auc": 0.534,
+      "brier": 0.2554
+     },
+     "gbm@0.45": {
+      "model": "gbm",
+      "threshold": 0.45,
+      "n_taken": 3796,
+      "share_taken": 0.312,
+      "mean_taken": 0.0298,
+      "auc": 0.538,
+      "brier": 0.2444
+     },
+     "gbm@0.50": {
+      "model": "gbm",
+      "threshold": 0.5,
+      "n_taken": 1706,
+      "share_taken": 0.14,
+      "mean_taken": 0.0666,
+      "auc": 0.538,
+      "brier": 0.2444
+     },
+     "gbm@0.55": {
+      "model": "gbm",
+      "threshold": 0.55,
+      "n_taken": 905,
+      "share_taken": 0.074,
+      "mean_taken": 0.0823,
+      "auc": 0.538,
+      "brier": 0.2444
+     },
+     "forest@0.45": {
+      "model": "forest",
+      "threshold": 0.45,
+      "n_taken": 1190,
+      "share_taken": 0.098,
+      "mean_taken": -0.0034,
+      "auc": 0.531,
+      "brier": 0.2405
+     },
+     "forest@0.50": {
+      "model": "forest",
+      "threshold": 0.5,
+      "n_taken": 313,
+      "share_taken": 0.026,
+      "mean_taken": 0.099,
+      "auc": 0.531,
+      "brier": 0.2405
+     },
+     "forest@0.55": {
+      "model": "forest",
+      "threshold": 0.55,
+      "n_taken": 24,
+      "share_taken": 0.002,
+      "mean_taken": 0.3748,
+      "auc": 0.531,
+      "brier": 0.2405
+     }
+    },
+    "p_beats_always_take": 0.999,
+    "median_config_mean_taken": 0.0376,
+    "best_config": "forest@0.50",
+    "champion": "always_take",
+    "why": "kept always-take: needs n_oos >= 60, at least 60 taken trades, an OOS mean above always-take with P(beats) >= 0.9, and PBO < 0.5",
+    "calibration": [
+     {
+      "bin": "0.2-0.4",
+      "n": 2998,
+      "pred": 0.375,
+      "hit": 0.361
+     },
+     {
+      "bin": "0.4-0.6",
+      "n": 9151,
+      "pred": 0.429,
+      "hit": 0.418
+     }
+    ],
+    "importance": [
+     {
+      "feature": "nh_nl",
+      "auc_drop": 0.0387
+     },
+     {
+      "feature": "breadth20",
+      "auc_drop": 0.0102
+     },
+     {
+      "feature": "days_to_fomc",
+      "auc_drop": 0.009
+     },
+     {
+      "feature": "vix_chg",
+      "auc_drop": 0.0076
+     },
+     {
+      "feature": "breadth50",
+      "auc_drop": 0.0064
+     },
+     {
+      "feature": "spy_gap",
+      "auc_drop": 0.0063
+     },
+     {
+      "feature": "crypto_score",
+      "auc_drop": 0.0057
+     },
+     {
+      "feature": "vix",
+      "auc_drop": 0.0055
+     },
+     {
+      "feature": "or_width_atr",
+      "auc_drop": 0.0051
+     },
+     {
+      "feature": "risk_pct",
+      "auc_drop": 0.0046
+     },
+     {
+      "feature": "days_to_opex",
+      "auc_drop": 0.0043
+     },
+     {
+      "feature": "ret1d",
+      "auc_drop": 0.0042
+     }
+    ],
+    "instrument_models": [
+     "stock"
+    ],
+    "fit": "saved models/stock.pkl (12519 rows)"
+   },
+   "crypto": {
+    "family": "crypto",
+    "rows": 170,
+    "fit_rows": 170,
+    "oos_rows": 0,
+    "oos_days": 0,
+    "status": "not enough out-of-sample rows yet (0 < 20)"
+   },
+   "at": "2026-11-22T13:16:07+00:00"
+  },
+  "drift": {
+   "stock": {
+    "psi": {
+     "gap_pct": 0.221,
+     "or_width_pct": 0.124,
+     "or_width_atr": 0.325,
+     "or_vol_rel": 0.054,
+     "breakout_min": 0.112,
+     "risk_pct": 0.111,
+     "ret1d": 0.139,
+     "ret5d": 0.253,
+     "vs_sma20": 0.363,
+     "spy_gap": 3.328,
+     "spy_run": 0.515,
+     "spy_vs20": 5.163,
+     "vix": 4.207,
+     "vix_chg": 3.624,
+     "breadth20": 3.428,
+     "breadth50": 3.505,
+     "nh_nl": 2.808,
+     "crypto_score": 5.922,
+     "weekday": 0.031,
+     "days_to_fomc": 4.907,
+     "days_to_opex": 3.903,
+     "earn_days": 0.393
+    },
+    "flagged": [
+     "breadth20",
+     "breadth50",
+     "crypto_score",
+     "days_to_fomc",
+     "days_to_opex",
+     "earn_days",
+     "nh_nl",
+     "or_width_atr",
+     "ret5d",
+     "spy_gap",
+     "spy_run",
+     "spy_vs20",
+     "vix",
+     "vix_chg",
+     "vs_sma20"
+    ],
+    "note": "PSI > 0.25 = the live inputs no longer look like the training data; > 0.1 = watch"
+   },
+   "crypto": "no model yet"
+  },
+  "shadow": {
+   "predictions": 111,
+   "scored": 90,
+   "taken": 67,
+   "mean_taken": -0.2536,
+   "always_take_mean_same_candidates": -0.6981
+  }
+ }
+}
