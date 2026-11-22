@@ -1,103 +1,124 @@
 {
  "errors": [],
  "files": {
-  "15m/SHIB": {
-   "added": 8,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9090,
-   "last": "2026-11-22T07:15:00Z"
-  },
-  "15m/SOL": {
-   "added": 3,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9092,
-   "last": "2026-11-22T07:15:00Z"
-  },
-  "15m/AVAX": {
-   "added": 3,
-   "vol_filled": 1,
-   "coarse_fixed": 0,
-   "total": 9091,
-   "last": "2026-11-22T07:15:00Z"
-  },
-  "15m/BTC": {
-   "added": 3,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9093,
-   "last": "2026-11-22T07:15:00Z"
-  },
-  "15m/DOGE": {
-   "added": 3,
-   "vol_filled": 1,
-   "coarse_fixed": 7,
-   "total": 9088,
-   "last": "2026-11-22T07:15:00Z"
-  },
   "15m/ETH": {
-   "added": 3,
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9071,
-   "last": "2026-11-22T07:15:00Z"
+   "total": 9082,
+   "last": "2026-11-22T10:00:00Z"
   },
   "15m/LINK": {
-   "added": 3,
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9093,
-   "last": "2026-11-22T07:15:00Z"
+   "total": 9104,
+   "last": "2026-11-22T10:00:00Z"
   },
-  "1h/AVAX": {
-   "added": 1,
+  "15m/SHIB": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+   "total": 9101,
+   "last": "2026-11-22T10:00:00Z"
   },
-  "1h/BTC": {
-   "added": 1,
+  "15m/SOL": {
+   "added": 2,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+   "total": 9103,
+   "last": "2026-11-22T10:00:00Z"
   },
-  "1h/DOGE": {
-   "added": 1,
-   "vol_filled": 1,
-   "coarse_fixed": 2,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+  "15m/AVAX": {
+   "added": 2,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 9102,
+   "last": "2026-11-22T10:00:00Z"
+  },
+  "15m/BTC": {
+   "added": 2,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 9104,
+   "last": "2026-11-22T10:00:00Z"
+  },
+  "15m/DOGE": {
+   "added": 2,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 9099,
+   "last": "2026-11-22T10:00:00Z"
   },
   "1h/ETH": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
+  },
+  "1h/AVAX": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
+  },
+  "1h/BTC": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
+  },
+  "1h/DOGE": {
+   "added": 1,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
   },
   "1h/LINK": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
   },
   "1h/SHIB": {
-   "added": 2,
+   "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
   },
   "1h/SOL": {
    "added": 1,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8847,
-   "last": "2026-11-22T06:00:00Z"
+   "total": 8850,
+   "last": "2026-11-22T09:00:00Z"
+  },
+  "1d/AVAX": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 742,
+   "last": "2026-11-21T12:00:00Z"
+  },
+  "1d/BTC": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 742,
+   "last": "2026-11-21T12:00:00Z"
+  },
+  "1d/DOGE": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 742,
+   "last": "2026-11-21T12:00:00Z"
   },
   "1d/ETH": {
    "added": 0,
@@ -126,78 +147,15 @@
    "coarse_fixed": 0,
    "total": 742,
    "last": "2026-11-21T12:00:00Z"
-  },
-  "1d/AVAX": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 742,
-   "last": "2026-11-21T12:00:00Z"
-  },
-  "1d/BTC": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 742,
-   "last": "2026-11-21T12:00:00Z"
-  },
-  "1d/DOGE": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 742,
-   "last": "2026-11-21T12:00:00Z"
   }
  },
  "mismatch": [
   {
    "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795293000,
-   "stored": 3.63e-06,
-   "alpaca": 3.62e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795293900,
-   "stored": 3.63e-06,
-   "alpaca": 3.615e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795294800,
-   "stored": 3.63e-06,
-   "alpaca": 3.615e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795295700,
-   "stored": 3.63e-06,
-   "alpaca": 3.615e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795296600,
-   "stored": 3.63e-06,
-   "alpaca": 3.61e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795298400,
-   "stored": 3.63e-06,
-   "alpaca": 3.6e-06
-  },
-  {
-   "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795299300,
-   "stored": 3.63e-06,
-   "alpaca": 3.61e-06
+   "sym": "LINK",
+   "t": 1795334400,
+   "stored": 8.582,
+   "alpaca": 8.60769
   },
   {
    "tf": "15m",
@@ -222,31 +180,24 @@
   },
   {
    "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795293000,
-   "stored": 6.64,
-   "alpaca": 6.62619
+   "sym": "SHIB",
+   "t": 1795334400,
+   "stored": 3.58e-06,
+   "alpaca": 3.595e-06
   },
   {
    "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795296600,
-   "stored": 6.64,
-   "alpaca": 6.61805
+   "sym": "SHIB",
+   "t": 1795337100,
+   "stored": 3.61e-06,
+   "alpaca": 3.6e-06
   },
   {
    "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795298400,
-   "stored": 6.64,
-   "alpaca": 6.56254
-  },
-  {
-   "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795299300,
-   "stored": 6.64,
-   "alpaca": 6.5685
+   "sym": "SHIB",
+   "t": 1795338000,
+   "stored": 3.6e-06,
+   "alpaca": 3.59e-06
   },
   {
    "tf": "15m",
@@ -362,6 +313,34 @@
   },
   {
    "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795333500,
+   "stored": 6.5,
+   "alpaca": 6.51316
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795334400,
+   "stored": 6.5,
+   "alpaca": 6.557755
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795335300,
+   "stored": 6.6,
+   "alpaca": 6.583815
+  },
+  {
+   "tf": "15m",
+   "sym": "AVAX",
+   "t": 1795338000,
+   "stored": 6.6,
+   "alpaca": 6.58195
+  },
+  {
+   "tf": "15m",
    "sym": "DOGE",
    "t": 1795303800,
    "stored": 0.05498,
@@ -396,11 +375,39 @@
    "alpaca": 0.05412965
   },
   {
-   "tf": "1h",
-   "sym": "AVAX",
-   "t": 1795161600,
-   "stored": 6.9,
-   "alpaca": 6.8855
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795332600,
+   "stored": 0.054,
+   "alpaca": 0.0541839
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795334400,
+   "stored": 0.05428,
+   "alpaca": 0.0544985
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795335300,
+   "stored": 0.05485,
+   "alpaca": 0.05468485
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795338000,
+   "stored": 0.05489,
+   "alpaca": 0.05465345
+  },
+  {
+   "tf": "15m",
+   "sym": "DOGE",
+   "t": 1795338900,
+   "stored": 0.05489,
+   "alpaca": 0.0547695
   },
   {
    "tf": "1h",
@@ -572,17 +579,10 @@
   },
   {
    "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795161600,
-   "stored": 0.05747,
-   "alpaca": 0.0572675
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795168800,
-   "stored": 0.05703,
-   "alpaca": 0.057252
+   "sym": "AVAX",
+   "t": 1795330800,
+   "stored": 6.5,
+   "alpaca": 6.51316
   },
   {
    "tf": "1h",
@@ -646,27 +646,6 @@
    "t": 1795248000,
    "stored": 8.316,
    "alpaca": 8.29312
-  },
-  {
-   "tf": "1h",
-   "sym": "SHIB",
-   "t": 1795161600,
-   "stored": 3.74e-06,
-   "alpaca": 3.72e-06
-  },
-  {
-   "tf": "1h",
-   "sym": "SHIB",
-   "t": 1795165200,
-   "stored": 3.74e-06,
-   "alpaca": 3.71e-06
-  },
-  {
-   "tf": "1h",
-   "sym": "SHIB",
-   "t": 1795168800,
-   "stored": 3.71e-06,
-   "alpaca": 3.72e-06
   },
   {
    "tf": "1h",
@@ -774,6 +753,13 @@
    "alpaca": 3.605e-06
   },
   {
+   "tf": "1h",
+   "sym": "SHIB",
+   "t": 1795334400,
+   "stored": 3.61e-06,
+   "alpaca": 3.6e-06
+  },
+  {
    "tf": "1d",
    "sym": "BTC",
    "t": 1795003200,
@@ -789,16 +775,17 @@
   }
  ],
  "mismatch_count": {
-  "15m/SHIB": 10,
+  "15m/LINK": 1,
+  "15m/SHIB": 6,
   "15m/AVAX": 20,
-  "15m/DOGE": 5,
+  "15m/DOGE": 10,
   "1h/AVAX": 25,
-  "1h/DOGE": 10,
+  "1h/DOGE": 8,
   "1h/LINK": 1,
-  "1h/SHIB": 18,
+  "1h/SHIB": 16,
   "1d/BTC": 2
  },
  "mode": "crypto",
- "started": "2026-11-22T07:42:53Z",
- "finished": "2026-11-22T07:42:56Z"
+ "started": "2026-11-22T10:16:07Z",
+ "finished": "2026-11-22T10:16:09Z"
 }
