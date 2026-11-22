@@ -100,6 +100,9 @@ change-log row with decision "frozen holdout: no retune". LEDGER: AdaptiveStocks
 
 ## CRYPTO TRACKS
 
+RETIRED AS AN AI TASK on 2026-11-22: the tracks run on GitHub (`scripts/daily.py crypto`; CHANGES item 30a). The text
+below describes the old task and is kept for the record.
+
 DATA (changed 2026-11-20): GitHub stores crypto 15m / 1h / 1d bars from the free feed every 3 hours, 15 minutes before
 each run. First `git -C /tmp/repo pull -q --rebase`, then run the hist.py plan as before: if it asks for 0 new bars,
 skip every IBKR price call; if bars are still missing (the scheduled run was late), fetch only those from IBKR.
@@ -375,7 +378,7 @@ After the existing steps:
      L15 stays; result A supports it. A true S&P 100 history (paid, about $30) would be needed to replace the priors.
   22. AUDIT CHECKLIST (owner decision 2026-11-21): ops/audit_checklist.md, adapted from an open-source checklist
      (github.com/Kryhr/26-quant-trading-skills, MIT) after a review of its files (text only, no code, no outside
-     links). The independent audit of 2026-12-01 runs it step by step and records the actual result of every check.
+     links). The independent audit of 2026-12-04 (moved from 2026-12-01, item 30) runs it step by step and records the actual result of every check.
   23. FIX (check-in of 2026-11-21, from the live-vs-replay parity check of 2026-11-20): the 10:05 live run's features
      differed from the nightly replay on 16 of 23 candidates (opening-range volume about half, entry a few cents
      off). Cause: in the task's own copy, store.py let IBKR bars overwrite the free feed's stored 5-minute bars, so
@@ -435,17 +438,51 @@ After the existing steps:
      week's relative return (largest |t| 1.5; data/pit/train_ic.json). Any ML edge will have to come from combinations,
      and the honest prior is that there may be none. Prices in data/pit end 2026-11-13; the ranker (stage 2, after
      2026-12-07) needs a nightly refresh of S&P 500 membership and bars.
+  30. FRESH RESTART (owner decision 2026-11-22, "go with that plan"). Instead of carrying a half-manual setup into
+     the verdict window, the setup is finished first and then started clean:
+       - Week of 2026-11-23: scripted work moves from AI tasks to GitHub (scripts/daily.py, no AI in the loop), with
+         the repo ledger as the only record; one evening AI task copies the ledgers into the sheet for reading; sleeves
+         are trimmed by a rule that ignores results; old tabs are cleaned up.
+       - 2026-11-30 to 2026-12-04: SHAKEDOWN. The new setup runs alone, measured against pre-registration section 8.
+       - 2026-12-04: the independent audit (moved from 2026-12-01 so that it audits the finished setup).
+       - 2026-12-07: code freeze and the verdict window opens, if the shakedown passed and no audit defect is open;
+         otherwise both slide one week to 2026-12-14. The end (2027-05-14) does not move.
+     What the restart does NOT do: the trial count is never reset; sleeves are never chosen by their results so far;
+     no data is deleted. Everything before the window opens stays in the ledgers, labelled warm-up history, exactly
+     as before. No rule of any strategy, the allocator, the verdict or the benchmarks changes.
+     MOVED TO GITHUB SO FAR (scripts/daily.py; each calls the same scripts with the same inputs as the task it replaces):
+       a) CRYPTO TRACKS (2026-11-22): `daily.py crypto` runs in the market-data workflow right after each crypto bar
+          fetch (every 3 hours at :32 UTC). State: data/state/crypto.json (migrated from the sheet cells
+          "Crypto state"!A3 and "Adaptive"!A3/C3 at sheet revision 177); review log: data/state/crypto_log.jsonl
+          (the old "Adaptive" change log); open positions: data/state/crypto_open.json; run report:
+          ops/diag/daily_crypto.json. The daily review is the first run at or after 16:00 New York. The AI task
+          "crypto tracks" is disabled and its prompt replaced by a one-line "retired" reply.
+       b) ML NIGHTLY (2026-11-22): `daily.py ml` runs at 03:07 UTC (22:07 New York in winter): decisions.py build,
+          ml.py score into the MLShadow ledger, ml.py train (the frozen holdout keeps the saved models), ml.py report.
+          Summary: data/nightly/ml_report.json. The AI task "ML nightly" is disabled the same way.
+       Stock adaptive settings were copied to data/state/stocks.json for the coming move of the stock jobs; until that
+       move the stock tasks still read and write the sheet cells.
+     UNTIL THE SHEET-SYNC TASK EXISTS the sheet tabs "Crypto tracks", "Crypto state"!A3, "Adaptive" (crypto cells and
+     log) and "ML shadow" (crypto rows, realized columns) are no longer updated; the repo is the record.
+     ORCHESTRATOR AND WATCHDOG (this overrides their prompts): do NOT check, count as missing or fire
+     trig_015nU8hZEPt63TqiZjdPYPDp (crypto tracks) or trig_0163kWWp8vAnJjwWjkJvbW9W (ML nightly). Instead read
+     ops/diag/daily_crypto.json (healthy = "ok" true and "at" within the last 4 hours) and data/nightly/ml_report.json
+     (healthy = "ok" true and "date" is today or yesterday); report an unhealthy one first in the digest as
+     "GitHub job failed", with its "error" / "ml_error" text. To re-run one, push ops/fetch_request.json with mode
+     "crypto" or "mlnight". For the nightly snapshot take the crypto settings from data/state/crypto.json ("live",
+     "challengers") instead of "Adaptive"!A3 and C3. In the ledger mirror check (4-pre and ML NIGHTLY step 1) skip
+     CryptoTracks and MLShadow: for these the ledger is ahead of the sheet by design.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
 
-- From 2026-12-01 no new features, strategies of the library, benchmarks or rule changes: only fixes for defects
+- From 2026-11-30 (the shakedown week; was 2026-12-01 until the restart plan of 2026-11-22, item 30) no new features, strategies of the library, benchmarks or rule changes: only fixes for defects
   found by the audit or by a failing task, each listed here with its date. (Strategy-lab candidates keep running
   through their gate: that is part of the tested process.)
-- Independent audit on 2026-12-01 by a fresh session that did not build the system (scheduled task "Quantavius the
+- Independent audit on 2026-12-04 (moved from 2026-12-01, item 30) by a fresh session that did not build the system (scheduled task "Quantavius the
   1st - independent audit"): look-ahead and data-snooping review of allocator.py, library.py, fills.py, corp.py,
   decisions.py, ml.py, stats.py and engine.py; a re-run of the nightly chain on a copy; a freeze rehearsal (hashes of
-  the frozen files, twice, must match); report in reports/audit/2026-12-01.md. It changes no code.
+  the frozen files, twice, must match); report in reports/audit/2026-12-04.md. It changes no code.
   Since 2026-11-21 it also works through ops/audit_checklist.md (look-ahead tests by truncation and by corrupting
   future data, fill feasibility, the AI-judgment seals, trial count, protocol, reproducibility).
 - 2026-12-07: allocator.py records the hashes in ops/freeze.json on its first run. Never edit that file. Since
@@ -652,6 +689,9 @@ rules do not change.
    "ML shadow" (A-N). LEDGER Live and MLShadow, then GIT ("live decisions").
 
 ## ML NIGHTLY (19:47 daily)
+
+RETIRED AS AN AI TASK on 2026-11-22: the job runs on GitHub (`scripts/daily.py ml`, 22:07 New York; CHANGES item 30b).
+The text below describes the old task and is kept for the record.
 
 Since 2026-11-20 GitHub also fits the crypto family once more each day at 05:17 ET (CHANGES 2026-11-20 item 14) and
 scores baseline breakouts at detection (item 13). `git pull` first; never delete data/decisions/engine_ml/. In step 5

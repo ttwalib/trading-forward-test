@@ -24,6 +24,7 @@ Changes made before the window are allowed if they are dated and visible. After 
 | 2026-11-21 | Response rule if a simple rule wins (section 4, owner decision). | Decide in advance what a disappointing result leads to. |
 | 2026-11-22 | Owner confirmed in writing: H1 stays on the frozen formula; the revised approach runs beside it as a labelled challenger and never counts towards H1. Owner also confirmed H1-H3 as registered. | Removes the last open choice in section 4. |
 | 2026-11-22 | Challenger lane (runbook items 28-29): register, forward scoring, fixed quarterly reviews from 2027-05-18, promotion and retirement rules, monthly cap, honest point-in-time training history. Outside the frozen scripts; no weight in H1, H2 or H3. | Owner wants the test to keep running and building on new data. |
+| 2026-11-22 | Fresh restart (runbook item 30): the setup is finished this week (scripted work moves to GitHub with the repo ledger as the only record; sleeves trimmed by a rule that ignores results), runs alone in a shakedown from 2026-11-30 to 2026-12-04, is audited on 2026-12-04 (moved from 2026-12-01), and the freeze and verdict window open on 2026-12-07 only if the shakedown met section 8 and no audit defect is open; otherwise both move to 2026-12-14. The end date stays 2027-05-14. The trial count is not reset, no data is deleted (everything before the window is warm-up history, as before), and no strategy, allocator, benchmark or verdict rule changes. | Owner decision: start the judged window on a finished, tested setup instead of changing it during the window. Written before any data in the window exists. |
 | 2026-11-21 | Option bars come from the free data feed instead of passing through the AI. Entries, exits, strikes, fees and scripts unchanged. | Runs were failing silently; hand-pasted prices are a reliability risk. |
 | 2026-11-21 | Weight cap for short-premium option sleeves and the stress test behind it (section 7). | External review: the crash drill excluded option sleeves. |
 
@@ -137,7 +138,7 @@ calm test window flatters them. The stress test and the weight cap that follow f
 - The interim and final reports give, next to H1, how much of the AI portfolio's return came from these four sleeves
   (weight times sleeve return, day by day), so the reader can see H1's result without them.
 
-## 8. Shakedown thresholds (checked weekly from 2026-12-07; a breach is reported first in the weekly report)
+## 8. Shakedown thresholds (first applied to the shakedown week 2026-11-30 to 2026-12-04, then checked weekly from 2026-12-07; a breach is reported first in the weekly report)
 
 | Measure | Threshold |
 |---|---|
@@ -147,3 +148,4 @@ calm test window flatters them. The stress test and the weight cap that follow f
 | GitHub Actions minutes, projected for the month | at most 70% of the allowance |
 | Days with a missing ledger row for a strategy that should have traded | none unexplained |
 | Weekly random-day replay against stored results | identical |
+| GitHub scripted jobs (ops/diag/daily_*.json, data/nightly/ml_report.json, data/nightly/stamp.json) | every scheduled run ok, or re-run ok the same day |

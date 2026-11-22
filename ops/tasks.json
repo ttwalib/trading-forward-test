@@ -20,12 +20,6 @@
    "does": "Records breakouts, live option quotes and the ML choice before outcomes are known"
   },
   {
-   "name": "Crypto tracks",
-   "when": "every 3 h at :47",
-   "model": "Sonnet",
-   "does": "Runs the four crypto tracks; daily review at 16:47"
-  },
-  {
    "name": "Deep OTM + weekly options",
    "when": "17:00 weekdays",
    "model": "Sonnet",
@@ -48,12 +42,6 @@
    "when": "21:05 daily",
    "model": "Sonnet",
    "does": "Checks the pipeline, regime, data checks; requests the nightly maths on GitHub; digest"
-  },
-  {
-   "name": "ML nightly",
-   "when": "22:05 daily",
-   "model": "Opus",
-   "does": "Scores shadow predictions, retrains and validates the ML filter"
   },
   {
    "name": "Watchdog",
@@ -87,7 +75,7 @@
   },
   {
    "name": "Independent audit",
-   "when": "2026-12-01 05:10 (once)",
+   "when": "2026-12-04 05:10 (once)",
    "model": "see task",
    "does": "A session that did not build the system works through ops/audit_checklist.md"
   },
@@ -150,6 +138,16 @@
    "name": "no-orders",
    "when": "on pushes touching scripts or workflows",
    "does": "Fails and opens an issue if an order-related call appears"
+  },
+  {
+   "name": "crypto tracks",
+   "when": "every 3 h at :32 UTC, after the crypto bars",
+   "does": "Runs the four crypto tracks, their ledger rows, ML shadow predictions and the daily review (scripts/daily.py crypto)"
+  },
+  {
+   "name": "ML nightly",
+   "when": "03:07 UTC daily (22:07 New York)",
+   "does": "Rebuilds decision rows, scores shadow predictions, evaluates and refits the models (scripts/daily.py ml)"
   }
  ]
 }
