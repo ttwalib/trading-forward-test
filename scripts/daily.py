@@ -2,6 +2,9 @@
 
   python3 daily.py crypto REPO [NOW]    one crypto-tracks checkpoint: the four tracks, the ledger, the ML shadow
                                         predictions and (first run at or after 16:00 New York) the daily review
+  python3 daily.py ml REPO [DAY]        the nightly machine-learning job: rebuild the decision rows, score the shadow
+                                        predictions, walk-forward evaluation and refit (never in the frozen holdout),
+                                        drift check; summary in data/nightly/ml_report.json
 
 Until 2026-11-22 an AI task did these steps by hand eight times a day: it read the state from the sheet, ran the same
 scripts and wrote the rows back. Nothing in the rules changed: this file only calls the existing scripts
@@ -111,9 +114,32 @@ def crypto(repo, now=None):
     diag["ok"] = True; jsave(dpath, diag); return diag
 
 
+def ml_night(repo, day=None):
+    """The steps the "ML nightly" AI task ran until 2026-11-22, in the same order: decisions.py build, ml.py score
+    (results into the MLShadow ledger rows), ml.py train DAY (keeps the saved models in the frozen holdout), ml.py report."""
+    import decisions, ml
+    day = day or dt.datetime.now(tcal.NY).date().isoformat(); out = {"date": day, "ok": False, "steps": {}}
+    path = os.path.join(repo, "data", "nightly", "ml_report.json")
+    if tcal.D(day) < tcal.START or tcal.D(day) > tcal.FINAL_REPORT:
+        out.update(ok=True, note="no ML work on this date"); jsave(path, out); return out
+    try:
+        b = decisions.build(repo); out["steps"]["build"] = b if isinstance(b, dict) and len(json.dumps(b, default=str)) < 2000 else "done"
+        sc = ml.score(repo)
+        if sc: ledger.add(repo, "MLShadow", sc)
+        out["steps"]["scored"] = len(sc)
+        ml.train(repo, day); out["steps"]["train"] = "done"
+        rep = ml.report(repo, day); out["report"] = json.loads(json.dumps(rep, default=str)); out["ok"] = True
+    except Exception as e:
+        out["error"] = "%s: %s" % (type(e).__name__, e)
+    jsave(path, out); return out
+
+
 def main():
     a = sys.argv[1:]
     if a[0] == "crypto": print(json.dumps(crypto(a[1], a[2] if len(a) > 2 else None), indent=1))
+    elif a[0] == "ml":
+        r = ml_night(a[1], a[2] if len(a) > 2 else None)
+        print(json.dumps({k: r[k] for k in r if k != "report"}, indent=1, default=str)[:3000])
     else: raise SystemExit("unknown mode")
 
 
