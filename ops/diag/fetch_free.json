@@ -1,110 +1,103 @@
 {
  "errors": [],
  "files": {
-  "15m/ETH": {
-   "added": 13,
+  "15m/DOGE": {
+   "added": 11,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9118,
-   "last": "2026-11-22T19:00:00Z"
+   "total": 9146,
+   "last": "2026-11-22T21:45:00Z"
+  },
+  "15m/ETH": {
+   "added": 11,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 9129,
+   "last": "2026-11-22T21:45:00Z"
   },
   "15m/LINK": {
-   "added": 13,
+   "added": 11,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9140,
-   "last": "2026-11-22T19:00:00Z"
+   "total": 9151,
+   "last": "2026-11-22T21:45:00Z"
   },
   "15m/SHIB": {
-   "added": 13,
+   "added": 11,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9137,
-   "last": "2026-11-22T19:00:00Z"
+   "total": 9148,
+   "last": "2026-11-22T21:45:00Z"
   },
   "15m/SOL": {
-   "added": 13,
+   "added": 11,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9139,
-   "last": "2026-11-22T19:00:00Z"
+   "total": 9150,
+   "last": "2026-11-22T21:45:00Z"
   },
   "15m/AVAX": {
-   "added": 13,
+   "added": 11,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9138,
-   "last": "2026-11-22T19:00:00Z"
+   "total": 9149,
+   "last": "2026-11-22T21:45:00Z"
   },
   "15m/BTC": {
-   "added": 13,
+   "added": 11,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9140,
-   "last": "2026-11-22T19:00:00Z"
-  },
-  "15m/DOGE": {
-   "added": 13,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9135,
-   "last": "2026-11-22T19:00:00Z"
+   "total": 9151,
+   "last": "2026-11-22T21:45:00Z"
   },
   "1h/AVAX": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1h/BTC": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1h/DOGE": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1h/ETH": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1h/LINK": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1h/SHIB": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1h/SOL": {
    "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8859,
-   "last": "2026-11-22T18:00:00Z"
-  },
-  "1d/DOGE": {
-   "added": 0,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 742,
-   "last": "2026-11-21T12:00:00Z"
+   "total": 8862,
+   "last": "2026-11-22T21:00:00Z"
   },
   "1d/ETH": {
    "added": 0,
@@ -147,36 +140,43 @@
    "coarse_fixed": 0,
    "total": 742,
    "last": "2026-11-21T12:00:00Z"
+  },
+  "1d/DOGE": {
+   "added": 0,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 742,
+   "last": "2026-11-21T12:00:00Z"
   }
  },
  "mismatch": [
   {
    "tf": "15m",
-   "sym": "LINK",
-   "t": 1795334400,
-   "stored": 8.582,
-   "alpaca": 8.60769
+   "sym": "DOGE",
+   "t": 1795347000,
+   "stored": 0.05554,
+   "alpaca": 0.05533
   },
   {
    "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795334400,
-   "stored": 3.58e-06,
-   "alpaca": 3.595e-06
+   "sym": "DOGE",
+   "t": 1795347900,
+   "stored": 0.05554,
+   "alpaca": 0.05533
   },
   {
    "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795337100,
-   "stored": 3.61e-06,
-   "alpaca": 3.6e-06
+   "sym": "DOGE",
+   "t": 1795349700,
+   "stored": 0.05555,
+   "alpaca": 0.05495125
   },
   {
    "tf": "15m",
-   "sym": "SHIB",
-   "t": 1795338000,
-   "stored": 3.6e-06,
-   "alpaca": 3.59e-06
+   "sym": "DOGE",
+   "t": 1795350600,
+   "stored": 0.05497,
+   "alpaca": 0.0551232
   },
   {
    "tf": "15m",
@@ -212,34 +212,6 @@
    "t": 1795349700,
    "stored": 69.68,
    "alpaca": 70.0448
-  },
-  {
-   "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795333500,
-   "stored": 6.5,
-   "alpaca": 6.51316
-  },
-  {
-   "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795334400,
-   "stored": 6.5,
-   "alpaca": 6.557755
-  },
-  {
-   "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795335300,
-   "stored": 6.6,
-   "alpaca": 6.583815
-  },
-  {
-   "tf": "15m",
-   "sym": "AVAX",
-   "t": 1795338000,
-   "stored": 6.6,
-   "alpaca": 6.58195
   },
   {
    "tf": "15m",
@@ -303,83 +275,6 @@
    "t": 1795349700,
    "stored": 6.69,
    "alpaca": 6.66335
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795332600,
-   "stored": 0.054,
-   "alpaca": 0.0541839
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795334400,
-   "stored": 0.05428,
-   "alpaca": 0.0544985
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795335300,
-   "stored": 0.05485,
-   "alpaca": 0.05468485
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795338000,
-   "stored": 0.05489,
-   "alpaca": 0.05465345
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795338900,
-   "stored": 0.05489,
-   "alpaca": 0.0547695
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795347000,
-   "stored": 0.05554,
-   "alpaca": 0.05533
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795347900,
-   "stored": 0.05554,
-   "alpaca": 0.05533
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795349700,
-   "stored": 0.05555,
-   "alpaca": 0.05495125
-  },
-  {
-   "tf": "15m",
-   "sym": "DOGE",
-   "t": 1795350600,
-   "stored": 0.05497,
-   "alpaca": 0.0551232
-  },
-  {
-   "tf": "1h",
-   "sym": "AVAX",
-   "t": 1795204800,
-   "stored": 6.41,
-   "alpaca": 6.44365
-  },
-  {
-   "tf": "1h",
-   "sym": "AVAX",
-   "t": 1795212000,
-   "stored": 6.55,
-   "alpaca": 6.58125
   },
   {
    "tf": "1h",
@@ -513,13 +408,6 @@
    "t": 1795345200,
    "stored": 6.6,
    "alpaca": 6.684925
-  },
-  {
-   "tf": "1h",
-   "sym": "DOGE",
-   "t": 1795212000,
-   "stored": 0.05422,
-   "alpaca": 0.05445695
   },
   {
    "tf": "1h",
@@ -670,18 +558,17 @@
   }
  ],
  "mismatch_count": {
-  "15m/LINK": 1,
-  "15m/SHIB": 7,
+  "15m/DOGE": 4,
+  "15m/SHIB": 4,
   "15m/SOL": 1,
-  "15m/AVAX": 13,
-  "15m/DOGE": 9,
-  "1h/AVAX": 21,
-  "1h/DOGE": 7,
+  "15m/AVAX": 9,
+  "1h/AVAX": 19,
+  "1h/DOGE": 6,
   "1h/LINK": 1,
   "1h/SHIB": 12,
   "1d/BTC": 2
  },
  "mode": "crypto",
- "started": "2026-11-22T19:24:36Z",
- "finished": "2026-11-22T19:24:38Z"
+ "started": "2026-11-22T22:14:38Z",
+ "finished": "2026-11-22T22:14:40Z"
 }
