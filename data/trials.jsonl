@@ -59,3 +59,4 @@
 {"at":"2026-11-21 22:08","n":1,"name":"forest@0.55","source":"ml_y_stock"}
 {"at":"2026-11-21 23:18","n":9,"name":"supertrend_flip_long","source":"strategy_lab"}
 {"at":"2026-11-21 23:18","n":181,"name":"slices 2026-11-21","source":"learning"}
+{"at":"2026-11-22 07:53","n":13,"name":"univariate rank IC table, 13 features","source":"pit_train"}

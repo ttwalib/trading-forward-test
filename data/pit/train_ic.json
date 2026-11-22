@@ -1,0 +1,70 @@
+{
+ "what": "univariate rank IC of each feature with xs5, one sample every 5 days (non-overlapping labels); descriptive, 13 trials logged",
+ "ic": {
+  "r1": {
+   "ic_mean": -0.0113,
+   "t": -0.66,
+   "weeks": 118
+  },
+  "r5": {
+   "ic_mean": -0.006,
+   "t": -0.35,
+   "weeks": 118
+  },
+  "r21": {
+   "ic_mean": -0.0125,
+   "t": -0.7,
+   "weeks": 118
+  },
+  "r63": {
+   "ic_mean": -0.0085,
+   "t": -0.47,
+   "weeks": 118
+  },
+  "r126": {
+   "ic_mean": 0.0048,
+   "t": 0.25,
+   "weeks": 118
+  },
+  "mom_126_21": {
+   "ic_mean": 0.0069,
+   "t": 0.36,
+   "weeks": 118
+  },
+  "vol21": {
+   "ic_mean": 0.0126,
+   "t": 0.61,
+   "weeks": 118
+  },
+  "vol63": {
+   "ic_mean": 0.0162,
+   "t": 0.71,
+   "weeks": 118
+  },
+  "hi126": {
+   "ic_mean": -0.0091,
+   "t": -0.48,
+   "weeks": 118
+  },
+  "lo126": {
+   "ic_mean": 0.0012,
+   "t": 0.07,
+   "weeks": 118
+  },
+  "dvol21": {
+   "ic_mean": 0.0059,
+   "t": 0.47,
+   "weeks": 118
+  },
+  "vratio": {
+   "ic_mean": 0.0105,
+   "t": 1.53,
+   "weeks": 118
+  },
+  "rsi14": {
+   "ic_mean": -0.0165,
+   "t": -1.15,
+   "weeks": 118
+  }
+ }
+}

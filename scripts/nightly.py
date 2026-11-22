@@ -72,6 +72,9 @@ def main():
         # Monte Carlo risk report (report only, never part of the verdict; added 2026-11-21)
         stamp["steps"].append(step("montecarlo", [S("montecarlo.py"), "report", repo], os.path.join(N, "montecarlo.json"), 300))
         stamp["steps"].append(step("dashboard", [S("dashboard.py"), repo], None, 300))
+        # challenger lane (2026-11-22): register lab approvals, then score every entry on its forward days only
+        stamp["steps"].append(step("lane_auto", [S("registry.py"), "auto", repo], None, 120))
+        stamp["steps"].append(step("lane", [S("registry.py"), "score", repo], None, 600))
         # the current specification, regenerated from the configuration every night (2026-11-21)
         stamp["steps"].append(step("spec", [S("spec.py"), repo, os.path.join(repo, "ops", "SPEC.md")], None, 120))
     need = {"library", "library_2x", "library_ideal", "allocator", "stats"}

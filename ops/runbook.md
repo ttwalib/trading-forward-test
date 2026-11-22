@@ -415,6 +415,26 @@ After the existing steps:
      freed weight to the remaining backed sleeves. Thin history is not favoured: every sleeve's backtest counts for
      at most 20 day-equivalents however long it is, and a sleeve needs 10 active days before the formula may back
      it. L3 held weight on 2026-11-16 to 11-19 and has been in its drawdown breaker (weight 0) since 2026-11-20.
+  28. CHALLENGER LANE (2026-11-22, owner: run the test perpetually; middle path: lane and honest training history now,
+     ML models after 2026-12-07). Outside the frozen scripts, zero weight in H1. scripts/registry.py keeps
+     strategies/registry.json: every idea registered with a SHA-256 of its code, scored only from the next full trading
+     day after registration (nightly steps "lane_auto" and "lane" -> data/lane/scores.json), against SPY, equal weight,
+     baseline A, risk parity and the champion. Fixed reviews on the third Tuesday of Feb, May, Aug and Nov, first
+     2027-05-18 (scheduled task "Lane review"): promote with >= 60 forward days, bootstrap chance >= 0.98 against the
+     champion and every yardstick (same bar at every look), deflated Sharpe chance >= 0.95 with the lifetime trial count;
+     retire on a recent chance <= 0.10 of beating the best yardstick over 120 days or a forward drawdown above 20%.
+     At most 3 new entries a month; a retrain is a new version with its own forward start. Champion history:
+     data/lane/champions.jsonl. Seeds: "formula" (the cycle-1 AI formula, scored from 2026-12-07, champion) and
+     "ai_judgment" (scored from 2026-11-23). Strategy-lab strategies with a gate PASS are registered automatically.
+  29. HONEST TRAINING HISTORY (2026-11-22, lane stage 1): scripts/pit_train.py builds data/pit/train_1d.csv.gz (not
+     committed: 19 MB, rebuilt from data/pit in about a minute) from S&P 500 members on each day, departed companies
+     included, carried flat after their last price. 296,028 rows, 590 days (2024-07-03 to 2026-11-06), median 502 members
+     a day, 4.6% of rows from companies no longer in the index. 13 features from that day and earlier, label = next
+     5-day return minus that day's member median. A built-in check rebuilt 200 random rows from price files cut off at
+     their day: no differences (no look-ahead). Descriptive look (13 trials logged): no single feature predicts the next
+     week's relative return (largest |t| 1.5; data/pit/train_ic.json). Any ML edge will have to come from combinations,
+     and the honest prior is that there may be none. Prices in data/pit end 2026-11-13; the ranker (stage 2, after
+     2026-12-07) needs a nightly refresh of S&P 500 membership and bars.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)

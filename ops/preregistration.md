@@ -23,6 +23,7 @@ Changes made before the window are allowed if they are dated and visible. After 
 | 2026-11-21 | Separate hypotheses H2 and H3 registered (section 3). H1 is unchanged. | External review: the strategy lab and the agent picks had no rule of their own. |
 | 2026-11-21 | Response rule if a simple rule wins (section 4, owner decision). | Decide in advance what a disappointing result leads to. |
 | 2026-11-22 | Owner confirmed in writing: H1 stays on the frozen formula; the revised approach runs beside it as a labelled challenger and never counts towards H1. Owner also confirmed H1-H3 as registered. | Removes the last open choice in section 4. |
+| 2026-11-22 | Challenger lane (runbook items 28-29): register, forward scoring, fixed quarterly reviews from 2027-05-18, promotion and retirement rules, monthly cap, honest point-in-time training history. Outside the frozen scripts; no weight in H1, H2 or H3. | Owner wants the test to keep running and building on new data. |
 | 2026-11-21 | Option bars come from the free data feed instead of passing through the AI. Entries, exits, strikes, fees and scripts unchanged. | Runs were failing silently; hand-pasted prices are a reliability risk. |
 | 2026-11-21 | Weight cap for short-premium option sleeves and the stress test behind it (section 7). | External review: the crash drill excluded option sleeves. |
 

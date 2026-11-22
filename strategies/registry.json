@@ -1,0 +1,66 @@
+{
+ "champion": "formula",
+ "entries": {
+  "ai_judgment": {
+   "history": [
+    {
+     "at": "2026-11-22 07:51",
+     "status": "registered"
+    }
+   ],
+   "id": "ai_judgment",
+   "kind": "challenger",
+   "rules": "AI-judgment allocator: a language model seals next week's weights each Sunday from one evidence pack",
+   "series": {
+    "col": "sh_judge",
+    "type": "portfolio"
+   },
+   "source": "seed",
+   "status": "incubating",
+   "versions": [
+    {
+     "files": [
+      "scripts/judge.py"
+     ],
+     "forward_from": "2026-11-23",
+     "hash": "d0ddd054a102d08af4bd371cd1cc358f3e47a4dd6dfc4d4d952f7d465931c327",
+     "note": "first version",
+     "registered_at": "2026-11-22 07:51",
+     "v": 1
+    }
+   ]
+  },
+  "formula": {
+   "history": [
+    {
+     "at": "2026-11-22 07:51",
+     "status": "registered"
+    }
+   ],
+   "id": "formula",
+   "kind": "champion",
+   "rules": "Cycle-1 AI formula (H1): weekly quarter-Kelly allocation across all sleeves; frozen from 2026-12-07",
+   "series": {
+    "col": "ai",
+    "type": "portfolio"
+   },
+   "source": "seed",
+   "status": "champion",
+   "versions": [
+    {
+     "files": [
+      "scripts/allocator.py",
+      "scripts/corp.py",
+      "scripts/fills.py",
+      "scripts/library.py"
+     ],
+     "forward_from": "2026-12-07",
+     "hash": "0f1b6ebf2788770d13806aee5984bb5f2837328365b95d831c8fb58c9e710e1c",
+     "note": "first version",
+     "registered_at": "2026-11-22 07:51",
+     "v": 1
+    }
+   ]
+  }
+ }
+}

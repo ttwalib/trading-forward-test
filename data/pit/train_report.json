@@ -1,0 +1,42 @@
+{
+ "built": "2026-11-22",
+ "rows": 296028,
+ "days": 590,
+ "from": "2024-07-03",
+ "to": "2026-11-06",
+ "label_through": "2026-11-13",
+ "members_per_day_median": 502.0,
+ "symbols": 546,
+ "symbols_not_in_latest_list": 45,
+ "rows_from_companies_not_in_latest_list_pct": 4.63,
+ "rows_whose_label_runs_past_the_last_price": 90,
+ "lookahead_check": {
+  "rows_checked": 200,
+  "differences": 0
+ },
+ "fwd5_mean_pct": 0.307,
+ "xs5_sd_pct": 4.5827,
+ "features": [
+  "r1",
+  "r5",
+  "r21",
+  "r63",
+  "r126",
+  "mom_126_21",
+  "vol21",
+  "vol63",
+  "hi126",
+  "lo126",
+  "dvol21",
+  "vratio",
+  "rsi14",
+  "mkt_r21",
+  "breadth50"
+ ],
+ "label": "xs5 (5-day return minus that day's member median)",
+ "limits": [
+  "about 2.9 years, 2024-01 to 2026-11: one stretch of market history",
+  "membership from a community-maintained file (github.com/fja05680/sp500)",
+  "one price source (Alpaca, adjusted); no costs in the labels"
+ ]
+}

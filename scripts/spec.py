@@ -101,6 +101,16 @@ def main(repo):
              "random past day re-run against the ledger every night; planted-leak test for the audit; cross-source price "
              "check; data-quality scan; trial ledger (%d unique trials logged so far).\n"
              % (checks.ENTRY_TOL * 100, checks.FEAT_TOL * 100, checks.FEAT_SHARE * 100, tr["unique_trials"]))
+    import registry
+    reg = registry.load(repo)
+    P.append("## Challenger lane (outside the verdict)\n")
+    P.append("Every idea is registered with a code fingerprint and scored only on days after registration, against SPY, equal "
+             "weight, baseline A, risk parity and the champion. Promotion at fixed quarterly reviews (first %s) needs %d forward "
+             "days, a bootstrap chance of %.2f against the champion and every yardstick, and a deflated Sharpe chance of %.2f "
+             "using the lifetime trial count. At most %d new entries a month. Champion: %s.\n"
+             % (registry.FIRST_REVIEW, registry.MIN_DAYS, registry.PROMOTE_P, registry.DSR_MIN, registry.MAX_NEW_PER_MONTH, reg.get("champion")))
+    P.append(table(["Entry", "Status", "Version", "Scored from", "Source"],
+                   [[e["id"], e["status"], e["versions"][-1]["v"], e["versions"][-1]["forward_from"], e["source"]] for e in reg["entries"].values()]) + "\n")
     P.append("## Known limits\n")
     P.append("Short window for small edges; simulated fills and estimated costs; today's index membership (survivorship: "
              "measured in `data/pit/report.json`); a fully invested, partly hedged book compared with unhedged SPY; "
