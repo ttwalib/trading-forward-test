@@ -380,13 +380,19 @@ def main():
         sess = dt.datetime.now(NY).replace(hour=9, minute=30, second=0, microsecond=0)
         start = min(known) + 300 if known and len(known) == len(lt) else int(sess.timestamp())
         start = max(start, int((now() - dt.timedelta(days=5)).timestamp()))
-        stock_bars(repo, intr, "5m", dt.datetime.fromtimestamp(start, UTC), end)
+        if start < int(end.timestamp()) - 60:      # never ask for a window that ends before it starts (pre-market)
+            stock_bars(repo, intr, "5m", dt.datetime.fromtimestamp(start, UTC), end)
         if extra:
             if time.time() - T0 < WIDE_BUDGET_S:
                 lx = [last_t(repo, "5m", s) for s in extra]; kx = [t for t in lx if t]
-                sx = min(kx) + 300 if kx and len(kx) == len(lx) else int(sess.timestamp())
+                # start from the oldest STORED bar of the wide symbols (a symbol with no bars yet must not push the
+                # start to the session open, which before 09:46 New York is later than the free plan's newest data
+                # and makes Alpaca refuse the whole batch: fixed 2026-11-23 after BK had no bars)
+                sx = min(kx) + 300 if kx else int((now() - dt.timedelta(days=5)).timestamp())
                 sx = max(sx, int((now() - dt.timedelta(days=5)).timestamp()))
-                stock_bars(repo, extra, "5m", dt.datetime.fromtimestamp(sx, UTC), end); LOG["wide_symbols"] = len(extra)
+                if sx < int(end.timestamp()) - 60:
+                    stock_bars(repo, extra, "5m", dt.datetime.fromtimestamp(sx, UTC), end); LOG["wide_symbols"] = len(extra)
+                LOG["wide_missing"] = [s for s, t in zip(extra, lx) if not t]
             else: LOG["wide_skipped"] = round(time.time() - T0, 1)
         if not LOG.get("tick") or now().minute % 15 < 5:
             crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
