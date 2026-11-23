@@ -1,14 +1,15 @@
 {
  "ok": true,
- "entries": 139,
- "added": 139,
+ "entries": 140,
+ "added": 1,
  "broken": [],
- "head": "f37a7773eaad6db4b4e34532f3e0e352149a5cb78d7a382c89bf3826a8e07812",
+ "head": "b49f136d035e624e9830a41bebdd4cfa402d5deb48f59f96535188996aa7b31a",
  "sources": [
   "data/allocator/judge.jsonl",
   "data/trials.jsonl",
   "data/lane/champions.jsonl",
   "data/decisions/engine/*.jsonl",
-  "data/decisions/engine_ml/*.jsonl"
+  "data/decisions/engine_ml/*.jsonl",
+  "data/picks/playbook_log.jsonl"
  ]
 }

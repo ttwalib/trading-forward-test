@@ -62,12 +62,12 @@
    },
    "equal": {
     "days": 5,
-    "total_pct": -1.954,
+    "total_pct": -2.102,
     "drawdowns": [
      {
       "peak": "2026-11-16",
       "trough": "2026-11-20",
-      "depth_pct": 1.954,
+      "depth_pct": 2.102,
       "recovered": null,
       "length": 5,
       "open": true

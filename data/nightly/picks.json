@@ -1,0 +1,18 @@
+{
+ "sleeve_days": 2,
+ "all": {
+  "pick_days": 2,
+  "picks": 7,
+  "mean_picks_day": -1.5999,
+  "mean_control_day": -1.782,
+  "mean_diff_day": 0.1821,
+  "days_ahead": 1,
+  "p_picks_beat_control": null,
+  "g1": "too few pick days (2 of 60)"
+ },
+ "verdict": {
+  "pick_days": 0,
+  "picks": 0
+ },
+ "missing": {}
+}

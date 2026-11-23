@@ -1,46 +1,53 @@
 {
  "day": "2026-11-22",
- "started": "2026-11-23 04:25:26",
+ "started": "2026-11-23 04:43:20",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 6.7,
+   "seconds": 5.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 6.6,
+   "seconds": 5.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 7.2,
+   "seconds": 5.5,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "picks",
+   "ok": true,
+   "seconds": 0.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.7,
+   "seconds": 8.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.1,
+   "seconds": 2.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 7.4,
+   "seconds": 6.3,
    "exit": 0,
    "error": null
   },
@@ -61,14 +68,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 0.3,
+   "seconds": 0.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 2.8,
+   "seconds": 2.3,
    "exit": 0,
    "error": null
   },
@@ -82,7 +89,7 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 9.2,
+   "seconds": 7.9,
    "exit": 0,
    "error": null
   },
@@ -96,7 +103,7 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 8.5,
+   "seconds": 7.1,
    "exit": 0,
    "error": null
   },
@@ -117,13 +124,13 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 9.1,
+   "seconds": 7.7,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "33531b02495ba0a8c6512cc36b08acafed313bed",
- "chain_head": "f37a7773eaad6db4b4e34532f3e0e352149a5cb78d7a382c89bf3826a8e07812",
+ "commit": "48f49eb35b2abb86ca23b6118ee8fa504fd5ec3b",
+ "chain_head": "b49f136d035e624e9830a41bebdd4cfa402d5deb48f59f96535188996aa7b31a",
  "ok": true,
- "finished": "2026-11-23 04:26:37"
+ "finished": "2026-11-23 04:44:20"
 }
