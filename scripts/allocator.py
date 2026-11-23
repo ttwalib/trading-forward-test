@@ -116,6 +116,12 @@ FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py",
                 "tcal.py", "judge.py", "ledger.py", "weekly_opts.py", "deep_otm.py", "options_sim.py", "fees.py", "crypto_tracks.py", 
                 "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py"]
 BASE = "A baseline (watchlist)"
+# Sleeves removed from the book on 2026-11-23 by a rule that ignores results (owner decision, runbook item 32): a sleeve
+# stays only if it is a benchmark, a control, the strategy menu the allocator manages (library L1-L17), or made or
+# picked by the AI. Rule variants of baseline A and the fixed option structures are none of these. Their past trades
+# stay in the ledger as history; they simply can no longer receive weight or count in the equal-weight benchmark.
+DROPPED = ("A variant", "B variant", "C variant", "D variant", "E variant", "F variant", "G variant", "T variant",
+           "O ATM calls", "D1 lottery calls", "D2 SPY put spreads", "D3 SPY call spreads", "W1", "W2", "W3", "W4")
 # Short-premium option sleeves (they sell option premium on SPY and fall together in a sell-off): together they may
 # hold at most GROUP_CAP of the book, in the AI portfolio and in every rival allocator. Added 2026-11-21, before the
 # freeze, after the external review; the stress test behind it is scripts/stress_short_premium.py. Duplicates: since
@@ -147,7 +153,10 @@ def sleeves(repo, lib_file="daily.json", realistic=True):
         name = t["strategy"]
         if t["asset"] == "crypto": name = "Crypto " + " ".join(name.split()[:2]) + " (pooled)"
         S.setdefault(name, {}); S[name][t["day"]] = S[name].get(t["day"], 0.0) + (t["result"] + adj.get(i, 0.0)) / 5 * 1.0
-    return S
+    f = os.path.join(repo, "data", "picks", "daily.json")       # the AI's own picks held open to close (picks.py, 2026-11-23)
+    if os.path.exists(f):
+        for k, v in json.load(open(f)).items(): S[k] = dict(v)
+    return {k: v for k, v in S.items() if not k.startswith(DROPPED)}
 
 
 def duplicates(S, days):

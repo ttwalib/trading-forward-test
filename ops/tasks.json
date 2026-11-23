@@ -23,7 +23,7 @@
    "name": "Deep OTM + weekly options",
    "when": "17:00 weekdays",
    "model": "Sonnet",
-   "does": "Opens and settles the option structures; bars come from the data feed"
+   "does": "Retired 2026-11-23 (purpose trim): only settles positions still open, opens nothing"
   },
   {
    "name": "Adaptive stocks",
@@ -53,7 +53,7 @@
    "name": "Learning + strategy lab",
    "when": "Wed and Sat 23:15 (train phase only)",
    "model": "Fable",
-   "does": "Finds patterns in logged trades; invents and gate-tests one new strategy"
+   "does": "Learns from logged trades; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once"
   },
   {
    "name": "AI judgment seal",

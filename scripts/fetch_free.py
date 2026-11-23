@@ -380,6 +380,14 @@ def main():
             crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
     elif mode == "nightly":
         stock_bars(repo, univ + etfs, "1d", now() - dt.timedelta(days=15), end)
+        try:                                    # daily bars of the AI's own stock picks (scripts/picks.py, 2026-11-23)
+            import ledger
+            cut = (now() - dt.timedelta(days=30)).strftime("%Y-%m-%d")
+            pk = sorted({r["symbol"] for r in ledger.load(repo, "AgentPicks") if r.get("asset") == "stock"
+                         and str(r.get("picked_at"))[:10] >= cut and str(r.get("symbol", "")).isalpha()} - set(univ + etfs))
+            if pk: stock_bars(repo, pk, "1d", now() - dt.timedelta(days=15), end)
+            LOG["pick_symbols"] = len(pk)
+        except Exception as e: LOG["errors"].append("pick bars: %s" % e)
         stock_bars(repo, intr, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))

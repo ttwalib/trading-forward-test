@@ -118,6 +118,10 @@ LEDGER AgentTrades.
 
 ## AGENT MORNING
 
+PICK PLAYBOOK (since 2026-11-23, item 32d): before STEP 3 read /tmp/repo/ops/pick_playbook.md and apply its CURRENT
+VERSION on top of the prompt's filters (the prompt's filters always hold; the playbook can only add preferences or
+exclusions). Put "playbook v<N>" at the start of each stock pick's "checks" cell.
+
 LEDGER AgentPicks and AgentTrades. EVENTS (every day, at most 3 extra searches and 2 fetches, after the picks):
 scheduled US macro events for today and the next 2 trading days (CPI, PPI, jobs report, jobless claims, FOMC decision
 and minutes, Fed chair speeches, GDP, PCE, retail sales, ISM) and earnings of watchlist or control-list companies (event text exactly "earnings SYM", e.g. "earnings AAPL", so the
@@ -496,6 +500,33 @@ After the existing steps:
      plainly that both are reports, not rules.
      L18 ETF IBS reversion (rule declared and trial logged 2026-11-23 before its backtest; backtest -0.086% per trade
      after costs, +0.015% before) was DROPPED by the owner the same day: not in the library, not in the lane.
+  32. REFOCUS ON THE GOAL (owner decision 2026-11-23; pre-registration amendment of the same day). The goal is an
+     AI that picks its own stocks and develops its own winning strategies. Six changes, all before the window:
+       a) PICKS SCORED DIRECTLY: scripts/picks.py (nightly step "picks", before the allocator) holds each morning
+          pick from the open to the close and compares the day's average with the random control list
+          (data/picks/score.json: pre-registration G1; five-day hold as a secondary reading). The nightly feed now
+          also stores daily bars for picked stocks.
+       b) PICKS SLEEVE: "AP Agent picks (open to close)" (data/picks/daily.json, 0.10% cost per side), read by the
+          allocator like any sleeve.
+       c) WIDER STRATEGY LAB: see LEARNING + STRATEGY LAB ("DAILY STRATEGIES").
+       d) PICK PLAYBOOK: ops/pick_playbook.md, see AGENT MORNING and LEARNING + STRATEGY LAB ("PICK PLAYBOOK").
+       e) TRIM BY PURPOSE (a rule that ignores results): a sleeve stays only if it is a benchmark, a control, the
+          strategy menu the allocator manages (library L1-L17) or made or picked by the AI. Out of the book
+          (allocator.DROPPED): baseline-A rule variants A-G and T, option replays O, D1 lottery calls, D2/D3 spreads,
+          W1-W4. Their ledger history stays. Kept: baseline A, the control list (AC), adaptive ORB, the four crypto
+          tracks, the library, every agent-picks sleeve, the ML meta sleeve.
+          THIS OVERRIDES THE TASK PROMPTS FROM 2026-11-23:
+          - STOCKS 16:12 run: skip step S4 (options O) and in S5 write only the "AC control" rows (run
+            orb_variants.py as before for the control-list check, but write no variant B-G / T rows and no
+            "Variants" rows other than AC control). The Reddit snapshot (09:12) continues.
+          - DEEP OTM + WEEKLY: open NOTHING new (no D1, D2, D3, W1-W4). Only mark and settle positions that are
+            still open (STEP 2 and STEP 4c), then RUN LOG and GIT. When no position is open, reply "No deep OTM
+            work: the option structures were retired on 2026-11-23." and stop.
+          - AGENT EVENING: unchanged (its option replays are on the AI's own picks).
+       f) HEADLINE: reports lead with G1 (picks vs control list, direct) and G2 (the lab's strategies, forward),
+          then H1 (the allocation verdict, unchanged), each with its own rule; never pooled. WEEKLY, INTERIM and
+          FINAL REPORT: follow ops/preregistration.md section 3 in that order.
+     No reset: trial count, data and window dates stand.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
@@ -517,6 +548,27 @@ After the existing steps:
   A human reviewer is the owner's to arrange; ops/audit_checklist.md is written so a person can follow it.
 
 ## LEARNING + STRATEGY LAB
+
+DAILY STRATEGIES (since 2026-11-23, item 32c; this overrides PART B of the prompt on WEDNESDAY runs; Saturday runs
+stay on hourly crypto as before): research one documented idea for US stocks or ETFs on DAILY bars (long or
+long/short, holding days to weeks) that differs from library L1-L17 and from every earlier "Strategy lab" row. Bars:
+the archive since 2016 (decisions.hist_bars(repo, "1d", SYM), S&P 100 + ETFs). Write strategy(bars_by_symbol) ->
+trades in /tmp/lab.py: signal on a close, fill at the NEXT open, 0.05% cost per side, no look-ahead, at most 2 tuned
+parameters and 12 combinations, tuned on 2016-2021 only and measured on 2022 onwards. Prefer ETFs or rules that do
+not depend on which stocks are in the index today (the stock list has survivorship bias: say so in the row when a
+stock universe is used). Same cand.json, CPCV and `review.py gate` as for crypto; APPROVED only on PASS. Save the
+code as strategies/<name>.py with a function daily_series(repo) -> {date: sleeve return %} for forward scoring, and
+write the row with market "US daily". Forward results count only after the Created date (pre-registration G2).
+
+PICK PLAYBOOK (since 2026-11-23, item 32d; SATURDAY runs only, after PART A): read ops/pick_playbook.md,
+data/picks/score.json (per-day picks vs control list), the AgentPicks and AgentTrades ledgers and the latest picks
+review findings in "Learning". If, and only if, a finding about the picking has q <= 0.25 and at least 10 pick days
+behind it, you may change the playbook: ONE change per week at most, small and concrete (for example "skip gap-only
+picks without a company catalyst"). Write the new version at the top of ops/pick_playbook.md (version number + 1,
+date, the rule text in full), append {"version", "date", "change", "evidence", "n", "q"} to
+data/picks/playbook_log.jsonl and log `checks.py trial /tmp/repo playbook "v<N>: <change>" 1`. No qualifying finding:
+change nothing and say so. Never change the filters that keep picks liquid and long-only, the 09:30 cut-off or the
+3-8 picks range. From 2027-02-01 (holdout) the playbook is frozen.
 
 If phase is holdout or after: reply "Holdout frozen: no learning or new strategies until the final report." and stop.
 From 2026-12-07 never edit scripts/allocator.py, scripts/library.py, scripts/corp.py or scripts/fills.py

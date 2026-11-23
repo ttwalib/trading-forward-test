@@ -57,6 +57,7 @@ def main():
     plan = [("library", [S("library.py"), repo, day], "library.json"),
             ("library_2x", [S("library.py"), repo, day, "--cost-mult", "2"], "library_2x.json"),
             ("library_ideal", [S("library.py"), repo, day, "--fill-lag", "0"], "library_ideal.json"),
+            ("picks", [S("picks.py"), repo, day], "picks.json"),        # the AI's own picks, scored directly (2026-11-23)
             ("allocator", [S("allocator.py"), repo, day], "allocator.json"),
             ("stats", [S("stats.py"), repo, day], "stats.json")]
     for name, args, out in plan:

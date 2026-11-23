@@ -29,6 +29,7 @@ Changes made before the window are allowed if they are dated and visible. After 
 | 2026-11-23 | Audit review on 2026-12-04: the independent audit (05:10 ET, model Fable) is challenged by a second AI review (07:41 ET, model Opus, reports/audit/2026-12-04-review.md) and a debate round that settles each disputed point by re-running the test (09:51 ET, reports/audit/2026-12-04-debate.md: settled defect / settled risk / dismissed / disputed). The owner and a second person he chooses then read the plain summary and reply before 2026-12-06. A settled defect that blocks, or a failed shakedown, moves the window to 2026-12-14. | Owner decision: human review by the owner and one more person, plus an AI that debates the findings, so that no single AI session's blind spot decides the freeze. |
 | 2026-11-23 | Repository review (HKUDS/Vibe-Trading, FinceptTerminal): three report-only nightly steps added (break-even cost per sleeve, risk breakdown, tamper-evident hash chain over the append-only evidence files; runbook item 31). One trial logged for a library sleeve L18 ETF IBS reversion, whose rule was written down before its backtest; the backtest loses after costs (2,128 trades, +0.015% gross and -0.086% net per trade), so it is held back pending the owner's decision. After 2026-12-07, in the lane only: AI model contest, factor library, strategy health tracking, leveraged-ETF and VIX strategies, qlib reference model. | Owner decision. Nothing here changes a strategy, the allocator, a benchmark or the verdict rule. |
 | 2026-11-23 | L18 ETF IBS reversion DROPPED by the owner: not added to the library and not placed in the lane. Its one trial stays in the lifetime trial log. | Owner decision after the pre-declared backtest lost after costs; a losing sleeve could still receive weight through the always-invested fill. |
+| 2026-11-23 | REFOCUS ON THE GOAL (runbook item 32). The owner's goal is an AI that picks its own stocks and develops its own winning strategies, so the two hypotheses that measure exactly that become the headline: G1 (the AI's picks, now measured directly as open-to-close returns against the random control list; the old breakout-rule comparison H3 stays as a secondary reading) and G2 (the strategy lab, formerly H2, widened to daily stock and ETF strategies). H1, the allocation verdict, is unchanged in every rule and is reported beside them as the portfolio-level test. New sleeve "AP Agent picks (open to close)". Sleeves trimmed by a purpose rule that ignores results: rule variants of baseline A (A-G, T) and the fixed option structures (O, D1, D2, D3, W1-W4) leave the book and stop opening positions; their history stays. A versioned pick playbook lets the picking learn, one change a week at most, scored forward only. No reset: the trial count stands, no data is deleted, the window still opens 2026-12-07 (or 12-14) and ends 2027-05-14. | Owner decision ("all six; recalibrate or restructure if needed"). Written before any data in the window exists. The equal-weight benchmark changes with the sleeve list; that is declared here. |
 | 2026-11-21 | Option bars come from the free data feed instead of passing through the AI. Entries, exits, strikes, fees and scripts unchanged. | Runs were failing silently; hand-pasted prices are a reliability risk. |
 | 2026-11-21 | Weight cap for short-premium option sleeves and the stress test behind it (section 7). | External review: the crash drill excluded option sleeves. |
 
@@ -42,10 +43,40 @@ market-adjusted figures next to the raw ones.
 
 ## 3. Hypotheses
 
-Each hypothesis has its own data, its own rule and its own result. They are never pooled, and a pass on H2 or H3 never
-rescues H1. H1 is the primary hypothesis and the only one called "the verdict".
+Each hypothesis has its own data, its own rule and its own result. They are never pooled, and a pass on one never
+rescues another.
 
-### H1 (primary): the AI's allocation
+HEADLINE SINCE 2026-11-23 (owner decision, amendment log): the goal of the test is an AI that picks its own stocks and
+develops its own winning strategies. G1 and G2 below answer that directly and are reported first. H1, the allocation
+verdict, keeps every rule it had and is reported beside them as the portfolio-level test; the word "verdict" still
+means H1 only. With two headline hypotheses, a pass on either is reported with the plain note that two were tested
+(the chance of at least one false pass is about twice that of one).
+
+### G1 (headline): the AI's own stock picks, measured directly
+- Subject: every stock the morning research picked before 09:30 New York with status "picked" (ledger AgentPicks).
+- Measure: each pick held from that day's official open to that day's close, equal weight; the day's result is the
+  average over that day's picks (`scripts/picks.py`, data/picks/score.json). Costs are equal on both sides and so
+  are left out of the comparison.
+- Benchmark: the same measure on the 22 stocks of the fixed random control list on the same days.
+- Data: pick days from the opening of the verdict window (2026-12-07, or 2026-12-14 if it moves) to 2027-05-14.
+- Rule: PASS if there are at least 60 pick days and the day-block bootstrap chance (allocator.p_beats, seed 20261119)
+  that the picks' mean beats the control list's is at least 0.9. FAIL if that chance is 0.10 or lower. Fewer than 60
+  pick days: "too few to judge". Otherwise INCONCLUSIVE.
+- Reported with it, descriptive only: the five-day hold (pick-day open to the close four trading days later) against
+  the control list; results by catalyst type and by playbook version; H3 below.
+- The pick playbook (ops/pick_playbook.md) may change at most once a week, each change a numbered version logged
+  with its date and reason in data/picks/playbook_log.jsonl and counted as a trial. G1 judges all versions together:
+  it asks whether the AI's picking, including its learning, beats random selection.
+
+### G2 (headline): the AI's own strategies (H2 below, widened)
+H2's rule applies unchanged to crypto strategies. Since 2026-11-23 the lab also invents strategies for stocks and ETFs
+on daily bars. For those: the same gate must approve them; data = trades entered after the strategy's Created date,
+from its stored code on stored bars, after 0.05% per side; benchmark = SPY held over the same days each trade was
+open; PASS if there are at least 30 forward trades, the mean net result per trade is above zero and the day-block
+bootstrap chance that the mean beats the benchmark's is at least 0.9; FAIL at 0.10 or lower. Crypto and daily
+strategies are judged separately and both results are reported.
+
+### H1 (the verdict): the AI's allocation
 Unchanged. Runbook section PRE-REGISTERED VERDICT; computed mechanically by `verdict_check` in the allocator report.
 Window 2026-12-07 to 2027-05-14. Result: pass, fail or inconclusive; a pass is robust only if it also survives double
 costs and beats the best rival allocator (risk parity, minimum variance, recent winners, AI judgment).
@@ -62,7 +93,7 @@ costs and beats the best rival allocator (risk parity, minimum variance, recent 
   "too few to judge". Otherwise INCONCLUSIVE.
 - A lab with no approved strategy by 2027-01-29 is reported as "the lab approved nothing": that is a result.
 
-### H3: the agent picks (does the AI's morning research pick better stocks?)
+### H3 (secondary reading of G1 since 2026-11-23): the agent picks under the breakout rule
 - Subject: stocks picked before 09:30 ET with status "picked" ("Agent picks" tab), traded with the unchanged
   baseline-A rules ("Agent trades", rules "baseline A").
 - Benchmark: the fixed random control list (variant "AC control") under the same rules on the same days. The watchlist

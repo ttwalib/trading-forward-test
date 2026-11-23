@@ -1,0 +1,61 @@
+{
+ "note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). Days before 2026-12-07 are warm-up.",
+ "cost_side_pct": 0.1,
+ "all": {
+  "pick_days": 1,
+  "picks": 1,
+  "mean_picks_day": 0.5422,
+  "mean_control_day": -1.7636,
+  "mean_diff_day": 2.3058,
+  "days_ahead": 1,
+  "p_picks_beat_control": null,
+  "g1": "too few pick days (1 of 60)"
+ },
+ "verdict": {
+  "pick_days": 0,
+  "picks": 0
+ },
+ "rows": [
+  {
+   "date": "2026-11-19",
+   "phase": "train",
+   "verdict_window": false,
+   "picks": [
+    "PANW",
+    "P",
+    "CRWD",
+    "BE",
+    "CRWV"
+   ],
+   "missing": [
+    "PANW",
+    "P",
+    "CRWD",
+    "BE",
+    "CRWV"
+   ],
+   "n": 0,
+   "picks_day": null,
+   "control_day": -1.8004,
+   "picks_5d": null,
+   "control_5d": null
+  },
+  {
+   "date": "2026-11-20",
+   "phase": "train",
+   "verdict_window": false,
+   "picks": [
+    "WMT",
+    "FRO"
+   ],
+   "missing": [
+    "FRO"
+   ],
+   "n": 1,
+   "picks_day": 0.5422,
+   "control_day": -1.7636,
+   "picks_5d": null,
+   "control_5d": null
+  }
+ ]
+}
