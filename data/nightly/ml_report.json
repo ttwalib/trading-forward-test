@@ -18,14 +18,14 @@
     }
    },
    "crypto": {
-    "rows": 170,
+    "rows": 180,
     "days": 6,
     "labelled": {
-     "y": 170
+     "y": 180
     }
    }
   },
-  "scored": 18,
+  "scored": 10,
   "train": "done"
  },
  "report": {
@@ -199,13 +199,13 @@
    },
    "crypto": {
     "family": "crypto",
-    "rows": 170,
-    "fit_rows": 170,
+    "rows": 180,
+    "fit_rows": 180,
     "oos_rows": 0,
     "oos_days": 0,
     "status": "not enough out-of-sample rows yet (0 < 20)"
    },
-   "at": "2026-11-22T13:16:07+00:00"
+   "at": "2026-11-23T04:12:45+00:00"
   },
   "drift": {
    "stock": {
@@ -255,10 +255,10 @@
    "crypto": "no model yet"
   },
   "shadow": {
-   "predictions": 111,
-   "scored": 90,
-   "taken": 67,
-   "mean_taken": -0.2536,
+   "predictions": 117,
+   "scored": 100,
+   "taken": 77,
+   "mean_taken": -0.2923,
    "always_take_mean_same_candidates": -0.6981
   }
  }
