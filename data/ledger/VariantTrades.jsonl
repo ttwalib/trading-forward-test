@@ -178,3 +178,19 @@
 {"date":"2026-11-20","variant":"AC control","symbol":"T","outcome":"flat by close","r_net":-0.71,"entry_time":"10:10"}
 {"date":"2026-11-20","variant":"AC control","symbol":"TMUS","outcome":"stop","r_net":-1.05,"entry_time":"10:10"}
 {"date":"2026-11-20","variant":"AC control","symbol":"UNP","outcome":"stop","r_net":-1.07,"entry_time":"10:35"}
+{"date":"2026-11-23","variant":"AC control","symbol":"ABBV","outcome":"stop","r_net":-1.04,"entry_time":"09:55"}
+{"date":"2026-11-23","variant":"AC control","symbol":"ADBE","outcome":"target","r_net":1.94,"entry_time":"09:50"}
+{"date":"2026-11-23","variant":"AC control","symbol":"CVS","outcome":"flat by close","r_net":-0.32,"entry_time":"10:00"}
+{"date":"2026-11-23","variant":"AC control","symbol":"DIS","outcome":"flat by close","r_net":1.1,"entry_time":"10:20"}
+{"date":"2026-11-23","variant":"AC control","symbol":"GD","outcome":"flat by close","r_net":0.19,"entry_time":"11:00"}
+{"date":"2026-11-23","variant":"AC control","symbol":"GM","outcome":"flat by close","r_net":-0.06,"entry_time":"12:35"}
+{"date":"2026-11-23","variant":"AC control","symbol":"HON","outcome":"stop","r_net":-1.12,"entry_time":"10:40"}
+{"date":"2026-11-23","variant":"AC control","symbol":"JNJ","outcome":"flat by close","r_net":-0.14,"entry_time":"09:50"}
+{"date":"2026-11-23","variant":"AC control","symbol":"LMT","outcome":"stop","r_net":-1.08,"entry_time":"11:25"}
+{"date":"2026-11-23","variant":"AC control","symbol":"PEP","outcome":"flat by close","r_net":0.28,"entry_time":"10:35"}
+{"date":"2026-11-23","variant":"AC control","symbol":"PFE","outcome":"stop","r_net":-1.06,"entry_time":"10:35"}
+{"date":"2026-11-23","variant":"AC control","symbol":"PM","outcome":"stop","r_net":-1.07,"entry_time":"10:35"}
+{"date":"2026-11-23","variant":"AC control","symbol":"QCOM","outcome":"stop","r_net":-1.03,"entry_time":"10:25"}
+{"date":"2026-11-23","variant":"AC control","symbol":"T","outcome":"flat by close","r_net":0.42,"entry_time":"13:25"}
+{"date":"2026-11-23","variant":"AC control","symbol":"TMUS","outcome":"flat by close","r_net":0.39,"entry_time":"15:10"}
+{"date":"2026-11-23","variant":"AC control","symbol":"V","outcome":"flat by close","r_net":-0.09,"entry_time":"09:50"}
