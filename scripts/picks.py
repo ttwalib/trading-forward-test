@@ -63,7 +63,7 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     cal = [d for d in tcal.trading_days(tcal.START, tcal.END) if d <= day]
     cal_idx = {d: i for i, d in enumerate(cal)}
-    picks = {}; sized = {}
+    picks = {}; sized = {}; probs = {}
     for r in ledger.load(repo, "AgentPicks"):
         t = str(r.get("picked_at") or "")
         if r.get("asset") == "stock" and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30":
@@ -73,11 +73,13 @@ def build(repo, day=None):
             try: w = float(mw.group(1)) if mw else None
             except ValueError: w = None
             sized.setdefault(t[:10], {})[r["symbol"]] = (w if w is not None and 0.05 <= w <= 0.40 else None, int(mh.group(1)) if mh else 1)
+            mp = re.search(r"\bp=(0?\.[0-9]+|1(?:\.0+)?)\b", ck)              # stated chance to beat the control list today
+            if mp: probs.setdefault(t[:10], {})[r["symbol"]] = float(mp.group(1))
     cache = {}
     def B(s):
         if s not in cache: cache[s] = bars(repo, s)
         return cache[s]
-    rows, series, started = [], {}, False
+    rows, series, started, calib = [], {}, False, []
     mean = lambda xs: sum(xs) / len(xs) if xs else None
     for d in cal:
         if d in picks: started = True
@@ -91,6 +93,10 @@ def build(repo, day=None):
         if not final: continue
         series[d] = round(mean(p1) - 2 * COST_SIDE, 5) if p1 else 0.0
         if ps:
+            cmean = mean(c1) if c1 else None
+            for sym, r1, _ in pm:
+                if r1 is not None and cmean is not None and sym in probs.get(d, {}):
+                    calib.append({"date": d, "kind": "pick", "id": sym, "p": probs[d][sym], "hit": r1 > cmean})
             rows.append({"date": d, "phase": tcal.phase(d), "verdict_window": tcal.info(d)["verdict_window"], "picks": ps,
                          "missing": [x[0] for x in pm if x[1] is None], "n": len(p1),
                          "picks_day": round(mean(p1), 4) if p1 else None, "control_day": round(mean(c1), 4) if c1 else None,
@@ -137,6 +143,7 @@ def build(repo, day=None):
                      "Days before 2026-12-07 are warm-up.", "cost_side_pct": COST_SIDE,
              "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "rows": rows}
     json.dump(score, open(os.path.join(repo, "data", "picks", "score.json"), "w"), indent=1)
+    json.dump(calib, open(os.path.join(repo, "data", "picks", "calib_picks.json"), "w"))
     return {"sleeve_days": len(series), "all": score["all"], "verdict": score["verdict"],
             "missing": {r["date"]: r["missing"] for r in rows if r["missing"]}}
 

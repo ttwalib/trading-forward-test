@@ -19,7 +19,8 @@ git history and the Actions logs are the check against that.
 import glob, hashlib, json, os, sys
 
 SOURCES = ["data/allocator/judge.jsonl", "data/trials.jsonl", "data/lane/champions.jsonl",
-           "data/decisions/engine/*.jsonl", "data/decisions/engine_ml/*.jsonl", "data/picks/playbook_log.jsonl"]
+           "data/decisions/engine/*.jsonl", "data/decisions/engine_ml/*.jsonl", "data/picks/playbook_log.jsonl",
+           "data/picks/rank/*.json", "data/allocator/contest_*.jsonl", "data/allocator/judge_daily.jsonl"]
 GENESIS = "0" * 64
 H = lambda s: hashlib.sha256(s.encode()).hexdigest()
 

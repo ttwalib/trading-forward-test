@@ -578,6 +578,14 @@ def judge_check(rows, ph="verdict"):
     P["vm_scales"] = scales; P["p_ai_beats"] = {k: p_beats(j, [r[k] for r in sel]) for k in BM}
     P["shadows"] = {k: perf([r.get(k, 0.0) for r in sel]) for k in SHADOWS}; P["shadows"]["formula"] = perf([r["ai"] for r in sel])
     out = verdict_check(P); out["judge"] = P["ai"]; out["p_judge_beats_formula"] = p_beats(j, [r["ai"] for r in sel])
+    # A1 PRIMARY (2026-11-23, runbook item 35): ONE comparison with power - Quantavius's book against the equal-weight
+    # foundation scaled to the book's own volatility. PASS: bootstrap P >= 0.9 and a higher Sharpe; FAIL: P <= 0.10.
+    # The strict rule above (every benchmark, Sharpe AND drawdown) is kept as "A1 strict", a secondary reading.
+    pe = P["p_ai_beats"].get("equal_vm"); sj_, se_ = P["ai"].get("sharpe"), P["equal"].get("sharpe")
+    res = ("PASS" if pe is not None and pe >= 0.9 and sj_ is not None and se_ is not None and sj_ > se_
+           else "FAIL" if pe is not None and pe <= 0.10 else "INCONCLUSIVE")
+    out["primary"] = {"rule": "A1 primary: book vs equal weight (volatility-matched), P >= 0.9 and higher Sharpe = PASS; P <= 0.10 = FAIL",
+                      "days": len(sel), "p_beats_equal_vm": pe, "sharpe_book": sj_, "sharpe_equal": se_, "result": res}
     out["note"] = "candidate = AI-judgment allocator; robust_2x is not computed for it (robust here = pass and ahead of every rival on Sharpe)"
     if out.get("pass"): out["robust"] = bool(out.get("beats_best_shadow"))
     return out

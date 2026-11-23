@@ -35,6 +35,66 @@
     }
    ]
   },
+  "contest_opus": {
+   "history": [
+    {
+     "at": "2026-11-23 05:40",
+     "status": "registered"
+    }
+   ],
+   "id": "contest_opus",
+   "kind": "allocator",
+   "rules": "Model contest: Claude Opus seals weekly weights from the identical evidence pack (judge.py brief), scored by seals.py",
+   "series": {
+    "path": "data/lane/series/contest_opus.jsonl",
+    "type": "file"
+   },
+   "source": "owner_2026-11-23",
+   "status": "incubating",
+   "versions": [
+    {
+     "files": [
+      "scripts/judge.py",
+      "scripts/seals.py"
+     ],
+     "forward_from": "2026-11-24",
+     "hash": "b4465ce65c1cff51777c2f03bb9546f03f7d6a26582c281549582f1c4228bd35",
+     "note": "first version",
+     "registered_at": "2026-11-23 05:40",
+     "v": 1
+    }
+   ]
+  },
+  "contest_sonnet": {
+   "history": [
+    {
+     "at": "2026-11-23 05:40",
+     "status": "registered"
+    }
+   ],
+   "id": "contest_sonnet",
+   "kind": "allocator",
+   "rules": "Model contest: Claude Sonnet seals weekly weights from the identical evidence pack (judge.py brief), scored by seals.py",
+   "series": {
+    "path": "data/lane/series/contest_sonnet.jsonl",
+    "type": "file"
+   },
+   "source": "owner_2026-11-23",
+   "status": "incubating",
+   "versions": [
+    {
+     "files": [
+      "scripts/judge.py",
+      "scripts/seals.py"
+     ],
+     "forward_from": "2026-11-24",
+     "hash": "b4465ce65c1cff51777c2f03bb9546f03f7d6a26582c281549582f1c4228bd35",
+     "note": "first version",
+     "registered_at": "2026-11-23 05:40",
+     "v": 1
+    }
+   ]
+  },
   "formula": {
    "history": [
     {
@@ -68,6 +128,36 @@
      "hash": "0f1b6ebf2788770d13806aee5984bb5f2837328365b95d831c8fb58c9e710e1c",
      "note": "first version",
      "registered_at": "2026-11-22 07:51",
+     "v": 1
+    }
+   ]
+  },
+  "judge_daily": {
+   "history": [
+    {
+     "at": "2026-11-23 05:40",
+     "status": "registered"
+    }
+   ],
+   "id": "judge_daily",
+   "kind": "allocator",
+   "rules": "Daily challenger: Quantavius (Fable) seals weights every trading morning from the evidence pack; scored by seals.py, daily horizon",
+   "series": {
+    "path": "data/lane/series/judge_daily.jsonl",
+    "type": "file"
+   },
+   "source": "owner_2026-11-23",
+   "status": "incubating",
+   "versions": [
+    {
+     "files": [
+      "scripts/judge.py",
+      "scripts/seals.py"
+     ],
+     "forward_from": "2026-12-07",
+     "hash": "b4465ce65c1cff51777c2f03bb9546f03f7d6a26582c281549582f1c4228bd35",
+     "note": "first version",
+     "registered_at": "2026-11-23 05:40",
      "v": 1
     }
    ]

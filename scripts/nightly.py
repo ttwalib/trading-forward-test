@@ -59,6 +59,7 @@ def main():
             ("library_ideal", [S("library.py"), repo, day, "--fill-lag", "0"], "library_ideal.json"),
             ("picks", [S("picks.py"), repo, day], "picks.json"),        # the AI's own picks, scored directly (2026-11-23)
             ("aisleeve", [S("aisleeve.py"), repo, day], "aisleeve.json"),   # the AI's approved strategies as one sleeve
+            ("rank", [S("rank.py"), "score", repo, day], "rank.json"),       # G1 primary: the daily ranking IC
             ("allocator", [S("allocator.py"), repo, day], "allocator.json"),
             ("stats", [S("stats.py"), repo, day], "stats.json")]
     for name, args, out in plan:
@@ -82,6 +83,8 @@ def main():
         except Exception: stamp["chain_head"] = None
         stamp["steps"].append(step("dashboard", [S("dashboard.py"), repo], None, 300))
         # challenger lane (2026-11-22): register lab approvals, then score every entry on its forward days only
+        stamp["steps"].append(step("seals", [S("seals.py"), repo, day], os.path.join(N, "seals.json"), 300))   # contest + daily challenger
+        stamp["steps"].append(step("calib", [S("calib.py"), repo], os.path.join(N, "calib.json"), 300))
         stamp["steps"].append(step("lane_auto", [S("registry.py"), "auto", repo], None, 120))
         stamp["steps"].append(step("lane", [S("registry.py"), "score", repo], None, 600))
         # the current specification, regenerated from the configuration every night (2026-11-21)

@@ -8,7 +8,10 @@ rival (weekly rebalancing, same costs). Nothing is traded.
   python3 judge.py brief REPO            -> the evidence pack (JSON): rules, eligible sleeves with their record up to
                                             the last closed day, market regime, what the formula and the simple rules
                                             hold, results so far, and the judge's own earlier seals with how they did
-  python3 judge.py seal REPO FILE [--dry] -> validates FILE and appends it to data/allocator/judge.jsonl
+  python3 judge.py seal REPO FILE [--dry] [--out data/allocator/X.jsonl] [--daily]
+                                         -> validates FILE and appends it to data/allocator/judge.jsonl (Quantavius's
+                                            weekly book, the verdict) or, with --out, to a challenger's file
+                                            (model contest, daily challenger; 2026-11-23)
         FILE = {"weights": {sleeve: share, ...}, "bull": "...", "bear": "...", "risk": "...", "decision": "...",
                 "model": "..."}
 
@@ -86,6 +89,7 @@ def brief(repo, now=None):
         r = json.loads(l); wk = dt.date.fromisoformat(r["effective"]).isocalendar()[:2]
         days = [p for p in PF if dt.date.fromisoformat(p["date"]).isocalendar()[:2] == wk and p.get("sh_judge") is not None]
         seals.append({"effective": r["effective"], "weights": r["weights"], "decision": r.get("decision"),
+                      "p_beat_equal": r.get("p_beat_equal"), "lessons": r.get("lessons"),
                       "week_result_pct": {k: sm([p.get(k) or 0.0 for p in days]) for k in ("sh_judge", "ai", "equal", "spy")} if days else None})
     eff = effective_day(now)
     return {"now_new_york": now.strftime("%Y-%m-%d %H:%M"), "evidence_through": cal[-1] if cal else None, "effective": eff.isoformat(),
@@ -136,7 +140,9 @@ def ai_layer(repo, through):
     return out
 
 
-def seal(repo, path, dry=False, now=None):
+def seal(repo, path, dry=False, now=None, out=None, daily=False):
+    """out: another seal file (the model contest and the daily challenger, 2026-11-23; never judge.jsonl for those);
+    daily: the seal applies to one session only (the daily challenger), else to its ISO week (the weekly book)."""
     now = now or dt.datetime.now(NY); D = json.load(open(path)); err = []
     _, _, _, _, _, _, el = context(repo); w = {}
     try: w = {str(k): float(v) for k, v in (D.get("weights") or {}).items() if float(v) > 0}
@@ -150,12 +156,21 @@ def seal(repo, path, dry=False, now=None):
     for k in ("bull", "bear", "decision"):
         if len(str(D.get(k) or "").strip()) < 40: err.append("'%s' text is missing or too short" % k)
     if not market_closed(now): err.append("the stock market is open: seal only while it is closed")
-    eff = effective_day(now).isoformat(); f = os.path.join(repo, FILE)
+    pb = D.get("p_beat_equal")
+    if pb is not None:
+        try:
+            pb = float(pb)
+            if not 0.0 <= pb <= 1.0: err.append("p_beat_equal must be between 0 and 1")
+        except (TypeError, ValueError): err.append("p_beat_equal must be a number between 0 and 1")
+    eff = effective_day(now).isoformat(); f = os.path.join(repo, out or FILE)
     if os.path.exists(f) and any(json.loads(l).get("effective") == eff for l in open(f) if l.strip()): err.append("already sealed for " + eff)
     if err: return {"sealed": False, "errors": err, "effective": eff}
     row = {"effective": eff, "sealed_at": now.isoformat(timespec="seconds"), "evidence_through": brief(repo, now)["evidence_through"],
            "weights": {k: round(v, 4) for k, v in sorted(w.items())}, "bull": str(D["bull"])[:1500], "bear": str(D["bear"])[:1500],
-           "risk": str(D.get("risk") or "")[:1000], "decision": str(D["decision"])[:1500], "model": str(D.get("model") or "")[:60]}
+           "risk": str(D.get("risk") or "")[:1000], "decision": str(D["decision"])[:1500], "model": str(D.get("model") or "")[:60],
+           # since 2026-11-23 (item 35): the stated chance that this book beats the equal-weight foundation over the
+           # period it applies to (scored for calibration), the lessons drawn from the earlier seals, and the horizon
+           "p_beat_equal": pb, "lessons": str(D.get("lessons") or "")[:1500], "horizon": "day" if daily else "week"}
     if not dry:
         os.makedirs(os.path.dirname(f), exist_ok=True)
         with open(f, "a") as fh: fh.write(json.dumps(row, separators=(",", ":")) + "\n")
@@ -165,5 +180,8 @@ def seal(repo, path, dry=False, now=None):
 if __name__ == "__main__":
     a = sys.argv[1:]
     if not a or a[0] not in ("brief", "seal"): print(__doc__); sys.exit(2)
-    out = brief(a[1]) if a[0] == "brief" else seal(a[1], a[2], "--dry" in a)
+    ov = a[a.index("--out") + 1] if "--out" in a else None
+    if ov and (os.path.normpath(ov) == os.path.normpath(FILE) or not ov.startswith("data/allocator/") or not ov.endswith(".jsonl")):
+        print("--out must be another data/allocator/*.jsonl file"); sys.exit(2)
+    out = brief(a[1]) if a[0] == "brief" else seal(a[1], a[2], "--dry" in a, out=ov, daily="--daily" in a)
     print(json.dumps(out, indent=1, default=str)); sys.exit(0 if a[0] == "brief" or out.get("sealed") or out.get("dry_run") else 1)

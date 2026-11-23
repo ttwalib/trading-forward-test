@@ -579,6 +579,27 @@ After the existing steps:
           library, crypto tracks). Three headline tests: a single pass carries that caveat.
      Unchanged: no orders ever; every decision sealed before its outcome; trial count; data; window dates; the
      human approval step for any real or paper order.
+  35. A STRONGER VERDICT, A MORE ACHIEVABLE GOAL (owner decision 2026-11-23, "all seven"; pre-registration amendment):
+       a) A1 PRIMARY = ONE comparison with power: Quantavius's book against the equal-weight foundation scaled to the
+          book's own volatility (allocator report judge_check.<phase>.primary): PASS if the bootstrap chance is >= 0.9
+          and its Sharpe is higher; FAIL at <= 0.10. The strict all-benchmarks rule is kept as "A1 strict".
+       b) G1 PRIMARY = THE DAILY RANKING: each full trading day before 09:30 the morning research scores the 44 fixed
+          stocks (watchlist + control list) from -2 to +2 and seals them with `scripts/rank.py seal`; nightly
+          `rank.py score` computes the rank correlation with open-to-close returns (data/picks/rank_score.json).
+          The picks-vs-control comparison becomes G1 secondary.
+       c) STATED CONFIDENCE: picks carry "p=0.xx" (chance the pick beats the control list's average today), seals
+          carry "p_beat_equal"; scripts/calib.py scores them (Brier, calibration bands; data/nightly/calib.json).
+       d) LESSONS JOURNAL: every seal carries "lessons": what the earlier seals got right and wrong against their own
+          reasoning; the brief shows them back (your_earlier_seals).
+       e) MORE DATA FOR PICKING: the morning research may also use Twelve Data get_earnings, get_financials and
+          get_analyst_data, and IBKR option data for implied volatility.
+       f) DAILY CHALLENGER: lane entry "judge_daily": Quantavius seals weights every trading morning (08:41 ET, from
+          2026-12-07) with `judge.py seal ... --out data/allocator/judge_daily.jsonl --daily`; scored by
+          scripts/seals.py (same method as the weekly book). Answers whether daily judgment beats weekly.
+       g) MODEL CONTEST from 2026-11-29: Opus (Sun 13:41 ET) and Sonnet (Sun 13:56 ET) seal weekly weights from the
+          identical evidence pack into data/allocator/contest_opus.jsonl / contest_sonnet.jsonl; scripts/seals.py
+          scores them and the weekly book (contest_fable) with one method; lane entries contest_opus, contest_sonnet.
+     Nightly steps added: rank, seals, calib. Chain sources added: rankings, contest and daily seals.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
