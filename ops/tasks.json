@@ -125,7 +125,7 @@
    "name": "Daily challenger seal",
    "when": "08:41 Mon and Thu from 2026-12-07",
    "model": "Fable",
-   "does": "Quantavius re-judges its weights every trading morning (lane entry judge_daily)"
+   "does": "Quantavius re-judges its weights on Monday and Thursday mornings; the last seal carries forward (lane entry judge_daily)"
   },
   {
    "name": "Weekly book: sampler B",
