@@ -106,7 +106,7 @@ def build(repo, day=None):
                          "picks_day": round(mean(p1), 4) if p1 else None, "control_day": round(mean(c1), 4) if c1 else None,
                          "picks_5d": round(mean(p5), 4) if p5 else None, "control_5d": round(mean(c5), 4) if p5 and c5 else None})
     # AP2: the AI's own weights and holding periods
-    pos, series2 = [], {}
+    pos, series2, closed2 = [], {}, []
     for d in cal:
         if d not in series: continue
         ws = sized.get(d, {})
@@ -116,7 +116,7 @@ def build(repo, day=None):
             for sym, (w, h) in ws.items():
                 Bs = B(sym); i = cal_idx[d]
                 if d in Bs and Bs[d][0] and abs(Bs[d][1] / Bs[d][0] - 1) < 0.6:
-                    pos.append({"s": sym, "w": w, "mark": Bs[d][0], "last": cal[min(i + h - 1, len(cal) - 1)], "new": True, "end_i": i + h - 1})
+                    pos.append({"s": sym, "w": w, "mark": Bs[d][0], "entry": Bs[d][0], "d0": d, "last": cal[min(i + h - 1, len(cal) - 1)], "new": True, "end_i": i + h - 1})
         tot = sum(p["w"] for p in pos); r = 0.0
         for p in pos:
             Bs = B(p["s"])
@@ -124,6 +124,9 @@ def build(repo, day=None):
                 r += p["w"] * ((Bs[d][1] / p["mark"] - 1) * 100 - (COST_SIDE if p["new"] else 0) - (COST_SIDE if cal_idx[d] >= p["end_i"] else 0)); p["mark"] = Bs[d][1]
             p["new"] = False
         series2[d] = round(r / tot, 5) if tot else 0.0
+        for p in pos:
+            if cal_idx[d] >= p["end_i"] and d in B(p["s"]):
+                closed2.append({"date": p["d0"], "gross": (B(p["s"])[d][1] / p["entry"] - 1) * 100})
         pos = [p for p in pos if cal_idx[d] < p["end_i"]]
     def summary(R):
         a = [(r["picks_day"], r["control_day"]) for r in R if r["picks_day"] is not None and r["control_day"] is not None]
@@ -141,11 +144,31 @@ def build(repo, day=None):
                          else "FAIL" if p is not None and p <= 0.10 else "inconclusive")
         if f: out.update(pick_days_5d=len(f), mean_diff_5d=round(mean([x - y for x, y in f]), 4))
         return out
+    # COST VIEW (2026-11-23, report only; idea from a reviewed paper-trading kit): per position, how much of the gross
+    # move the costs take and the win rate the picks would need to break even after costs, next to the win rate they got.
+    def cost_view(trades, rt):
+        t = [x for x in trades if x["gross"] is not None]
+        if not t: return {"trades": 0}
+        net = [x["gross"] - rt for x in t]; wins = [x for x in net if x > 0]; losses = [-x for x in net if x <= 0]
+        g = sum(x["gross"] for x in t); aw = mean(wins) if wins else None; al = mean(losses) if losses else None
+        return {"trades": len(t), "round_trip_cost_pct": rt, "gross_sum_pct": round(g, 3), "cost_sum_pct": round(rt * len(t), 3),
+                "cost_share_of_gross": round(rt * len(t) / abs(g), 3) if g else None,
+                "win_rate": round(len(wins) / len(t), 3), "avg_net_win_pct": round(aw, 3) if aw is not None else None,
+                "avg_net_loss_pct": round(al, 3) if al is not None else None,
+                "breakeven_win_rate": round(al / (aw + al), 3) if aw and al else None}
+    ap_trades = []
+    for d in cal:
+        for sym in picks.get(d, []):
+            mv = moves(B(sym), d, cal_idx, cal)[0]
+            if mv is not None: ap_trades.append({"date": d, "gross": mv})
+    cview = {"note": "report only; per position, unweighted; win rate after costs vs the break-even win rate",
+             "AP": {"all": cost_view(ap_trades, 2 * COST_SIDE), "verdict": cost_view([x for x in ap_trades if x["date"] >= tcal.ALLOC_FREEZE.isoformat()], 2 * COST_SIDE)},
+             "AP2": {"all": cost_view(closed2, 2 * COST_SIDE), "verdict": cost_view([x for x in closed2 if x["date"] >= tcal.ALLOC_FREEZE.isoformat()], 2 * COST_SIDE)}}
     os.makedirs(os.path.join(repo, "data", "picks"), exist_ok=True)
     json.dump({SLEEVE: series, SLEEVE2: series2} if any(v is not None and (w is not None or h != 1) for x in sized.values() for w, h in x.values() for v in [1]) else {SLEEVE: series}, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
     score = {"note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). "
                      "Days before 2026-12-07 are warm-up.", "cost_side_pct": COST_SIDE,
-             "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "rows": rows}
+             "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "cost_view": cview, "rows": rows}
     json.dump(score, open(os.path.join(repo, "data", "picks", "score.json"), "w"), indent=1)
     json.dump(calib, open(os.path.join(repo, "data", "picks", "calib_picks.json"), "w"))
     return {"sleeve_days": len(series), "all": score["all"], "verdict": score["verdict"],

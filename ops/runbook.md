@@ -987,3 +987,10 @@ lose either way; the hindsight list flattered gap-and-go most (-5.1% against -9.
 must use pitu for any stock-universe idea; review.py gate checks it ("universe": "pit" or a survivorship_note).
 Limits: the list is a stand-in for the S&P 100, so part of what it drops is definition, not hindsight; 5-minute bars
 exist only for today's names, so some bias remains for intraday ideas.
+
+ITEM 42 (2026-11-23, owner: "proceed"): COST VIEW FOR THE PICKS (report only). data/picks/score.json "cost_view" gives,
+for AP and AP2, per position: trades, gross and cost sums, the costs' share of the gross move, the win rate after
+costs and the BREAK-EVEN win rate (average net loss / (average net win + average net loss)). The weekly, interim and
+final reports show one line per sleeve in the AI layer: "won X% of picks, needs Y% to break even; costs took Z% of the
+gross". It decides nothing and changes no rule. Idea from a reviewed paper-trading kit (nirvestai.com/build; read
+only, no code taken).
