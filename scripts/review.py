@@ -14,7 +14,7 @@ vendor/tradermonty, commit 427b1f7d; see vendor/tradermonty/LICENSE).
       Daily strategy returns vs SPY (primary model) and BTC (sensitivity) through the vendored residual-edge analyzer:
       is the edge real alpha or just market exposure? Writes OUTDIR/<slug>.json/.md and prints the verdict.
 """
-import json, os, sys, math, random, subprocess, tempfile, re
+import hashlib, json, os, sys, math, random, subprocess, tempfile, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import stats, tcal, datetime as dt
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,15 +42,44 @@ def reviewer(draft):
                 "revision_instructions": rv.get("revision_instructions")}
 
 
+def _data_quality(repo, d):
+    """Archive coverage for the symbols a candidate used (2026-11-23, idea from smizxe/mt5-agent-toolkit, MIT, ideas only):
+    share of trading days in [start, end] that have a daily bar, per symbol. Only 1d is measured; other timeframes return None."""
+    import decisions
+    if not d or str(d.get("tf", "1d")) != "1d" or not d.get("symbols"): return None
+    s0, s1 = str(d.get("start", "2016-01-04")), str(d.get("end", dt.date.today().isoformat()))
+    day_of = lambda sym: {dt.datetime.fromtimestamp(b["t"], dt.timezone.utc).date().isoformat() for b in decisions.hist_bars(repo, "1d", sym)}
+    days = sorted(x for x in day_of("SPY") if s0 <= x <= s1)     # the market's own calendar (tcal only knows the test's holidays)
+    if not days: return None
+    per = {}
+    for sym in d["symbols"][:150]:
+        have = day_of(sym)
+        per[sym] = round(sum(1 for x in days if x in have) / len(days), 4)
+    worst = min(per.values()) if per else 0.0
+    return {"days": len(days), "worst": worst, "worst_symbol": min(per, key=per.get) if per else None,
+            "below_0.98": sorted(k for k, v in per.items() if v < 0.98)}
+
+
 def gate(repo, c):
     day = dt.datetime.now(stats.NY).date().isoformat()
     if tcal.phase(day) == "holdout":
         return {"id": c.get("id"), "verdict": "HOLD", "why": "frozen holdout (%s..%s): no new strategies or rule changes"
                 % tuple(str(x) for x in tcal.PHASES["holdout"])}
-    try:
-        import checks as _ck; _ck.trial(repo, "strategy_lab", str(c.get("id") or c.get("name") or "unnamed"), max(1, int(c.get("n_configs_tried", 1))))
-    except Exception: pass
     xs = [float(x) for x in c.get("oos_results", [])]; n = len(xs); checks = {}
+    # Lab hygiene (2026-11-23, owner "yes"; ideas adapted from smizxe/mt5-agent-toolkit, MIT, no code taken):
+    # (1) the exact settings of the tested run must be declared, and their hash goes into the trial log, so a run can
+    #     never silently reuse an earlier run's settings; (2) data quality is read FIRST: archive coverage of every
+    #     symbol used must be at least 98% of trading days (only measured for daily bars); (3) a held-out profit factor
+    #     above 5 is treated as a probable bug until "pf_explained" says why it is not.
+    prm = c.get("params")
+    checks["params_declared"] = isinstance(prm, dict) and len(prm) > 0
+    phash = hashlib.sha256(json.dumps(prm, sort_keys=True).encode()).hexdigest()[:12] if checks["params_declared"] else None
+    dq = _data_quality(repo, c.get("data"))
+    if dq is not None: checks["data_coverage>=0.98"] = dq["worst"] >= 0.98
+    gains, losses = sum(x for x in xs if x > 0), -sum(x for x in xs if x < 0)
+    pf = round(gains / losses, 3) if losses > 0 else (None if not gains else float("inf"))
+    pf_flag = pf is not None and pf > 5
+    if pf_flag: checks["pf<=5_or_explained"] = bool(str(c.get("pf_explained") or "").strip())
     checks["n_oos>=30"] = n >= 30
     mean = sum(xs) / n if n else 0.0
     p = stats.boot(xs, random.Random(stats.SEED))[2] if n >= 2 else 0.0
@@ -66,11 +95,17 @@ def gate(repo, c):
         checks["cpcv_pass"] = bool(c["cpcv"].get("pass"))
     rv = reviewer(c["draft"]) if c.get("draft") else {"verdict": "n/a", "note": "no draft given"}
     checks["edge_reviewer_PASS"] = rv.get("verdict") == "PASS"
+    try:     # the trial is logged with the settings hash (a different hash = a different trial)
+        import checks as _ck; _ck.trial(repo, "strategy_lab", str(c.get("id") or c.get("name") or "unnamed") + ("#" + phash if phash else ""),
+                                        max(1, int(c.get("n_configs_tried", 1))))
+    except Exception: pass
     if all(checks.values()): v = "PASS"
     elif mean <= 0 or rv.get("verdict") == "REJECT": v = "REJECT"
     else: v = "REVISE"
     return {"id": c.get("id"), "verdict": v, "n_oos": n, "oos_mean": round(mean, 4), "p_gt0": round(p, 3),
-            "dsr": round(dsr, 3) if dsr is not None else None, "luck_sharpe": round(sr0, 4), "checks": checks, "reviewer": rv}
+            "dsr": round(dsr, 3) if dsr is not None else None, "luck_sharpe": round(sr0, 4), "checks": checks, "reviewer": rv,
+            "read_first": {"data_quality": dq, "n_oos": n, "few_trades": n < 30, "profit_factor": pf, "pf_suspicious": pf_flag},
+            "params_hash": phash}
 
 
 def residual(repo, strategy, outdir):
