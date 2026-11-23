@@ -320,7 +320,14 @@ data/nightly/calib.json).
 
 ## STOCKS (16:12 scoring)
 
-(Task also runs at 09:12 for the Reddit snapshot (ApeWisdom), which continues.)
+MOVED TO GITHUB (2026-11-24): the AI task is retired. The Reddit snapshot is written to the Sentiment ledger by
+`scripts/daily.py sentiment` right after the 07:40 ApeWisdom fetch (and by the first tick if the file was late), with the
+same pre-registered rules (scripts/sentiment.py). Baseline A on the watchlist and the same rules on the control list are
+scored by `scripts/daily.py stocks` in the 17:40 nightly fetch, from the stored 5-minute bars with the frozen
+orb_daily.py; status in ops/diag/daily_stocks.json. Parity before the switch: identical trades and R on 2026-11-18,
+-19, -20 and -23 for both lists. If the ledger already has rows for the day, the script compares instead of writing.
+The steps below describe what the script does and remain the manual fallback.
+(Earlier: the task also ran at 09:12 for the Reddit snapshot.)
 1. Control list: symbols = `data/universe.json` "control" (22 random S&P 100 names, fixed). Contract ids from
    `data/contracts.json`; a missing id: search_contracts (exact symbol, US primary STK listing), then
    `python3 -I /tmp/repo/scripts/backfill.py contract /tmp/repo SYM ID`. Fetch their 5-minute bars like the watchlist

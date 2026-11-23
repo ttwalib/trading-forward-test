@@ -92,6 +92,7 @@ jobs:
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/witness.py . || echo "witness failed"; fi
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/ape.py . || echo "ape failed"; fi
+          if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/daily.py sentiment . > /dev/null || echo "sentiment failed"; fi
           python3 scripts/dashboard.py . || echo "dashboard data failed"
       - name: ApeWisdom
         if: steps.m.outputs.mode == 'ape'
@@ -99,6 +100,7 @@ jobs:
           SEC_CONTACT: ${{ secrets.SEC_CONTACT }}
         run: |
           python3 scripts/ape.py . --force || echo "ape failed"
+          python3 scripts/daily.py sentiment . | tail -n 5 || echo "sentiment failed"
           python3 scripts/extdata.py . edgar crypto || echo "extdata failed"
       - name: Outside context data
         if: steps.m.outputs.mode == 'ext'
@@ -111,6 +113,11 @@ jobs:
         run: |
           pip install -q numpy==2.5.3 scikit-learn==1.9.1 || pip install -q numpy scikit-learn || true
           python3 scripts/daily.py crypto . | tail -n 40 || echo "daily crypto failed (see ops/diag/daily_crypto.json)"
+      # Stocks scoring (baseline A on the watchlist, the same rules on the control list) after the nightly fetch,
+      # from the stored 5-minute bars with the frozen orb_daily.py; replaced the 16:12 AI run on 2026-11-24.
+      - name: Stocks scoring
+        if: steps.m.outputs.mode == 'nightly'
+        run: python3 scripts/daily.py stocks . | tail -n 30 || echo "daily stocks failed (see ops/diag/daily_stocks.json)"
       # ML at detection: only on ticks where the engine sealed a new baseline breakout (a few a day), so the usual
       # tick stays short. Same package versions as the ones the model file was saved with.
       - name: Score
@@ -134,7 +141,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json data/ledger/Sentiment.jsonl data/ledger/Trades.jsonl data/ledger/VariantTrades.jsonl ops/diag/daily_stocks.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "crypto" ]; then git add data/ledger/CryptoTracks.jsonl data/ledger/MLShadow.jsonl; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then

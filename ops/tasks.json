@@ -9,9 +9,9 @@
   },
   {
    "name": "Stocks + control list",
-   "when": "09:12 and 16:12 on trading days",
+   "when": "retired 2026-11-24 (moved to GitHub)",
    "model": "Sonnet",
-   "does": "Reads the ApeWisdom file fetched by GitHub; scores the day's opening-range breakouts"
+   "does": "Moved to GitHub: the Reddit snapshot after the 07:40 ApeWisdom fetch and the scoring in the 17:40 nightly fetch (scripts/daily.py sentiment / stocks)"
   },
   {
    "name": "Live decisions",
@@ -205,6 +205,11 @@
    "name": "Outside data (ext)",
    "when": "18:20 ET weekdays",
    "does": "FRED rates and credit spreads, FINRA short-sale share, Cboe put/call, SEC EDGAR filings, crypto funding and stablecoins to data/ext/<source>/DAY.json; status in ops/diag/extdata.json (scripts/extdata.py)"
+  },
+  {
+   "name": "Stocks scoring",
+   "when": "17:40 ET weekdays, in the nightly fetch",
+   "does": "Baseline A on the watchlist and the same rules on the control list from the stored 5-minute bars (scripts/daily.py stocks, frozen orb_daily.py); compares instead of writing if rows exist; Sentiment rows after the 07:40 ApeWisdom fetch (scripts/daily.py sentiment)"
   }
  ]
 }

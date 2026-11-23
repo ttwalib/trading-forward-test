@@ -21,6 +21,8 @@ The repo ledger (data/ledger) is the record; an evening task copies it into the 
 import json, os, sys, time, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import crypto_tracks, hist, ledger, tcal
+from zoneinfo import ZoneInfo
+NY = ZoneInfo("America/New_York")
 
 COINS = ["BTC", "ETH", "SOL", "DOGE", "SHIB", "AVAX", "LINK"]
 TRACKS = [("15m fixed", "15m", 900, 400), ("15m adaptive", "15m", 900, 400),
@@ -133,6 +135,95 @@ def ml_night(repo, day=None):
         out["error"] = "%s: %s" % (type(e).__name__, e)
     jsave(path, out); return out
 
+def _day_bars(repo, syms, day):
+    """The day's 5-minute bars 09:30-16:00 New York from the store, in the shape orb_daily.py reads."""
+    d0 = int(dt.datetime.fromisoformat(day).replace(tzinfo=NY, hour=9, minute=30).timestamp()); out = {}
+    for s in syms:
+        B = []
+        p = os.path.join(repo, "data", "bars", "5m", s + ".jsonl")
+        if os.path.exists(p):
+            for line in open(p):
+                if line.strip():
+                    b = json.loads(line)
+                    if d0 <= b["t"] < d0 + 23400: B.append(b)
+        B.sort(key=lambda b: b["t"])
+        if B and B[0]["t"] == d0:
+            out[s] = {"time": [dt.datetime.fromtimestamp(b["t"], dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") for b in B],
+                      "open": [b["o"] for b in B], "high": [b["h"] for b in B], "low": [b["l"] for b in B], "close": [b["c"] for b in B]}
+    return out
+
+
+def sentiment(repo, day=None):
+    """Morning Reddit snapshot from the ApeWisdom file GitHub fetched (scripts/ape.py), written to the Sentiment ledger
+    with the pre-registered rules of scripts/sentiment.py. Replaces the 09:12 AI run (2026-11-24). Trending contract ids
+    come from data/contracts.json when known, otherwise they are left empty."""
+    import subprocess, tempfile, ledger
+    day = day or dt.datetime.now(NY).date().isoformat()
+    have = [r for r in ledger.load(repo, "Sentiment") if r.get("date") == day and r.get("symbol") != "-"]
+    if have: return {"day": day, "status": "already logged", "rows": len(have)}
+    f = os.path.join(repo, "data", "sentiment", "ape", day + ".json")
+    A = jload(f, None)
+    if not A or A.get("errors") or not A.get("pages"):
+        ledger.add(repo, "Sentiment", [{"date": day, "symbol": "-", "pool": "unavailable"}])
+        return {"day": day, "status": "unavailable", "errors": (A or {}).get("errors")}
+    tmp = []
+    for pg in A["pages"]:
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as t: json.dump(pg, t); tmp.append(t.name)
+    here = os.path.dirname(os.path.abspath(__file__))
+    p = subprocess.run([sys.executable, "-I", os.path.join(here, "sentiment.py")] + tmp, capture_output=True, text=True)
+    for t in tmp: os.remove(t)
+    if p.returncode: raise SystemExit("sentiment.py failed: " + p.stderr[-300:])
+    S = json.loads(p.stdout); C = jload(os.path.join(repo, "data", "contracts.json"), {}); rows = []
+    for sym, r in S["symbols"].items():
+        trend = sym in S["trending"]; cid = C.get(sym) if trend else None
+        if isinstance(cid, dict): cid = cid.get("conid") or cid.get("contract_id") or cid.get("id")
+        rows.append({"date": day, "symbol": sym, "pool": "trending" if trend else "watchlist", "mentions": r["mentions"],
+                     "mentions_24h_ago": r["mentions_24h_ago"], "change_pct": r["change_pct"], "rank": r["rank"],
+                     "upvotes": r["upvotes"], "rising": "yes" if r["rising"] else "no", "contract_id": cid})
+    res = ledger.add(repo, "Sentiment", rows)
+    return {"day": day, "status": "logged", "rows": len(rows), "trending": S["trending"], "ledger": res}
+
+
+def stocks(repo, day=None, check_only=False):
+    """16:12 scoring of baseline A on the watchlist and the same rules on the control list, from the stored 5-minute
+    bars, with the frozen scripts/orb_daily.py. Replaces the 16:12 AI run (2026-11-24). Only on full trading days.
+    If the ledger already has rows for the day (for example from the AI run), it compares instead of writing (parity)."""
+    import subprocess, tempfile, ledger, tcal
+    now = dt.datetime.now(NY); day = day or now.date().isoformat()
+    cal = tcal.info(day) if hasattr(tcal, "info") else None
+    full = cal.get("full_trading_day") if isinstance(cal, dict) else None
+    if full is False: return {"day": day, "status": "not a full trading day"}
+    U = jload(os.path.join(repo, "data", "universe.json"), {}); here = os.path.dirname(os.path.abspath(__file__)); res = {"day": day}
+    for name, syms in (("watchlist", U["watchlist"]), ("control", U["control"])):
+        bars = _day_bars(repo, syms, day)
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as t: json.dump(bars, t); tmp = t.name
+        p = subprocess.run([sys.executable, "-I", os.path.join(here, "orb_daily.py"), tmp, day, "16:00"], capture_output=True, text=True); os.remove(tmp)
+        if p.returncode: raise SystemExit("orb_daily failed: " + p.stderr[-300:])
+        R = json.loads(p.stdout); res[name] = {"trades": R["trades"], "no_data": sorted(set(syms) - set(bars)), "total_r": R["day_total_r_net"]}
+    old_w = [r for r in ledger.load(repo, "Trades") if r.get("date") == day]
+    old_c = [r for r in ledger.load(repo, "VariantTrades") if r.get("date") == day and r.get("variant") == "AC control"]
+    diffs = []
+    for name, old in (("watchlist", old_w), ("control", old_c)):
+        if not old: continue
+        o = {r["symbol"]: r for r in old}; n = {t["symbol"]: t for t in res[name]["trades"]}
+        for s in sorted(set(o) | set(n)):
+            a, b = o.get(s), n.get(s)
+            if a is None or b is None or a["outcome"] != b["outcome"] or abs(float(a["r_net"]) - b["r_net"]) > 0.005:
+                diffs.append("%s %s: ledger %s vs script %s" % (name, s, a and (a["outcome"], a["r_net"]), b and (b["outcome"], b["r_net"])))
+    res["parity"] = {"compared": bool(old_w or old_c), "identical": not diffs, "diffs": diffs[:20]}
+    if not check_only and not old_w and not old_c:
+        ledger.add(repo, "Trades", res["watchlist"]["trades"])
+        ledger.add(repo, "VariantTrades", [{"date": day, "variant": "AC control", "symbol": t["symbol"], "outcome": t["outcome"],
+                                            "r_net": t["r_net"], "entry_time": t["entry_time"]} for t in res["control"]["trades"]])
+        jsave(os.path.join(repo, "data", "state", "stocks_scored.json"), {"last_day": day, "at": now.strftime("%Y-%m-%d %H:%M"),
+              "baseline_trades": len(res["watchlist"]["trades"]), "control_trades": len(res["control"]["trades"]),
+              "no_data": res["watchlist"]["no_data"] + res["control"]["no_data"], "by": "github"})
+        res["written"] = True
+    jsave(os.path.join(repo, "ops", "diag", "daily_stocks.json"), {"day": day, "at": now.strftime("%Y-%m-%d %H:%M"), "ok": True,
+          "parity": res["parity"], "baseline_trades": len(res["watchlist"]["trades"]), "control_trades": len(res["control"]["trades"]),
+          "no_data": res["watchlist"]["no_data"] + res["control"]["no_data"], "written": res.get("written", False)})
+    return res
+
 
 def main():
     a = sys.argv[1:]
@@ -140,6 +231,10 @@ def main():
     elif a[0] == "ml":
         r = ml_night(a[1], a[2] if len(a) > 2 else None)
         print(json.dumps({k: r[k] for k in r if k != "report"}, indent=1, default=str)[:3000])
+    elif a[0] == "sentiment": print(json.dumps(sentiment(a[1], a[2] if len(a) > 2 else None), indent=1))
+    elif a[0] in ("stocks", "stocks-check"):
+        r = stocks(a[1], a[2] if len(a) > 2 else None, check_only=a[0] == "stocks-check")
+        print(json.dumps({k: (v if k in ("day", "parity", "status", "written") else {"n": len(v["trades"]), "total_r": v["total_r"], "no_data": v["no_data"]}) for k, v in r.items()}, indent=1))
     else: raise SystemExit("unknown mode")
 
 
