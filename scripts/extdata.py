@@ -31,11 +31,14 @@ ITEMS = {"1.01": "material agreement", "1.03": "bankruptcy", "2.01": "acquisitio
 
 
 def get(url, ua=UA, timeout=40, tries=2):
+    import gzip
     err = None
     for i in range(tries):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": ua, "Accept-Encoding": "identity"})
-            with urllib.request.urlopen(req, timeout=timeout) as r: return r.read()
+            h = {"User-Agent": ua, "Accept-Encoding": "gzip, deflate", "Accept": "*/*"}
+            with urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=timeout) as r:
+                b = r.read()
+                return gzip.decompress(b) if b[:2] == b"\x1f\x8b" else b
         except Exception as e:
             err = e; time.sleep(2)
     raise err
@@ -50,7 +53,8 @@ def bdays(n, end=None):
 
 
 def edgar(repo, U):
-    tk = json.loads(get("https://www.sec.gov/files/company_tickers.json", UA_SEC))
+    try: tk = json.loads(get("https://www.sec.gov/files/company_tickers.json", UA_SEC))
+    except Exception as e: raise RuntimeError(f"company_tickers.json: {type(e).__name__}: {e}")
     cik2t = {}
     for v in tk.values(): cik2t.setdefault(int(v["cik_str"]), v["ticker"].upper())
     ns = {"a": "http://www.w3.org/2005/Atom"}; eight = {}; n8 = 0; notes = []
