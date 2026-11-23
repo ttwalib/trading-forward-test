@@ -1,34 +1,34 @@
 {
- "at": "2026-11-23T13:53:32Z",
- "nowny": "2026-11-23 08:53",
+ "at": "2026-11-23T16:29:18Z",
+ "nowny": "2026-11-23 11:29",
  "ok": true,
  "tracks": {
   "15m fixed": {
-   "closed": 2,
+   "closed": 10,
    "wins": 1,
-   "total_r": 0.31,
-   "open": 1
+   "total_r": -8.04,
+   "open": 0
   },
   "15m adaptive": {
-   "closed": 2,
+   "closed": 10,
    "wins": 1,
-   "total_r": 0.31,
-   "open": 1
+   "total_r": -8.04,
+   "open": 0
   },
   "1h fixed": {
-   "closed": 0,
-   "wins": 0,
-   "total_r": 0,
-   "open": 4
+   "closed": 4,
+   "wins": 2,
+   "total_r": 0.39,
+   "open": 3
   },
   "1h adaptive": {
-   "closed": 0,
-   "wins": 0,
-   "total_r": 0,
-   "open": 4
+   "closed": 4,
+   "wins": 2,
+   "total_r": 0.39,
+   "open": 3
   }
  },
  "gaps": {},
- "ledger_rows": 14,
- "ml_predictions": 0
+ "ledger_rows": 34,
+ "ml_predictions": 2
 }
