@@ -194,6 +194,19 @@ def leaktest(repo, day):
 
 
 # ---------- weekly random-day replay ----------
+def replay_days(repo, n=5):
+    """Five random past days a night instead of one (2026-11-23, after the GitHub budget rise): distinct days, drawn
+    with seeds from the ISO week, each re-run with replay_day."""
+    import random
+    T = jl(os.path.join(repo, "data", "ledger", "Trades.jsonl")); today = dt.datetime.now(NY).date().isoformat()
+    days = sorted({r["date"] for r in T if r["date"] < today})
+    if not days: return {"status": "no past days"}
+    iso = dt.datetime.now(NY).isocalendar(); pick = random.Random(iso[0] * 100 + iso[1]).sample(days, min(n, len(days)))
+    res = [replay_day(repo, d) for d in sorted(pick)]
+    return {"days": [r.get("day") for r in res], "identical": all(r.get("identical") for r in res),
+            "diffs": [x for r in res for x in r.get("diffs", [])][:30], "checked": len(res)}
+
+
 def replay_day(repo, day=None, seed=None):
     """Re-runs the baseline-A rules (orb_daily.py) on the stored 5-minute bars of one past test day and compares the
     trades with the ledger (watchlist "Trades" and the control list in "VariantTrades"). The day is drawn at random
@@ -420,7 +433,7 @@ def fresh(repo, tf, now=None):
     now = dt.datetime.fromisoformat(now).astimezone(NY) if now else dt.datetime.now(NY)
     U = json.load(open(os.path.join(repo, "data", "universe.json"))); stocks = U["watchlist"] + U["control"]
     if tf == "5m":
-        wide = sorted(set(stocks) | {x for x in U.get("universe", []) if x != "GOOG"}) if U.get("intraday_wide") else stocks
+        wide = sorted(set(stocks) | {x for x in U.get("universe", []) if x != "GOOG"}) if (U.get("intraday_wide") or U.get("intraday_wide_data")) else stocks
         syms = wide + ["SPY", "QQQ", "IWM"]
         close = now.replace(hour=13 if tcal.is_half(now.date()) else 16, minute=0, second=0, microsecond=0)
         ref = min(now, close)
@@ -447,7 +460,7 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     fn = {"bar-timing": lambda: bar_timing(a[1]), "xcheck-plan": lambda: xcheck_plan(a[1], a[2]), "xcheck": lambda: xcheck(a[1], a[2]),
           "live-save": lambda: live_save(a[1], a[2], a[3]), "parity": lambda: parity(a[1], a[2]),
-          "leaktest": lambda: leaktest(a[1], a[2]), "replay-day": lambda: replay_day(a[1], a[2] if len(a) > 2 else None),
+          "leaktest": lambda: leaktest(a[1], a[2]), "replay-day": lambda: replay_day(a[1], a[2] if len(a) > 2 else None), "replay-days": lambda: replay_days(a[1], int(a[2]) if len(a) > 2 else 5),
           "engine-report": lambda: engine_report(a[1], a[2] if len(a) > 2 else None), "health": lambda: health(a[1], a[2] if len(a) > 2 else None),
           "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
           "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None),

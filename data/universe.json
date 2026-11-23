@@ -1,5 +1,5 @@
 {
- "note": "Static S&P 100 membership snapshot (Nov 2026, approximate) used as the liquid universe. control = 22 names drawn with random.Random(20261119).sample from the universe minus the watchlist, GOOG and BRK.B. Fixed for the whole test: it measures whether watchlist selection adds edge beyond the rules. etfs = index, bond, gold and the 11 sector ETFs used by the strategy library (daily bars). Added 2026-11-20: IEF, DBC, EFA, EEM (multi-asset trend sleeve L17). intraday_wide = true makes the 5-minute feed, the intraday library strategies (L2-L4, L14) and the engine's library signals use the whole universe instead of watchlist + control; baseline A, its variants and the control list never change.",
+ "note": "Static S&P 100 membership snapshot (Nov 2026, approximate) used as the liquid universe. control = 22 names drawn with random.Random(20261119).sample from the universe minus the watchlist, GOOG and BRK.B. Fixed for the whole test: it measures whether watchlist selection adds edge beyond the rules. etfs = index, bond, gold and the 11 sector ETFs used by the strategy library (daily bars). Added 2026-11-20: IEF, DBC, EFA, EEM (multi-asset trend sleeve L17). intraday_wide = true makes the 5-minute feed, the intraday library strategies (L2-L4, L14) and the engine's library signals use the whole universe instead of watchlist + control; baseline A, its variants and the control list never change. intraday_wide_data (2026-11-23, owner): store 5-minute bars for the whole universe for research, machine learning and a report-only wide run of L2-L4/L14 (data/library/intraday_wide.json); intraday_wide stays false, so the foundation's intraday strategies, baseline A and the control list keep their 44-stock lists.",
  "seed": 20261119,
  "watchlist": [
   "AAPL",
@@ -179,5 +179,6 @@
   "WMT",
   "XOM"
  ],
- "intraday_wide": false
+ "intraday_wide": false,
+ "intraday_wide_data": true
 }

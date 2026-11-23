@@ -364,7 +364,12 @@ def main():
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     stocks = U["watchlist"] + U["control"]; etfs = [e for e in U["etfs"] if not e.startswith("VIX")]
     univ = sorted(set(stocks) | {s for s in U.get("universe", []) if s != "GOOG"})
-    intr = (univ if U.get("intraday_wide") else stocks) + INTRA_ETFS      # symbols with 5-minute bars
+    intr = (univ if U.get("intraday_wide") else stocks) + INTRA_ETFS      # symbols with 5-minute bars (the foundation's)
+    # WIDE DATA (2026-11-23): 5-minute bars for the rest of the universe as well, for research and ML only. Fetched AFTER
+    # the core symbols and skipped when the run is already slow, so the engine's 44 stocks are never delayed and a tick
+    # stays under one billed minute. Skips are logged (LOG["wide_skipped"]) and shown by `checks.py health`.
+    extra = [s for s in univ if s not in intr] if U.get("intraday_wide_data") and not U.get("intraday_wide") else []
+    WIDE_BUDGET_S = 20
     end = now() - dt.timedelta(minutes=16)                  # free plan: SIP data must be at least 15 minutes old
     LOG.update({"mode": mode, "started": iso(now())})
     if mode == "tick":
@@ -376,6 +381,13 @@ def main():
         start = min(known) + 300 if known and len(known) == len(lt) else int(sess.timestamp())
         start = max(start, int((now() - dt.timedelta(days=5)).timestamp()))
         stock_bars(repo, intr, "5m", dt.datetime.fromtimestamp(start, UTC), end)
+        if extra:
+            if time.time() - T0 < WIDE_BUDGET_S:
+                lx = [last_t(repo, "5m", s) for s in extra]; kx = [t for t in lx if t]
+                sx = min(kx) + 300 if kx and len(kx) == len(lx) else int(sess.timestamp())
+                sx = max(sx, int((now() - dt.timedelta(days=5)).timestamp()))
+                stock_bars(repo, extra, "5m", dt.datetime.fromtimestamp(sx, UTC), end); LOG["wide_symbols"] = len(extra)
+            else: LOG["wide_skipped"] = round(time.time() - T0, 1)
         if not LOG.get("tick") or now().minute % 15 < 5:
             crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
     elif mode == "nightly":
@@ -388,7 +400,7 @@ def main():
             if pk: stock_bars(repo, pk, "1d", now() - dt.timedelta(days=15), end)
             LOG["pick_symbols"] = len(pk)
         except Exception as e: LOG["errors"].append("pick bars: %s" % e)
-        stock_bars(repo, intr, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars
+        stock_bars(repo, intr + extra, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars (wide data too)
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
@@ -409,8 +421,11 @@ def main():
     elif mode == "etfs":          # one-off: history for ETFs added to universe.json
         stock_bars(repo, etfs, "1d", now() - dt.timedelta(days=740), end)
         corp_actions(repo, etfs, dt.datetime(2015, 6, 1, tzinfo=UTC)); hist(repo, etfs, "1d", dt.datetime(2016, 1, 1, tzinfo=UTC), end)
-    elif mode == "wide5m":        # one-off: 90 days of 5-minute bars for the whole universe (before intraday_wide = true)
+    elif mode == "wide5m":        # one-off: 90 days of stored 5-minute bars + the 2-year archive for the whole universe
         stock_bars(repo, univ + INTRA_ETFS, "5m", now() - dt.timedelta(days=92), end)
+        have = {f[:-7] for f in os.listdir(os.path.join(repo, "data", "hist", "5m"))} if os.path.isdir(os.path.join(repo, "data", "hist", "5m")) else set()
+        need = [s for s in univ if s not in have]; LOG["wide_hist_symbols"] = len(need)
+        if need: hist(repo, need, "5m", now() - dt.timedelta(days=731), end)
     elif mode == "universe":
         stock_bars(repo, univ, "1d", now() - dt.timedelta(days=740), end)
         corp_actions(repo, univ, now() - dt.timedelta(days=1100))

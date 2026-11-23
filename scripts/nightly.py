@@ -70,7 +70,7 @@ def main():
     if all(s["ok"] for s in stamp["steps"] if s["step"] != "rank"):      # an optional step (rank) never stops the rest
         ck = {}
         for name, args in (("engine_report", ["engine-report", repo]), ("slip_report", ["slip-report", repo]), ("health", ["health", repo]),
-                           ("replay_day", ["replay-day", repo])):      # random past day re-run against the ledger (2026-11-21)
+                           ("replay_day", ["replay-days", repo, "5"])):      # random past day re-run against the ledger (2026-11-21)
             tmp = os.path.join(N, "_tmp.json"); r = step(name, [S("checks.py")] + args, tmp, 300); stamp["steps"].append(r)
             if r["ok"]: ck[name] = json.load(open(tmp)); os.remove(tmp)
         json.dump(ck, open(os.path.join(N, "checks.json"), "w"), indent=1)
@@ -85,6 +85,9 @@ def main():
         except Exception: stamp["chain_head"] = None
         stamp["steps"].append(step("dashboard", [S("dashboard.py"), repo], None, 300))
         # challenger lane (2026-11-22): register lab approvals, then score every entry on its forward days only
+        # report-only (2026-11-23): L2-L4 and L14 on the whole universe from the wide 5-minute data; never read by the
+        # allocator, never part of the verdict; for the lab, the ML and the Dec 8 lane (data/library/intraday_wide.json)
+        stamp["steps"].append(step("library_wide", [S("library.py"), repo, day, "--wide"], None, 900))
         stamp["steps"].append(step("seals", [S("seals.py"), repo, day], os.path.join(N, "seals.json"), 300))   # contest + daily challenger
         stamp["steps"].append(step("calib", [S("calib.py"), repo], os.path.join(N, "calib.json"), 300))
         stamp["steps"].append(step("lane_auto", [S("registry.py"), "auto", repo], None, 120))

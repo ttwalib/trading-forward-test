@@ -622,6 +622,14 @@ if __name__ == "__main__":
     a = sys.argv[1:]; mult = 1.0
     if "--cost-mult" in a: i = a.index("--cost-mult"); mult = float(a[i + 1]); del a[i:i + 2]
     if "--fill-lag" in a: i = a.index("--fill-lag"); FILL_LAG = int(a[i + 1]); del a[i:i + 2]
+    if "--wide" in a:     # report-only wide run (2026-11-23): the intraday books on every symbol with stored 5m bars
+        a.remove("--wide"); repo = a[0]; day = a[1] if len(a) > 1 else None
+        U = json.load(open(os.path.join(repo, "data", "universe.json")))
+        ws = [s for s in sorted(set(U["watchlist"] + U["control"]) | {x for x in U.get("universe", []) if x != "GOOG"})
+              if os.path.exists(os.path.join(repo, "data", "bars", "5m", s + ".jsonl"))]
+        books = [b for b in intraday_books({s: intraday(repo, s) for s in ws + ["SPY"]}, ws, day) if not b.name.startswith("L1 ")]
+        for b in books: b.name = b.name + " (wide, report only)"
+        print(json.dumps(dict(write_stress(repo, reprice(repo, books, 1.0), "intraday_wide.json"), symbols=len(ws)))); sys.exit(0)
     repo = a[0]; day = a[1] if len(a) > 1 else None
     books = reprice(repo, build(repo, day), mult)
     if FILL_LAG == 0: print(json.dumps(write_stress(repo, books, "daily_ideal.json"), indent=1))

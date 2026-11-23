@@ -957,7 +957,25 @@ is flagged there and must be explained in the next weekly report.
 ITEM 39 (2026-11-23, owner: "go ahead with your recommendation"; budget SET by the owner 2026-11-23): GITHUB MINUTES DECISION. Measured from GitHub's run
 records: about 112 billed minutes on a full trading day before the nightly maths (about 120-130 with it) and 22-29 on a
 weekend day, so a full month is about 2,700-3,100 of the 3,000 included minutes. DECISION: overage is allowed, capped
-by an Actions spending budget of USD 10 a month that the owner sets in GitHub billing settings (Linux minutes cost
+by an Actions spending budget the owner sets in GitHub billing settings (USD 10 on 2026-11-23, raised to USD 30 the same day, item 40) (Linux minutes cost
 USD 0.006 each beyond the allowance; expected cost USD 0-6 a month). The pause order of item 37(i) is now the FALLBACK
-only: use it if the month's projection passes 3,000 minutes + the budget (about 4,600), or if GitHub reports the
+only: use it if the month's projection passes 3,000 minutes + the budget (about 8,000 at USD 30), or if GitHub reports the
 budget reached. The orchestrator digest states the month's minutes so far and the projection every night.
+
+ITEM 40 (2026-11-23, owner raised the Actions budget to USD 30 a month and said "implement the suggested changes"):
+(a) WIDE INTRADAY DATA: universe.json intraday_wide_data = true stores 5-minute bars for the whole universe (about 107
+symbols) for research, ML and the lab; the 2-year 5-minute archive is extended to them (one-off workflow mode wide5m).
+intraday_wide stays FALSE, so the foundation's intraday strategies (L1-L4, L14), the engine, baseline A and the control
+list keep their 44-stock lists and stay comparable with their history. The wide symbols are fetched after the core
+symbols and skipped in any tick already slower than 20 s (LOG wide_skipped in ops/diag/fetch_free.json).
+(b) REPORT-ONLY WIDE RUN: nightly step library_wide writes data/library/intraday_wide.json (L2-L4 and L14 on the whole
+universe). The allocator never reads it; it never counts towards any verdict; it is optional in the stamp. The universe
+is today's S&P 100, so its history has survivorship bias: use it for forward results and research only, and prefer the
+point-in-time S&P 500 history (data/pit) for training. A wide version may enter the lane after 2026-12-08 as a
+registered challenger, never the book.
+(c) PICKS WITNESS ON PUSH: workflow picks-witness runs scripts/witness.py whenever data/ledger/AgentPicks.jsonl is pushed.
+(d) REPLAY: five random past days a night (checks.py replay-days) instead of one.
+(e) NOT DONE: hourly crypto runs. The crypto tracks replay every bar in order and fill on the next bar, so run cadence
+does not change any simulated result; the extra minutes would buy nothing.
+(f) FOR THE 2026-12-08 LANE BUILD: run the lab's parameter sweeps and CPCV, and the ML challengers' training, as GitHub
+jobs (scheduled follow-up). Keep the month's total under about 7,000 minutes.

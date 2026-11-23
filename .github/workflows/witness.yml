@@ -1,0 +1,32 @@
+# Quantavius the 1st - picks witness on push (2026-11-23). When the morning research pushes its picks, GitHub records
+# the time it first saw each pick row (scripts/witness.py, data/witness/picks.jsonl). The 5-minute tick does the same
+# from 09:00 ET; this run makes the proof as early as the push itself. Reads the repository only; no orders, no keys.
+name: picks-witness
+on:
+  push:
+    paths: ["data/ledger/AgentPicks.jsonl"]
+permissions:
+  contents: write
+concurrency:
+  group: picks-witness
+  cancel-in-progress: false
+jobs:
+  witness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Witness
+        run: python3 scripts/witness.py .
+      - name: Commit
+        run: |
+          git config user.name "quantavius-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/witness
+          git diff --cached --quiet && exit 0
+          git commit -q -m "data: picks witness $(date -u +%FT%TZ)"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main; then OK=1; break; fi
+            sleep $((i * 5))
+          done
+          [ "$OK" = "1" ] || exit 1

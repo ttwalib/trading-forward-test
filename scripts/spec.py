@@ -77,7 +77,7 @@ def main(repo):
         ["Control list (random, seed %s)" % u["seed"], len(u["control"]), "Same rules as baseline A: the benchmark for stock selection"],
         ["Liquid universe (today's S&P 100, survivorship-flattered)", len(u["universe"]), "Daily library strategies"],
         ["ETFs", len(u["etfs"]), "Index, sector, bond, gold, commodity and foreign-share sleeves"],
-        ["Wide intraday universe", "on" if u.get("intraday_wide") else "off", "5-minute strategies on the whole universe (kept off)"]]) + "\n")
+        ["Wide intraday universe", "on" if u.get("intraday_wide") else "off", "5-minute foundation strategies on the whole universe (kept off)"], ["Wide intraday data", "on" if u.get("intraday_wide_data") else "off", "5-minute bars for the whole universe, research and a report-only wide run (2026-11-23)"]]) + "\n")
     P.append("Watchlist: %s\n\nControl list: %s\n" % (", ".join(u["watchlist"]), ", ".join(u["control"])))
     P.append("## Strategy sleeves (%d in the allocator today)\n" % len(S))
     P.append("Library (%d strategies, `scripts/library.py`, run nightly on stored bars): %s.\n" % (len(lib), "; ".join(lib)))
