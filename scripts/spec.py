@@ -101,14 +101,14 @@ def main(repo):
     P.append(", ".join("`%s`" % f for f in A.FROZEN_FILES) + ". Hashes in `ops/freeze.json`; checked nightly and by the freeze-guard workflow.\n")
     P.append("## Scheduled AI tasks (New York time)\n")
     P.append(table(["Task", "When", "Model", "What it does"], [[t["name"], t["when"], t["model"], t["does"]] for t in T["tasks"]]) + "\n")
-    per_day = "About 25 AI sessions on a trading day (8 crypto, 6 live decisions, 3 watchdog, 2 stocks, and one each of morning research, options, adaptive, evening scoring, orchestrator and ML nightly)."
+    per_day = "Crypto tracks and the ML nightly run on GitHub since 2026-11-22. The build week before 2026-11-29 moves stock, adaptive and evening scoring to GitHub and cuts live decisions to 2 runs and the watchdog to 1, leaving about 7 scheduled AI sessions on a weekday."
     P.append(per_day + "\n")
     P.append("## Work done on GitHub with no AI in the loop\n")
     P.append(table(["Job", "When", "What it does"], [[t["name"], t["when"], t["does"]] for t in T["github"]]) + "\n")
     P.append("## Checks that run by themselves\n")
     P.append("Freeze guard; no-orders check; health line and alert issue (ticks, gaps, Actions minutes, token expiry); "
              "live-versus-replay parity with tolerances (entry %.1f%%, feature %.0f%%, day fails above %.0f%% of candidates); "
-             "random past day re-run against the ledger every night; planted-leak test for the audit; cross-source price "
+             "five random past days re-run against the ledger every night; planted-leak test for the audit; cross-source price "
              "check; data-quality scan; trial ledger (%d unique trials logged so far).\n"
              % (checks.ENTRY_TOL * 100, checks.FEAT_TOL * 100, checks.FEAT_SHARE * 100, tr["unique_trials"]))
     import registry
