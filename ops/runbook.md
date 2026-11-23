@@ -194,6 +194,10 @@ After the existing steps:
    trades and had to be rewritten.
 4b. STRATEGY LIBRARY + AI ALLOCATOR + STATS ON GITHUB (changed 2026-11-20: the maths runs on GitHub, not in this task).
    After step 4-pre (the ledger must be complete and PUSHED first):
+   (o) SINCE 2026-11-23 (item 43) GitHub runs the nightly maths ON A SCHEDULE at 21:00 New York (22:00 from
+       2027-03-14). First `git pull`: if data/nightly/stamp.json has day == DAY, ok == true and started within the last
+       45 minutes, skip (i) and (ii) and go to (iii). Otherwise (the scheduled run is late or failed, or after
+       2027-03-14 when it runs at 22:00) request it yourself with (i) and (ii) as before.
    (i) write /tmp/repo/ops/fetch_request.json = {"mode": "compute", "day": "DAY", "requested": "<UTC now, ISO>"},
        commit and push it. That starts scripts/nightly.py on GitHub: library.py, library.py --cost-mult 2,
        library.py --fill-lag 0, allocator.py, stats.py, checks (engine-report, slip-report, health), dashboard.py, in
@@ -693,6 +697,13 @@ bar, a cost not charged, a survivorship artefact): find the cause; only if there
 
 ## WEEKLY REPORT
 
+SINCE 2026-11-23 (item 43): the report runs on Fridays at 21:41 New York, after the scheduled nightly maths, and it
+ABSORBS THE PICKS REVIEW (that task is disabled): one section on Quantavius's picks against the watchlist and the
+control list (data/picks/score.json, the cost-view line, calibration of p=), what worked and what did not, and any
+pattern worth a playbook change (the Saturday lab decides; q <= 0.10 and 30 pick days). Use the scoreboard layout:
+A1 first (primary and strict, with the number of weekly decisions, worded "promising, not proof" on a pass), then G1
+and G2, then the AI layer, then the foundation. Read stamp.json first; if the day's maths are missing, say so.
+
 Report days: every Friday from 2026-11-20 to 2027-05-07 (the 2027-01-01 and 2027-03-26 reports fall on holidays and
 cover trades through the day before). The interim report (2027-02-16) and the final report (2027-05-18) are separate
 tasks. From 2027-02-05 mark everything as holdout evidence. Added 2026-11-21: the AI-judgment allocator (this week's
@@ -846,6 +857,13 @@ The row also lists moves_over_5pts against the previous seal: explain each one i
 
 ## LIVE DECISIONS (hourly at :05, 10:05 to 15:05, on full trading days)
 
+SINCE 2026-11-23 (item 43): ONE RUN A DAY at 13:05 New York, on full trading days. It does: step 0 with BOTH snapshot
+sets (the 11:05 fields and the 13:05 fields, two calls per symbol); step 1b; step 2 for the whole session so far; step 3b
+(slippage quotes for each kept candidate); step 4; step 5 WITHOUT the atm_call rows. It skips step 1 (the free feed
+stores the bars) and step 3 (option quotes: the option sleeves of baseline A are retired). Machine-learning scores at
+detection come from GitHub (data/decisions/engine_ml/). The ledger is the record: write Live and MLShadow rows to the
+ledger only (SHEET RETIRED, below).
+
 0. MIDDAY SNAPSHOT (only the 11:05 and 13:05 runs): 11:05 -> for each watchlist + control stock get_price_snapshot
    market_data_names ["bid_ask", "implied_volatility_percentile"]; 13:05 -> stocks ["implied_vol_underlying",
    "historical_vol"] and each universe etf except VIX/VIX3M ["bid_ask"]. Ask for exactly these two fields per call
@@ -994,3 +1012,23 @@ costs and the BREAK-EVEN win rate (average net loss / (average net win + average
 final reports show one line per sleeve in the AI layer: "won X% of picks, needs Y% to break even; costs took Z% of the
 gross". It decides nothing and changes no rule. Idea from a reviewed paper-trading kit (nirvestai.com/build; read
 only, no code taken).
+
+ITEM 43 (2026-11-23, owner: "proceed", consolidation for accuracy and fewer moving parts; pre-registration amendment)
+(a) BENCHMARK: the four "Agent picks: ..." sleeves (Quantavius's picks traded under the baseline-A or adaptive rule, as
+at-the-money calls or as smart calls) are Quantavius's own work: allocator.OWN_SLEEVES excludes them from the foundation
+equal weight (equal_f). They stay in the book's menu. Options return later as Quantavius's own choice per pick (stock or
+call, with its reason) through the 2026-12-08 lane build, never as a fixed overlay.
+(b) NIGHTLY MATHS ON A SCHEDULE: workflow cron "0 2 * * 2-6" runs compute for the New York day at 21:00 New York
+(22:00 from 2027-03-14). The orchestrator only requests it when the scheduled run is missing or failed (ORCHESTRATOR 4b).
+(c) LIVE DECISIONS: one run at 13:05 New York (section LIVE DECISIONS). This replaces the planned cut to two runs.
+(d) PICKS REVIEW merged into the weekly report, which moves to Fridays 21:41 New York (section WEEKLY REPORT).
+(e) SHEET RETIRED: no task writes to the sheet any more and the planned sheet-sync task is cancelled. Wherever a prompt
+or section says to append rows to the sheet or a tab, write the same rows to the repository ledger only (ledger.py
+add / LEDGER section). Tabs that lived only in the sheet now have ledger tabs: "Strategy lab" -> StrategyLab, "Learning",
+"Watchdog", "Data check" -> DataCheck, "Adaptive" change log -> AdaptiveLog (scripts/ledger.py; the sheet names work as
+aliases). Their earlier rows were copied from the sheet on 2026-11-23 (Strategy lab 1, Learning 8, Watchdog 6). The sheet stays as a read-only record of the days to 2026-11-22. The dashboard is the view.
+(f) DAILY CHALLENGER: Mondays and Thursdays at 08:41 New York from 2026-12-07 (a lane entry only; on other days its last
+seal carries forward, scripts/seals.py).
+(g) RUNBOOK CONSOLIDATION: this file is being rewritten into one current version (one section per task, section names
+unchanged so every prompt still finds its section; the dated history moves to ops/runbook_history.md). Until that lands,
+the newest dated item wins over older text.

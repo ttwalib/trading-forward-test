@@ -12,6 +12,7 @@ on:
     - cron: "32 0-23/3 * * *"      # crypto bars every 3 hours, before each crypto-tracks run (added 2026-11-20)
     - cron: "7 3 * * *"            # nightly machine-learning job (22:07 ET; scripts/daily.py ml; an AI task until 2026-11-22)
     - cron: "17 10 * * *"          # second daily fit of the crypto ML family (05:17 ET; the nightly ML task is the first)
+    - cron: "0 2 * * 2-6"          # nightly maths on a schedule (21:00 New York in winter, 22:00 from 2027-03-14), so scoring never depends on an AI task (2026-11-23)
   workflow_dispatch:
     inputs:
       mode:
@@ -43,7 +44,8 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "40 22 * * 1-5" ]; then M=nightly;
           elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto;
           elif [ "${{ github.event.schedule }}" = "7 3 * * *" ]; then M=mlnight;
-          elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto; else M=tick; fi
+          elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto;
+          elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then M=compute; D=$(TZ=America/New_York date +%F); else M=tick; fi
           case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"

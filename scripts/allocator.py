@@ -501,7 +501,9 @@ def simulate(repo, day, S, spy, vix, judge=True):
     return rows, W
 
 
-OWN_SLEEVES = ("AP ", "AP2 ", "AS ")     # Quantavius's own sleeves (agent picks, sized picks, approved lab strategies)
+OWN_SLEEVES = ("AP ", "AP2 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
+# strategies and (since 2026-11-23, runbook item 43) its picks traded under the breakout rules or as calls; none of these
+# may sit inside the foundation benchmark (equal_f)
 
 
 def phase_report(rows):

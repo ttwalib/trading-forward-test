@@ -12,6 +12,16 @@ Rows are upserted by the tab's key, so re-running a task never duplicates rows. 
 import json, os, sys, hashlib
 
 SPECS = {
+    # Logs that lived only in the sheet until it was retired (2026-11-23, runbook item 43)
+    "StrategyLab": (["created", "name", "idea_and_source", "market", "backtest_trades", "win_rate", "avg_net_pct",
+                     "heldout_avg_net_pct", "status", "code", "forward_trades", "forward_avg_net_pct"], ["created", "name"]),
+    "Learning": (["review_time", "group", "condition", "trades_in_condition", "win_rate_in_out", "avg_in_out", "finding",
+                  "action"], ["review_time", "group", "condition"]),
+    "Watchdog": (["check_time", "task", "status", "detail", "action", "reruns_today"], ["check_time", "task"]),
+    "DataCheck": (["check_time", "check", "status", "detail", "symbols", "action", "source", "note"], ["check_time", "check"]),
+    "AdaptiveLog": (["review_time", "segment", "track", "strategy", "changed", "old_settings", "new_settings", "lookback",
+                     "trades_old", "win_old", "avg_old", "trades_new", "win_new", "avg_new", "unit"],
+                    ["review_time", "segment", "track", "strategy"]),
     "Trades": (["date", "symbol", "outcome", "r_net", "entry_time", "entry", "stop", "target", "exit_time", "exit",
                 "or_low", "or_high", "r_gross"], ["date", "symbol"]),
     "VariantTrades": (["date", "variant", "symbol", "outcome", "r_net", "entry_time"], ["date", "variant", "symbol"]),
@@ -50,7 +60,7 @@ SPECS = {
     "Stats": (["date", "strategy", "unit", "phase", "n", "mean", "ci_lo", "ci_hi", "p_gt0", "q_bh", "psr", "dsr",
                "alpha", "alpha_t", "beta", "kelly_share", "breaker", "verdict"], ["date", "strategy", "phase"]),
 }
-ALIASES = {"Library trades": "Library", "Variant trades": "VariantTrades", "Deep OTM D1": "DeepD1", "Deep OTM spreads": "DeepSpreads",
+ALIASES = {"Strategy lab": "StrategyLab", "Data check": "DataCheck", "Adaptive": "AdaptiveLog", "Library trades": "Library", "Variant trades": "VariantTrades", "Deep OTM D1": "DeepD1", "Deep OTM spreads": "DeepSpreads",
            "Weekly options": "Weekly", "Crypto tracks": "CryptoTracks", "Adaptive stocks": "AdaptiveStocks",
            "Agent trades": "AgentTrades", "Agent picks": "AgentPicks", "Live decisions": "Live", "ML shadow": "MLShadow"}
 
