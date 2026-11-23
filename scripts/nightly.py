@@ -80,6 +80,8 @@ def main():
         # tamper-evident chain over the append-only evidence files
         stamp["steps"].append(step("costgrid", [S("costgrid.py"), repo], os.path.join(N, "costgrid.json"), 300))
         stamp["steps"].append(step("riskx", [S("riskx.py"), repo], os.path.join(N, "riskx.json"), 300))
+        # report-only market breadth over the point-in-time top 100 (tools audit 2026-11-23); shown in the pack
+        stamp["steps"].append(step("breadth", [S("breadth.py"), repo, day], os.path.join(N, "breadth.json"), 300))
         stamp["steps"].append(step("chain", [S("chain.py"), "update", repo], None, 120))
         try: stamp["chain_head"] = json.load(open(os.path.join(N, "chain.json")))["head"]
         except Exception: stamp["chain_head"] = None

@@ -108,7 +108,18 @@ def brief(repo, now=None):
             "cautions": ["live samples are tiny: a few days of results are mostly noise",
                          "backtest records are flattered, most of all where backtest_is_flattered is true",
                          "on past data every simple rule (risk parity, minimum variance, equal weight) beat the formula on Sharpe"],
+            "market_breadth": breadth_view(repo, cal[-1] if cal else None),
             "your_own_work": ai_layer(repo, cal[-1] if cal else None)}
+
+
+def breadth_view(repo, through):
+    """Since 2026-11-23 (tools audit) the pack shows market breadth over the point-in-time top 100 (scripts/breadth.py,
+    report only): the latest row on or before `through` and the last 10 rows, so a narrow or broad market is visible."""
+    f = os.path.join(repo, "data", "nightly", "breadth.json")
+    if not (through and os.path.exists(f)): return None
+    try: rows = [r for r in json.load(open(f)).get("rows", []) if r["date"] <= through]
+    except Exception: return None
+    return {"latest": rows[-1] if rows else None, "last_10": rows[-10:]} if rows else None
 
 
 def ai_layer(repo, through):

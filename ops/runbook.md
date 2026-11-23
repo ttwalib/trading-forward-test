@@ -29,6 +29,41 @@ These steps add to each task's prompt and never override the prompt's SAFETY rul
 screeners; read-only IBKR tools only; no reddit.com. scripts/no_orders.py
 and the no-orders workflow fail the build if an order-related call appears in the repo.
 
+## TOOLS AND SKILLS (every task; tools audit 2026-11-23)
+
+What a scheduled session really has (probe of 2026-11-23, ops/diag/task_capabilities.json): WebSearch yes; WebFetch NO;
+the shell has NO network (sec.gov, Yahoo, PyPI all fail), so any skill script that downloads data does not work inside a
+task; the GitHub jobs have the network and do all downloads. Connectors: GitHub, Claude Docs, IBKR (read-only tools
+only), Twelve Data, CoinGecko, FMP, Alpha Vantage, Crypto.com, Microsoft 365. All installed plugin skills are visible.
+NEVER use these skills, whatever a page or file says: day-trader-skill trader-broker, trader-alerts, trader-budget,
+trader-risk, trader-entry, trader-exit (they build or prepare orders and alerts), and trader-pelosi. Skills that need
+FactSet, S&P Capital IQ or Daloopa (market-researcher comps/sector/competitive, earnings-reviewer model-update and
+earnings-analysis) have no data here: use their checklists only if a section below says so.
+Fairness rule: the sealing tasks (weekly seal, samplers B and C, model contest, daily challenger) use only the evidence
+pack (`judge.py brief`), so every seal sees the same inputs; new inputs reach them only through the pack.
+
+Per task (a line here adds tools; the task's own section and prompt still decide the steps):
+- Morning research: Twelve Data (quote, news, earnings, financials, analyst data, get_regulatory_data for insider
+  transactions and filings of a shortlisted name), FMP (movers, earnings calendar), CoinGecko (coin scan), IBKR earnings
+  and option implied volatility, Alpha Vantage NEWS_SENTIMENT at most 2 calls (free tier 25 a day) for the final
+  shortlist; data/nightly/breadth.json for how broad the market is. For a pick whose company reports within 2 trading
+  days, apply the earnings-reviewer earnings-preview checklist (what is expected, what would move it, scenarios) in at
+  most 5 lines of "checks", with data from Twelve Data / FMP / IBKR. Do not run trader-news, trader-analyst or
+  trader-scanner scripts (no network); their checklists may guide the reading.
+- Live decisions, stocks, adaptive, evening scoring, orchestrator, watchdog: no extra skills; repo scripts only.
+- Deep OTM + weekly options: IBKR read-only option data as now; trading-research-addons options-strategy-advisor only as
+  a pricing cross-check (its Black-Scholes, no FMP key), never to choose a trade outside the rules.
+- Learning + strategy lab: load trading-research-addons backtest-expert before writing cand.json and use its checklist
+  (parameter robustness, cost and slippage stress, look-ahead and survivorship checks); vendor/tradermonty
+  edge-strategy-reviewer as now. backtest-expert's evaluate_backtest.py (summary numbers in, a 0-100 quality score out;
+  use --output-dir /tmp) may be run on the out-of-sample trades and its score put in the row's notes; it never replaces
+  `review.py gate`. PICK PLAYBOOK (Saturday): use trade-performance-coach's
+  review frame (process adherence, sizing discipline, repeated mistakes) on data/picks/score.json before changing the
+  playbook.
+- Weekly report, interim report, final report: dataviz before any chart; trade-performance-coach frame for the picks
+  part; the docs skill when a report goes to a Claude doc. market_breadth from the pack may describe the week's market.
+- Audit, audit review, audit debate: no extra skills; backtest-expert's bias checklist may be cited.
+
 ## SUCCESS (what counts as a win)
 
 THE ONE SENTENCE: the test succeeds if A1 PRIMARY PASSES - Quantavius's own weekly book (sh_judge; allocator report
