@@ -63,10 +63,15 @@ pack (`judge.py brief`), so every seal sees the same inputs; new inputs reach th
 
 Per task (a line here adds tools; the task's own section and prompt still decide the steps):
 - Morning research: Twelve Data (quote, company news, earnings, financials, analyst data; its insider and SEC-filing
-  data need a paid plan: do not call get_regulatory_data), FMP (marketPerformance movers, calendar earnings-calendar),
+  data need a paid plan: do not call get_regulatory_data), FMP (marketPerformance movers, calendar earnings-calendar; its quote and analyst endpoints are paid: do not call),
   CoinGecko (coin scan and coin news), IBKR (pre-market bars, earnings dates, option implied volatility), Alpha Vantage
   INSIDER_TRANSACTIONS with from_date = 30 days ago for each final shortlisted stock (free tier: 25 calls a day in total,
-  so at most 8 a run; its NEWS_SENTIMENT and TOP_GAINERS_LOSERS are not usable: premium / stale), data/nightly/breadth.json
+  so at most 8 a run in total with the two below; its NEWS_SENTIMENT and TOP_GAINERS_LOSERS are not usable: premium / stale),
+  Alpha Vantage EARNINGS_CALL_TRANSCRIPT (last quarter's call with per-answer sentiment: for a pick whose catalyst is
+  earnings or guidance, at most 2 a run) and HISTORICAL_PUT_CALL_RATIO (one stock's option positioning, at most 2 a run),
+  FMP secFilings 8k-latest (today's 8-K filings, free; the stand-in for EDGAR until SEC_CONTACT is set) and economics
+  treasury-rates, IBKR get_company_themes (themes and closest peers of a shortlisted name: sympathy moves and the ranking),
+  Crypto.com get_book / get_ticker (spread and depth of a candidate coin; prices still never trade prices), data/nightly/breadth.json
   for how broad the market is, and ApeWisdom from data/sentiment/ape/DAY.json (fetched by GitHub before the open; never
   fetch it yourself). For a pick whose company reports within 2 trading days, apply the earnings-reviewer
   earnings-preview checklist (what is expected, what would move it, scenarios) in at most 5 lines of "checks", with data
@@ -84,7 +89,14 @@ Per task (a line here adds tools; the task's own section and prompt still decide
   playbook.
 - Weekly report, interim report, final report: dataviz before any chart; trade-performance-coach frame for the picks
   part; the docs skill when a report goes to a Claude doc. market_breadth from the pack may describe the week's market.
-- Audit, audit review, audit debate: no extra skills; backtest-expert's bias checklist may be cited.
+- Audit, audit review, audit debate: data:validate-data (methodology, arithmetic and bias checks of every number they
+  re-run) and data:statistical-analysis; backtest-expert's bias checklist may be cited. Build sessions run
+  code-review:code-review on every change to a script the verdict depends on (on a pull request or a diff) before it is
+  merged, and once over the frozen scripts before 2026-12-07.
+- Data plugin (installed 2026-11-23): data:statistical-analysis and data:explore-data in the lab (PART A slices, checking
+  a candidate's data) and the reports; data:validate-data before any report is published (weekly, interim, final: it
+  checks that the text claims no more than the numbers show); data:create-viz may replace hand-made charts (dataviz rules
+  still apply). Its SQL and dashboard skills are not used (no warehouse; the dashboard is its own artifact).
 
 ## SUCCESS (what counts as a win)
 
