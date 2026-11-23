@@ -1,25 +1,39 @@
 {
  "day": "2026-11-22",
- "started": "2026-11-23 05:44:05",
+ "started": "2026-11-23 06:02:10",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.5,
+   "seconds": 6.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.5,
+   "seconds": 6.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.5,
+   "seconds": 6.6,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "interventions",
+   "ok": true,
+   "seconds": 0.0,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "witness",
+   "ok": true,
+   "seconds": 0.0,
    "exit": 0,
    "error": null
   },
@@ -47,28 +61,28 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 7.8,
+   "seconds": 9.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 2.5,
+   "seconds": 2.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 6.1,
+   "seconds": 7.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.3,
+   "seconds": 0.4,
    "exit": 0,
    "error": null
   },
@@ -82,14 +96,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 0.2,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 2.2,
+   "seconds": 2.5,
    "exit": 0,
    "error": null
   },
@@ -103,7 +117,7 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 7.7,
+   "seconds": 9.3,
    "exit": 0,
    "error": null
   },
@@ -117,21 +131,21 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 7.0,
+   "seconds": 8.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 7.4,
+   "seconds": 9.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 7.4,
+   "seconds": 9.3,
    "exit": 0,
    "error": null
   },
@@ -152,13 +166,13 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 7.6,
+   "seconds": 9.2,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "8c4f1b000ca30230a53a25a22924ff248858fd36",
- "chain_head": "6e20f67da996219697721e891c548e5020f6f8c8779c5cb83845ff06fdbe557b",
+ "commit": "2d3193097ad342cb1e9b85ec427bfa51c2094dd2",
+ "chain_head": "9b83ab352f11e20e6a8c2d7af8785a50d1c07aaf445a77b31e3abf9e885444c9",
  "ok": true,
- "finished": "2026-11-23 05:45:18"
+ "finished": "2026-11-23 06:03:38"
 }

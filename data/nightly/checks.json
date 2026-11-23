@@ -92,10 +92,10 @@
   "note": "spread = what a market order pays now; drift = price move between the simulated fill and the quote (mostly the hourly-run delay); the simulation charges model_side_cost per side"
  },
  "health": {
-  "at": "2026-11-23 05:44",
+  "at": "2026-11-23 06:02",
   "ticks_today": 1,
   "last_tick": "02:40",
-  "last_tick_age_min": 184,
+  "last_tick_age_min": 202,
   "max_gap_min": null,
   "tick_seconds_median": 1.7,
   "tick_seconds_max": 1.7,
