@@ -672,6 +672,15 @@ Every proposal names the trial count. A strategy-lab candidate is APPROVED only 
 fields: id, thesis, entry_family, entry {conditions, trend_filter}, exit {stop_loss_pct as a fraction,
 take_profit_rr}, risk {risk_per_trade, max_positions}, regime, validation_plan, invalidation_signals (2+))}. Log
 the gate verdict and failed checks in "Strategy lab".
+LAB HYGIENE (2026-11-23, owner "yes"; ideas from smizxe/mt5-agent-toolkit, MIT, no code taken; enforced by review.py gate):
+cand.json must also carry "params" = the exact settings of the run whose results you submit (a non-empty dict; its
+hash is added to the trial name, so changed settings are a new trial) and "data" = {"tf": "1d", "symbols": [every
+symbol used], "start", "end"} (the gate measures archive coverage on daily bars and needs >= 98% of SPY's trading days
+for every symbol). Re-run the backtest from a clean process with those params written explicitly; never rely on
+defaults left over from an earlier run. READ THE GATE'S "read_first" BLOCK BEFORE ANY RESULT and report it first in the
+"Strategy lab" row: data quality, the trade count (under 30 = "too few to mean anything", whatever the return), and
+the profit factor. A held-out profit factor above 5 is treated as a probable bug (look-ahead, a fill on the signal
+bar, a cost not charged, a survivorship artefact): find the cause; only if there is none, say why in "pf_explained".
 
 ## WEEKLY REPORT
 
