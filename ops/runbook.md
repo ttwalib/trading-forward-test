@@ -78,8 +78,8 @@ Strategy lab 1, Learning 8, Watchdog 6): "Strategy lab" -> StrategyLab, "Learnin
 "Data check" -> DataCheck, "Adaptive" change log -> AdaptiveLog. The old sheet names work as aliases in ledger.py (also
 "Library trades", "Variant trades", "Deep OTM D1", "Deep OTM spreads", "Weekly options", "Crypto tracks", "Adaptive
 stocks", "Agent trades", "Agent picks", "Live decisions", "ML shadow"). A "Data check" row written below as (date,
-symbol or "-", check, count, first example, flag) goes to DataCheck; use a dict with DataCheck's field names
-(check_time, check, status, detail, symbols, action, source, note) if the list order does not fit (check).
+symbol or "-", check, count, first example, flag) goes to DataCheck; write it as a dict with DataCheck's field names:
+check_time = the date, symbols = the symbol or "-", check, note = the count, detail = the first example, status = the flag.
 Void trades: `ledger.py voids /tmp/repo` lists crypto-track trades void under the VOID (DATA) rule (CRYPTO TRACKS);
 reports name them next to the crypto results.
 
@@ -253,11 +253,12 @@ data/nightly/calib.json).
    `python3 -I /tmp/repo/scripts/backfill.py contract /tmp/repo SYM ID`. Fetch their 5-minute bars like the watchlist
    (get_price_history STK FIVE_MINS ONE_DAY outside_rth false), save /tmp/bars_ctrl.json, store them with store.py 5m.
    DATA FILES applies: `git pull` first; the feed has usually stored the day already, so fetch from IBKR only what is
-   still missing; /tmp/bars_ctrl.json may then be built from the store with `hist.py export 5m` (check).
+   still missing; build /tmp/bars_ctrl.json from data/bars/5m/<SYM>.jsonl with python (the day's bars from 09:30 to
+   16:00 New York as {SYM: {"time", "open", "high", "low", "close"}}, the way checks.py replay_day builds them).
 2. `python3 -I /tmp/repo/scripts/orb_daily.py /tmp/bars_ctrl.json DAY 16:00 > /tmp/ctrl.json`.
    Write each trade to VariantTrades with variant exactly "AC control" (DAY, "AC control", symbol, outcome, r_net,
-   entry_time) and the one "Variants" row (DAY, "AC control", trades, wins, total_r_net, targets, stops); "Variants"
-   has no ledger tab (check). The baseline rules are unchanged; this only measures whether watchlist selection adds
+   entry_time) and the one "Variants" row (DAY, "AC control", trades, wins, total_r_net, targets, stops); There is no
+   ledger tab for "Variants": skip that summary row; it is derived from VariantTrades when needed. The baseline rules are unchanged; this only measures whether watchlist selection adds
    anything.
 3. Skip step S4 (options O: retired). In S5 write only the "AC control" rows: run orb_variants.py as before for the
    control-list check, but write no variant B-G / T rows and no "Variants" rows other than AC control.
@@ -283,7 +284,8 @@ CATCH-UP: a run fired with "CATCH-UP DAY: YYYY-MM-DD" does that past day's marks
 
 frozen is always false (no holdout): score (orb_adaptive.py score) and run optimize as the prompt says, to 2027-05-14.
 Settings: data/state/stocks.json holds the stock adaptive settings (copied from "Adaptive"!B3/D3); with the sheet
-retired, read and write them there instead of the sheet cells (check). Change-log rows go to the AdaptiveLog ledger.
+retired, read and write them there instead of the sheet cells: {"live": {or_min, stop, target_r, spy},
+"challenger": {"params": {...}, "since": DAY}}; commit the file with the run. Change-log rows go to the AdaptiveLog ledger.
 LEDGER: AdaptiveStocks, AdaptiveLog. GIT.
 
 ## CRYPTO TRACKS
@@ -376,7 +378,7 @@ Runs 21:05 New York. All sheet writes below go to the ledger only (LEDGER). Afte
 4. LEDGER COMPLETE AND PUSHED BEFORE THE MATHS: stats.py and allocator.py read the repo ledger, so every row of the day
    must be in the ledger and pushed before step 4b. The old mirror check of `ledger.py count` against the sheet's
    filledRange ("Trades", "Options", "Variant trades", "Weekly options", "Agent trades", "Adaptive stocks") is no longer
-   needed now that no task writes the sheet (check); CryptoTracks and MLShadow are ahead of the sheet by design.
+   needed because no task writes the sheet; CryptoTracks and MLShadow are ahead of the sheet by design.
 4b. NIGHTLY MATHS ON GITHUB:
    (o) GitHub runs it ON A SCHEDULE at 21:00 New York (22:00 from 2027-03-14). First `git pull`: if
        data/nightly/stamp.json has day == DAY, ok == true and started within the last 45 minutes, skip (i) and (ii) and go
@@ -539,7 +541,7 @@ fill on the signal bar, a cost not charged, a survivorship artefact): find the c
 
 PICK PLAYBOOK (SATURDAY runs only, after PART A): read ops/pick_playbook.md, data/picks/score.json (per-day picks vs
 control list), the AgentPicks and AgentTrades ledgers, the picks section of the latest weekly report and any picks
-findings in the Learning ledger (the picks review task is merged into the weekly report) (check). If, and only if, a
+findings in the Learning ledger (the picks review task is merged into the weekly report). If, and only if, a
 finding about the picking has q <= 0.10 and at least 30 pick days behind it, you may change the playbook: ONE change per
 week at most, small and concrete (for example "skip gap-only picks without a company catalyst"). Write the new version
 at the top of ops/pick_playbook.md (version number + 1, date, the rule text in full), append {"version", "date",
@@ -586,7 +588,7 @@ minutes used vs 3,000 and the budget, alerts). Data integrity: dq summary, bar t
 flags, live-vs-replay parity, freeze status, trial count, and the report's stamp (commit,
 data hash, package versions). Show stats for all data, v2 (from 2026-11-20) and the verdict window (from 2026-12-07)
 side by side.
-ONE-OFF SECTIONS, if not yet shown in an earlier weekly report (check): the point-in-time experiment
+ONE-OFF SECTIONS, if not yet shown in an earlier weekly report: the point-in-time experiment
 (data/pit/report.json) with its limits; the crash drill and the shadow replay of 2026-11-20
 (reports/replay/2026-11-20-crash_drill.json, reports/replay/2026-11-20-shadows.json; runbook_history.md, CHANGES
 2026-11-20 SECOND BATCH items 3 and 5) with their limits.
@@ -771,8 +773,8 @@ ONE RUN A DAY at 13:05 New York, on full trading days. Write Live and MLShadow r
 
 RUNS ON GITHUB, NOT AS AN AI TASK (since 2026-11-22): `scripts/daily.py ml` at 03:07 UTC (22:07 New York in winter):
 decisions.py build (labels: y_stock = implementable-fill result, y_stock_ideal for comparison only; the 2-year archive
-rows are added automatically; if data/hist/5m exists and data/decisions/hist/stock.jsonl.gz does not, `decisions.py
-build-hist /tmp/repo` runs once first (check)), ml.py score into the MLShadow ledger, ml.py train (models keep refitting to 2027-05-14:
+rows are added automatically; data/decisions/hist/stock.jsonl.gz was built once on 2026-11-19; rebuild it by hand with `decisions.py build-hist
+/tmp/repo` only if the 5-minute archive changes, as it did on 2026-11-23), ml.py score into the MLShadow ledger, ml.py train (models keep refitting to 2027-05-14:
 no holdout), ml.py report. Summary: data/nightly/ml_report.json (health check: ORCHESTRATOR step 0). The AI task "ML
 nightly" (trig_0163kWWp8vAnJjwWjkJvbW9W) is disabled. To re-run, push ops/fetch_request.json with mode "mlnight".
 GitHub also fits the crypto family once more each day at 10:17 UTC (05:17 ET, mode "mlcrypto": `decisions.py build`,
