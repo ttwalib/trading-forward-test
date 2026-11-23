@@ -15,9 +15,9 @@
   },
   {
    "name": "Live decisions",
-   "when": "hourly 10:05-15:05 on trading days",
+   "when": "13:05 on trading days (once)",
    "model": "Sonnet",
-   "does": "Records breakouts, live option quotes and the ML choice before outcomes are known"
+   "does": "Midday spread and implied-volatility snapshot, breakouts so far with the ML choice, slippage quotes (no option quotes since 2026-11-23)"
   },
   {
    "name": "Deep OTM + weekly options",
@@ -35,13 +35,13 @@
    "name": "Evening scoring of picks",
    "when": "20:20 weekdays",
    "model": "Sonnet",
-   "does": "Scores the morning's stock picks"
+   "does": "Scores the morning's stock picks; moving to GitHub (the nightly maths already scores them)"
   },
   {
    "name": "Orchestrator",
    "when": "21:05 daily",
    "model": "Sonnet",
-   "does": "Checks the pipeline, regime, data checks; requests the nightly maths on GitHub; digest"
+   "does": "Checks the pipeline and data checks, reads the scheduled nightly maths (requests it only if missing or failed), writes the digest"
   },
   {
    "name": "Watchdog",
@@ -63,15 +63,15 @@
   },
   {
    "name": "Weekly report",
-   "when": "Fri 17:40",
+   "when": "Fri 21:41",
    "model": "Fable",
-   "does": "Plain-English report of the week"
+   "does": "Plain-English report of the week after the day's scoring, including the picks review"
   },
   {
    "name": "Picks review",
-   "when": "Fri 23:40",
+   "when": "retired 2026-11-23",
    "model": "Opus",
-   "does": "Agent picks against the watchlist and the control list"
+   "does": "Merged into the weekly report (task disabled)"
   },
   {
    "name": "Independent audit",
@@ -123,7 +123,7 @@
   },
   {
    "name": "Daily challenger seal",
-   "when": "08:41 weekdays from 2026-12-07",
+   "when": "08:41 Mon and Thu from 2026-12-07",
    "model": "Fable",
    "does": "Quantavius re-judges its weights every trading morning (lane entry judge_daily)"
   },
@@ -163,7 +163,7 @@
   },
   {
    "name": "Nightly maths (compute)",
-   "when": "on the orchestrator's request",
+   "when": "on a schedule at 21:00 New York (22:00 from 2027-03-14); on request as a fallback",
    "does": "Critical steps (library at 1x and 2x costs and ideal fills, picks witness, picks, AI strategies, allocator, statistics, hash chain) then optional ones (ranking, seals, calibration, cost and risk reports, Monte Carlo, report-only wide intraday run on the point-in-time universe, five random past days re-run, intervention report, dashboard data, lane scores, this specification)"
   },
   {
