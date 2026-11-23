@@ -1,0 +1,41 @@
+{
+ "edgar": {
+  "ok": false,
+  "at": "2026-11-23T16:01:31Z",
+  "day": "2026-11-23",
+  "error": "HTTPError: HTTP Error 403: Forbidden",
+  "last_ok": null
+ },
+ "fred": {
+  "ok": true,
+  "at": "2026-11-23T16:01:35Z",
+  "day": "2026-11-23",
+  "rows": 420,
+  "notes": []
+ },
+ "finra": {
+  "ok": true,
+  "at": "2026-11-23T16:01:39Z",
+  "day": "2026-11-23",
+  "rows": 384,
+  "notes": []
+ },
+ "cboe": {
+  "ok": true,
+  "at": "2026-11-23T16:01:44Z",
+  "day": "2026-11-23",
+  "rows": 3,
+  "notes": [
+   "2026-11-23 json: HTTPError"
+  ]
+ },
+ "crypto": {
+  "ok": true,
+  "at": "2026-11-23T16:01:52Z",
+  "day": "2026-11-23",
+  "rows": 8,
+  "notes": [
+   "binance: HTTPError: HTTP Error 451: "
+  ]
+ }
+}
