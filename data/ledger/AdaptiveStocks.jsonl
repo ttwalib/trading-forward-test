@@ -21,3 +21,14 @@
 {"date":"2026-11-20","symbol":"SOFI","outcome":"stop","r_net":-1.02,"entry_time":"10:00","params":"15m/mid/2R"}
 {"date":"2026-11-20","symbol":"TSLA","outcome":"stop","r_net":-1.04,"entry_time":"09:55","params":"15m/mid/2R"}
 {"date":"2026-11-20","symbol":"XOM","outcome":"target","r_net":1.92,"entry_time":"09:55","params":"15m/mid/2R"}
+{"date":"2026-11-23","symbol":"AAPL","outcome":"stop","r_net":-1.05,"entry_time":"10:25","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"BAC","outcome":"stop","r_net":-1.07,"entry_time":"11:15","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"GOOGL","outcome":"stop","r_net":-1.05,"entry_time":"13:20","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"INTC","outcome":"stop","r_net":-1.04,"entry_time":"10:25","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"META","outcome":"stop","r_net":-1.07,"entry_time":"11:35","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"MU","outcome":"target","r_net":0.97,"entry_time":"10:00","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"NVDA","outcome":"flat","r_net":-0.76,"entry_time":"10:00","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"PLTR","outcome":"target","r_net":0.96,"entry_time":"10:20","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"TSLA","outcome":"flat","r_net":-0.19,"entry_time":"09:40","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"UBER","outcome":"stop","r_net":-1.04,"entry_time":"10:20","params":"5m/mid/1R"}
+{"date":"2026-11-23","symbol":"XOM","outcome":"stop","r_net":-1.06,"entry_time":"09:55","params":"5m/mid/1R"}
