@@ -301,6 +301,7 @@ data/nightly/calib.json).
 
 ## DEEP OTM + WEEKLY
 
+TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
 RETIRED 2026-11-23 (trim by purpose): open NOTHING new (no D1, D2, D3, W1-W4). Only mark and settle positions that are
 still open (STEP 2 and STEP 4c), then RUN LOG and GIT ("deep otm"). When no position is open, reply "No deep OTM work:
 the option structures were retired on 2026-11-23." and stop.
@@ -344,6 +345,7 @@ LEDGER AgentTrades. Its option replays are on the AI's own picks and continue. G
 
 ## AGENT MORNING
 
+TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
 Runs 08:05 New York; picks must be committed and pushed before 09:30 (INTERVENTIONS, WITNESS).
 PICK PLAYBOOK: before STEP 3 read /tmp/repo/ops/pick_playbook.md and apply its CURRENT VERSION on top of the prompt's
 filters (the prompt's filters always hold; the playbook can only add preferences or exclusions). Put "playbook v<N>" at
@@ -509,6 +511,7 @@ reply.
 
 ## LEARNING + STRATEGY LAB
 
+TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
 Runs Wednesday and Saturday 23:15 to 2027-05-14. If phase is "after": reply "The forward test is over." and stop. The
 lab, the learning and the playbook run to the end (no holdout). Rows go to the StrategyLab and Learning ledgers.
 From 2026-12-07 never edit scripts/allocator.py, scripts/library.py, scripts/corp.py or scripts/fills.py, or any other
@@ -587,6 +590,7 @@ the 3-8 picks range. The playbook keeps learning to the end of the test.
 
 ## WEEKLY REPORT
 
+TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
 Runs Fridays at 21:41 New York, after the scheduled nightly maths (report days: every Friday from 2026-11-20 to
 2027-05-07; the 2027-01-01 and 2027-03-26 reports fall on holidays and cover trades through the day before). Read
 data/nightly/stamp.json first; if the day's maths are missing, say so. Week N = week_index. The interim (2027-02-16) and
@@ -669,6 +673,7 @@ simple rule wins is section 4 there.
 
 ## INTERIM REPORT (2027-02-16) AND FINAL REPORT (2027-05-18)
 
+TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
 Two tasks use this section (10:07 ET). INTERIM: END_DAY = 2027-02-12, title "Quantavius the 1st – Interim report (Nov
 16, 2026 – Feb 12, 2027)"; every verdict statement is labelled INTERIM ("so far: pass / fail / inconclusive after 46 of
 109 days"); it decides nothing and changes nothing. FINAL: END_DAY = 2027-05-14 (crypto to 2027-05-16), title
