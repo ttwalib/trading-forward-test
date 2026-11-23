@@ -1,28 +1,28 @@
 {
  "edgar": {
-  "ok": false,
-  "at": "2026-11-23T16:04:45Z",
+  "ok": true,
+  "at": "2026-11-23T16:31:39Z",
   "day": "2026-11-23",
-  "error": "RuntimeError: company_tickers.json: HTTPError: HTTP Error 403: Forbidden",
-  "last_ok": null
+  "rows": 1670,
+  "notes": []
  },
  "fred": {
   "ok": true,
-  "at": "2026-11-23T16:04:50Z",
+  "at": "2026-11-23T16:31:51Z",
   "day": "2026-11-23",
   "rows": 420,
   "notes": []
  },
  "finra": {
   "ok": true,
-  "at": "2026-11-23T16:04:53Z",
+  "at": "2026-11-23T16:31:56Z",
   "day": "2026-11-23",
   "rows": 384,
   "notes": []
  },
  "cboe": {
   "ok": true,
-  "at": "2026-11-23T16:04:59Z",
+  "at": "2026-11-23T16:32:01Z",
   "day": "2026-11-23",
   "rows": 3,
   "notes": [
@@ -31,7 +31,7 @@
  },
  "crypto": {
   "ok": true,
-  "at": "2026-11-23T16:05:06Z",
+  "at": "2026-11-23T16:32:10Z",
   "day": "2026-11-23",
   "rows": 8,
   "notes": [
