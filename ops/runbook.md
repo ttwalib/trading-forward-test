@@ -954,7 +954,7 @@ reported separately, and for the weekly book the change resets "autonomous since
 data/nightly/interventions.json lists the models seen in each seal file ("seal_models"): more than one model in a file
 is flagged there and must be explained in the next weekly report.
 
-ITEM 39 (2026-11-23, owner: "go ahead with your recommendation"): GITHUB MINUTES DECISION. Measured from GitHub's run
+ITEM 39 (2026-11-23, owner: "go ahead with your recommendation"; budget SET by the owner 2026-11-23): GITHUB MINUTES DECISION. Measured from GitHub's run
 records: about 112 billed minutes on a full trading day before the nightly maths (about 120-130 with it) and 22-29 on a
 weekend day, so a full month is about 2,700-3,100 of the 3,000 included minutes. DECISION: overage is allowed, capped
 by an Actions spending budget of USD 10 a month that the owner sets in GitHub billing settings (Linux minutes cost
