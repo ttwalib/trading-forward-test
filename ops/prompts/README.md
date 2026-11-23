@@ -19,11 +19,21 @@ the copy and adds a row to ops/interventions.jsonl.
 | final_report.md | Final report (2027-05-18, Fable) | trig_01LhTmXikGruYFghXwBp5a9D |
 | audit.md | Independent audit (2026-12-04, Fable) | trig_01T8geep8ASxd12yhTx17EnU |
 | audit_review.md | Audit review and challenge (2026-12-04, Opus) | trig_01Tp6mr79CGx8Dmmpq7S6Roo |
+| audit_debate.md | Audit debate (2026-12-04, Opus) | trig_017j7xXYaLnjqvYr2wAispX9 |
+| lane_review.md | Lane review (quarterly, Opus) | trig_016a7pogjLwtXMd93miFK33w |
 
 Unchanged on 2026-11-23 (their prompts already matched the setup; they read only the evidence pack or the repo and
 need no other tools): weekly seal trig_01BCM9DiYtxCt9tXRPupjpTU, samplers B trig_01Tnw4Txgzkbq2aoXg56HSVW and C
 trig_01SwTbwvHuiLaTkzCYs5RpCq, model contest Opus trig_01XfudQxCJPMX1r798rNi8CS and Sonnet trig_016Ks7T65PzF4KNrUUtyYJk2,
 daily challenger trig_01W21jTsy2zySucZ7iTHKHGf, live decisions trig_018iuZdjimqtB2HRNmKpJn1m (rewritten earlier the same
-day), lane review trig_016a7pogjLwtXMd93miFK33w, audit debate trig_017j7xXYaLnjqvYr2wAispX9.
+day).
 Retired (disabled, one-line "retired" prompts): crypto tracks, ML nightly, picks review, history download and, from
 2026-11-23, deep OTM + weekly options trig_012o6Jbkhg14NZ4Sq8N4spLW (nothing open).
+
+SKILLS BY TASK (2026-11-23): sealing tasks (weekly seal, samplers, contest, daily challenger) use NO skills and only the
+evidence pack, so every seal sees identical inputs; scripted tasks (stocks, adaptive, evening, live decisions,
+orchestrator, watchdog) need none; morning research: earnings-reviewer earnings-preview checklist; lab:
+backtest-expert, trade-performance-coach (Saturdays), data:statistical-analysis, data:explore-data, data:validate-data;
+reports (weekly, interim, final): dataviz, docs, trade-performance-coach (weekly), data:validate-data,
+data:statistical-analysis; audit, review, debate, lane review: data:statistical-analysis, data:validate-data
+(audit also backtest-expert); build sessions: code-review:code-review.

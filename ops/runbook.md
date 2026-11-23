@@ -46,7 +46,11 @@ curve, high-yield credit spread, fed funds, financial conditions), cboe (put/cal
 share per universe stock and for the market; short volume is not short interest), crypto (8-hour perpetual funding per
 universe coin from OKX, total stablecoin supply and its 7- and 30-day change), edgar (today's 8-K filings per ticker with
 item codes and a legend, and Form 4 insider filing counts per ticker over 5 days; needs the owner's GitHub secret
-SEC_CONTACT and is absent until it is set). Who reads them: the morning research (all five, as context for picks, coins
+SEC_CONTACT and is absent until it is set). Two more folders are written by AI tasks, not GitHub: data/ext/av/*.jsonl
+(every Alpha Vantage transcript, put/call and insider reading the morning research takes, summarised by
+scripts/extlog.py with the time it was taken: a point-in-time record the free plan cannot backfill) and
+data/ext/peers/latest.json (the weekly peer map: IBKR themes and closest peers of the 44 ranked stocks, refreshed by
+the Saturday lab). Who reads them: the morning research (all five, as context for picks, coins
 and the ranking; an 8-K item 2.02, 1.01 or 5.02 on a candidate is a catalyst lead to confirm, item 4.02, 3.01 or 1.03 a
 reason to drop it); every seal, through the evidence pack's "market_context" (same for all seals, only files and rows
 dated on or before evidence_through); the lab's learning slices; the weekly report (one context paragraph); the
@@ -395,6 +399,11 @@ the ML stock ranker exists (after 2026-12-08); then the ranker hands the researc
 tagged src=own, src=ml or src=both and scored by source.
 DAILY RANKING (G1 primary): each full trading day before 09:30 score the 44 fixed stocks (watchlist + control list)
 from -2 to +2 and seal them with `scripts/rank.py seal`.
+Use data/ext/peers/latest.json for sector and peer moves (a pre-market move in a peer or a theme is information about
+the stocks that share it).
+KEEP WHAT YOU FETCH: save every Alpha Vantage EARNINGS_CALL_TRANSCRIPT, HISTORICAL_PUT_CALL_RATIO and INSIDER_TRANSACTIONS
+result to /tmp and log it with `python3 -I /tmp/repo/scripts/extlog.py transcript|putcall|insider /tmp/repo FILE SYM
+[QUARTER]` (data/ext/av/), so the readings accumulate as a point-in-time dataset.
 MORE DATA FOR PICKING: the research may also use Twelve Data get_earnings, get_financials and get_analyst_data, and IBKR
 option data for implied volatility (read-only).
 LEDGER AgentPicks and AgentTrades.
@@ -610,6 +619,11 @@ and report it first in the StrategyLab row: data quality, the trade count (under
 whatever the return), and the profit factor. A held-out profit factor above 5 is treated as a probable bug (look-ahead, a
 fill on the signal bar, a cost not charged, a survivorship artefact): find the cause; only if there is none, say why in
 "pf_explained".
+
+PEER MAP (SATURDAY runs only, before PART B): if data/ext/peers/latest.json is missing or older than 6 days, call IBKR
+get_company_themes (max_themes 3, max_companies 5) for each of the 44 ranked stocks (contract ids in data/contracts.json),
+in batches of at most 11 calls, writing each result straight to a file without printing it; collect them as {SYM:
+result} in /tmp/peers.json and run `python3 -I /tmp/repo/scripts/extlog.py peers /tmp/repo /tmp/peers.json`.
 
 PICK PLAYBOOK (SATURDAY runs only, after PART A): read ops/pick_playbook.md, data/picks/score.json (per-day picks vs
 control list), the AgentPicks and AgentTrades ledgers, the picks section of the latest weekly report and any picks
