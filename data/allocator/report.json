@@ -410,8 +410,8 @@
   }
  },
  "stamp": {
-  "commit": "2d31930",
-  "data_sha256": "0d4bc0a173079481",
+  "commit": "63b5bdd",
+  "data_sha256": "3236f2ae010351e1",
   "data_files": 512,
   "versions": {
    "python": "3.14.4",
@@ -420,7 +420,7 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-23 06:02"
+  "at": "2026-11-23 07:12"
  },
  "latest_weights": {
   "date": "2026-11-20",
