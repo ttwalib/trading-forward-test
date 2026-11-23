@@ -139,8 +139,11 @@ def auto(repo):
         g = json.load(open(os.path.join(d, f))); name = f[:-len(".gate.json")]
         if g.get("verdict") != "PASS" or ("lab_" + name) in reg["entries"]: continue
         mod = "strategies/%s.py" % name
+        try: is_daily = "def daily_series" in open(P(repo, mod)).read()      # daily stock / ETF lab strategies (2026-11-23)
+        except Exception: is_daily = False
         try:
-            register(repo, "lab_" + name, "strategy_lab", "crypto_1h", {"type": "lab_crypto", "module": mod, "coins": ["BTC", "ETH", "SOL"]},
+            register(repo, "lab_" + name, "strategy_lab", "us_daily" if is_daily else "crypto_1h",
+                     {"type": "lab_daily", "module": mod} if is_daily else {"type": "lab_crypto", "module": mod, "coins": ["BTC", "ETH", "SOL"]},
                      [mod, "strategies/%s.gate.json" % name], "strategy lab, gate PASS: see %s" % f)
             out.append("lab_" + name)
         except SystemExit as e: out.append("lab_%s: %s" % (name, e))
@@ -192,6 +195,10 @@ def series(repo, e, start, days, port, sleeves_cache):
         rows = {r["date"]: r["ret_pct"] for r in jl(P(repo, s["path"]))}; return {d: rows[d] for d in days if d in rows}
     if s["type"] == "lab_crypto":
         return run_lab_crypto(repo, s, start, days)
+    if s["type"] == "lab_daily":            # the strategy's own daily_series(repo) -> {date: sleeve return %}; forward days only
+        spec = importlib.util.spec_from_file_location("labmod_d", P(repo, s["module"])); m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m); out = m.daily_series(repo)
+        return {d: float(out.get(d, 0.0)) for d in days}
     raise SystemExit("unknown series type %s" % s["type"])
 
 

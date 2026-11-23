@@ -16,17 +16,25 @@ breakout rule more than the picking. This script measures the picking itself, fr
  4. THE SCORE data/picks/score.json: per-day rows and, for all days and for the verdict window, the mean difference
     picks minus control and the block-bootstrap chance that it is above zero (pre-registration G1: pass at >= 0.9
     with at least 60 pick days, fail at <= 0.10, otherwise inconclusive).
+ 5. THE SLEEVE "AP2 Agent picks (AI sizing and holding)" (2026-11-23, item 33c): the same picks, but with the weight
+    and the holding period the morning research sealed before the open in the pick's "checks" cell ("w=0.30" share
+    of that day's picks, 0.05 to 0.40; "hold=3" trading days, 1 to 5; missing or invalid values mean equal weight
+    and one day, i.e. the plain sleeve). A position runs from the pick day's open to the close of its last holding
+    day, marked on every close. Day return = weighted average over the open positions (weights rescaled to add up to
+    1 over whatever is open that day), minus 0.10% of a position's share on its entry day and on its exit day.
+    Comparing AP2 with AP shows whether the AI's sizing and timing add anything to its picking; G1 stays on AP.
 Rules fixed in advance: equal weight per pick; a pick without a daily bar that day is listed under "missing" and left
 out; a day's move beyond +/-60% is treated as a bad bar and left out; picks written at or after 09:30 never count.
 Fills at the official open are an assumption (a market-on-open order); the cost above is the allowance for it.
 Nothing is traded. Testing only, not financial advice.
 """
-import json, os, sys, datetime as dt
+import json, os, re, sys, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tcal, ledger
 NY = tcal.NY
 COST_SIDE = 0.10
 SLEEVE = "AP Agent picks (open to close)"
+SLEEVE2 = "AP2 Agent picks (AI sizing and holding)"
 
 
 def bars(repo, sym):
@@ -55,12 +63,16 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     cal = [d for d in tcal.trading_days(tcal.START, tcal.END) if d <= day]
     cal_idx = {d: i for i, d in enumerate(cal)}
-    picks = {}
+    picks = {}; sized = {}
     for r in ledger.load(repo, "AgentPicks"):
         t = str(r.get("picked_at") or "")
         if r.get("asset") == "stock" and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30":
             picks.setdefault(t[:10], [])
             if r["symbol"] not in picks[t[:10]]: picks[t[:10]].append(r["symbol"])
+            ck = str(r.get("checks") or ""); mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck)
+            try: w = float(mw.group(1)) if mw else None
+            except ValueError: w = None
+            sized.setdefault(t[:10], {})[r["symbol"]] = (w if w is not None and 0.05 <= w <= 0.40 else None, int(mh.group(1)) if mh else 1)
     cache = {}
     def B(s):
         if s not in cache: cache[s] = bars(repo, s)
@@ -83,6 +95,26 @@ def build(repo, day=None):
                          "missing": [x[0] for x in pm if x[1] is None], "n": len(p1),
                          "picks_day": round(mean(p1), 4) if p1 else None, "control_day": round(mean(c1), 4) if c1 else None,
                          "picks_5d": round(mean(p5), 4) if p5 else None, "control_5d": round(mean(c5), 4) if p5 and c5 else None})
+    # AP2: the AI's own weights and holding periods
+    pos, series2 = [], {}
+    for d in cal:
+        if d not in series: continue
+        ws = sized.get(d, {})
+        if ws:
+            if any(w is None for w, _ in ws.values()): ws = {k: (1.0, h) for k, (_, h) in ws.items()}     # any missing weight: equal
+            tw = sum(w for w, _ in ws.values()); ws = {k: (w / tw, h) for k, (w, h) in ws.items()}       # each day's picks share 1
+            for sym, (w, h) in ws.items():
+                Bs = B(sym); i = cal_idx[d]
+                if d in Bs and Bs[d][0] and abs(Bs[d][1] / Bs[d][0] - 1) < 0.6:
+                    pos.append({"s": sym, "w": w, "mark": Bs[d][0], "last": cal[min(i + h - 1, len(cal) - 1)], "new": True, "end_i": i + h - 1})
+        tot = sum(p["w"] for p in pos); r = 0.0
+        for p in pos:
+            Bs = B(p["s"])
+            if d in Bs:
+                r += p["w"] * ((Bs[d][1] / p["mark"] - 1) * 100 - (COST_SIDE if p["new"] else 0) - (COST_SIDE if cal_idx[d] >= p["end_i"] else 0)); p["mark"] = Bs[d][1]
+            p["new"] = False
+        series2[d] = round(r / tot, 5) if tot else 0.0
+        pos = [p for p in pos if cal_idx[d] < p["end_i"]]
     def summary(R):
         a = [(r["picks_day"], r["control_day"]) for r in R if r["picks_day"] is not None and r["control_day"] is not None]
         f = [(r["picks_5d"], r["control_5d"]) for r in R if r["picks_5d"] is not None and r["control_5d"] is not None]
@@ -100,7 +132,7 @@ def build(repo, day=None):
         if f: out.update(pick_days_5d=len(f), mean_diff_5d=round(mean([x - y for x, y in f]), 4))
         return out
     os.makedirs(os.path.join(repo, "data", "picks"), exist_ok=True)
-    json.dump({SLEEVE: series}, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
+    json.dump({SLEEVE: series, SLEEVE2: series2} if any(v is not None and (w is not None or h != 1) for x in sized.values() for w, h in x.values() for v in [1]) else {SLEEVE: series}, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
     score = {"note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). "
                      "Days before 2026-12-07 are warm-up.", "cost_side_pct": COST_SIDE,
              "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "rows": rows}

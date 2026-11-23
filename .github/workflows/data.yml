@@ -124,7 +124,7 @@ jobs:
             for p in data/decisions/stock.jsonl data/decisions/crypto.jsonl data/decisions/hist models data/ledger/MLShadow.jsonl data/nightly/ml_report.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
           if [ "${{ steps.m.outputs.mode }}" = "compute" ]; then
-            for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json ops/SPEC.md strategies/registry.json data/lane ops/chain.jsonl data/picks; do if [ -e "$p" ]; then git add "$p"; fi; done
+            for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json ops/SPEC.md strategies/registry.json data/lane ops/chain.jsonl data/picks data/ai; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
           git diff --cached --quiet && exit 0
           git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"

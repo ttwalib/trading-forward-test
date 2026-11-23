@@ -118,6 +118,13 @@ LEDGER AgentTrades.
 
 ## AGENT MORNING
 
+SIZING AND HOLDING (since 2026-11-23, item 33c): for every stock pick also decide, before 09:30 and from the same
+research, (1) its share of today's picks, between 0.05 and 0.40, all shares adding up to 1.00 (more for higher
+conviction), and (2) how many trading days to hold it, 1 to 5 (1 = out at today's close; longer only when the
+catalyst plausibly carries for days, e.g. an earnings beat with raised guidance). Write them at the start of the
+pick's "checks" cell after the playbook tag, exactly like: "playbook v1 | src=own | w=0.30 | hold=2 | price ...".
+A pick without valid values is scored at equal weight and one day. These choices can never be changed after 09:30.
+
 PICK PLAYBOOK (since 2026-11-23, item 32d): before STEP 3 read /tmp/repo/ops/pick_playbook.md and apply its CURRENT
 VERSION on top of the prompt's filters (the prompt's filters always hold; the playbook can only add preferences or
 exclusions). Put "playbook v<N>" at the start of each stock pick's "checks" cell.
@@ -527,6 +534,23 @@ After the existing steps:
           then H1 (the allocation verdict, unchanged), each with its own rule; never pooled. WEEKLY, INTERIM and
           FINAL REPORT: follow ops/preregistration.md section 3 in that order.
      No reset: trial count, data and window dates stand.
+  33. MORE ROOM FOR THE AI'S OWN JUDGMENT (owner decision 2026-11-23, "all four plus the layout"; pre-registration
+     amendment of the same day). The rules and benchmarks are the foundation; the AI builds on them.
+       a) AI STRATEGIES SLEEVE: scripts/aisleeve.py (nightly step "aisleeve") pools every lab strategy the gate
+          approved, equal weight, forward days only, into the sleeve "AS AI strategies (lab, approved)"
+          (data/ai/daily.json). Daily stock/ETF lab strategies are scored through their own daily_series(repo)
+          (registry series type "lab_daily"). No approved strategy yet: no sleeve.
+       b) IMPROVE A BASELINE: second lab track, see LEARNING + STRATEGY LAB.
+       c) THE AI'S OWN SIZING AND HOLDING: see AGENT MORNING ("SIZING AND HOLDING"). Sleeve "AP2 Agent picks (AI
+          sizing and holding)" beside the equal-weight one-day sleeve AP; G1 stays on AP.
+       d) ML SHORTLIST (after 2026-12-08, when the ML stock ranker exists): the ranker hands the morning research a
+          daily shortlist; every pick is tagged src=own, src=ml or src=both in its checks cell and scored by source.
+          Until then every pick is tagged src=own.
+       e) LAYOUT: dashboard, weekly, interim and final reports are organised in three layers, in this order:
+          SCOREBOARD (G1 picks vs control list; G2 lab strategies forward; H1 allocation verdict), AI LAYER (picks
+          AP and AP2 with the playbook version, the AI strategies sleeve and each approved strategy, the ML filter
+          and ranker, the AI-judgment allocator, the model contest when it starts), FOUNDATION (SPY, equal weight,
+          baseline A, the control list, the library L1-L17, the crypto tracks, data and plumbing health).
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
@@ -559,6 +583,16 @@ not depend on which stocks are in the index today (the stock list has survivorsh
 stock universe is used). Same cand.json, CPCV and `review.py gate` as for crypto; APPROVED only on PASS. Save the
 code as strategies/<name>.py with a function daily_series(repo) -> {date: sleeve return %} for forward scoring, and
 write the row with market "US daily". Forward results count only after the Created date (pre-registration G2).
+
+IMPROVE A BASELINE (since 2026-11-23, item 33b): on WEDNESDAY runs in ODD ISO weeks, instead of a new daily idea,
+take ONE library strategy (L1-L17; not one you already tried: see "Strategy lab") and propose ONE change to it,
+reasoned from data/nightly/costgrid.json (where costs eat it), data/nightly/riskx.json (how it swings) and its trades
+in the Library ledger: a filter, an exit, a universe or a sizing change. Never edit scripts/library.py: write the
+modified strategy as strategies/<Lxx>_<change>.py, importing library.py's helpers where useful, with
+daily_series(repo) -> {date: sleeve return %}. Tune on 2016-2021 at most 2 parameters / 12 combinations, measure on
+2022 onwards, same costs and fill rules as the original. APPROVED only if the gate says PASS AND the held-out mean
+daily return is above the unmodified original's over the same days (put both in the row). Market "US daily
+(improves Lxx)". Forward benchmark: the unmodified original (pre-registration G2). EVEN ISO weeks: a new daily idea.
 
 PICK PLAYBOOK (since 2026-11-23, item 32d; SATURDAY runs only, after PART A): read ops/pick_playbook.md,
 data/picks/score.json (per-day picks vs control list), the AgentPicks and AgentTrades ledgers and the latest picks

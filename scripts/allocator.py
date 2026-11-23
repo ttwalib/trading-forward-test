@@ -153,9 +153,10 @@ def sleeves(repo, lib_file="daily.json", realistic=True):
         name = t["strategy"]
         if t["asset"] == "crypto": name = "Crypto " + " ".join(name.split()[:2]) + " (pooled)"
         S.setdefault(name, {}); S[name][t["day"]] = S[name].get(t["day"], 0.0) + (t["result"] + adj.get(i, 0.0)) / 5 * 1.0
-    f = os.path.join(repo, "data", "picks", "daily.json")       # the AI's own picks held open to close (picks.py, 2026-11-23)
-    if os.path.exists(f):
-        for k, v in json.load(open(f)).items(): S[k] = dict(v)
+    # the AI's own picks (picks.py) and the AI's own approved strategies (aisleeve.py), both added 2026-11-23
+    for f in (os.path.join(repo, "data", "picks", "daily.json"), os.path.join(repo, "data", "ai", "daily.json")):
+        if os.path.exists(f):
+            for k, v in json.load(open(f)).items(): S[k] = dict(v)
     return {k: v for k, v in S.items() if not k.startswith(DROPPED)}
 
 
