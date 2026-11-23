@@ -1,9 +1,9 @@
 {
  "edgar": {
   "ok": false,
-  "at": "2026-11-23T16:01:31Z",
+  "at": "2026-11-23T16:02:59Z",
   "day": "2026-11-23",
-  "error": "HTTPError: HTTP Error 403: Forbidden",
+  "error": "RuntimeError: company_tickers.json: HTTPError: HTTP Error 403: Forbidden",
   "last_ok": null
  },
  "fred": {
@@ -31,7 +31,7 @@
  },
  "crypto": {
   "ok": true,
-  "at": "2026-11-23T16:01:52Z",
+  "at": "2026-11-23T16:03:03Z",
   "day": "2026-11-23",
   "rows": 8,
   "notes": [
