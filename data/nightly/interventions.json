@@ -1,5 +1,13 @@
 {
  "window_opens": "2026-12-07",
+ "seal_models": {
+  "judge.jsonl": {
+   "models": {
+    "claude-fable-5-2": "2026-11-23"
+   },
+   "pinned_ok": true
+  }
+ },
  "logged_rows": 10,
  "logged_in_window": 0,
  "watched_commits_in_window": 0,

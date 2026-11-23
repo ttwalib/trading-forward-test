@@ -46,7 +46,17 @@ def auto(repo):
     logged = rows(repo)
     since = [r for r in logged if r["at_utc"][:10] >= start]
     last = max([r["at_utc"][:10] for r in since] + [c["at"][:10] for c in commits], default=None)
-    res = {"window_opens": start, "logged_rows": len(logged), "logged_in_window": len(since),
+    import glob
+    seal_models = {}
+    for f in [os.path.join(repo, "data", "allocator", "judge.jsonl"), os.path.join(repo, "data", "allocator", "judge_daily.jsonl")] + \
+            sorted(glob.glob(os.path.join(repo, "data", "allocator", "contest_*.jsonl"))):
+        if not os.path.exists(f): continue
+        first = {}
+        for l in open(f):
+            if l.strip():
+                r = json.loads(l); m = str(r.get("model") or "?"); first.setdefault(m, r.get("effective"))
+        seal_models[os.path.basename(f)] = {"models": first, "pinned_ok": len(first) <= 1}
+    res = {"window_opens": start, "seal_models": seal_models, "logged_rows": len(logged), "logged_in_window": len(since),
            "watched_commits_in_window": len(commits), "last_change": last,
            "by_who": {w: sum(1 for r in since if r["who"] == w) for w in sorted({r["who"] for r in since})},
            "recent_commits": commits[:15],

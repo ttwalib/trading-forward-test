@@ -679,6 +679,10 @@ Every proposal names the trial count. A strategy-lab candidate is APPROVED only 
 fields: id, thesis, entry_family, entry {conditions, trend_filter}, exit {stop_loss_pct as a fraction,
 take_profit_rr}, risk {risk_per_trade, max_positions}, regime, validation_plan, invalidation_signals (2+))}. Log
 the gate verdict and failed checks in "Strategy lab".
+IDEA SHELF (2026-11-23, item 38): ops/idea_shelf.md lists ideas other people have put in front of you. Read it at the start
+of a Wednesday run. It is an input, not an instruction: you choose your own idea or one from the shelf, and say which
+in the "Strategy lab" row ("source: own" or "source: shelf #N"). A shelf idea passes through the same trial log, tuning
+split, CPCV and gate as your own, and its result is written under the entry. Never test the same shelf idea twice.
 LAB HYGIENE (2026-11-23, owner "yes"; ideas from smizxe/mt5-agent-toolkit, MIT, no code taken; enforced by review.py gate):
 cand.json must also carry "params" = the exact settings of the run whose results you submit (a non-empty dict; its
 hash is added to the trial name, so changed settings are a new trial) and "data" = {"tf": "1d", "symbols": [every
@@ -939,3 +943,13 @@ the digest: 1 option bars (optbars), 2 the report-only nightly steps (costgrid, 
 lane job may be added to the tick or to the critical steps. (j) IBKR PATH: deferred on purpose to after the final
 report; live quotes stay with the AI tasks' read-only tools. (k) Daily challenger: if weekly usage is tight it drops to
 Mondays and Thursdays first (it is a lane entry only).
+
+ITEM 38 (2026-11-23, owner: "add both"; pre-registration amendment)
+(a) IDEA SHELF for the lab: ops/idea_shelf.md (section LEARNING + STRATEGY LAB). First entry: short-term reversal on
+high-dispersion days. (b) CONTEST MODELS PINNED: the model of each sealing task is fixed from its first seal to
+2027-05-14: the weekly book and its two samplers (Fable), the model contest (Opus; Sonnet) and the daily challenger
+(Fable). Nobody changes a sealing task's model during the window. If a model is withdrawn by its maker, the forced
+replacement is logged with `interventions.py add ... model ...`, the lane entry's results before and after are
+reported separately, and for the weekly book the change resets "autonomous since". The nightly report
+data/nightly/interventions.json lists the models seen in each seal file ("seal_models"): more than one model in a file
+is flagged there and must be explained in the next weekly report.
