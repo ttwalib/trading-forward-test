@@ -1,0 +1,460 @@
+{
+ "note": "Report only; never part of the verdict. Live and replay bases are kept apart.",
+ "contributions": {
+  "date": "2026-11-20",
+  "window_days": 60,
+  "book_daily_sd_pct": 0.1621,
+  "sleeves": [
+   {
+    "sleeve": "L10 Earnings drift",
+    "weight": 0.25,
+    "risk_share": 0.4774,
+    "risk_vs_money": 1.91
+   },
+   {
+    "sleeve": "L17 Multi-asset trend",
+    "weight": 0.25,
+    "risk_share": 0.2428,
+    "risk_vs_money": 0.97
+   },
+   {
+    "sleeve": "L16 SPY trend short",
+    "weight": 0.1488,
+    "risk_share": 0.121,
+    "risk_vs_money": 0.81
+   },
+   {
+    "sleeve": "L12 Turn of month",
+    "weight": 0.1012,
+    "risk_share": 0.1097,
+    "risk_vs_money": 1.08
+   },
+   {
+    "sleeve": "L13 Pairs reversion",
+    "weight": 0.25,
+    "risk_share": 0.049,
+    "risk_vs_money": 0.2
+   }
+  ],
+  "note": "risk_vs_money above 1 = the sleeve carries more of the book's swings than its share of the money"
+ },
+ "live": {
+  "from": "2026-11-16",
+  "to": "2026-11-20",
+  "books": {
+   "ai": {
+    "days": 5,
+    "total_pct": -0.862,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-19",
+      "depth_pct": 1.177,
+      "recovered": null,
+      "length": 5,
+      "open": true
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   },
+   "equal": {
+    "days": 5,
+    "total_pct": -1.954,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-20",
+      "depth_pct": 1.954,
+      "recovered": null,
+      "length": 5,
+      "open": true
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   },
+   "spy": {
+    "days": 5,
+    "total_pct": -8.558,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-20",
+      "depth_pct": 8.558,
+      "recovered": null,
+      "length": 5,
+      "open": true
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   },
+   "base_a": {
+    "days": 5,
+    "total_pct": -4.259,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-20",
+      "depth_pct": 4.259,
+      "recovered": null,
+      "length": 5,
+      "open": true
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   },
+   "sh_rp": {
+    "days": 5,
+    "total_pct": -0.297,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-19",
+      "depth_pct": 0.499,
+      "recovered": null,
+      "length": 5,
+      "open": true
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   },
+   "sh_mv": {
+    "days": 5,
+    "total_pct": 0.414,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-18",
+      "depth_pct": 0.1,
+      "recovered": "2026-11-19",
+      "length": 2
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   },
+   "sh_win": {
+    "days": 5,
+    "total_pct": -4.213,
+    "drawdowns": [
+     {
+      "peak": "2026-11-16",
+      "trough": "2026-11-20",
+      "depth_pct": 4.213,
+      "recovered": null,
+      "length": 5,
+      "open": true
+     }
+    ],
+    "tail": {
+     "n": 5,
+     "note": "too few days"
+    }
+   }
+  }
+ },
+ "replay": {
+  "from": "2025-06-02",
+  "to": "2026-11-13",
+  "books": {
+   "ai": {
+    "days": 367,
+    "total_pct": 3.522,
+    "drawdowns": [
+     {
+      "peak": "2026-02-11",
+      "trough": "2026-04-22",
+      "depth_pct": 8.299,
+      "recovered": null,
+      "length": 191,
+      "open": true
+     },
+     {
+      "peak": "2025-10-27",
+      "trough": "2025-11-20",
+      "depth_pct": 4.792,
+      "recovered": "2026-01-29",
+      "length": 63
+     },
+     {
+      "peak": "2025-08-12",
+      "trough": "2025-09-03",
+      "depth_pct": 2.273,
+      "recovered": "2025-10-06",
+      "length": 37
+     },
+     {
+      "peak": "2026-01-29",
+      "trough": "2026-02-02",
+      "depth_pct": 2.006,
+      "recovered": "2026-02-11",
+      "length": 8
+     },
+     {
+      "peak": "2025-10-08",
+      "trough": "2025-10-10",
+      "depth_pct": 1.769,
+      "recovered": "2025-10-24",
+      "length": 11
+     }
+    ],
+    "tail": {
+     "n": 367,
+     "var95_pct": 0.821,
+     "es95_pct": 1.257
+    }
+   },
+   "equal": {
+    "days": 367,
+    "total_pct": 12.149,
+    "drawdowns": [
+     {
+      "peak": "2026-06-22",
+      "trough": "2026-11-06",
+      "depth_pct": 5.652,
+      "recovered": null,
+      "length": 102,
+      "open": true
+     },
+     {
+      "peak": "2025-10-29",
+      "trough": "2025-11-20",
+      "depth_pct": 4.125,
+      "recovered": "2026-01-05",
+      "length": 44
+     },
+     {
+      "peak": "2026-02-25",
+      "trough": "2026-03-30",
+      "depth_pct": 3.744,
+      "recovered": "2026-04-30",
+      "length": 44
+     },
+     {
+      "peak": "2026-06-03",
+      "trough": "2026-06-10",
+      "depth_pct": 2.517,
+      "recovered": "2026-06-15",
+      "length": 7
+     },
+     {
+      "peak": "2025-08-12",
+      "trough": "2025-09-02",
+      "depth_pct": 1.631,
+      "recovered": "2025-09-10",
+      "length": 19
+     }
+    ],
+    "tail": {
+     "n": 367,
+     "var95_pct": 0.831,
+     "es95_pct": 1.121
+    }
+   },
+   "spy": {
+    "days": 367,
+    "total_pct": 30.115,
+    "drawdowns": [
+     {
+      "peak": "2026-01-27",
+      "trough": "2026-03-30",
+      "depth_pct": 8.885,
+      "recovered": "2026-04-14",
+      "length": 52
+     },
+     {
+      "peak": "2026-10-06",
+      "trough": "2026-11-05",
+      "depth_pct": 5.916,
+      "recovered": null,
+      "length": 28,
+      "open": true
+     },
+     {
+      "peak": "2025-10-29",
+      "trough": "2025-11-20",
+      "depth_pct": 5.071,
+      "recovered": "2025-12-10",
+      "length": 28
+     },
+     {
+      "peak": "2026-06-02",
+      "trough": "2026-06-10",
+      "depth_pct": 4.495,
+      "recovered": "2026-08-03",
+      "length": 41
+     },
+     {
+      "peak": "2026-08-13",
+      "trough": "2026-09-16",
+      "depth_pct": 3.063,
+      "recovered": "2026-10-06",
+      "length": 36
+     }
+    ],
+    "tail": {
+     "n": 367,
+     "var95_pct": 1.249,
+     "es95_pct": 1.866
+    }
+   },
+   "sh_rp": {
+    "days": 367,
+    "total_pct": 10.023,
+    "drawdowns": [
+     {
+      "peak": "2026-09-03",
+      "trough": "2026-11-12",
+      "depth_pct": 4.141,
+      "recovered": null,
+      "length": 50,
+      "open": true
+     },
+     {
+      "peak": "2025-10-29",
+      "trough": "2025-11-20",
+      "depth_pct": 3.215,
+      "recovered": "2025-12-26",
+      "length": 39
+     },
+     {
+      "peak": "2026-02-25",
+      "trough": "2026-03-30",
+      "depth_pct": 3.136,
+      "recovered": "2026-05-26",
+      "length": 61
+     },
+     {
+      "peak": "2025-08-12",
+      "trough": "2025-09-03",
+      "depth_pct": 2.473,
+      "recovered": "2025-09-10",
+      "length": 19
+     },
+     {
+      "peak": "2025-07-17",
+      "trough": "2025-08-01",
+      "depth_pct": 1.434,
+      "recovered": "2025-08-08",
+      "length": 15
+     }
+    ],
+    "tail": {
+     "n": 367,
+     "var95_pct": 0.559,
+     "es95_pct": 0.82
+    }
+   },
+   "sh_mv": {
+    "days": 367,
+    "total_pct": 4.276,
+    "drawdowns": [
+     {
+      "peak": "2026-09-03",
+      "trough": "2026-11-12",
+      "depth_pct": 4.651,
+      "recovered": null,
+      "length": 50,
+      "open": true
+     },
+     {
+      "peak": "2026-02-25",
+      "trough": "2026-04-28",
+      "depth_pct": 2.874,
+      "recovered": "2026-07-30",
+      "length": 106
+     },
+     {
+      "peak": "2025-10-28",
+      "trough": "2025-11-20",
+      "depth_pct": 2.099,
+      "recovered": "2025-12-19",
+      "length": 36
+     },
+     {
+      "peak": "2025-08-12",
+      "trough": "2025-09-02",
+      "depth_pct": 1.225,
+      "recovered": "2025-09-30",
+      "length": 33
+     },
+     {
+      "peak": "2025-07-31",
+      "trough": "2025-08-01",
+      "depth_pct": 0.785,
+      "recovered": "2025-08-12",
+      "length": 7
+     }
+    ],
+    "tail": {
+     "n": 367,
+     "var95_pct": 0.328,
+     "es95_pct": 0.497
+    }
+   },
+   "sh_win": {
+    "days": 367,
+    "total_pct": 11.104,
+    "drawdowns": [
+     {
+      "peak": "2026-06-25",
+      "trough": "2026-11-06",
+      "depth_pct": 9.701,
+      "recovered": null,
+      "length": 99,
+      "open": true
+     },
+     {
+      "peak": "2025-10-29",
+      "trough": "2025-12-17",
+      "depth_pct": 7.751,
+      "recovered": "2026-01-28",
+      "length": 60
+     },
+     {
+      "peak": "2026-02-24",
+      "trough": "2026-04-21",
+      "depth_pct": 6.72,
+      "recovered": "2026-05-08",
+      "length": 51
+     },
+     {
+      "peak": "2026-06-03",
+      "trough": "2026-06-10",
+      "depth_pct": 6.474,
+      "recovered": "2026-06-22",
+      "length": 11
+     },
+     {
+      "peak": "2025-07-17",
+      "trough": "2025-09-02",
+      "depth_pct": 4.207,
+      "recovered": "2025-10-02",
+      "length": 53
+     }
+    ],
+    "tail": {
+     "n": 367,
+     "var95_pct": 1.505,
+     "es95_pct": 2.153
+    }
+   }
+  }
+ }
+}

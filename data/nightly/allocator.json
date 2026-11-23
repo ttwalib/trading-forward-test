@@ -410,8 +410,8 @@
   }
  },
  "stamp": {
-  "commit": "dd9342c",
-  "data_sha256": "5e21d79c39e9bff8",
+  "commit": "33531b0",
+  "data_sha256": "40d1be8660266279",
   "data_files": 506,
   "versions": {
    "python": "3.14.4",
@@ -420,14 +420,14 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-22 21:10"
+  "at": "2026-11-23 04:25"
  },
  "latest_weights": {
   "date": "2026-11-20",
   "weights": {
-   "L10 Earnings drift": 0.25,
-   "L13 Pairs reversion": 0.25,
    "L17 Multi-asset trend": 0.25,
+   "L13 Pairs reversion": 0.25,
+   "L10 Earnings drift": 0.25,
    "L12 Turn of month": 0.1012,
    "L16 SPY trend short": 0.1488
   },
@@ -508,7 +508,7 @@
    -0.329,
    -0.731,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-17",
@@ -523,7 +523,7 @@
    -0.68,
    -2.153,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-18",
@@ -538,7 +538,7 @@
    -1.154,
    -2.806,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-19",
@@ -553,7 +553,7 @@
    -1.778,
    -3.368,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-20",
@@ -568,7 +568,7 @@
    -1.954,
    -4.259,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L16 SPY trend short 15%"
+   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L16 SPY trend short 15%"
   ]
  ]
 }

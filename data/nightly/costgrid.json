@@ -1,0 +1,692 @@
+{
+ "note": "Report only; never part of the verdict. Break-even multiple = times today's costs a sleeve could pay before its average result turns negative. Live samples are small.",
+ "library": {
+  "L5 RSI(2) pullback": {
+   "priors": {
+    "n": 117,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.05749,
+    "mean_cost_1x": 0.01303,
+    "mean_at": {
+     "0.5": 0.06401,
+     "1.0": 0.05749,
+     "2.0": 0.04446,
+     "3.0": 0.03142
+    },
+    "breakeven_mult": 5.41,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 4,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.72611,
+    "mean_cost_1x": 0.00625,
+    "mean_at": {
+     "0.5": -0.72298,
+     "1.0": -0.72611,
+     "2.0": -0.73236,
+     "3.0": -0.73861
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L6 Bollinger reversion": {
+   "priors": {
+    "n": 299,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.00147,
+    "mean_cost_1x": 0.01976,
+    "mean_at": {
+     "0.5": 0.01134,
+     "1.0": 0.00147,
+     "2.0": -0.01829,
+     "3.0": -0.03804
+    },
+    "breakeven_mult": 1.07,
+    "reading": "profitable at today's costs, not at double"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -1.40786,
+    "mean_cost_1x": 0.02758,
+    "mean_at": {
+     "0.5": -1.39407,
+     "1.0": -1.40786,
+     "2.0": -1.43544,
+     "3.0": -1.46302
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L7 Donchian trend": {
+   "priors": {
+    "n": 482,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.04678,
+    "mean_cost_1x": 0.01048,
+    "mean_at": {
+     "0.5": 0.05203,
+     "1.0": 0.04678,
+     "2.0": 0.0363,
+     "3.0": 0.02582
+    },
+    "breakeven_mult": 5.46,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.92744,
+    "mean_cost_1x": 0.00543,
+    "mean_at": {
+     "0.5": -0.92473,
+     "1.0": -0.92744,
+     "2.0": -0.93287,
+     "3.0": -0.93831
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L10 Earnings drift": {
+   "priors": {
+    "n": 153,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.05318,
+    "mean_cost_1x": 0.0105,
+    "mean_at": {
+     "0.5": -0.04793,
+     "1.0": -0.05318,
+     "2.0": -0.06368,
+     "3.0": -0.07418
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   },
+   "live": {
+    "n": 0
+   }
+  },
+  "L8 Momentum top 8": {
+   "priors": {
+    "n": 371,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.13198,
+    "mean_cost_1x": 0.00891,
+    "mean_at": {
+     "0.5": 0.13644,
+     "1.0": 0.13198,
+     "2.0": 0.12307,
+     "3.0": 0.11415
+    },
+    "breakeven_mult": 15.81,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -1.59213,
+    "mean_cost_1x": 0.01224,
+    "mean_at": {
+     "0.5": -1.58602,
+     "1.0": -1.59213,
+     "2.0": -1.60437,
+     "3.0": -1.61661
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L9 Sector rotation": {
+   "priors": {
+    "n": 439,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.03786,
+    "mean_cost_1x": 0.00421,
+    "mean_at": {
+     "0.5": 0.03997,
+     "1.0": 0.03786,
+     "2.0": 0.03365,
+     "3.0": 0.02943
+    },
+    "breakeven_mult": 9.98,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -1.02341,
+    "mean_cost_1x": 0.0,
+    "mean_at": {
+     "0.5": -1.02341,
+     "1.0": -1.02341,
+     "2.0": -1.02341,
+     "3.0": -1.02341
+    },
+    "breakeven_mult": null,
+    "reading": "no measurable cost"
+   }
+  },
+  "L17 Multi-asset trend": {
+   "priors": {
+    "n": 304,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.06332,
+    "mean_cost_1x": 0.00122,
+    "mean_at": {
+     "0.5": 0.06393,
+     "1.0": 0.06332,
+     "2.0": 0.06211,
+     "3.0": 0.06089
+    },
+    "breakeven_mult": 53.03,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.49668,
+    "mean_cost_1x": 0.002,
+    "mean_at": {
+     "0.5": -0.49568,
+     "1.0": -0.49668,
+     "2.0": -0.49868,
+     "3.0": -0.50068
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L15 Market-neutral momentum": {
+   "priors": {
+    "n": 371,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.03711,
+    "mean_cost_1x": 0.01013,
+    "mean_at": {
+     "0.5": 0.04218,
+     "1.0": 0.03711,
+     "2.0": 0.02699,
+     "3.0": 0.01686
+    },
+    "breakeven_mult": 4.66,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 1.09648,
+    "mean_cost_1x": 0.01297,
+    "mean_at": {
+     "0.5": 1.10297,
+     "1.0": 1.09648,
+     "2.0": 1.08351,
+     "3.0": 1.07054
+    },
+    "breakeven_mult": 85.53,
+    "reading": "survives double costs"
+   }
+  },
+  "L11 SPY overnight": {
+   "priors": {
+    "n": 504,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.0197,
+    "mean_cost_1x": 0.01998,
+    "mean_at": {
+     "0.5": 0.02969,
+     "1.0": 0.0197,
+     "2.0": -0.00028,
+     "3.0": -0.02026
+    },
+    "breakeven_mult": 1.99,
+    "reading": "profitable at today's costs, not at double"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.02841,
+    "mean_cost_1x": 0.018,
+    "mean_at": {
+     "0.5": -0.01941,
+     "1.0": -0.02841,
+     "2.0": -0.04641,
+     "3.0": -0.06441
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L12 Turn of month": {
+   "priors": {
+    "n": 192,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.07353,
+    "mean_cost_1x": 0.0125,
+    "mean_at": {
+     "0.5": 0.07978,
+     "1.0": 0.07353,
+     "2.0": 0.06103,
+     "3.0": 0.04853
+    },
+    "breakeven_mult": 6.88,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 0
+   }
+  },
+  "L16 SPY trend short": {
+   "priors": {
+    "n": 85,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.03887,
+    "mean_cost_1x": 0.00129,
+    "mean_at": {
+     "0.5": -0.03822,
+     "1.0": -0.03887,
+     "2.0": -0.04016,
+     "3.0": -0.04146
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 1.76503,
+    "mean_cost_1x": 0.0,
+    "mean_at": {
+     "0.5": 1.76503,
+     "1.0": 1.76503,
+     "2.0": 1.76503,
+     "3.0": 1.76503
+    },
+    "breakeven_mult": null,
+    "reading": "no measurable cost"
+   }
+  },
+  "L13 Pairs reversion": {
+   "priors": {
+    "n": 409,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.01109,
+    "mean_cost_1x": 0.00236,
+    "mean_at": {
+     "0.5": 0.01227,
+     "1.0": 0.01109,
+     "2.0": 0.00873,
+     "3.0": 0.00636
+    },
+    "breakeven_mult": 5.69,
+    "reading": "survives double costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 0.03012,
+    "mean_cost_1x": 0.0,
+    "mean_at": {
+     "0.5": 0.03012,
+     "1.0": 0.03012,
+     "2.0": 0.03012,
+     "3.0": 0.03012
+    },
+    "breakeven_mult": null,
+    "reading": "no measurable cost"
+   }
+  },
+  "L1 SPY intraday momentum": {
+   "priors": {
+    "n": 61,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.05374,
+    "mean_cost_1x": 0.02,
+    "mean_at": {
+     "0.5": -0.04374,
+     "1.0": -0.05374,
+     "2.0": -0.07374,
+     "3.0": -0.09374
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.18382,
+    "mean_cost_1x": 0.02139,
+    "mean_at": {
+     "0.5": -0.17312,
+     "1.0": -0.18382,
+     "2.0": -0.20521,
+     "3.0": -0.22659
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L2 VWAP pullback": {
+   "priors": {
+    "n": 61,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.17513,
+    "mean_cost_1x": 0.22299,
+    "mean_at": {
+     "0.5": -0.06363,
+     "1.0": -0.17513,
+     "2.0": -0.39812,
+     "3.0": -0.62111
+    },
+    "breakeven_mult": 0.21,
+    "reading": "loses at today's costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.27156,
+    "mean_cost_1x": 0.11987,
+    "mean_at": {
+     "0.5": -0.21163,
+     "1.0": -0.27156,
+     "2.0": -0.39144,
+     "3.0": -0.51131
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L3 Gap and go": {
+   "priors": {
+    "n": 33,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.08772,
+    "mean_cost_1x": 0.13421,
+    "mean_at": {
+     "0.5": -0.02062,
+     "1.0": -0.08772,
+     "2.0": -0.22193,
+     "3.0": -0.35614
+    },
+    "breakeven_mult": 0.35,
+    "reading": "loses at today's costs"
+   },
+   "live": {
+    "n": 1,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -1.85432,
+    "mean_cost_1x": 0.28858,
+    "mean_at": {
+     "0.5": -1.71003,
+     "1.0": -1.85432,
+     "2.0": -2.1429,
+     "3.0": -2.43148
+    },
+    "breakeven_mult": 0.0,
+    "reading": "loses even at zero cost"
+   }
+  },
+  "L4 Gap fade": {
+   "priors": {
+    "n": 59,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.1783,
+    "mean_cost_1x": 0.18352,
+    "mean_at": {
+     "0.5": -0.08654,
+     "1.0": -0.1783,
+     "2.0": -0.36182,
+     "3.0": -0.54535
+    },
+    "breakeven_mult": 0.03,
+    "reading": "loses at today's costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.1042,
+    "mean_cost_1x": 0.20434,
+    "mean_at": {
+     "0.5": -0.00203,
+     "1.0": -0.1042,
+     "2.0": -0.30854,
+     "3.0": -0.51287
+    },
+    "breakeven_mult": 0.49,
+    "reading": "loses at today's costs"
+   }
+  },
+  "L14 ORB breakdown short": {
+   "priors": {
+    "n": 61,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": -0.23256,
+    "mean_cost_1x": 0.24839,
+    "mean_at": {
+     "0.5": -0.10837,
+     "1.0": -0.23256,
+     "2.0": -0.48095,
+     "3.0": -0.72934
+    },
+    "breakeven_mult": 0.06,
+    "reading": "loses at today's costs"
+   },
+   "live": {
+    "n": 5,
+    "unit": "% of sleeve per active day",
+    "mean_net_1x": 1.04319,
+    "mean_cost_1x": 0.23509,
+    "mean_at": {
+     "0.5": 1.16073,
+     "1.0": 1.04319,
+     "2.0": 0.8081,
+     "3.0": 0.57301
+    },
+    "breakeven_mult": 5.44,
+    "reading": "survives double costs"
+   }
+  }
+ },
+ "ledger": {
+  "A baseline (watchlist)": {
+   "n": 32,
+   "unit": "R per trade",
+   "mean_net_1x": -0.69719,
+   "mean_cost_1x": 0.04469,
+   "mean_at": {
+    "0.5": -0.67484,
+    "1.0": -0.69719,
+    "2.0": -0.74188,
+    "3.0": -0.78656
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 33.33
+  },
+  "Crypto 15m fixed (pooled)": {
+   "n": 74,
+   "unit": "R per trade",
+   "mean_net_1x": -0.45054,
+   "mean_cost_1x": 0.47065,
+   "mean_at": {
+    "0.5": -0.21522,
+    "1.0": -0.45054,
+    "2.0": -0.92119,
+    "3.0": -1.39183
+   },
+   "breakeven_mult": 0.04,
+   "reading": "loses at today's costs",
+   "move_to_cost": 2.43
+  },
+  "Crypto 15m adaptive (pooled)": {
+   "n": 74,
+   "unit": "R per trade",
+   "mean_net_1x": -0.45054,
+   "mean_cost_1x": 0.47065,
+   "mean_at": {
+    "0.5": -0.21522,
+    "1.0": -0.45054,
+    "2.0": -0.92119,
+    "3.0": -1.39183
+   },
+   "breakeven_mult": 0.04,
+   "reading": "loses at today's costs",
+   "move_to_cost": 2.43
+  },
+  "Crypto 1h fixed (pooled)": {
+   "n": 22,
+   "unit": "R per trade",
+   "mean_net_1x": -0.69364,
+   "mean_cost_1x": 0.24482,
+   "mean_at": {
+    "0.5": -0.57122,
+    "1.0": -0.69364,
+    "2.0": -0.93846,
+    "3.0": -1.18329
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 5.28
+  },
+  "Crypto 1h adaptive (pooled)": {
+   "n": 22,
+   "unit": "R per trade",
+   "mean_net_1x": -0.69364,
+   "mean_cost_1x": 0.24482,
+   "mean_at": {
+    "0.5": -0.57122,
+    "1.0": -0.69364,
+    "2.0": -0.93846,
+    "3.0": -1.18329
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 5.28
+  },
+  "D1 lottery calls": {
+   "n": 15,
+   "unit": "% of premium per trade",
+   "mean_net_1x": -40.34667,
+   "mean_cost_1x": 7.07333,
+   "mean_at": {
+    "0.5": -36.81,
+    "1.0": -40.34667,
+    "2.0": -47.42,
+    "3.0": -54.49333
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 13.71
+  },
+  "D2 SPY put spreads": {
+   "n": 2,
+   "unit": "% of max risk per trade",
+   "mean_net_1x": -9.65,
+   "mean_cost_1x": 0.2,
+   "mean_at": {
+    "0.5": -9.55,
+    "1.0": -9.65,
+    "2.0": -9.85,
+    "3.0": -10.05
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 47.25
+  },
+  "D3 SPY call spreads": {
+   "n": 2,
+   "unit": "% of max risk per trade",
+   "mean_net_1x": 0.8,
+   "mean_cost_1x": 0.15,
+   "mean_at": {
+    "0.5": 0.875,
+    "1.0": 0.8,
+    "2.0": 0.65,
+    "3.0": 0.5
+   },
+   "breakeven_mult": 6.33,
+   "reading": "survives double costs",
+   "move_to_cost": 6.33
+  },
+  "W1": {
+   "n": 2,
+   "unit": "% of max risk per trade",
+   "mean_net_1x": -12.85,
+   "mean_cost_1x": 0.45,
+   "mean_at": {
+    "0.5": -12.625,
+    "1.0": -12.85,
+    "2.0": -13.3,
+    "3.0": -13.75
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 50.67
+  },
+  "W2": {
+   "n": 2,
+   "unit": "% of max risk per trade",
+   "mean_net_1x": -38.75,
+   "mean_cost_1x": 0.85,
+   "mean_at": {
+    "0.5": -38.325,
+    "1.0": -38.75,
+    "2.0": -39.6,
+    "3.0": -40.45
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 44.59
+  },
+  "W3": {
+   "n": 2,
+   "unit": "% of max risk per trade",
+   "mean_net_1x": 26.7,
+   "mean_cost_1x": 0.6,
+   "mean_at": {
+    "0.5": 27.0,
+    "1.0": 26.7,
+    "2.0": 26.1,
+    "3.0": 25.5
+   },
+   "breakeven_mult": 45.5,
+   "reading": "survives double costs",
+   "move_to_cost": 131.33
+  },
+  "W4": {
+   "n": 15,
+   "unit": "% of max risk per trade",
+   "mean_net_1x": -27.24,
+   "mean_cost_1x": 1.86,
+   "mean_at": {
+    "0.5": -26.31,
+    "1.0": -27.24,
+    "2.0": -29.1,
+    "3.0": -30.96
+   },
+   "breakeven_mult": 0.0,
+   "reading": "loses even at zero cost",
+   "move_to_cost": 45.71
+  }
+ },
+ "not_measurable": [
+  "A control list",
+  "A variant (watchlist)",
+  "Adaptive ORB (watchlist)",
+  "Agent picks: ATM calls",
+  "Agent picks: smart calls (delta 0.6, 7-21d, no earnings)",
+  "Agent picks: stocks, adaptive",
+  "Agent picks: stocks, baseline A",
+  "B variant (watchlist)",
+  "C variant (watchlist)",
+  "D variant (watchlist)",
+  "E variant (watchlist)",
+  "F variant (watchlist)",
+  "G variant (watchlist)",
+  "O ATM calls (watchlist)",
+  "T variant (watchlist)"
+ ]
+}

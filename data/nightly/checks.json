@@ -92,36 +92,33 @@
   "note": "spread = what a market order pays now; drift = price move between the simulated fill and the quote (mostly the hourly-run delay); the simulation charges model_side_cost per side"
  },
  "health": {
-  "at": "2026-11-22 21:11",
-  "ticks_today": 0,
-  "last_tick": null,
-  "last_tick_age_min": null,
+  "at": "2026-11-23 04:26",
+  "ticks_today": 1,
+  "last_tick": "02:40",
+  "last_tick_age_min": 106,
   "max_gap_min": null,
-  "tick_seconds_median": null,
-  "tick_seconds_max": null,
-  "minutes_month_so_far": 125,
-  "minutes_month_projected": 333,
+  "tick_seconds_median": 1.7,
+  "tick_seconds_max": 1.7,
+  "minutes_month_so_far": 128,
+  "minutes_month_projected": 256,
   "minutes_quota": 3000,
-  "token_expiry": "2027-03-31",
-  "token_days_left": 129,
-  "data_size_mb": 104.2,
+  "token_expiry": "2027-06-15",
+  "token_days_left": 204,
+  "data_size_mb": 104.3,
   "alerts": []
  },
  "replay_day": {
-  "day": "2026-11-20",
+  "day": "2026-11-17",
   "sets": {
    "watchlist": {
-    "ledger": 10,
-    "replay": 10,
-    "bars_for": 22
-   },
-   "control": {
-    "ledger": 13,
-    "replay": 13,
+    "ledger": 6,
+    "replay": 5,
     "bars_for": 22
    }
   },
-  "diffs": [],
-  "identical": true
+  "diffs": [
+   "watchlist MARA: ledger has a trade (stop), replay has none"
+  ],
+  "identical": false
  }
 }

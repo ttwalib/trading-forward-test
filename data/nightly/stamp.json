@@ -1,32 +1,32 @@
 {
  "day": "2026-11-22",
- "started": "2026-11-22 21:10:23",
+ "started": "2026-11-23 04:25:26",
  "steps": [
   {
    "step": "library",
-   "ok": true,
-   "seconds": 6.9,
-   "exit": 0,
-   "error": null
-  },
-  {
-   "step": "library_2x",
    "ok": true,
    "seconds": 6.7,
    "exit": 0,
    "error": null
   },
   {
-   "step": "library_ideal",
+   "step": "library_2x",
    "ok": true,
    "seconds": 6.6,
    "exit": 0,
    "error": null
   },
   {
+   "step": "library_ideal",
+   "ok": true,
+   "seconds": 7.2,
+   "exit": 0,
+   "error": null
+  },
+  {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.4,
+   "seconds": 9.7,
    "exit": 0,
    "error": null
   },
@@ -40,7 +40,7 @@
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 7.2,
+   "seconds": 7.4,
    "exit": 0,
    "error": null
   },
@@ -61,7 +61,7 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 0.5,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
@@ -73,9 +73,30 @@
    "error": null
   },
   {
+   "step": "costgrid",
+   "ok": true,
+   "seconds": 0.0,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "riskx",
+   "ok": true,
+   "seconds": 9.2,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "chain",
+   "ok": true,
+   "seconds": 0.0,
+   "exit": 0,
+   "error": null
+  },
+  {
    "step": "dashboard",
    "ok": true,
-   "seconds": 8.1,
+   "seconds": 8.5,
    "exit": 0,
    "error": null
   },
@@ -96,12 +117,13 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 9.1,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "dd9342c9e2d21e6fb28315ae4afa13468d961bfc",
+ "commit": "33531b02495ba0a8c6512cc36b08acafed313bed",
+ "chain_head": "f37a7773eaad6db4b4e34532f3e0e352149a5cb78d7a382c89bf3826a8e07812",
  "ok": true,
- "finished": "2026-11-22 21:11:24"
+ "finished": "2026-11-23 04:26:37"
 }
