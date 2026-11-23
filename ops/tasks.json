@@ -5,13 +5,13 @@
    "name": "Morning research + events",
    "when": "08:05 daily",
    "model": "Fable",
-   "does": "Picks stocks and coins with its own weights, holding periods and confidence; seals the 44-stock ranking before 09:30; logs events"
+   "does": "Picks stocks and coins with its own weights, holding periods and confidence; seals the 44-stock ranking before 09:30; logs events; keeps every Alpha Vantage reading in data/ext/av"
   },
   {
    "name": "Stocks + control list",
    "when": "09:12 and 16:12 on trading days",
    "model": "Sonnet",
-   "does": "Reddit snapshot (ApeWisdom); scores the day's opening-range breakouts"
+   "does": "Reads the ApeWisdom file fetched by GitHub; scores the day's opening-range breakouts"
   },
   {
    "name": "Live decisions",
@@ -53,7 +53,7 @@
    "name": "Learning + strategy lab",
    "when": "Wed and Sat 23:15 (to 2027-05-14)",
    "model": "Fable",
-   "does": "Learns from logged trades; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once"
+   "does": "Learns from logged trades and the outside data; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once and refreshes the IBKR peer map"
   },
   {
    "name": "Quantavius's own book (weekly seal, the verdict)",
@@ -195,6 +195,16 @@
    "name": "picks-witness",
    "when": "on every push of data/ledger/AgentPicks.jsonl",
    "does": "Records the time GitHub first saw each pick (scripts/witness.py)"
+  },
+  {
+   "name": "ApeWisdom + morning outside data",
+   "when": "07:40 ET weekdays, and the first tick if the file is missing",
+   "does": "Three ApeWisdom pages to data/sentiment/ape/DAY.json (scripts/ape.py); SEC EDGAR filings and crypto funding to data/ext (scripts/extdata.py)"
+  },
+  {
+   "name": "Outside data (ext)",
+   "when": "18:20 ET weekdays",
+   "does": "FRED rates and credit spreads, FINRA short-sale share, Cboe put/call, SEC EDGAR filings, crypto funding and stablecoins to data/ext/<source>/DAY.json; status in ops/diag/extdata.json (scripts/extdata.py)"
   }
  ]
 }
