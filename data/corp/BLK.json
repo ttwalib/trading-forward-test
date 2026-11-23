@@ -300,8 +300,15 @@
    "announced": null,
    "type": "CashDividends",
    "src": "alpaca"
+  },
+  {
+   "ex": "2026-12-08",
+   "value": 5.73,
+   "announced": null,
+   "type": "CashDividends",
+   "src": "alpaca"
   }
  ],
  "splits": [],
- "fetched": "2026-11-20"
+ "fetched": "2026-11-23"
 }
