@@ -27,3 +27,4 @@
 {"date":"2026-11-20","symbol":"NBIS","pool":"trending","mentions":105,"mentions_24h_ago":71,"change_pct":47.9,"rank":9,"upvotes":283,"rising":"no","contract_id":88819736}
 {"date":"2026-11-20","symbol":"GME","pool":"trending","mentions":89,"mentions_24h_ago":19,"change_pct":368.4,"rank":11,"upvotes":249,"rising":"yes","contract_id":36285627}
 {"date":"2026-11-20","symbol":"SNDK","pool":"trending","mentions":74,"mentions_24h_ago":63,"change_pct":17.5,"rank":12,"upvotes":147,"rising":"no","contract_id":760250490}
+{"date":"2026-11-23","symbol":"-","pool":"unavailable","mentions":null,"mentions_24h_ago":null,"change_pct":null,"rank":null,"upvotes":null,"rising":null,"contract_id":null}
