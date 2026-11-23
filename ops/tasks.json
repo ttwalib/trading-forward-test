@@ -21,7 +21,7 @@
   },
   {
    "name": "Deep OTM + weekly options",
-   "when": "17:00 weekdays",
+   "when": "retired 2026-11-23 (nothing open)",
    "model": "Sonnet",
    "does": "Retired 2026-11-23 (purpose trim): only settles positions still open, opens nothing"
   },
