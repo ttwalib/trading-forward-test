@@ -67,7 +67,7 @@ def main():
     for name, args, out in plan:
         r = step(name, args, os.path.join(N, out)); stamp["steps"].append(r)
         if not r["ok"] and name in ("library", "allocator"): break       # later steps would read stale inputs
-    if all(s["ok"] for s in stamp["steps"]):
+    if all(s["ok"] for s in stamp["steps"] if s["step"] != "rank"):      # an optional step (rank) never stops the rest
         ck = {}
         for name, args in (("engine_report", ["engine-report", repo]), ("slip_report", ["slip-report", repo]), ("health", ["health", repo]),
                            ("replay_day", ["replay-day", repo])):      # random past day re-run against the ledger (2026-11-21)
@@ -91,7 +91,11 @@ def main():
         stamp["steps"].append(step("lane", [S("registry.py"), "score", repo], None, 600))
         # the current specification, regenerated from the configuration every night (2026-11-21)
         stamp["steps"].append(step("spec", [S("spec.py"), repo, os.path.join(repo, "ops", "SPEC.md")], None, 120))
-    need = {"library", "library_2x", "library_ideal", "allocator", "stats"}
+    # CRITICAL steps (the verdict's path): the stamp is ok only if all of these ran. Since 2026-11-23 (external review 3.6)
+    # this includes the steps whose output the allocator reads (witness, picks, aisleeve) and the chain check. Every
+    # other step is OPTIONAL: its failure is listed in "optional_failed" and never fails the night.
+    need = {"library", "library_2x", "library_ideal", "witness", "picks", "aisleeve", "allocator", "stats", "chain"}
+    stamp["optional_failed"] = sorted(s["step"] for s in stamp["steps"] if not s["ok"] and s["step"] not in need)
     stamp["ok"] = need <= {s["step"] for s in stamp["steps"] if s["ok"]}
     stamp["finished"] = dt.datetime.now(NY).strftime("%Y-%m-%d %H:%M:%S")
     json.dump(stamp, open(os.path.join(N, "stamp.json"), "w"), indent=1)

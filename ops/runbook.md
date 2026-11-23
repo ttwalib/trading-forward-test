@@ -620,6 +620,13 @@ After the existing steps:
   the parity check fail; it did on 2026-11-19 when first tried) and `no_orders.py REPO`, and records both results.
   A human reviewer is the owner's to arrange; ops/audit_checklist.md is written so a person can follow it.
 
+AUDIT TRIAGE (2026-11-23, external review 3.7; overrides any prompt wording such as "only defects all three AI reports
+agree on"): EVERY blocking finding from ANY reviewer (the audit, the AI review, the AI debate, the owner, the second
+person, the external reviewer) is triaged before the window opens: reproduce it, then fix it, or record in
+reports/audit/ why it is not a defect, with the evidence. Agreement between the AI reports is not required: they share
+a model family and its blind spots. Either human reviewer can hold the window (it then opens 2026-12-14). Only
+findings nobody rates as blocking wait for the owner's reply.
+
 ## LEARNING + STRATEGY LAB
 
 DAILY STRATEGIES (since 2026-11-23, item 32c; this overrides PART B of the prompt on WEDNESDAY runs; Saturday runs
@@ -645,7 +652,7 @@ daily return is above the unmodified original's over the same days (put both in 
 
 PICK PLAYBOOK (since 2026-11-23, item 32d; SATURDAY runs only, after PART A): read ops/pick_playbook.md,
 data/picks/score.json (per-day picks vs control list), the AgentPicks and AgentTrades ledgers and the latest picks
-review findings in "Learning". If, and only if, a finding about the picking has q <= 0.25 and at least 10 pick days
+review findings in "Learning". If, and only if, a finding about the picking has q <= 0.10 and at least 30 pick days (tightened 2026-11-23 from q <= 0.25 and 10 days, before any playbook change was made)
 behind it, you may change the playbook: ONE change per week at most, small and concrete (for example "skip gap-only
 picks without a company catalyst"). Write the new version at the top of ops/pick_playbook.md (version number + 1,
 date, the rule text in full), append {"version", "date", "change", "evidence", "n", "q"} to
@@ -828,6 +835,13 @@ are your foundation and your rivals.
 In the frozen holdout this task keeps running: it is a tested decision-maker like the formula, and its code and
 rules do not change.
 
+MEDIAN OF THREE (2026-11-23, item 37, external review 3.2): two sampler sessions (Sunday 13:02 and 13:11 ET) judge the
+same evidence pack independently and file drafts with `judge.py draft /tmp/repo /tmp/seal.json b|c`. Your own step 4
+is unchanged; `judge.py seal` then seals the MEDIAN share per sleeve over your weights and the drafts (row fields
+n_samples, samples, sample_dispersion). `git pull` before step 4 so the drafts are present. Report the sealed row's
+weights, not your own, and say n_samples. Fewer than two drafts: your own weights are sealed with n_samples 1; say so.
+The row also lists moves_over_5pts against the previous seal: explain each one in "decision" (nothing is clipped).
+
 ## LIVE DECISIONS (hourly at :05, 10:05 to 15:05, on full trading days)
 
 0. MIDDAY SNAPSHOT (only the 11:05 and 13:05 runs): 11:05 -> for each watchlist + control stock get_price_snapshot
@@ -908,3 +922,20 @@ schedule, the pick playbook, runbook text a task follows, or any script Quantavi
 playbook or settings. Never edit or delete rows. WITNESS: picks are witnessed by GitHub (scripts/witness.py, every tick and the nightly); a pick first seen
 at or after 09:30 New York does not count from 2026-11-30, so the morning task must commit and push its picks before 09:30 (it runs at 08:05). A1 PRIMARY benchmark is the foundation-only equal weight (allocator field equal_f). LESSONS CAP (weekly seal): one lesson may
 move a sleeve's weight by at most 5 points against the previous seal, and a lesson must state a claim that later data can contradict.
+
+ITEM 37 (2026-11-23, owner "yes" to the external review "Jarvis's review of the Nov 23 update"; pre-registration amendment)
+(a) Weekly book = median of three independent samples (section AI-JUDGMENT ALLOCATOR); sample_dispersion is the weekly
+measure of seal noise. (b) Seal rows list moves over 5 points and the evidence-pack size (pack_chars). (c) judge_check
+reports effective_sample (weekly decisions) and sensitivity (10-day blocks; SPY beta removed): quote the number of
+weekly decisions beside every A1 probability. (d) WORDING: an A1 PRIMARY PASS is reported as "promising, not proof"
+(at P 0.9 about one test in ten passes with no skill) and never as "beat the market"; the A1 STRICT result is printed
+beside it with equal prominence in every report and on the dashboard. (e) NO SPY PARKING SLEEVE (owner decision): forced fill stays as
+it is. (f) Nightly stamp: critical steps = library x3, witness, picks, aisleeve, allocator, stats, chain; everything
+else is optional (stamp.optional_failed) and is reported, not fatal. (g) AUDIT TRIAGE above. (h) Playbook changes need
+q <= 0.10 and 30 pick days. (i) GITHUB MINUTES: `checks.py health` shows minutes_full_month_estimate (about 2,400 of
+3,000 on 2026-11-23, before the nightly maths). If the month's projection passes 80%, pause in this order and say so in
+the digest: 1 option bars (optbars), 2 the report-only nightly steps (costgrid, riskx, montecarlo) to Fridays only,
+3 crypto bars from every 3 hours to every 6. Never pause: ticks, the nightly fetch, the critical nightly steps. No
+lane job may be added to the tick or to the critical steps. (j) IBKR PATH: deferred on purpose to after the final
+report; live quotes stay with the AI tasks' read-only tools. (k) Daily challenger: if weekly usage is tight it drops to
+Mondays and Thursdays first (it is a lane entry only).

@@ -379,6 +379,17 @@ def health(repo, now=None):
     tracked_days = max(1, sum(1 for d in T if d[:7] == month))
     left = sum(1 for k in range(dom + 1, days_in_month + 1) if tcal.is_open(dt.date(now.year, now.month, k)))
     proj = used + round(used / tracked_days * left)
+    # FULL-MONTH projection (2026-11-23, external review 3.8): the figure above under-reads a month in which the 5-minute
+    # ticks only started part-way. This one prices a whole month at the busiest recent day's rate.
+    per_day = {}
+    for d, v in T.items():
+        sc = v.get("secs", []) + v.get("secs_other", []); rn = sum(len(x) for k, x in v.items() if not k.startswith("secs"))
+        per_day[d] = sum(max(1, math.ceil(x / 60 + 0.25)) for x in sc) + max(0, rn - len(sc))
+    open_days = [d for d in sorted(per_day) if tcal.is_open(d)][-5:]
+    rate_open = max((per_day[d] for d in open_days), default=0)
+    closed = [per_day[d] for d in sorted(per_day) if not tcal.is_open(d)][-4:]
+    rate_closed = max(closed, default=0)
+    full_month = rate_open * 22 + rate_closed * 9
     secs_today = td.get("secs", [])
     size_mb = None
     try:
@@ -388,7 +399,7 @@ def health(repo, now=None):
     H = {"at": now.strftime("%Y-%m-%d %H:%M"), "ticks_today": len(ticks), "last_tick": ticks[-1] if ticks else None,
          "last_tick_age_min": last_age, "max_gap_min": max(gaps) if gaps else None,
          "tick_seconds_median": round(st.median(secs_today), 1) if secs_today else None, "tick_seconds_max": max(secs_today) if secs_today else None,
-         "minutes_month_so_far": used, "minutes_month_projected": proj, "minutes_quota": MINUTES_QUOTA,
+         "minutes_month_so_far": used, "minutes_month_projected": proj, "minutes_full_month_estimate": full_month, "minutes_quota": MINUTES_QUOTA,
          "token_expiry": TOKEN_EXPIRY, "token_days_left": days_to_expiry, "data_size_mb": size_mb, "alerts": []}
     # The hourly backup tick logs itself just before this check, so the gap before the latest tick counts too.
     worst = max([x for x in (last_age, gaps[-1] if gaps else None) if x is not None], default=None)

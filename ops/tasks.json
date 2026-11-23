@@ -126,6 +126,18 @@
    "when": "08:41 weekdays from 2026-12-07",
    "model": "Fable",
    "does": "Quantavius re-judges its weights every trading morning (lane entry judge_daily)"
+  },
+  {
+   "name": "Weekly book: sampler B",
+   "when": "Sun 13:02",
+   "model": "Fable",
+   "does": "Independent draft of the weekly weights from the same evidence pack (the seal takes the median of three)"
+  },
+  {
+   "name": "Weekly book: sampler C",
+   "when": "Sun 13:11",
+   "model": "Fable",
+   "does": "Independent draft of the weekly weights from the same evidence pack (the seal takes the median of three)"
   }
  ],
  "github": [

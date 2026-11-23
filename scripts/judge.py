@@ -140,11 +140,13 @@ def ai_layer(repo, through):
     return out
 
 
-def seal(repo, path, dry=False, now=None, out=None, daily=False):
-    """out: another seal file (the model contest and the daily challenger, 2026-11-23; never judge.jsonl for those);
-    daily: the seal applies to one session only (the daily challenger), else to its ISO week (the weekly book)."""
-    now = now or dt.datetime.now(NY); D = json.load(open(path)); err = []
-    _, _, _, _, _, _, el = context(repo); w = {}
+DRAFTS = os.path.join("data", "allocator", "drafts")
+MOVE_FLAG = 0.05      # a share that moves more than this against the previous seal is listed in the row (never clipped)
+
+
+def _check(repo, D, now):
+    """Rules every seal and every draft must meet. Returns (weights, errors, p_beat_equal)."""
+    err = []; _, _, _, _, _, _, el = context(repo); w = {}
     try: w = {str(k): float(v) for k, v in (D.get("weights") or {}).items() if float(v) > 0}
     except Exception: err.append("weights must be a {sleeve: number} object")
     bad = sorted(k for k in w if k not in el)
@@ -162,11 +164,75 @@ def seal(repo, path, dry=False, now=None, out=None, daily=False):
             pb = float(pb)
             if not 0.0 <= pb <= 1.0: err.append("p_beat_equal must be between 0 and 1")
         except (TypeError, ValueError): err.append("p_beat_equal must be a number between 0 and 1")
+    return w, err, pb
+
+
+def draft(repo, path, tag, now=None):
+    """An independent sample for the weekly book (2026-11-23, external review 3.2): a separate session judges the same
+    evidence pack and files its weights here. The weekly seal then takes the MEDIAN share per sleeve over its own
+    weights and the drafts for the same effective day. A draft is never a seal and is never scored on its own."""
+    now = now or dt.datetime.now(NY); D = json.load(open(path)); w, err, pb = _check(repo, D, now)
+    eff = effective_day(now).isoformat(); tag = "".join(c for c in str(tag) if c.isalnum())[:12] or "x"
+    f = os.path.join(repo, DRAFTS, "%s_%s.json" % (eff, tag))
+    if os.path.exists(f): err.append("draft %s already filed for %s" % (tag, eff))
+    if err: return {"filed": False, "errors": err, "effective": eff}
+    os.makedirs(os.path.dirname(f), exist_ok=True)
+    json.dump({"effective": eff, "filed_at": now.isoformat(timespec="seconds"), "tag": tag, "model": str(D.get("model") or "")[:60],
+               "weights": {k: round(v, 4) for k, v in sorted(w.items())}, "p_beat_equal": pb,
+               "decision": str(D["decision"])[:1500]}, open(f, "w"), indent=1)
+    return {"filed": True, "effective": eff, "file": os.path.relpath(f, repo)}
+
+
+def _median_book(samples):
+    """Median share per sleeve over the samples (a sleeve a sample leaves out counts as 0), shares under the minimum
+    dropped, the rest scaled to 100% under the per-sleeve cap. Also the dispersion: the average, over pairs of samples,
+    of half the summed absolute difference of their shares (0 = identical books, 1 = no overlap)."""
+    import statistics as st
+    keys = sorted({k for s in samples for k in s})
+    med = {k: st.median([s.get(k, 0.0) for s in samples]) for k in keys}
+    med = {k: v for k, v in med.items() if v >= LO / 2}
+    w = allocator.fill_to_one([med]) if med else {}
+    for _ in range(5):
+        small = [k for k, v in w.items() if v < LO - 1e-9]
+        if not small: break
+        med = {k: v for k, v in med.items() if k not in small}; w = allocator.fill_to_one([med])
+    pairs = [(a, b) for i, a in enumerate(samples) for b in samples[i + 1:]]
+    disp = sum(sum(abs(a.get(k, 0.0) - b.get(k, 0.0)) for k in keys) / 2 for a, b in pairs) / len(pairs) if pairs else None
+    return {k: round(v, 4) for k, v in sorted(w.items())}, (round(disp, 4) if disp is not None else None)
+
+
+def seal(repo, path, dry=False, now=None, out=None, daily=False):
+    """out: another seal file (the model contest and the daily challenger, 2026-11-23; never judge.jsonl for those);
+    daily: the seal applies to one session only (the daily challenger), else to its ISO week (the weekly book)."""
+    now = now or dt.datetime.now(NY); D = json.load(open(path)); w, err, pb = _check(repo, D, now)
     eff = effective_day(now).isoformat(); f = os.path.join(repo, out or FILE)
     if os.path.exists(f) and any(json.loads(l).get("effective") == eff for l in open(f) if l.strip()): err.append("already sealed for " + eff)
     if err: return {"sealed": False, "errors": err, "effective": eff}
-    row = {"effective": eff, "sealed_at": now.isoformat(timespec="seconds"), "evidence_through": brief(repo, now)["evidence_through"],
-           "weights": {k: round(v, 4) for k, v in sorted(w.items())}, "bull": str(D["bull"])[:1500], "bear": str(D["bear"])[:1500],
+    # WEEKLY BOOK ONLY (2026-11-23, external review 3.1-3.3): the sealed shares are the median over this session's own
+    # weights and the independent drafts filed for the same effective day (judge.py draft). Fewer than two drafts: the
+    # session's own weights are sealed and the row says n_samples 1. Shares that move more than 5 points against the
+    # previous seal are listed, never clipped: the code records, Quantavius decides.
+    own = {k: round(v, 4) for k, v in sorted(w.items())}; samples = [own]; tags = ["seal"]; disp = None
+    if out is None and not daily:
+        import glob
+        for g in sorted(glob.glob(os.path.join(repo, DRAFTS, eff + "_*.json"))):
+            try:
+                d = json.load(open(g))
+                if d.get("effective") == eff and d.get("weights"): samples.append(d["weights"]); tags.append(str(d.get("tag")))
+            except Exception: pass
+        if len(samples) >= 3: w, disp = _median_book(samples)
+        else: samples, tags = [own], ["seal"]
+    prev = None
+    if os.path.exists(f):
+        rows_ = [json.loads(l) for l in open(f) if l.strip()]
+        prev = rows_[-1]["weights"] if rows_ else None
+    moves = sorted(([k, round(w.get(k, 0.0) - (prev or {}).get(k, 0.0), 4)] for k in set(w) | set(prev or {})
+                    if abs(w.get(k, 0.0) - (prev or {}).get(k, 0.0)) > MOVE_FLAG + 1e-9), key=lambda x: -abs(x[1])) if prev else []
+    B = brief(repo, now)
+    row = {"effective": eff, "sealed_at": now.isoformat(timespec="seconds"), "evidence_through": B["evidence_through"],
+           "weights": {k: round(v, 4) for k, v in sorted(w.items())},
+           "n_samples": len(samples), "sample_tags": tags, "samples": samples if len(samples) > 1 else None,
+           "sample_dispersion": disp, "moves_over_5pts": moves, "pack_chars": len(json.dumps(B, default=str)), "bull": str(D["bull"])[:1500], "bear": str(D["bear"])[:1500],
            "risk": str(D.get("risk") or "")[:1000], "decision": str(D["decision"])[:1500], "model": str(D.get("model") or "")[:60],
            # since 2026-11-23 (item 35): the stated chance that this book beats the equal-weight foundation over the
            # period it applies to (scored for calibration), the lessons drawn from the earlier seals, and the horizon
@@ -179,6 +245,8 @@ def seal(repo, path, dry=False, now=None, out=None, daily=False):
 
 if __name__ == "__main__":
     a = sys.argv[1:]
+    if a and a[0] == "draft":
+        o = draft(a[1], a[2], a[3] if len(a) > 3 else "x"); print(json.dumps(o, indent=1)); sys.exit(0 if o.get("filed") else 1)
     if not a or a[0] not in ("brief", "seal"): print(__doc__); sys.exit(2)
     ov = a[a.index("--out") + 1] if "--out" in a else None
     if ov and (os.path.normpath(ov) == os.path.normpath(FILE) or not ov.startswith("data/allocator/") or not ov.endswith(".jsonl")):

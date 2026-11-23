@@ -69,7 +69,8 @@ def main(repo):
              "H3 (picks under the breakout rule). Success is one sentence: A1 PRIMARY PASS (the book against the equal weight of the "
              "foundation sleeves only, `judge_check.verdict.primary`); everything else is supporting evidence (preregistration 0b). "
              "Picks count only if the server-side witness saw them before 09:30 New York (`data/witness/picks.jsonl`); every change to "
-             "the player is in `ops/interventions.jsonl`.\n")
+             "the player is in `ops/interventions.jsonl`. The weekly book is the median of three independent samples; a PASS is "
+             "reported as promising, not proof, with the A1 strict result beside it and the number of weekly decisions stated.\n")
     P.append("## Universe\n")
     P.append(table(["List", "Size", "Used for"], [
         ["Watchlist", len(u["watchlist"]), "Baseline A and adaptive breakout (variants and option structures retired 2026-11-23)"],

@@ -400,7 +400,9 @@ def perf(xs):
             "max_dd_pct": round(mdd * 100, 3), "mean_daily_pct": round(m, 4)}
 
 
-def p_beats(a, b, B=5000):
+def p_beats(a, b, B=5000, restart=0.2):
+    """Stationary block bootstrap: blocks of consecutive days with a mean length of 1/restart (5 days by default,
+    i.e. one trading week). restart=0.1 (10-day blocks) is used only for the sensitivity reading."""
     diff = [x - y for x, y in zip(a, b)]; n = len(diff)
     if n < 10: return None
     rng = random.Random(SEED); hits = 0
@@ -408,7 +410,7 @@ def p_beats(a, b, B=5000):
         s = 0.0; k = 0; i = rng.randrange(n)
         while k < n:
             s += diff[i]; k += 1
-            i = rng.randrange(n) if rng.random() < 0.2 else (i + 1) % n
+            i = rng.randrange(n) if rng.random() < restart else (i + 1) % n
         hits += s > 0
     return round(hits / B, 3)
 
@@ -596,6 +598,20 @@ def judge_check(rows, ph="verdict"):
     out["primary"] = dict(prim("equal_f", "equal weight of the foundation sleeves only (volatility-matched)"),
                           rule="A1 primary: book vs foundation equal weight (volatility-matched), P >= 0.9 and higher Sharpe = PASS; P <= 0.10 = FAIL")
     out["primary_incl_own"] = prim("equal", "equal weight of all live sleeves including the AI's own (volatility-matched)")
+    # External review of 2026-11-23 (3.3, 3.5), secondary readings that decide nothing:
+    # effective sample (the daily returns come from far fewer weekly decisions), the same probability with 10-day
+    # blocks, and a market-neutral version (each side's SPY beta taken out) so a pass cannot be market drift alone.
+    wk = lambda d: "%d-W%02d" % dt.date.fromisoformat(d).isocalendar()[:2]
+    def beta(xs, ms):
+        mx, mm = sum(xs) / len(xs), sum(ms) / len(ms); v = sum((m - mm) ** 2 for m in ms)
+        return sum((x - mx) * (m - mm) for x, m in zip(xs, ms)) / v if v else 0.0
+    spy_ = [r["spy"] for r in sel]; ef = [r["equal_f_vm"] for r in sel]; bj, be = beta(j, spy_), beta(ef, spy_)
+    out["effective_sample"] = {"days": len(sel), "weekly_decisions": len({wk(r["date"]) for r in sel}),
+                               "bootstrap_mean_block_days": 5,
+                               "note": "the book changes once a week, so the evidence is closer to the number of weekly decisions than to the number of days"}
+    out["sensitivity"] = {"p_beats_foundation_equal_vm_10day_blocks": p_beats(j, ef, restart=0.1),
+                          "beta_to_spy_book": round(bj, 3), "beta_to_spy_benchmark": round(be, 3),
+                          "p_beats_after_removing_spy_beta": p_beats([x - bj * m for x, m in zip(j, spy_)], [x - be * m for x, m in zip(ef, spy_)])}
     byr = {}
     for r in sel: byr.setdefault(str(r.get("regime")), []).append(r)
     out["by_regime"] = {k: {"days": len(v), "book_mean": round(sum(x[JUDGE] for x in v) / len(v), 4),
