@@ -78,3 +78,7 @@ Do this on a weekend, when no ticks are due. About 3 minutes.
 Never paste the token into the chat, the sheet or the repo. If the pinger ever stops, the test does not: GitHub's own
 backup tick still runs about once an hour, `fills.py` falls back to the price 5 minutes after the signal, and the
 health line raises an alert. A second person who can do steps 1 to 4 (a backup owner) is worth naming.
+
+OWNER DECISION 2026-11-23: no backup owner. The owner accepts the risk: if the pinger stops, the hourly GitHub
+backup tick and the fills.py fallback keep the test and the verdict numbers running; only the real-time detection
+proof (engine delay) degrades until the owner fixes it. The health alert (PINGER) is the signal to act.
