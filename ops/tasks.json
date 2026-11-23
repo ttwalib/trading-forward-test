@@ -5,7 +5,7 @@
    "name": "Morning research + events",
    "when": "08:05 daily",
    "model": "Fable",
-   "does": "Picks its own stocks before the open and extra coins; logs scheduled market events"
+   "does": "Picks stocks and coins with its own weights, holding periods and confidence; seals the 44-stock ranking before 09:30; logs events"
   },
   {
    "name": "Stocks + control list",
@@ -56,10 +56,10 @@
    "does": "Learns from logged trades; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once"
   },
   {
-   "name": "AI judgment seal",
+   "name": "Quantavius's own book (weekly seal, the verdict)",
    "when": "Sun 13:23",
    "model": "Fable",
-   "does": "Seals next week's weights from one evidence pack, with written reasons"
+   "does": "Seals next week's weights across the foundation and its own sleeves, with lessons and stated confidence"
   },
   {
    "name": "Weekly report",
@@ -108,6 +108,24 @@
    "when": "Tuesdays in Feb, May, Aug, Nov at 10:41; acts only on the third Tuesday, first 2027-05-18",
    "model": "Sonnet",
    "does": "Promotes or retires challengers by the fixed rules of scripts/registry.py"
+  },
+  {
+   "name": "Model contest: Opus seal",
+   "when": "Sun 13:41",
+   "model": "Opus",
+   "does": "Seals weekly weights from the identical evidence pack (lane entry contest_opus)"
+  },
+  {
+   "name": "Model contest: Sonnet seal",
+   "when": "Sun 13:56",
+   "model": "Sonnet",
+   "does": "Seals weekly weights from the identical evidence pack (lane entry contest_sonnet)"
+  },
+  {
+   "name": "Daily challenger seal",
+   "when": "08:41 weekdays from 2026-12-07",
+   "model": "Fable",
+   "does": "Quantavius re-judges its weights every trading morning (lane entry judge_daily)"
   }
  ],
  "github": [
