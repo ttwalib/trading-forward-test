@@ -1,0 +1,17 @@
+{
+  "skills": ["cryptoetf:flows","cryptoetf:weekly","market-researcher:competitive-analysis","market-researcher:comps-analysis","market-researcher:idea-generation","market-researcher:pptx-author","market-researcher:sector-overview","earnings-reviewer:audit-xls","earnings-reviewer:earnings-analysis","earnings-reviewer:earnings-preview","earnings-reviewer:model-update","earnings-reviewer:morning-note","earnings-reviewer:xlsx-author","cryptoetf:cefi-sentiment","cryptoetf:etf-flow-history","cryptoetf:etf-flows-daily","cryptoetf:etf-flows-weekly","cryptoetf:etf-fund-metrics","trading-research-addons:backtest-expert","trading-research-addons:market-breadth-analyzer","trading-research-addons:options-strategy-advisor","trading-research-addons:trade-performance-coach","day-trader-skill:trader-alerts","day-trader-skill:trader-analyst","day-trader-skill:trader-broker","day-trader-skill:trader-budget","day-trader-skill:trader-entry","day-trader-skill:trader-exit","day-trader-skill:trader-news","day-trader-skill:trader-pelosi","day-trader-skill:trader-risk","day-trader-skill:trader-scanner","day-trader-skill:trader-timemachine","dataviz","artifact-design","artifact-diagramming","artifact-capabilities","workflow-authoring","plugin-authoring","anthropic-skills:built-in-browser","anthropic-skills:caveman","anthropic-skills:chrome-browser","anthropic-skills:computer-use","anthropic-skills:deep-research","anthropic-skills:docs","anthropic-skills:docx","anthropic-skills:google-workspace","anthropic-skills:headroom","anthropic-skills:import-memory","anthropic-skills:morning","anthropic-skills:pdf","anthropic-skills:pptx","anthropic-skills:skill-creator","anthropic-skills:video-making","anthropic-skills:xlsx"],
+  "mcp_prefixes": ["mcp__github__","mcp__Claude_Docs__","mcp__claude-code-remote__","mcp__CoinGecko__","mcp__Microsoft_365__","mcp__FMP__","mcp__Alpha_Vantage_MCP_Server__","mcp__Crypto_com__","mcp__Twelve_Data__","mcp__Interactive_Brokers_IBKR__ (initially failed to connect: 503, tools later listed)"],
+  "has_cryptoetf": false,
+  "has_factset": false,
+  "has_capiq": false,
+  "has_daloopa": false,
+  "_note_tools": "cryptoetf exists only as skills (cryptoetf:*), no mcp__cryptoetf__ tools; factset/capiq/daloopa referenced only in subagent tool lists, no tools present",
+  "websearch": true,
+  "webfetch": false,
+  "webfetch_sec": "not run: WebFetch tool not available (only via web-fetch subagent)",
+  "webfetch_fred": "not run: WebFetch tool not available (only via web-fetch subagent)",
+  "shell_sec": "000",
+  "shell_pypi": "000",
+  "python_libs": "ok",
+  "probed_at_utc": "2026-11-23T15:15:54Z"
+}
