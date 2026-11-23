@@ -494,6 +494,8 @@ After the existing steps:
      WEEKLY REPORT and ORCHESTRATOR digest: add one line each from costgrid (sleeves that lose at today's costs or
      do not survive double costs) and riskx (largest risk share vs money share; AI book value at risk), and say
      plainly that both are reports, not rules.
+     L18 ETF IBS reversion (rule declared and trial logged 2026-11-23 before its backtest; backtest -0.086% per trade
+     after costs, +0.015% before) was DROPPED by the owner the same day: not in the library, not in the lane.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
