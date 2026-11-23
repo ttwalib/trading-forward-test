@@ -627,9 +627,21 @@ if __name__ == "__main__":
         U = json.load(open(os.path.join(repo, "data", "universe.json")))
         ws = [s for s in sorted(set(U["watchlist"] + U["control"]) | {x for x in U.get("universe", []) if x != "GOOG"})
               if os.path.exists(os.path.join(repo, "data", "bars", "5m", s + ".jsonl"))]
-        books = [b for b in intraday_books({s: intraday(repo, s) for s in ws + ["SPY"]}, ws, day) if not b.name.startswith("L1 ")]
-        for b in books: b.name = b.name + " (wide, report only)"
-        print(json.dumps(dict(write_stress(repo, reprice(repo, books, 1.0), "intraday_wide.json"), symbols=len(ws)))); sys.exit(0)
+        # POINT-IN-TIME (2026-11-23): a stock counts on a day only if it was on that month's point-in-time list
+        # (scripts/pitu.py: top 100 S&P 500 members by prior dollar volume). The hindsight version (today's list on
+        # every day) is written beside it only to show how much the hindsight flattered the result.
+        import pitu
+        PL = pitu.lists(repo); I = {s: intraday(repo, s) for s in ws + ["SPY"]}
+        Ip = {s: ({d: v for d, v in I[s].items() if pitu.member(PL, s, d)} if s != "SPY" else I[s]) for s in I}
+        kept = sum(len(Ip[s]) for s in ws); total = sum(len(I[s]) for s in ws)
+        out = {}
+        for fname, src in (("intraday_wide.json", Ip), ("intraday_wide_hindsight.json", I)):
+            books = [b for b in intraday_books(src, ws, day) if not b.name.startswith("L1 ")]
+            for b in books: b.name = b.name + " (wide, report only)"
+            books = reprice(repo, books, 1.0); write_stress(repo, books, fname)
+            out[fname] = {b.name.split(" (")[0]: round(sum(b.daily.values()), 2) for b in books}
+        print(json.dumps({"symbols": len(ws), "symbol_days_kept_point_in_time": kept, "symbol_days_total": total,
+                          "sum_of_daily_returns_pct": out})); sys.exit(0)
     repo = a[0]; day = a[1] if len(a) > 1 else None
     books = reprice(repo, build(repo, day), mult)
     if FILL_LAG == 0: print(json.dumps(write_stress(repo, books, "daily_ideal.json"), indent=1))

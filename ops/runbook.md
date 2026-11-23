@@ -634,9 +634,7 @@ stay on hourly crypto as before): research one documented idea for US stocks or 
 long/short, holding days to weeks) that differs from library L1-L17 and from every earlier "Strategy lab" row. Bars:
 the archive since 2016 (decisions.hist_bars(repo, "1d", SYM), S&P 100 + ETFs). Write strategy(bars_by_symbol) ->
 trades in /tmp/lab.py: signal on a close, fill at the NEXT open, 0.05% cost per side, no look-ahead, at most 2 tuned
-parameters and 12 combinations, tuned on 2016-2021 only and measured on 2022 onwards. Prefer ETFs or rules that do
-not depend on which stocks are in the index today (the stock list has survivorship bias: say so in the row when a
-stock universe is used). Same cand.json, CPCV and `review.py gate` as for crypto; APPROVED only on PASS. Save the
+parameters and 12 combinations, tuned on 2016-2021 only and measured on 2022 onwards. Prefer ETFs or rules that do not depend on which stocks are in the index today. ANY idea on individual stocks (daily or 5-minute bars) picks its stocks with scripts/pitu.py: a stock counts on a date only if pitu.member(pitu.lists(repo), sym, date) is true (that month's point-in-time top 100 S&P 500 members by prior dollar volume); put "universe": "pit" in cand.json. The gate refuses a stock idea without it unless cand.json has a "survivorship_note" explaining why today's list cannot flatter the result. Same cand.json, CPCV and `review.py gate` as for crypto; APPROVED only on PASS. Save the
 code as strategies/<name>.py with a function daily_series(repo) -> {date: sleeve return %} for forward scoring, and
 write the row with market "US daily". Forward results count only after the Created date (pre-registration G2).
 
@@ -979,3 +977,13 @@ registered challenger, never the book.
 does not change any simulated result; the extra minutes would buy nothing.
 (f) FOR THE 2026-12-08 LANE BUILD: run the lab's parameter sweeps and CPCV, and the ML challengers' training, as GitHub
 jobs (scheduled follow-up). Keep the month's total under about 7,000 minutes.
+
+ITEM 41 (2026-11-23, owner: "proceed"): POINT-IN-TIME UNIVERSE. scripts/pitu.py gives, for any date, the 100 S&P 500
+members of that time with the highest prior dollar volume (the rule of scripts/pit.py; cache data/pit/monthly_top100.json,
+34 months from 2024-02). (a) The report-only wide intraday run now counts a stock on a day only if it was on that
+month's list (data/library/intraday_wide.json); the hindsight version is written beside it
+(intraday_wide_hindsight.json) only to show the difference. First run: 64% of symbol-days kept; all four strategies
+lose either way; the hindsight list flattered gap-and-go most (-5.1% against -9.2% summed daily return). (b) The lab
+must use pitu for any stock-universe idea; review.py gate checks it ("universe": "pit" or a survivorship_note).
+Limits: the list is a stand-in for the S&P 100, so part of what it drops is definition, not hindsight; 5-minute bars
+exist only for today's names, so some bias remains for intraday ideas.

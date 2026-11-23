@@ -76,6 +76,13 @@ def gate(repo, c):
     phash = hashlib.sha256(json.dumps(prm, sort_keys=True).encode()).hexdigest()[:12] if checks["params_declared"] else None
     dq = _data_quality(repo, c.get("data"))
     if dq is not None: checks["data_coverage>=0.98"] = dq["worst"] >= 0.98
+    # (4) POINT-IN-TIME UNIVERSE (2026-11-23): an idea that trades individual stocks must pick them with scripts/pitu.py
+    #     (cand.json "universe": "pit"); otherwise it must say in "survivorship_note" why today's list is harmless here.
+    try:
+        U_ = json.load(open(os.path.join(repo, "data", "universe.json"))); single = set(U_.get("universe", [])) | set(U_["watchlist"] + U_["control"])
+        uses_stocks = any(x in single for x in ((c.get("data") or {}).get("symbols") or []))
+    except Exception: uses_stocks = False
+    if uses_stocks: checks["universe_point_in_time"] = c.get("universe") == "pit" or bool(str(c.get("survivorship_note") or "").strip())
     gains, losses = sum(x for x in xs if x > 0), -sum(x for x in xs if x < 0)
     pf = round(gains / losses, 3) if losses > 0 else (None if not gains else float("inf"))
     pf_flag = pf is not None and pf > 5
