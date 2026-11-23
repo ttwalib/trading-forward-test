@@ -57,6 +57,8 @@ def main():
     plan = [("library", [S("library.py"), repo, day], "library.json"),
             ("library_2x", [S("library.py"), repo, day, "--cost-mult", "2"], "library_2x.json"),
             ("library_ideal", [S("library.py"), repo, day, "--fill-lag", "0"], "library_ideal.json"),
+            ("interventions", [S("interventions.py"), "auto", repo], "interventions_step.json"),   # who changed what (2026-11-23)
+            ("witness", [S("witness.py"), repo], "witness.json"),      # server-side first-seen time of each pick (2026-11-23)
             ("picks", [S("picks.py"), repo, day], "picks.json"),        # the AI's own picks, scored directly (2026-11-23)
             ("aisleeve", [S("aisleeve.py"), repo, day], "aisleeve.json"),   # the AI's approved strategies as one sleeve
             ("rank", [S("rank.py"), "score", repo, day], "rank.json"),       # G1 primary: the daily ranking IC

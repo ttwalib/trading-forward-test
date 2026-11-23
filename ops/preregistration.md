@@ -22,6 +22,23 @@ its picks, its playbook, its strategies, its models, its weekly allocation. Ever
 outcome it is scored on, so no holdout is needed for validity. There is therefore no frozen holdout any more; the
 second half (from 2027-02-01) is reported separately as a robustness reading only.
 
+## 0b. What counts as success, and the autonomy statement (2026-11-23, before the window)
+
+SUCCESS is one sentence: the test succeeds if A1 PRIMARY is PASS at the end of the window (Quantavius's own weekly book beats the
+volatility-matched equal weight of the foundation sleeves, bootstrap P >= 0.9 and a higher Sharpe). Everything else is evidence
+for how to read that result, never a second way to pass:
+- A SKILL SIGNAL (reported as such, never as a pass) needs A1 not FAIL and at least one of G1 PRIMARY (daily ranking) or G1
+  picks with P >= 0.95; two chances, so the bar is higher than 0.9.
+- G2, the model contest, the daily challenger, the calibration scores, H1, H3 and every foundation reading are reported with
+  their raw numbers and decide nothing.
+- With about 109 days an INCONCLUSIVE A1 is the most likely honest result even if Quantavius has some skill; the report says
+  so and points to G1, which has far more observations.
+AUTONOMY STATEMENT: every change by the owner, a build session or Quantavius itself to a prompt, the pick playbook, a rule, a
+script Quantavius's results depend on, a model or a schedule is a row in `ops/interventions.jsonl` (append only, in the hash
+chain; `scripts/interventions.py`), and the nightly report `data/nightly/interventions.json` lists the watched commits too.
+Reports quote the date of the last intervention as "autonomous since". Regimes are tagged per day (allocator `regime`) and the
+reports show the result by regime so one trend cannot explain a pass. A model change for a sealing task is an intervention.
+
 ## 1. Amendment log
 
 Changes made before the window are allowed if they are dated and visible. After 2026-12-07 only defects may be fixed
@@ -47,6 +64,7 @@ Changes made before the window are allowed if they are dated and visible. After 
 | 2026-11-23 | More room for the AI's own judgment (runbook item 33). (a) Sleeve "AS AI strategies (lab, approved)": every gate-approved lab strategy, equal weight, forward days only, eligible for weight in the book from its forward start. (b) Lab track "improve a baseline": one change to one library strategy, approved only if it passes the gate and beats the unmodified original on held-out data; for G2 its forward benchmark is the unmodified original over the same days. (c) Sleeve "AP2": the morning research's own weights (0.05-0.40) and holding periods (1-5 days), sealed before the open; descriptive comparison with AP; G1 stays on AP. (d) After 2026-12-08 the ML ranker may supply a shortlist; picks are tagged by source and G1 judges all picks together, with the split by source descriptive. (e) Reports and dashboard in three layers: scoreboard, AI layer, foundation. | Owner decision: the rules and benchmarks are a foundation for the AI to build on. Written before any data in the window exists. More sleeves change the equal-weight benchmark; declared here. |
 | 2026-11-23 | AUTONOMY RESTRUCTURE (section 0, runbook item 34). The ultimate goal is autonomy; it supersedes every earlier goal. (1) The verdict is now A1, Quantavius's own weekly book (judge_check), with H1's rule unchanged; the formula (H1) becomes a foundation reading and a lane yardstick; the lane champion is the AI-judgment allocator. (2) No frozen holdout: learning, the playbook, the lab, model refits and adaptive retunes continue to 2027-05-14; the scoring code stays frozen from the window's start; 2027-02-01 onwards is a second-half robustness reading. (3) Quantavius's evidence pack now includes its own work (picks vs control, playbook version, approved strategies, risk shares), dated no later than its evidence cut, and its own sleeves (AP, AP2, AS) are eligible for its seals from their first live day. (4) Scoreboard A1, G1, G2 in that order; three headline tests, declared. | Owner decision. Written before any data in the window exists. No data deleted, trial count kept, window dates unchanged. |
 | 2026-11-23 | Stronger verdict (runbook item 35): A1's primary rule becomes ONE comparison (book vs volatility-matched equal weight; P >= 0.9 and higher Sharpe), the old all-benchmarks rule stays as A1 strict; G1's primary becomes a daily ranking of 44 fixed stocks scored by rank correlation, the picks-vs-control test becomes G1 secondary; stated confidence on picks and seals scored for calibration (report); a lessons journal in every seal; more fundamental data for picking; lane challengers judge_daily (daily seals from 2026-12-07) and the model contest (Opus, Sonnet, from 2026-11-29). | Owner decision ("all seven"). A single primary comparison and a 44-stock daily ranking raise the power to detect real skill; the stricter readings are kept beside them. Written before any data in the window exists. |
+| 2026-11-23 | Integrity and bias review (runbook item 36), all before any window data: (1) the A1 primary benchmark is the FOUNDATION equal weight, i.e. every live sleeve except Quantavius's own (AP, AP2, AS); the earlier blend that includes them stays beside it as `primary_incl_own`; (2) a server-side witness records when GitHub first saw each pick, and from 2026-11-30 a pick counts only if first seen before 09:30 New York, with its sizing and confidence read from the first-seen copy; (3) an append-only intervention log; (4) one stated definition of success (section 0b). H1's rules and the baseline and control rules are unchanged. | Own sleeves sat inside the benchmark; pick times were self-reported; human changes to the player were not recorded; several headline tests had no single success sentence. |
 | 2026-11-21 | Option bars come from the free data feed instead of passing through the AI. Entries, exits, strikes, fees and scripts unchanged. | Runs were failing silently; hand-pasted prices are a reliability risk. |
 | 2026-11-21 | Weight cap for short-premium option sleeves and the stress test behind it (section 7). | External review: the crash drill excluded option sleeves. |
 

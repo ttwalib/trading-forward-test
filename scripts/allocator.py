@@ -480,11 +480,13 @@ def simulate(repo, day, S, spy, vix, judge=True):
         i0 = cal_idx[d]; dup = duplicates(S, cal[max(0, i0 - WIN):i0])
         live = [k for k, s in S.items() if s and min(s) <= d and k not in dup]
         eq = sum(S[k].get(d, 0.0) for k in live) / len(live) if live else 0.0
+        lf = [k for k in live if not k.startswith(OWN_SLEEVES)]     # foundation only (2026-11-23): no sleeve the AI itself made
+        eq_f = sum(S[k].get(d, 0.0) for k in lf) / len(lf) if lf else 0.0
         prev = [k for k in spy_keys if k < d]
         sp = (spy[d] / spy[prev[-1]] - 1) * 100 if d in spy and prev else 0.0
         base = S.get(BASE, {}).get(d, 0.0)
         rows.append({"date": d, "phase": tcal.phase(d), "regime": regime.get(d), "ai": round(ai, 5), "spy": round(sp, 5),
-                     "equal": round(eq, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4),
+                     "equal": round(eq, 5), "equal_f": round(eq_f, 5), "base_a": round(base, 5), "n_live": len(live), "invested": round(sum(w.values()), 4),
                      "turnover": round(sum(turn.values()), 4), "rebal_cost": round(rcost, 5),
                      "fill_w": round(fill_w, 4), "fill_ret": round(fill_ret, 5),
                      **{k: round(v, 5) for k, v in sh_ret.items()},
@@ -495,6 +497,9 @@ def simulate(repo, day, S, spy, vix, judge=True):
                   "forced": sorted(k for k in w if k not in backed_ref), "shadows": {k: dict(v) for k, v in shw.items()},
                   **({"judge": dict(jw), "judge_weeks_without_seal": j_missed} if jw else {})})
     return rows, W
+
+
+OWN_SLEEVES = ("AP ", "AP2 ", "AS ")     # Quantavius's own sleeves (agent picks, sized picks, approved lab strategies)
 
 
 def phase_report(rows):
@@ -569,11 +574,11 @@ def judge_check(rows, ph="verdict"):
            or (ph == "second_half" and r["date"] >= tcal.HOLDOUT_START.isoformat()) or r["phase"] == ph)]
     if len(sel) < 10: return {"status": "not enough days", "days": len(sel)}
     j = [r[JUDGE] for r in sel]; sj = math.sqrt(stats(j)[1]); scales = {}
-    for b in ("spy", "equal", "base_a"):
+    for b in ("spy", "equal", "equal_f", "base_a"):
         xs = [r[b] for r in sel]; sb = math.sqrt(stats(xs)[1]) if any(xs) else 0
         scales[b] = sj / sb if sb else 0.0
         for r in sel: r[b + "_vm"] = r[b] * scales[b]
-    BM = ("spy", "equal", "base_a", "spy_vm", "equal_vm", "base_a_vm")
+    BM = ("spy", "equal", "equal_f", "base_a", "spy_vm", "equal_vm", "equal_f_vm", "base_a_vm")
     P = {k: perf([r[k] for r in sel]) for k in BM}; P["ai"] = perf(j)
     P["vm_scales"] = scales; P["p_ai_beats"] = {k: p_beats(j, [r[k] for r in sel]) for k in BM}
     P["shadows"] = {k: perf([r.get(k, 0.0) for r in sel]) for k in SHADOWS}; P["shadows"]["formula"] = perf([r["ai"] for r in sel])
@@ -581,11 +586,20 @@ def judge_check(rows, ph="verdict"):
     # A1 PRIMARY (2026-11-23, runbook item 35): ONE comparison with power - Quantavius's book against the equal-weight
     # foundation scaled to the book's own volatility. PASS: bootstrap P >= 0.9 and a higher Sharpe; FAIL: P <= 0.10.
     # The strict rule above (every benchmark, Sharpe AND drawdown) is kept as "A1 strict", a secondary reading.
-    pe = P["p_ai_beats"].get("equal_vm"); sj_, se_ = P["ai"].get("sharpe"), P["equal"].get("sharpe")
-    res = ("PASS" if pe is not None and pe >= 0.9 and sj_ is not None and se_ is not None and sj_ > se_
-           else "FAIL" if pe is not None and pe <= 0.10 else "INCONCLUSIVE")
-    out["primary"] = {"rule": "A1 primary: book vs equal weight (volatility-matched), P >= 0.9 and higher Sharpe = PASS; P <= 0.10 = FAIL",
-                      "days": len(sel), "p_beats_equal_vm": pe, "sharpe_book": sj_, "sharpe_equal": se_, "result": res}
+    # since 2026-11-23 (before the window) the primary benchmark is the FOUNDATION equal weight: every live sleeve except
+    # the AI's own (AP, AP2, AS). The earlier blend that includes them stays as a secondary reading ("primary_incl_own").
+    def prim(key, label):
+        pe = P["p_ai_beats"].get(key + "_vm"); sj_, se_ = P["ai"].get("sharpe"), P[key].get("sharpe")
+        res = ("PASS" if pe is not None and pe >= 0.9 and sj_ is not None and se_ is not None and sj_ > se_
+               else "FAIL" if pe is not None and pe <= 0.10 else "INCONCLUSIVE")
+        return {"benchmark": label, "days": len(sel), "p_beats_vm": pe, "sharpe_book": sj_, "sharpe_benchmark": se_, "result": res}
+    out["primary"] = dict(prim("equal_f", "equal weight of the foundation sleeves only (volatility-matched)"),
+                          rule="A1 primary: book vs foundation equal weight (volatility-matched), P >= 0.9 and higher Sharpe = PASS; P <= 0.10 = FAIL")
+    out["primary_incl_own"] = prim("equal", "equal weight of all live sleeves including the AI's own (volatility-matched)")
+    byr = {}
+    for r in sel: byr.setdefault(str(r.get("regime")), []).append(r)
+    out["by_regime"] = {k: {"days": len(v), "book_mean": round(sum(x[JUDGE] for x in v) / len(v), 4),
+                            "foundation_equal_mean": round(sum(x["equal_f"] for x in v) / len(v), 4)} for k, v in byr.items()}
     out["note"] = "candidate = AI-judgment allocator; robust_2x is not computed for it (robust here = pass and ahead of every rival on Sharpe)"
     if out.get("pass"): out["robust"] = bool(out.get("beats_best_shadow"))
     return out

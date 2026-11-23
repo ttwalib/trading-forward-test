@@ -66,7 +66,10 @@ def main(repo):
              "against SPY, equal weight and baseline A (the verdict; `judge_check` in the allocator report), **G1** its own stock "
              "picks against the random control list (`data/picks/score.json`), **G2** its own approved strategies forward. "
              "Foundation readings, deciding nothing: **H1** the cycle-1 formula (`verdict_check`), the simple allocation rules, "
-             "H3 (picks under the breakout rule).\n")
+             "H3 (picks under the breakout rule). Success is one sentence: A1 PRIMARY PASS (the book against the equal weight of the "
+             "foundation sleeves only, `judge_check.verdict.primary`); everything else is supporting evidence (preregistration 0b). "
+             "Picks count only if the server-side witness saw them before 09:30 New York (`data/witness/picks.jsonl`); every change to "
+             "the player is in `ops/interventions.jsonl`.\n")
     P.append("## Universe\n")
     P.append(table(["List", "Size", "Used for"], [
         ["Watchlist", len(u["watchlist"]), "Baseline A and adaptive breakout (variants and option structures retired 2026-11-23)"],

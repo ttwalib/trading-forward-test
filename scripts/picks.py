@@ -30,7 +30,7 @@ Nothing is traded. Testing only, not financial advice.
 """
 import json, os, re, sys, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import tcal, ledger
+import tcal, ledger, witness
 NY = tcal.NY
 COST_SIDE = 0.10
 SLEEVE = "AP Agent picks (open to close)"
@@ -63,13 +63,17 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     cal = [d for d in tcal.trading_days(tcal.START, tcal.END) if d <= day]
     cal_idx = {d: i for i, d in enumerate(cal)}
-    picks = {}; sized = {}; probs = {}
+    picks = {}; sized = {}; probs = {}; W = witness.load(repo)
     for r in ledger.load(repo, "AgentPicks"):
         t = str(r.get("picked_at") or "")
-        if r.get("asset") == "stock" and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30":
+        w = W.get(witness.row_id(r))
+        # from 2026-11-30 a pick counts only if GitHub first saw it before 09:30 New York (scripts/witness.py); sizing and
+        # confidence are read from the first-seen copy, so editing the row later changes nothing
+        if (r.get("asset") == "stock" and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30"
+                and witness.counts(w, t[:10])):
             picks.setdefault(t[:10], [])
             if r["symbol"] not in picks[t[:10]]: picks[t[:10]].append(r["symbol"])
-            ck = str(r.get("checks") or ""); mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck)
+            ck = str((w or {}).get("checks") if w and not w.get("grandfathered") else r.get("checks") or ""); mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck)
             try: w = float(mw.group(1)) if mw else None
             except ValueError: w = None
             sized.setdefault(t[:10], {})[r["symbol"]] = (w if w is not None and 0.05 <= w <= 0.40 else None, int(mh.group(1)) if mh else 1)

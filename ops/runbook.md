@@ -890,3 +890,12 @@ one year ago (UTC midnight), size 50, offset += 50 until a short page; save the 
 /tmp/earn.json, run `corp.py ingest-earnings /tmp/repo /tmp/earn.json`, then `backfill.py done /tmp/repo EARNINGS events`; a failure -> `backfill.py fail ... <reason>`. When the backfill completes for the
 first time, run `decisions.py build` and `ml.py train /tmp/repo DAY`. GIT
 ("backfill").
+
+
+ITEM 36 (2026-11-23, owner: "yes proceed", integrity and bias review; pre-registration amendment and section 0b)
+INTERVENTIONS (every session, every task that changes the player): whenever you edit a scheduled task's prompt or model or
+schedule, the pick playbook, runbook text a task follows, or any script Quantavius's results depend on, run
+`python3 scripts/interventions.py add REPO WHO KIND "what changed" "why"` in the same session and commit it. Quantavius itself uses WHO=quantavius when it changes its own
+playbook or settings. Never edit or delete rows. WITNESS: picks are witnessed by GitHub (scripts/witness.py, every tick and the nightly); a pick first seen
+at or after 09:30 New York does not count from 2026-11-30, so the morning task must commit and push its picks before 09:30 (it runs at 08:05). A1 PRIMARY benchmark is the foundation-only equal weight (allocator field equal_f). LESSONS CAP (weekly seal): one lesson may
+move a sleeve's weight by at most 5 points against the previous seal, and a lesson must state a claim that later data can contradict.

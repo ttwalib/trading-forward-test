@@ -84,6 +84,7 @@ jobs:
         run: |
           python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
+          if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/witness.py . || echo "witness failed"; fi
           python3 scripts/dashboard.py . || echo "dashboard data failed"
       # Scripted daily work with no AI in the loop (scripts/daily.py). Crypto tracks: right after the crypto bars.
       - name: Daily
@@ -114,7 +115,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "crypto" ]; then git add data/ledger/CryptoTracks.jsonl data/ledger/MLShadow.jsonl; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then
@@ -124,7 +125,7 @@ jobs:
             for p in data/decisions/stock.jsonl data/decisions/crypto.jsonl data/decisions/hist models data/ledger/MLShadow.jsonl data/nightly/ml_report.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
           if [ "${{ steps.m.outputs.mode }}" = "compute" ]; then
-            for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json ops/SPEC.md strategies/registry.json data/lane ops/chain.jsonl data/picks data/ai; do if [ -e "$p" ]; then git add "$p"; fi; done
+            for p in data/nightly data/library data/allocator data/ledger/Library.jsonl reports/stats ops/freeze.json ops/SPEC.md strategies/registry.json data/lane ops/chain.jsonl data/picks data/ai data/witness; do if [ -e "$p" ]; then git add "$p"; fi; done
           fi
           git diff --cached --quiet && exit 0
           git commit -q -m "data: ${{ steps.m.outputs.mode }} $(date -u +%FT%TZ)"
