@@ -80,6 +80,18 @@
    "does": "A session that did not build the system works through ops/audit_checklist.md"
   },
   {
+   "name": "Audit review and challenge",
+   "when": "2026-12-04 07:41 (once)",
+   "model": "Opus",
+   "does": "A second AI checks every audit finding, re-runs the key tests and looks for missed defects"
+  },
+  {
+   "name": "Audit debate",
+   "when": "2026-12-04 09:51 (once)",
+   "model": "Opus",
+   "does": "Settles each disputed finding by re-running the test; writes the resolution table and the questions for the owner"
+  },
+  {
    "name": "Interim report",
    "when": "2027-02-16 10:07 (once)",
    "model": "Fable",

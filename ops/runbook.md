@@ -462,6 +462,11 @@ After the existing steps:
           Summary: data/nightly/ml_report.json. The AI task "ML nightly" is disabled the same way.
        Stock adaptive settings were copied to data/state/stocks.json for the coming move of the stock jobs; until that
        move the stock tasks still read and write the sheet cells.
+     AUDIT REVIEW (owner decision 2026-11-23): on 2026-12-04 the audit (05:10 ET) is followed by a second AI review
+     (07:41 ET, "audit review and challenge", reports/audit/2026-12-04-review.md) and a debate round (09:51 ET,
+     "audit debate", reports/audit/2026-12-04-debate.md). At 12:13 ET the setup session sends the owner a plain
+     summary and a shareable doc for his second reviewer; it packages the findings and does not judge them. The
+     owner and his reviewer reply before 2026-12-06 evening.
      UNTIL THE SHEET-SYNC TASK EXISTS the sheet tabs "Crypto tracks", "Crypto state"!A3, "Adaptive" (crypto cells and
      log) and "ML shadow" (crypto rows, realized columns) are no longer updated; the repo is the record.
      ORCHESTRATOR AND WATCHDOG (this overrides their prompts): do NOT check, count as missing or fire
