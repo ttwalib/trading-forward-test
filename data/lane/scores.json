@@ -19,6 +19,42 @@
     "spy": null
    }
   },
+  "contest_opus": {
+   "deflated_sharpe_p": null,
+   "forward_from": "2026-11-24",
+   "perf": {
+    "days": 0
+   },
+   "recent_vs_best_yardstick": null,
+   "status": "incubating",
+   "version": 1,
+   "vs": {
+    "ai": null,
+    "base_a": null,
+    "champion": null,
+    "equal": null,
+    "sh_rp": null,
+    "spy": null
+   }
+  },
+  "contest_sonnet": {
+   "deflated_sharpe_p": null,
+   "forward_from": "2026-11-24",
+   "perf": {
+    "days": 0
+   },
+   "recent_vs_best_yardstick": null,
+   "status": "incubating",
+   "version": 1,
+   "vs": {
+    "ai": null,
+    "base_a": null,
+    "champion": null,
+    "equal": null,
+    "sh_rp": null,
+    "spy": null
+   }
+  },
   "formula": {
    "deflated_sharpe_p": null,
    "forward_from": "2026-12-07",
@@ -27,6 +63,24 @@
    },
    "recent_vs_best_yardstick": null,
    "status": "retired",
+   "version": 1,
+   "vs": {
+    "ai": null,
+    "base_a": null,
+    "champion": null,
+    "equal": null,
+    "sh_rp": null,
+    "spy": null
+   }
+  },
+  "judge_daily": {
+   "deflated_sharpe_p": null,
+   "forward_from": "2026-12-07",
+   "perf": {
+    "days": 0
+   },
+   "recent_vs_best_yardstick": null,
+   "status": "incubating",
    "version": 1,
    "vs": {
     "ai": null,

@@ -1,0 +1,23 @@
+{
+ "note": "Report only. Brier below 0.25 = better than a coin flip.",
+ "picks": {
+  "n": 0
+ },
+ "books": {
+  "n": 0
+ },
+ "books_by_kind": {
+  "contest_fable": {
+   "n": 0
+  },
+  "contest_opus": {
+   "n": 0
+  },
+  "contest_sonnet": {
+   "n": 0
+  },
+  "judge_daily": {
+   "n": 0
+  }
+ }
+}

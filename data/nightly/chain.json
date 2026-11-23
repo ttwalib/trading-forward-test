@@ -1,7 +1,7 @@
 {
  "ok": true,
  "entries": 141,
- "added": 1,
+ "added": 0,
  "broken": [],
  "head": "6e20f67da996219697721e891c548e5020f6f8c8779c5cb83845ff06fdbe557b",
  "sources": [
@@ -10,6 +10,9 @@
   "data/lane/champions.jsonl",
   "data/decisions/engine/*.jsonl",
   "data/decisions/engine_ml/*.jsonl",
-  "data/picks/playbook_log.jsonl"
+  "data/picks/playbook_log.jsonl",
+  "data/picks/rank/*.json",
+  "data/allocator/contest_*.jsonl",
+  "data/allocator/judge_daily.jsonl"
  ]
 }
