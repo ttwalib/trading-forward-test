@@ -1,11 +1,16 @@
 {
- "champion": "formula",
+ "champion": "ai_judgment",
  "entries": {
   "ai_judgment": {
    "history": [
     {
      "at": "2026-11-22 07:51",
      "status": "registered"
+    },
+    {
+     "at": "2026-11-23 05:23",
+     "reason": "restructure 2026-11-23 (owner, runbook item 34): the AI-judgment allocator, Quantavius own book, is the champion",
+     "status": "champion"
     }
    ],
    "id": "ai_judgment",
@@ -16,7 +21,7 @@
     "type": "portfolio"
    },
    "source": "seed",
-   "status": "incubating",
+   "status": "champion",
    "versions": [
     {
      "files": [
@@ -35,6 +40,11 @@
     {
      "at": "2026-11-22 07:51",
      "status": "registered"
+    },
+    {
+     "at": "2026-11-23 05:23",
+     "reason": "restructure 2026-11-23 (owner, runbook item 34): the formula became a foundation yardstick (\"ai\" in YARDSTICKS), not a failure",
+     "status": "retired"
     }
    ],
    "id": "formula",
@@ -45,7 +55,7 @@
     "type": "portfolio"
    },
    "source": "seed",
-   "status": "champion",
+   "status": "retired",
    "versions": [
     {
      "files": [

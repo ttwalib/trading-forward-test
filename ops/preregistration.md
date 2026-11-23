@@ -8,6 +8,20 @@ to be logged below. This file was first committed on 2026-11-21 (commit 2e4faf8)
 
 Nothing is traded. All results are simulated on real market prices. This is testing, not financial advice.
 
+## 0. THE ULTIMATE GOAL (owner, 2026-11-23; supersedes every earlier or conflicting goal in this file and the runbook)
+
+AUTONOMY. Quantavius uses its own judgment and machine learning on real market data to pick its own stocks, to
+formulate and develop its own winning strategies, and to decide how its own book is run. The fixed rules, the
+strategy library and the benchmarks are the FOUNDATION: a baseline it builds on and is measured against, not the
+thing being tested. The test asks one question at three levels: does Quantavius's own judgment beat the foundation,
+forward, after costs?
+
+Principle: FREEZE THE REFEREE, NOT THE PLAYER. From the window's start the scoring code (allocator, judge rules,
+ledger, calendar, fills, costs: section 5) cannot change. What Quantavius decides keeps evolving to the end:
+its picks, its playbook, its strategies, its models, its weekly allocation. Every such decision is sealed before the
+outcome it is scored on, so no holdout is needed for validity. There is therefore no frozen holdout any more; the
+second half (from 2027-02-01) is reported separately as a robustness reading only.
+
 ## 1. Amendment log
 
 Changes made before the window are allowed if they are dated and visible. After 2026-12-07 only defects may be fixed
@@ -31,27 +45,41 @@ Changes made before the window are allowed if they are dated and visible. After 
 | 2026-11-23 | L18 ETF IBS reversion DROPPED by the owner: not added to the library and not placed in the lane. Its one trial stays in the lifetime trial log. | Owner decision after the pre-declared backtest lost after costs; a losing sleeve could still receive weight through the always-invested fill. |
 | 2026-11-23 | REFOCUS ON THE GOAL (runbook item 32). The owner's goal is an AI that picks its own stocks and develops its own winning strategies, so the two hypotheses that measure exactly that become the headline: G1 (the AI's picks, now measured directly as open-to-close returns against the random control list; the old breakout-rule comparison H3 stays as a secondary reading) and G2 (the strategy lab, formerly H2, widened to daily stock and ETF strategies). H1, the allocation verdict, is unchanged in every rule and is reported beside them as the portfolio-level test. New sleeve "AP Agent picks (open to close)". Sleeves trimmed by a purpose rule that ignores results: rule variants of baseline A (A-G, T) and the fixed option structures (O, D1, D2, D3, W1-W4) leave the book and stop opening positions; their history stays. A versioned pick playbook lets the picking learn, one change a week at most, scored forward only. No reset: the trial count stands, no data is deleted, the window still opens 2026-12-07 (or 12-14) and ends 2027-05-14. | Owner decision ("all six; recalibrate or restructure if needed"). Written before any data in the window exists. The equal-weight benchmark changes with the sleeve list; that is declared here. |
 | 2026-11-23 | More room for the AI's own judgment (runbook item 33). (a) Sleeve "AS AI strategies (lab, approved)": every gate-approved lab strategy, equal weight, forward days only, eligible for weight in the book from its forward start. (b) Lab track "improve a baseline": one change to one library strategy, approved only if it passes the gate and beats the unmodified original on held-out data; for G2 its forward benchmark is the unmodified original over the same days. (c) Sleeve "AP2": the morning research's own weights (0.05-0.40) and holding periods (1-5 days), sealed before the open; descriptive comparison with AP; G1 stays on AP. (d) After 2026-12-08 the ML ranker may supply a shortlist; picks are tagged by source and G1 judges all picks together, with the split by source descriptive. (e) Reports and dashboard in three layers: scoreboard, AI layer, foundation. | Owner decision: the rules and benchmarks are a foundation for the AI to build on. Written before any data in the window exists. More sleeves change the equal-weight benchmark; declared here. |
+| 2026-11-23 | AUTONOMY RESTRUCTURE (section 0, runbook item 34). The ultimate goal is autonomy; it supersedes every earlier goal. (1) The verdict is now A1, Quantavius's own weekly book (judge_check), with H1's rule unchanged; the formula (H1) becomes a foundation reading and a lane yardstick; the lane champion is the AI-judgment allocator. (2) No frozen holdout: learning, the playbook, the lab, model refits and adaptive retunes continue to 2027-05-14; the scoring code stays frozen from the window's start; 2027-02-01 onwards is a second-half robustness reading. (3) Quantavius's evidence pack now includes its own work (picks vs control, playbook version, approved strategies, risk shares), dated no later than its evidence cut, and its own sleeves (AP, AP2, AS) are eligible for its seals from their first live day. (4) Scoreboard A1, G1, G2 in that order; three headline tests, declared. | Owner decision. Written before any data in the window exists. No data deleted, trial count kept, window dates unchanged. |
 | 2026-11-21 | Option bars come from the free data feed instead of passing through the AI. Entries, exits, strikes, fees and scripts unchanged. | Runs were failing silently; hand-pasted prices are a reliability risk. |
 | 2026-11-21 | Weight cap for short-premium option sleeves and the stress test behind it (section 7). | External review: the crash drill excluded option sleeves. |
 
 ## 2. What the test is, in one paragraph
 
-A fully invested, partly hedged book of strategy sleeves (stock, option and crypto strategies), re-weighted once a week
-by a fixed formula (`scripts/allocator.py`), judged over 109 trading days against simple alternatives. The book's
-market exposure is far below SPY's (beta about 0.3 on past data), so the final report must say plainly that a
-comparison with SPY is a comparison of a hedged book with an unhedged one, and must give the volatility-matched and
-market-adjusted figures next to the raw ones.
+Each week Quantavius seals the weights of its own book across every eligible sleeve: the foundation's strategy
+library and rules, and its own work (its stock picks, AP and AP2, and its approved strategies, AS). Each morning it
+researches and seals its own stock picks, sizes and holding periods before the open. Twice a week its lab invents or
+improves a strategy and submits it to a fixed promotion gate; machine learning trains nightly on the growing record.
+All of it is scored forward over 109 trading days (2026-12-07 to 2027-05-14) against the foundation: SPY, an equal-
+weight mix of all sleeves, baseline A, the random control list, the cycle-1 formula and three simple allocation rules.
+The book is fully invested and partly hedged, so a comparison with SPY is a comparison of a hedged book with an
+unhedged one; volatility-matched and market-adjusted figures are given next to the raw ones.
 
 ## 3. Hypotheses
 
 Each hypothesis has its own data, its own rule and its own result. They are never pooled, and a pass on one never
 rescues another.
 
-HEADLINE SINCE 2026-11-23 (owner decision, amendment log): the goal of the test is an AI that picks its own stocks and
-develops its own winning strategies. G1 and G2 below answer that directly and are reported first. H1, the allocation
-verdict, keeps every rule it had and is reported beside them as the portfolio-level test; the word "verdict" still
-means H1 only. With two headline hypotheses, a pass on either is reported with the plain note that two were tested
-(the chance of at least one false pass is about twice that of one).
+THE SCOREBOARD (restructured 2026-11-23 for the ultimate goal, section 0). Three headline results, reported in this
+order, each with its own rule, never pooled: A1 (Quantavius's own book: "the verdict"), G1 (its stock picks), G2 (its
+strategies). Three were tested, so a single pass is reported with the plain note that the chance of at least one false
+pass is about three times that of one. H1 (the cycle-1 formula) becomes a FOUNDATION reading: its rule is unchanged
+and it is still computed and reported, but it no longer decides anything.
+
+### A1 (headline, "the verdict"): Quantavius's own book
+- Subject: the book Quantavius seals every week (`scripts/judge.py seal`, scored as `sh_judge` in
+  data/allocator/portfolio.jsonl): its own judgment of the weights across every eligible sleeve, including its own
+  picks and strategies, from one dated evidence pack.
+- Rule: exactly H1's three-way rule with the book as the candidate (allocator report `judge_check`, phase "verdict"):
+  Sharpe AND max drawdown against SPY, equal weight and baseline A, raw and volatility-matched, block-bootstrap chance
+  >= 0.9 for a PASS, <= 0.10 against any of them for a FAIL, otherwise INCONCLUSIVE. ROBUST if it also beats, on
+  Sharpe, the cycle-1 formula and each simple rule (risk parity, minimum variance, recent winners).
+- A week without a seal carries the last seal forward; it is counted and reported.
 
 ### G1 (headline): the AI's own stock picks, measured directly
 - Subject: every stock the morning research picked before 09:30 New York with status "picked" (ledger AgentPicks).
@@ -77,8 +105,8 @@ open; PASS if there are at least 30 forward trades, the mean net result per trad
 bootstrap chance that the mean beats the benchmark's is at least 0.9; FAIL at 0.10 or lower. Crypto and daily
 strategies are judged separately and both results are reported.
 
-### H1 (the verdict): the AI's allocation
-Unchanged. Runbook section PRE-REGISTERED VERDICT; computed mechanically by `verdict_check` in the allocator report.
+### H1 (foundation reading since 2026-11-23): the cycle-1 formula
+Rule unchanged; computed and reported beside A1; decides nothing. Runbook section PRE-REGISTERED VERDICT; computed mechanically by `verdict_check` in the allocator report.
 Window 2026-12-07 to 2027-05-14. Result: pass, fail or inconclusive; a pass is robust only if it also survives double
 costs and beats the best rival allocator (risk parity, minimum variance, recent winners, AI judgment).
 
@@ -137,7 +165,7 @@ returns.
   forward period, otherwise the best simple rule itself becomes the baseline to beat. Either way the final report says
   plainly that the simple rule won this test.
 
-## 5. Freeze list (from 2026-12-07)
+## 5. Freeze list (from 2026-12-07): the REFEREE
 
 `ops/freeze.json` records the hash of these scripts on the first nightly run on or after 2026-12-07; the nightly run
 and the freeze-guard workflow compare them on every push:

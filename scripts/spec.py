@@ -50,20 +50,26 @@ def main(repo):
     P.append(table(["Item", "Value"], [
         ["Test (stocks and options)", "%s to %s" % (tcal.START, tcal.END)], ["Crypto", "to %s" % tcal.CRYPTO_END],
         ["Option settlement only", "to %s" % tcal.SETTLE_END],
-        ["Verdict window (H1)", "%s to %s (%d full trading days)" % (tcal.ALLOC_FREEZE, tcal.END, tdays(tcal.ALLOC_FREEZE, tcal.END))],
+        ["Verdict window (A1, G1, G2)", "%s to %s (%d full trading days)" % (tcal.ALLOC_FREEZE, tcal.END, tdays(tcal.ALLOC_FREEZE, tcal.END))],
         ["Interim reading (decides nothing)", "data to %s" % tcal.INTERIM_END],
-        ["Frozen holdout", "%s to %s (%d full trading days)" % (tcal.HOLDOUT_START, tcal.END, tdays(tcal.HOLDOUT_START, tcal.END))],
+        ["Second-half reading (nothing freezes)", "%s to %s (%d full trading days)" % (tcal.HOLDOUT_START, tcal.END, tdays(tcal.HOLDOUT_START, tcal.END))],
         ["Scripts frozen from", str(tcal.ALLOC_FREEZE)], ["Final report", str(tcal.FINAL_REPORT)],
         ["Market holidays", ", ".join(hol)], ["Half days (no new entries)", ", ".join(half)]]) + "\n")
-    P.append("## What is judged\n")
-    P.append("Three separate hypotheses, never pooled (`ops/preregistration.md`): **H1** the AI's allocation against SPY, "
-             "equal weight and baseline A (the verdict; `verdict_check` in the allocator report), **H2** the strategy lab, "
-             "**H3** the agent picks against the random control list. If a simple rule beats both kinds of AI allocation, "
-             "the AI reviews its strategies and declares a revised approach aimed at the highest return after costs; H1 is "
-             "still judged on the frozen formula.\n")
+    P.append("## The goal\n")
+    P.append("AUTONOMY (owner, 2026-11-23; supersedes every earlier goal): Quantavius uses its own judgment and machine "
+             "learning on real data to pick its own stocks, develop its own winning strategies and run its own book. The rules, "
+             "the library and the benchmarks are the foundation it builds on and is measured against. Freeze the referee, not "
+             "the player: the scoring code freezes at the window's start; Quantavius's decisions keep evolving to the end. "
+             "No frozen holdout.\n")
+    P.append("## What is judged (the scoreboard)\n")
+    P.append("Three headline results, never pooled (`ops/preregistration.md` section 3): **A1** Quantavius's own weekly book "
+             "against SPY, equal weight and baseline A (the verdict; `judge_check` in the allocator report), **G1** its own stock "
+             "picks against the random control list (`data/picks/score.json`), **G2** its own approved strategies forward. "
+             "Foundation readings, deciding nothing: **H1** the cycle-1 formula (`verdict_check`), the simple allocation rules, "
+             "H3 (picks under the breakout rule).\n")
     P.append("## Universe\n")
     P.append(table(["List", "Size", "Used for"], [
-        ["Watchlist", len(u["watchlist"]), "Baseline A, variants, adaptive breakout, options O/D1/W4"],
+        ["Watchlist", len(u["watchlist"]), "Baseline A and adaptive breakout (variants and option structures retired 2026-11-23)"],
         ["Control list (random, seed %s)" % u["seed"], len(u["control"]), "Same rules as baseline A: the benchmark for stock selection"],
         ["Liquid universe (today's S&P 100, survivorship-flattered)", len(u["universe"]), "Daily library strategies"],
         ["ETFs", len(u["etfs"]), "Index, sector, bond, gold, commodity and foreign-share sleeves"],

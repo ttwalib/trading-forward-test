@@ -21,7 +21,7 @@ How it works
   promote a lucky challenger sooner or later. If several qualify, the highest Sharpe wins.
   RETIRE an entry (challenger or champion) if, over its last RETIRE_WINDOW forward days, the chance that it beats the
   best yardstick is <= RETIRE_P, or its forward drawdown exceeds RETIRE_DD %. A retired champion hands over to the
-  best remaining challenger only if that one meets the promotion bar; otherwise the formula of cycle 1 stays champion.
+  best remaining challenger only if that one meets the promotion bar; otherwise the current champion stays (since 2026-11-23 the champion is the AI-judgment allocator, Quantavius's own book; the formula is a yardstick).
 - VERSIONS: data/lane/champions.jsonl records every change of champion with the version hash. Nothing is deleted.
 
 Series an entry can point to (field "series"):
@@ -50,7 +50,7 @@ MAX_NEW_PER_MONTH = 3
 MIN_DAYS, PROMOTE_P, DSR_MIN = 60, 0.98, 0.95
 RETIRE_WINDOW, RETIRE_P, RETIRE_DD = 120, 0.10, 20.0
 FIRST_REVIEW = dt.date(2027, 5, 18)
-YARDSTICKS = ("spy", "equal", "base_a", "sh_rp")
+YARDSTICKS = ("spy", "equal", "base_a", "sh_rp", "ai")   # "ai" = the cycle-1 formula, a foundation yardstick since 2026-11-23
 SEED, B, BLOCK = 20261121, 10000, 5
 STATUSES = ("incubating", "challenger", "champion", "retired")
 

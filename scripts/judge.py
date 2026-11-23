@@ -44,6 +44,9 @@ def market_closed(now):
     return not tcal.is_open(d) or hm < 9 * 60 + 25 or hm >= 16 * 60 + 5
 
 
+OWN = ("AP Agent picks", "AP2 Agent picks", "AS AI strategies")
+
+
 def context(repo):
     S = allocator.sleeves(repo); spy = allocator.dclose(repo, "SPY", total_return=True); vix = allocator.dclose(repo, "VIX")
     cal = sorted(d for d in set(spy) | {d for s in S.values() for d in s} if tcal.is_open(d))
@@ -51,7 +54,9 @@ def context(repo):
     for name, series in S.items():
         if name in dup: continue
         raw = [series.get(x, 0.0) for x in hist if x >= min(series, default="9999")]
-        if sum(1 for x in raw if x) >= allocator.MIN_DAYS: el[name] = raw
+        # Quantavius's own sleeves (its picks AP / AP2 and its approved strategies AS) are eligible from their first
+        # live day (2026-11-23, item 34): judging its own new work early is part of its autonomy
+        if sum(1 for x in raw if x) >= allocator.MIN_DAYS or (name.startswith(OWN) and any(raw)): el[name] = raw
     return S, spy, vix, cal, hist, dup, el
 
 
@@ -98,7 +103,37 @@ def brief(repo, now=None):
             "your_earlier_seals": seals[-8:],
             "cautions": ["live samples are tiny: a few days of results are mostly noise",
                          "backtest records are flattered, most of all where backtest_is_flattered is true",
-                         "on past data every simple rule (risk parity, minimum variance, equal weight) beat the formula on Sharpe"]}
+                         "on past data every simple rule (risk parity, minimum variance, equal weight) beat the formula on Sharpe"],
+            "your_own_work": ai_layer(repo, cal[-1] if cal else None)}
+
+
+def ai_layer(repo, through):
+    """Since 2026-11-23 (runbook item 34) the pack also shows what Quantavius itself made, so its judgment can use it:
+    its stock picks scored against the random control list, its pick playbook version, its approved strategies and
+    which sleeves carry the book's risk. Only rows dated on or before `through` (= evidence_through) are included."""
+    out = {}
+    def L(*p):
+        f = os.path.join(repo, *p)
+        return json.load(open(f)) if os.path.exists(f) else None
+    sc = L("data", "picks", "score.json")
+    if sc and through:
+        rows = [r for r in sc.get("rows", []) if r["date"] <= through]
+        out["picks_vs_control_by_day"] = [{k: r.get(k) for k in ("date", "n", "picks_day", "control_day", "picks_5d", "control_5d")} for r in rows][-20:]
+        a = [(r["picks_day"], r["control_day"]) for r in rows if r.get("picks_day") is not None and r.get("control_day") is not None]
+        out["picks_summary"] = {"pick_days": len(a), "mean_picks_minus_control_pct": round(sum(x - y for x, y in a) / len(a), 4) if a else None}
+    try:
+        pb = [l for l in open(os.path.join(repo, "ops", "pick_playbook.md")) if l.startswith("## CURRENT VERSION")]
+        out["pick_playbook"] = pb[0].strip("# \n") if pb else None
+    except Exception: pass
+    st = L("data", "ai", "strategies.json") or {}
+    out["approved_strategies_forward"] = {k: {"days": len([d for d in v if d <= through]), "total_pct": round(sum(x for d, x in v.items() if d <= through), 3)}
+                                          for k, v in st.items()} if through else {}
+    rx = L("data", "nightly", "riskx.json")
+    if rx and (rx.get("contributions") or {}).get("date", "9999") <= (through or ""):
+        out["risk_share_of_formula_weights"] = rx["contributions"].get("sleeves")
+    out["note"] = ("AP / AP2 are your own stock picks (equal weight one day / your own sizing and holding), AS is your own "
+                   "approved strategies. They are eligible like any sleeve; nothing obliges you to hold or avoid them.")
+    return out
 
 
 def seal(repo, path, dry=False, now=None):

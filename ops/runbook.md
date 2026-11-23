@@ -4,6 +4,17 @@ Written by the user's set-up session. Each scheduled task's prompt points to its
 prompt; they never override the prompt's SAFETY rules (no orders, alerts, watchlists or screeners; read-only IBKR tools;
 no reddit.com). Repo: /tmp/repo. Run scripts with `python3 -I`.
 
+THE ULTIMATE GOAL (owner, 2026-11-23; supersedes every earlier or conflicting goal, rule or wording in this runbook
+and in any task prompt; item 34 and ops/preregistration.md section 0): AUTONOMY. Quantavius uses its own judgment and
+machine learning on real data to pick its own stocks, develop its own winning strategies and run its own book. The
+rules, the library and the benchmarks are the FOUNDATION it builds on and is measured against. FREEZE THE REFEREE,
+NOT THE PLAYER: the scoring code freezes at the window's start; Quantavius's decisions, picks, playbook, strategies,
+models and retunes keep evolving to 2027-05-14. THERE IS NO FROZEN HOLDOUT: wherever a prompt or section below says
+"holdout", "frozen holdout" or "no learning from 2027-02-01", read it as "second-half reading from 2027-02-01: report it
+separately, freeze nothing" (tcal.py now reports phase "train" to 2027-05-14 and frozen false). Where a prompt calls
+the formula's result "the verdict", the verdict is now A1, Quantavius's own weekly book (allocator report
+judge_check); the formula's verdict_check is a foundation reading.
+
 DATA FILES (every task; clarifies the prompts' "never retype prices"): to get an Interactive Brokers or Twelve Data
 result into a file, (a) if the harness saved a large result to a file, read or copy that file; (b) if it came back
 inline, paste the exact JSON text you received into a quoted heredoc (cat > /tmp/x.json <<'EOF' ... EOF) and wrap it
@@ -38,8 +49,8 @@ owner's identity or GitHub stops their schedules.
 ## DATES (every task)
 
 `python3 -I /tmp/repo/scripts/tcal.py today` prints the facts for today (New York): stock_test_active,
-crypto_test_active, settle_only_window, full_trading_day, half_day, close_time, phase ("train" / "holdout" /
-"before" / "after"), frozen (true in the holdout 2027-02-01..05-14), weekly_expiry (YYYYMMDD), weekly_entry_day,
+crypto_test_active, settle_only_window, full_trading_day, half_day, close_time, phase ("train" to 2027-05-14 /
+"before" / "after"), frozen (always false since 2026-11-23: no holdout, item 34), weekly_expiry (YYYYMMDD), weekly_entry_day,
 week_entry_days, is_friday_report_day, week_index. Use these instead of any date list written in a prompt.
 Test (SIX MONTHS since the owner's decision of 2026-11-21): stocks and options 2026-11-16 .. 2027-05-14; crypto to
 2027-05-16; option settlement to 2027-05-21; INTERIM report 2027-02-16 (data to 2027-02-12); FINAL report 2027-05-18.
@@ -551,6 +562,23 @@ After the existing steps:
           AP and AP2 with the playbook version, the AI strategies sleeve and each approved strategy, the ML filter
           and ranker, the AI-judgment allocator, the model contest when it starts), FOUNDATION (SPY, equal weight,
           baseline A, the control list, the library L1-L17, the crypto tracks, data and plumbing health).
+  34. AUTONOMY RESTRUCTURE (owner decision 2026-11-23: "this ultimate goal should supersede any conflicting/previous
+     goals"; ops/preregistration.md section 0 and amendment). What changed:
+       a) THE VERDICT is A1: Quantavius's own weekly book (the AI-judgment seal, scored as sh_judge; allocator report
+          judge_check, phase "verdict", H1's rule unchanged). The cycle-1 formula (verdict_check) is a FOUNDATION
+          reading and a lane yardstick ("ai" in registry.YARDSTICKS). Lane champion: ai_judgment (data/lane/
+          champions.jsonl, 2026-11-23).
+       b) NO HOLDOUT: tcal.py PHASES = train to 2027-05-14, frozen always false. ML refits, the lab and its gate,
+          crypto and stock adaptive retunes and the pick playbook continue to the end. The scoring code (freeze
+          list) still freezes at the window's start. Reports show the second half (from 2027-02-01) separately.
+       c) QUANTAVIUS SEES ITS OWN WORK: judge.py brief has "your_own_work" (picks vs control by day, playbook
+          version, approved strategies' forward results, risk shares of the formula's weights), dated no later than
+          evidence_through. Its own sleeves (AP, AP2, AS) are eligible for its seals from their first live day.
+       d) SCOREBOARD for every report and the dashboard: A1 (its book), G1 (its picks), G2 (its strategies), then the
+          AI LAYER detail, then the FOUNDATION (formula H1, simple rules, SPY, equal weight, baseline A, control list,
+          library, crypto tracks). Three headline tests: a single pass carries that caveat.
+     Unchanged: no orders ever; every decision sealed before its outcome; trial count; data; window dates; the
+     human approval step for any real or paper order.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
@@ -602,9 +630,10 @@ picks without a company catalyst"). Write the new version at the top of ops/pick
 date, the rule text in full), append {"version", "date", "change", "evidence", "n", "q"} to
 data/picks/playbook_log.jsonl and log `checks.py trial /tmp/repo playbook "v<N>: <change>" 1`. No qualifying finding:
 change nothing and say so. Never change the filters that keep picks liquid and long-only, the 09:30 cut-off or the
-3-8 picks range. From 2027-02-01 (holdout) the playbook is frozen.
+3-8 picks range. The playbook keeps learning to the end of the test (no freeze since item 34).
 
-If phase is holdout or after: reply "Holdout frozen: no learning or new strategies until the final report." and stop.
+If phase is "after": reply "The forward test is over." and stop. (No holdout since 2026-11-23, item 34: the lab, the
+learning and the playbook run to 2027-05-14.)
 From 2026-12-07 never edit scripts/allocator.py, scripts/library.py, scripts/corp.py or scripts/fills.py
 (verdict-window freeze; the hash check in allocator.py reports any change).
 LONG HISTORY + CPCV (2026-11-19): research and test lab ideas on the archive in data/hist (daily bars since 2016 for
@@ -746,6 +775,11 @@ strategy, formula vs AI judgment vs simple rules, whether ML or adaptive tuning 
 audit and freeze status.
 
 ## AI-JUDGMENT ALLOCATOR (weekly, Sunday 13:23 ET)
+
+SINCE 2026-11-23 (item 34) THIS IS QUANTAVIUS'S OWN BOOK AND THE VERDICT (A1). The evidence pack has a section
+"your_own_work"; AP / AP2 (your own picks) and AS (your own approved strategies) are eligible from their first live
+day. You are not obliged to hold them: judge them like any sleeve, on the evidence. The formula and the simple rules
+are your foundation and your rivals.
 
 1. `python3 /tmp/repo/scripts/judge.py brief /tmp/repo > /tmp/brief.json` and read it whole. It is the ONLY evidence:
    no web search, no other data, no memory of earlier weeks beyond "your_earlier_seals". If market_closed_now is

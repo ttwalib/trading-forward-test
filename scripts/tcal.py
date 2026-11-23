@@ -26,14 +26,20 @@ START, END = dt.date(2026, 11, 16), dt.date(2027, 5, 14)
 INTERIM_END = dt.date(2027, 2, 12)     # the interim report (2027-02-16) reads the verdict window up to here
 CRYPTO_END, SETTLE_END = dt.date(2027, 5, 16), dt.date(2027, 5, 21)
 FINAL_REPORT = dt.date(2027, 5, 18)
-HOLDOUT_START = dt.date(2027, 2, 1)
+HOLDOUT_START = dt.date(2027, 2, 1)   # since 2026-11-23 only the start of the SECOND-HALF reading: nothing freezes here
+SECOND_HALF = HOLDOUT_START
 V2_START = dt.date(2026, 11, 20)   # first full day of the extended setup (ledger, control list, ML, live runs)
 ALLOC_FREEZE = dt.date(2026, 12, 7)   # allocator + library code frozen from here; Dec 7 .. END is the verdict window
 VERDICT = (ALLOC_FREEZE, END)
 HOLIDAYS = {dt.date(2026, 11, 26), dt.date(2026, 12, 25), dt.date(2027, 1, 1), dt.date(2027, 1, 18), dt.date(2027, 2, 15),
             dt.date(2027, 3, 26)}      # Good Friday 2027; the next NYSE holiday, Memorial Day (May 31), is after the test
 HALF = {dt.date(2026, 11, 27): "13:00", dt.date(2026, 12, 24): "13:00"}
-PHASES = {"train": (START, dt.date(2027, 1, 29)), "holdout": (HOLDOUT_START, END)}
+# AUTONOMY RESTRUCTURE (owner decision 2026-11-23, runbook item 34): the AI keeps learning to the end of the test, so
+# there is no frozen holdout any more. Validity comes from scoring every decision only on days after it was made
+# ("freeze the referee, not the player"): the scoring code is frozen from the window's start, the AI's strategies,
+# picks, playbook and models are not. The whole test is one phase, "train"; reports still show the second half
+# (from SECOND_HALF) separately as a robustness reading.
+PHASES = {"train": (START, END)}
 
 
 def D(s): return s if isinstance(s, dt.date) else dt.date.fromisoformat(s)
@@ -87,7 +93,7 @@ def info(d=None):
             "settle_only_window": END < d <= SETTLE_END,
             "open_session": is_open(d), "full_trading_day": is_trading(d) and START <= d <= END, "half_day": is_half(d) and START <= d <= END,
             "close_time": HALF.get(d, "16:00") if is_open(d) else None,
-            "phase": phase(d), "frozen": phase(d) == "holdout",
+            "phase": phase(d), "frozen": False,            # no learning freeze since 2026-11-23 (item 34)
             "allocator_frozen": d >= ALLOC_FREEZE, "verdict_window": ALLOC_FREEZE <= d <= END,
             "interim_end": INTERIM_END.isoformat(), "test_end": END.isoformat(), "final_report": FINAL_REPORT.isoformat(),
             "weekly_expiry": exp.isoformat().replace("-", "") if exp else None, "weekly_expiry_close": last_settle.get("close"),
