@@ -1,25 +1,25 @@
 {
  "day": "2026-11-22",
- "started": "2026-11-23 05:06:58",
+ "started": "2026-11-23 05:26:28",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 8.9,
+   "seconds": 9.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 8.7,
+   "seconds": 8.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 9.4,
+   "seconds": 9.0,
    "exit": 0,
    "error": null
   },
@@ -40,14 +40,14 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 11.9,
+   "seconds": 12.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 4.2,
+   "seconds": 4.0,
    "exit": 0,
    "error": null
   },
@@ -61,7 +61,7 @@
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.5,
+   "seconds": 0.7,
    "exit": 0,
    "error": null
   },
@@ -75,14 +75,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 0.4,
+   "seconds": 0.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 3.7,
+   "seconds": 4.0,
    "exit": 0,
    "error": null
   },
@@ -96,7 +96,7 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 11.3,
+   "seconds": 11.2,
    "exit": 0,
    "error": null
   },
@@ -110,7 +110,7 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 10.5,
+   "seconds": 10.4,
    "exit": 0,
    "error": null
   },
@@ -124,20 +124,20 @@
   {
    "step": "lane",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "spec",
    "ok": true,
-   "seconds": 12.1,
+   "seconds": 11.3,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "13d5aa9916bbe905b62839078b7b668a4238a075",
- "chain_head": "b49f136d035e624e9830a41bebdd4cfa402d5deb48f59f96535188996aa7b31a",
+ "commit": "96445846b0a7c613b78cbcff784167559c98d7ab",
+ "chain_head": "6e20f67da996219697721e891c548e5020f6f8c8779c5cb83845ff06fdbe557b",
  "ok": true,
- "finished": "2026-11-23 05:08:29"
+ "finished": "2026-11-23 05:28:00"
 }

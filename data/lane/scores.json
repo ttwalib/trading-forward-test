@@ -1,5 +1,5 @@
 {
- "champion": "formula",
+ "champion": "ai_judgment",
  "day": "2026-11-23",
  "entries": {
   "ai_judgment": {
@@ -9,11 +9,11 @@
     "days": 0
    },
    "recent_vs_best_yardstick": null,
-   "status": "incubating",
+   "status": "champion",
    "version": 1,
    "vs": {
+    "ai": null,
     "base_a": null,
-    "champion": null,
     "equal": null,
     "sh_rp": null,
     "spy": null
@@ -26,10 +26,12 @@
     "days": 0
    },
    "recent_vs_best_yardstick": null,
-   "status": "champion",
+   "status": "retired",
    "version": 1,
    "vs": {
+    "ai": null,
     "base_a": null,
+    "champion": null,
     "equal": null,
     "sh_rp": null,
     "spy": null
@@ -41,6 +43,7 @@
   "spy",
   "equal",
   "base_a",
-  "sh_rp"
+  "sh_rp",
+  "ai"
  ]
 }
