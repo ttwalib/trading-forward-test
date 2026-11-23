@@ -114,7 +114,7 @@ def main(repo):
     P.append("## Known limits\n")
     P.append("Short window for small edges; simulated fills and estimated costs; today's index membership (survivorship: "
              "measured in `data/pit/report.json`); a fully invested, partly hedged book compared with unhedged SPY; "
-             "option Greeks are estimates; one person owns the pinger token (expires %s)." % "2027-03-31")
+             "option Greeks are estimates; one person owns the pinger token (expires %s)." % checks.TOKEN_EXPIRY)
     return "\n".join(P) + "\n"
 
 

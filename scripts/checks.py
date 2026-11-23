@@ -342,7 +342,7 @@ def engine_report(repo, start=None):
 
 
 # ---------- health line (added 2026-11-20) ----------
-TOKEN_EXPIRY = "2027-03-31"      # the pinger's GitHub token (owner's cron-job.org account); renew before this date
+TOKEN_EXPIRY = "2027-06-15"      # the pinger's GitHub token (owner's cron-job.org account); renew before this date
 MINUTES_QUOTA = 3000             # GitHub Pro Actions minutes per month (owner upgraded 2026-11-20)
 
 

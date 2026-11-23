@@ -209,7 +209,7 @@ After the existing steps:
 4f. HEALTH + ENGINE VS THE 5-MINUTE RULE (added 2026-11-20): data/nightly/checks.json (or `python3 -I
    /tmp/repo/scripts/checks.py health /tmp/repo` and `... engine-report /tmp/repo`). One digest line: ticks today, longest
    gap, median and slowest tick seconds, Actions minutes this month and projected vs 3,000, days until the pinger
-   token expires (2027-03-31). Every entry of health.alerts -> one "Data check" row flagged CHECK and first in the
+   token expires (2027-06-15 since the renewal of 2026-11-23). Every entry of health.alerts -> one "Data check" row flagged CHECK and first in the
    digest. PINGER alert: the cron-job.org job is down or its token was rejected (ops/engine_pinger.md). TICK SLOW:
    a tick over 45 s; over 60 s doubles the minutes, so set "intraday_wide": false in data/universe.json and say so.
    engine_report: n, mean and median cost_vs_lag_pct for baseline and library rows. Measurement only until 100+ rows.
@@ -277,7 +277,7 @@ After the existing steps:
 - (2026-11-20, 14:25 Nairobi) External pinger live: cron-job.org calls workflow_dispatch (mode tick) every 5 minutes,
   Mon-Fri 09:00-15:55 ET; test call returned 204 and started a run. GitHub's own */5 schedule removed (it ran about
   hourly); one backup tick a hour at :50 and the 17:40 nightly stay. If engine delay_min is over 20 again, check the
-  cron-job.org job first (token expiry 2027-03-31).
+  cron-job.org job first (token expiry 2027-06-15, renewed 2026-11-23).
 
 - (2026-11-20, later) SECOND BATCH, all before the freeze, owner request "implement the twelve suggestions":
   1. Report instructions live here: the weekly and final report prompts only point to this runbook.

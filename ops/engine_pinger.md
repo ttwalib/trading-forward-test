@@ -59,7 +59,11 @@ day.
 Delete the cron job and revoke the token (GitHub → Settings → Developer settings → Fine-grained tokens) after
 2027-05-21.
 
-## RENEWAL (added 2026-11-21: the test now runs to 2027-05-21, the first token expires on 2027-03-31)
+## RENEWAL (added 2026-11-21: the test now runs to 2027-05-21, the first token expired on 2027-03-31)
+
+DONE 2026-11-23: the owner regenerated the token with expiry 2027-06-15 and updated cron-job.org; the test run
+started a successful market-data run at 07:40 UTC. TOKEN_EXPIRY in scripts/checks.py is now 2027-06-15. No further
+renewal is needed for this test.
 
 Do this on a weekend, when no ticks are due. About 3 minutes.
 
