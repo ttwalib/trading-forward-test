@@ -95,14 +95,16 @@ jobs:
           python3 scripts/dashboard.py . || echo "dashboard data failed"
       - name: ApeWisdom
         if: steps.m.outputs.mode == 'ape'
+        env:
+          SEC_CONTACT: ${{ secrets.SEC_CONTACT }}
         run: |
           python3 scripts/ape.py . --force || echo "ape failed"
           python3 scripts/extdata.py . edgar crypto || echo "extdata failed"
       - name: Outside context data
         if: steps.m.outputs.mode == 'ext'
-        run: |
-          python3 scripts/extdata.py . || echo "extdata failed"
-          if [ -e scripts/_sec_probe.py ]; then python3 scripts/_sec_probe.py || true; fi
+        env:
+          SEC_CONTACT: ${{ secrets.SEC_CONTACT }}
+        run: python3 scripts/extdata.py . || echo "extdata failed"
       # Scripted daily work with no AI in the loop (scripts/daily.py). Crypto tracks: right after the crypto bars.
       - name: Daily
         if: steps.m.outputs.mode == 'crypto'
@@ -132,7 +134,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json ops/diag/sec_probe.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "crypto" ]; then git add data/ledger/CryptoTracks.jsonl data/ledger/MLShadow.jsonl; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then

@@ -109,7 +109,42 @@ def brief(repo, now=None):
                          "backtest records are flattered, most of all where backtest_is_flattered is true",
                          "on past data every simple rule (risk parity, minimum variance, equal weight) beat the formula on Sharpe"],
             "market_breadth": breadth_view(repo, cal[-1] if cal else None),
+            "market_context": context_view(repo, cal[-1] if cal else None),
             "your_own_work": ai_layer(repo, cal[-1] if cal else None)}
+
+
+def context_view(repo, through):
+    """Since 2026-11-23 the pack shows free outside context fetched on GitHub (scripts/extdata.py; report only): rates
+    and credit (FRED), put/call ratios (Cboe), off-exchange short-sale share (FINRA), crypto funding and stablecoin
+    supply. Only files fetched on or before `through`, and inside them only rows dated on or before it."""
+    if not through: return None
+    def latest(src):
+        d = os.path.join(repo, "data", "ext", src)
+        fs = sorted(f for f in (os.listdir(d) if os.path.isdir(d) else []) if f.endswith(".json") and f[:10] <= through)
+        try: return json.load(open(os.path.join(d, fs[-1]))) if fs else None
+        except Exception: return None
+    out = {}
+    x = latest("fred")
+    if x:
+        out["rates_and_credit"] = {}
+        for k, v in x.get("series", {}).items():
+            v = [r for r in v if r["date"] <= through]
+            if v: out["rates_and_credit"][k] = {"date": v[-1]["date"], "value": v[-1]["value"],
+                                                "change_20_obs": round(v[-1]["value"] - v[-21]["value"], 3) if len(v) > 20 else None}
+        out["rates_and_credit_legend"] = x.get("legend")
+    x = latest("cboe")
+    if x:
+        ds = {k: v for k, v in x.get("days", {}).items() if k <= through}
+        if ds: out["put_call"] = {"date": max(ds), **ds[max(ds)]}
+    x = latest("finra")
+    if x:
+        ds = {k: v for k, v in x.get("days", {}).items() if k <= through}
+        if ds: out["short_sale_share_off_exchange_pct"] = {k: ds[k]["market_short_pct"] for k in sorted(ds)}
+    x = latest("crypto")
+    if x: out["crypto"] = {"fetched": x.get("fetched_at_ny"), "funding_pct_8h": {k: v.get("funding_rate_pct") for k, v in (x.get("funding") or {}).items()},
+                           "stablecoins": x.get("stablecoins")}
+    if out: out["note"] = "context only: none of this is a rule, and a few readings prove nothing"
+    return out or None
 
 
 def breadth_view(repo, through):

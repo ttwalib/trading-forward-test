@@ -6,7 +6,7 @@ Files: data/ext/<source>/<New York fetch day>.json. Nothing here is a rule: the 
 morning research, the evidence pack (judge.py market_context) and, from the Dec 8 lane build, ML features.
 
   edgar   SEC EDGAR (no key): the current 8-K feed with item codes per ticker, and Form 4 (insider) filing
-          counts per ticker over the last 5 index days. Contact in the User-Agent is the bot address, never a person's.
+          counts per ticker over the last 5 index days. The contact in the User-Agent comes from the GitHub secret SEC_CONTACT.
   fred    St. Louis Fed daily market series through the keyless CSV download (yields, curve, credit spread,
           financial conditions). These series are not revised, so a daily snapshot is point-in-time.
   finra   FINRA consolidated daily short-sale volume (off-exchange trades only) for the universe and the market.
@@ -20,7 +20,9 @@ import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
 
 NY = ZoneInfo("America/New_York")
-UA_SEC = "Quantavius-forward-test forward-test-bot@users.noreply.github.com"
+# SEC fair-access policy asks for a real contact address and rejects GitHub "noreply" addresses (probed 2026-11-23).
+# The address comes from the GitHub secret SEC_CONTACT, set by the owner; it is never written to the repo or a log.
+UA_SEC = "Quantavius-forward-test " + os.environ.get("SEC_CONTACT", "").strip()
 UA = "Mozilla/5.0 (compatible; forward-test-bot; research)"
 FRED = ["DGS2", "DGS10", "T10Y2Y", "T10Y3M", "BAMLH0A0HYM2", "DFF", "NFCI"]
 COINS = ["BTC", "ETH", "SOL", "DOGE", "SHIB", "AVAX", "LINK"]
@@ -53,6 +55,7 @@ def bdays(n, end=None):
 
 
 def edgar(repo, U):
+    if not os.environ.get("SEC_CONTACT", "").strip(): raise RuntimeError("GitHub secret SEC_CONTACT is not set (owner step)")
     try: tk = json.loads(get("https://www.sec.gov/files/company_tickers.json", UA_SEC))
     except Exception as e: raise RuntimeError(f"company_tickers.json: {type(e).__name__}: {e}")
     cik2t = {}
