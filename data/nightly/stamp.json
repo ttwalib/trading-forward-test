@@ -1,25 +1,25 @@
 {
  "day": "2026-11-22",
- "started": "2026-11-23 07:11:31",
+ "started": "2026-11-23 08:15:07",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 8.7,
+   "seconds": 7.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 8.5,
+   "seconds": 7.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 8.5,
+   "seconds": 7.5,
    "exit": 0,
    "error": null
   },
@@ -61,21 +61,21 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 11.1,
+   "seconds": 10.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.9,
+   "seconds": 3.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 8.5,
+   "seconds": 7.8,
    "exit": 0,
    "error": null
   },
@@ -96,14 +96,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 0.4,
+   "seconds": 2.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 3.5,
+   "seconds": 3.0,
    "exit": 0,
    "error": null
   },
@@ -117,7 +117,7 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 10.9,
+   "seconds": 10.0,
    "exit": 0,
    "error": null
   },
@@ -131,21 +131,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 9.9,
+   "seconds": 9.7,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "library_wide",
+   "ok": true,
+   "seconds": 5.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 10.6,
+   "seconds": 9.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 10.6,
+   "seconds": 9.9,
    "exit": 0,
    "error": null
   },
@@ -166,14 +173,14 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 10.7,
+   "seconds": 9.9,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "63b5bdd0d01f9fca2c40c8354c5fd4fc8341a940",
- "chain_head": "4d74f584b3cea15db3518bc6a5619e789421b5a37d8415c857f74dc91f525f81",
+ "commit": "7b5334b207e93792a8ba5445c5bd5227642726b2",
+ "chain_head": "3cfed8a802eb5746ff52bec3809840844dad73c36f34ab602234e868652dc34c",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-23 07:13:18"
+ "finished": "2026-11-23 08:16:52"
 }

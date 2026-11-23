@@ -92,10 +92,10 @@
   "note": "spread = what a market order pays now; drift = price move between the simulated fill and the quote (mostly the hourly-run delay); the simulation charges model_side_cost per side"
  },
  "health": {
-  "at": "2026-11-23 07:12",
+  "at": "2026-11-23 08:15",
   "ticks_today": 2,
   "last_tick": "06:03",
-  "last_tick_age_min": 69,
+  "last_tick_age_min": 132,
   "max_gap_min": 203,
   "tick_seconds_median": 2.5,
   "tick_seconds_max": 3.2,
@@ -109,17 +109,17 @@
   "alerts": []
  },
  "replay_day": {
-  "day": "2026-11-17",
-  "sets": {
-   "watchlist": {
-    "ledger": 6,
-    "replay": 5,
-    "bars_for": 22
-   }
-  },
+  "days": [
+   "2026-11-16",
+   "2026-11-17",
+   "2026-11-18",
+   "2026-11-19",
+   "2026-11-20"
+  ],
+  "identical": false,
   "diffs": [
    "watchlist MARA: ledger has a trade (stop), replay has none"
   ],
-  "identical": false
+  "checked": 5
  }
 }
