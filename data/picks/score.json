@@ -15,6 +15,41 @@
   "pick_days": 0,
   "picks": 0
  },
+ "cost_view": {
+  "note": "report only; per position, unweighted; win rate after costs vs the break-even win rate",
+  "AP": {
+   "all": {
+    "trades": 7,
+    "round_trip_cost_pct": 0.2,
+    "gross_sum_pct": -17.078,
+    "cost_sum_pct": 1.4,
+    "cost_share_of_gross": 0.082,
+    "win_rate": 0.286,
+    "avg_net_win_pct": 0.903,
+    "avg_net_loss_pct": 4.057,
+    "breakeven_win_rate": 0.818
+   },
+   "verdict": {
+    "trades": 0
+   }
+  },
+  "AP2": {
+   "all": {
+    "trades": 7,
+    "round_trip_cost_pct": 0.2,
+    "gross_sum_pct": -17.078,
+    "cost_sum_pct": 1.4,
+    "cost_share_of_gross": 0.082,
+    "win_rate": 0.286,
+    "avg_net_win_pct": 0.903,
+    "avg_net_loss_pct": 4.057,
+    "breakeven_win_rate": 0.818
+   },
+   "verdict": {
+    "trades": 0
+   }
+  }
+ },
  "rows": [
   {
    "date": "2026-11-19",

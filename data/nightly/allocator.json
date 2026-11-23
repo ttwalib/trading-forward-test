@@ -410,7 +410,7 @@
   }
  },
  "stamp": {
-  "commit": "5baf100",
+  "commit": "f7f6234",
   "data_sha256": "da0e60dd140e1f8b",
   "data_files": 512,
   "versions": {
@@ -420,14 +420,14 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-23 08:26"
+  "at": "2026-11-23 08:38"
  },
  "latest_weights": {
   "date": "2026-11-20",
   "weights": {
    "L17 Multi-asset trend": 0.25,
-   "L13 Pairs reversion": 0.25,
    "L10 Earnings drift": 0.25,
+   "L13 Pairs reversion": 0.25,
    "L12 Turn of month": 0.1012,
    "L16 SPY trend short": 0.1488
   },
@@ -508,7 +508,7 @@
    -0.234,
    -0.731,
    1.0,
-   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-17",
@@ -523,7 +523,7 @@
    -0.715,
    -2.153,
    1.0,
-   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-18",
@@ -538,7 +538,7 @@
    -1.268,
    -2.806,
    1.0,
-   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-19",
@@ -553,7 +553,7 @@
    -2.034,
    -3.368,
    1.0,
-   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
+   "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-20",
@@ -568,7 +568,7 @@
    -2.102,
    -4.259,
    1.0,
-   "L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L10 Earnings drift 25%; L16 SPY trend short 15%"
+   "L17 Multi-asset trend 25%; L10 Earnings drift 25%; L13 Pairs reversion 25%; L16 SPY trend short 15%"
   ]
  ]
 }
