@@ -12,11 +12,12 @@ on:
     - cron: "32 0-23/3 * * *"      # crypto bars every 3 hours, before each crypto-tracks run (added 2026-11-20)
     - cron: "7 3 * * *"            # nightly machine-learning job (22:07 ET; scripts/daily.py ml; an AI task until 2026-11-22)
     - cron: "17 10 * * *"          # second daily fit of the crypto ML family (05:17 ET; the nightly ML task is the first)
+    - cron: "40 12 * * 1-5"        # ApeWisdom snapshot before the morning research (07:40 New York in winter; scripts/ape.py, 2026-11-23)
     - cron: "0 2 * * 2-6"          # nightly maths on a schedule (21:00 New York in winter, 22:00 from 2027-03-14), so scoring never depends on an AI task (2026-11-23)
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -45,8 +46,9 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto;
           elif [ "${{ github.event.schedule }}" = "7 3 * * *" ]; then M=mlnight;
           elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto;
+          elif [ "${{ github.event.schedule }}" = "40 12 * * 1-5" ]; then M=ape;
           elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then M=compute; D=$(TZ=America/New_York date +%F); else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -77,7 +79,7 @@ jobs:
           for f in LICENSE NOTICE; do if [ -e package/$f ]; then cp package/$f "$GITHUB_WORKSPACE/ops/dashboard/vendor/lightweight-charts-$f"; fi; done
           ls -la "$GITHUB_WORKSPACE/ops/dashboard/vendor"
       - name: Fetch
-        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'mlnight' && steps.m.outputs.mode != 'vendor'
+        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'mlnight' && steps.m.outputs.mode != 'vendor' && steps.m.outputs.mode != 'ape'
         env:
           QV_ENGINE_NEW: /tmp/engine_new.json
           GH_TOKEN: ${{ github.token }}
@@ -87,7 +89,11 @@ jobs:
           python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/witness.py . || echo "witness failed"; fi
+          if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/ape.py . || echo "ape failed"; fi
           python3 scripts/dashboard.py . || echo "dashboard data failed"
+      - name: ApeWisdom
+        if: steps.m.outputs.mode == 'ape'
+        run: python3 scripts/ape.py . --force || echo "ape failed"
       # Scripted daily work with no AI in the loop (scripts/daily.py). Crypto tracks: right after the crypto bars.
       - name: Daily
         if: steps.m.outputs.mode == 'crypto'
@@ -117,7 +123,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "crypto" ]; then git add data/ledger/CryptoTracks.jsonl data/ledger/MLShadow.jsonl; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then
