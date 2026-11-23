@@ -1,5 +1,5 @@
 {
- "date": "2026-11-20",
+ "date": "2026-11-22",
  "sleeves": 45,
  "freeze": {
   "frozen": false,
@@ -410,8 +410,8 @@
   }
  },
  "stamp": {
-  "commit": "4561ad7",
-  "data_sha256": "7b7fd69ff0741b5b",
+  "commit": "dd9342c",
+  "data_sha256": "5e21d79c39e9bff8",
   "data_files": 506,
   "versions": {
    "python": "3.14.4",
@@ -420,13 +420,13 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-22 07:55"
+  "at": "2026-11-22 21:10"
  },
  "latest_weights": {
   "date": "2026-11-20",
   "weights": {
-   "L13 Pairs reversion": 0.25,
    "L10 Earnings drift": 0.25,
+   "L13 Pairs reversion": 0.25,
    "L17 Multi-asset trend": 0.25,
    "L12 Turn of month": 0.1012,
    "L16 SPY trend short": 0.1488
