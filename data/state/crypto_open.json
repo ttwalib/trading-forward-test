@@ -1,5 +1,5 @@
 {
- "at": "2026-11-23 14:30",
+ "at": "2026-11-23 17:20",
  "open": [
   {
    "strategy": "X3",
@@ -8,12 +8,12 @@
    "entry_time": "2026-11-22 05:00",
    "entry": 61059.8,
    "stop": 59664.9,
-   "exit_time": "2026-11-23 14:00",
-   "exit_or_mark": 61316.4,
+   "exit_time": "2026-11-23 17:00",
+   "exit_or_mark": 61259.9,
    "reason": "open (marked at last close)",
-   "r": 0.01,
-   "pct": 0.019,
-   "gross_pct": 0.42,
+   "r": -0.03,
+   "pct": -0.073,
+   "gross_pct": 0.328,
    "track": "1h fixed"
   },
   {
@@ -23,27 +23,12 @@
    "entry_time": "2026-11-22 23:00",
    "entry": 71.2639,
    "stop": 69.9284,
-   "exit_time": "2026-11-23 14:00",
-   "exit_or_mark": 73.165,
+   "exit_time": "2026-11-23 17:00",
+   "exit_or_mark": 72.3419,
    "reason": "open (marked at last close)",
-   "r": 1.21,
-   "pct": 2.262,
-   "gross_pct": 2.668,
-   "track": "1h fixed"
-  },
-  {
-   "strategy": "M3",
-   "symbol": "AVAX",
-   "status": "open",
-   "entry_time": "2026-11-23 09:00",
-   "entry": 7.0082,
-   "stop": 6.74553,
-   "exit_time": "2026-11-23 14:00",
-   "exit_or_mark": 6.85651,
-   "reason": "open (marked at last close)",
-   "r": -0.74,
-   "pct": -2.758,
-   "gross_pct": -2.165,
+   "r": 0.59,
+   "pct": 1.11,
+   "gross_pct": 1.513,
    "track": "1h fixed"
   },
   {
@@ -53,12 +38,12 @@
    "entry_time": "2026-11-22 05:00",
    "entry": 61059.8,
    "stop": 59664.9,
-   "exit_time": "2026-11-23 14:00",
-   "exit_or_mark": 61316.4,
+   "exit_time": "2026-11-23 17:00",
+   "exit_or_mark": 61259.9,
    "reason": "open (marked at last close)",
-   "r": 0.01,
-   "pct": 0.019,
-   "gross_pct": 0.42,
+   "r": -0.03,
+   "pct": -0.073,
+   "gross_pct": 0.328,
    "track": "1h adaptive"
   },
   {
@@ -68,27 +53,12 @@
    "entry_time": "2026-11-22 23:00",
    "entry": 71.2639,
    "stop": 69.9284,
-   "exit_time": "2026-11-23 14:00",
-   "exit_or_mark": 73.165,
+   "exit_time": "2026-11-23 17:00",
+   "exit_or_mark": 72.3419,
    "reason": "open (marked at last close)",
-   "r": 1.21,
-   "pct": 2.262,
-   "gross_pct": 2.668,
-   "track": "1h adaptive"
-  },
-  {
-   "strategy": "M3",
-   "symbol": "AVAX",
-   "status": "open",
-   "entry_time": "2026-11-23 09:00",
-   "entry": 7.0082,
-   "stop": 6.74553,
-   "exit_time": "2026-11-23 14:00",
-   "exit_or_mark": 6.85651,
-   "reason": "open (marked at last close)",
-   "r": -0.74,
-   "pct": -2.758,
-   "gross_pct": -2.165,
+   "r": 0.59,
+   "pct": 1.11,
+   "gross_pct": 1.513,
    "track": "1h adaptive"
   }
  ]
