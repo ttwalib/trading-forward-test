@@ -953,3 +953,11 @@ replacement is logged with `interventions.py add ... model ...`, the lane entry'
 reported separately, and for the weekly book the change resets "autonomous since". The nightly report
 data/nightly/interventions.json lists the models seen in each seal file ("seal_models"): more than one model in a file
 is flagged there and must be explained in the next weekly report.
+
+ITEM 39 (2026-11-23, owner: "go ahead with your recommendation"): GITHUB MINUTES DECISION. Measured from GitHub's run
+records: about 112 billed minutes on a full trading day before the nightly maths (about 120-130 with it) and 22-29 on a
+weekend day, so a full month is about 2,700-3,100 of the 3,000 included minutes. DECISION: overage is allowed, capped
+by an Actions spending budget of USD 10 a month that the owner sets in GitHub billing settings (Linux minutes cost
+USD 0.006 each beyond the allowance; expected cost USD 0-6 a month). The pause order of item 37(i) is now the FALLBACK
+only: use it if the month's projection passes 3,000 minutes + the budget (about 4,600), or if GitHub reports the
+budget reached. The orchestrator digest states the month's minutes so far and the projection every night.
