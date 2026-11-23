@@ -71,6 +71,13 @@ def main():
         json.dump(ck, open(os.path.join(N, "checks.json"), "w"), indent=1)
         # Monte Carlo risk report (report only, never part of the verdict; added 2026-11-21)
         stamp["steps"].append(step("montecarlo", [S("montecarlo.py"), "report", repo], os.path.join(N, "montecarlo.json"), 300))
+        # report-only additions of 2026-11-23 (runbook item 31): break-even cost per sleeve, risk breakdown,
+        # tamper-evident chain over the append-only evidence files
+        stamp["steps"].append(step("costgrid", [S("costgrid.py"), repo], os.path.join(N, "costgrid.json"), 300))
+        stamp["steps"].append(step("riskx", [S("riskx.py"), repo], os.path.join(N, "riskx.json"), 300))
+        stamp["steps"].append(step("chain", [S("chain.py"), "update", repo], None, 120))
+        try: stamp["chain_head"] = json.load(open(os.path.join(N, "chain.json")))["head"]
+        except Exception: stamp["chain_head"] = None
         stamp["steps"].append(step("dashboard", [S("dashboard.py"), repo], None, 300))
         # challenger lane (2026-11-22): register lab approvals, then score every entry on its forward days only
         stamp["steps"].append(step("lane_auto", [S("registry.py"), "auto", repo], None, 120))

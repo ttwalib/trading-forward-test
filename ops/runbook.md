@@ -477,6 +477,23 @@ After the existing steps:
      "crypto" or "mlnight". For the nightly snapshot take the crypto settings from data/state/crypto.json ("live",
      "challengers") instead of "Adaptive"!A3 and C3. In the ledger mirror check (4-pre and ML NIGHTLY step 1) skip
      CryptoTracks and MLShadow: for these the ledger is ahead of the sheet by design.
+  31. REPORT-ONLY ADDITIONS (owner decision 2026-11-23, after a review of the HKUDS/Vibe-Trading (MIT) and
+     Fincept-Corporation/FinceptTerminal (AGPL-3.0) repositories; ideas re-expressed in our own code, nothing copied).
+     Three new nightly steps, none of which feeds the allocator, the judge or the verdict:
+       - costgrid (scripts/costgrid.py -> data/nightly/costgrid.json): each sleeve's average result at 0.5x, 1x, 2x
+         and 3x today's costs and its break-even multiple, plus the median gross move per trade over the median cost
+         (the input of the owner's cost rule of 2026-11-22). Library sleeves: exact, from the 1x and 2x runs; ledger
+         sleeves with a gross column: from gross vs net; others listed as not measurable.
+       - riskx (scripts/riskx.py -> data/nightly/riskx.json): each sleeve's share of the AI book's swings at the
+         latest weights (60-day window), the deepest drawdowns with recovery dates, and one-day 95% value at risk
+         and expected shortfall, per book, with live days and the pre-test replay kept apart.
+       - chain (scripts/chain.py -> ops/chain.jsonl, data/nightly/chain.json): a hash chain over the append-only
+         evidence files (judge seals, trial log, lane champions, engine detections and their ML scores). Any later
+         edit or deletion breaks it; the health line then raises "CHAIN BROKEN", reported first in the digest. The
+         chain head is printed in every nightly GitHub Actions log (stamp "chain_head").
+     WEEKLY REPORT and ORCHESTRATOR digest: add one line each from costgrid (sleeves that lose at today's costs or
+     do not survive double costs) and riskx (largest risk share vs money share; AI book value at risk), and say
+     plainly that both are reports, not rules.
   Not done: automatic dashboard snapshots (the connector still cannot read the private repo; support ticket open).
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)

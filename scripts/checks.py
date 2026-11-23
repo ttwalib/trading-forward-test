@@ -395,6 +395,10 @@ def health(repo, now=None):
     if open_now and ((worst is None and hm > 600) or (worst is not None and worst > 20) or (len(ticks) < 2 and hm > 600)):
         H["alerts"].append("PINGER: gap of %s minutes between ticks in market hours (the external pinger may be down)" % (worst if worst is not None else "all"))
     if secs_today and max(secs_today) > 45: H["alerts"].append("TICK SLOW: a tick took %.0f s (over 60 s doubles the minutes)" % max(secs_today))
+    try:                                   # tamper-evident chain (scripts/chain.py, 2026-11-23)
+        C = json.load(open(os.path.join(repo, "data", "nightly", "chain.json")))
+        if not C.get("ok", True): H["alerts"].append("CHAIN BROKEN: %d append-only evidence line(s) changed after sealing (data/nightly/chain.json)" % len(C.get("broken", [])))
+    except Exception: pass
     if proj > 0.8 * MINUTES_QUOTA: H["alerts"].append("MINUTES: projected %d of %d this month" % (proj, MINUTES_QUOTA))
     if days_to_expiry <= 21: H["alerts"].append("TOKEN: the pinger token expires in %d days (%s)" % (days_to_expiry, TOKEN_EXPIRY))
     if size_mb and size_mb > 700: H["alerts"].append("REPO: data is %.0f MB (GitHub soft limit 1 GB)" % size_mb)
