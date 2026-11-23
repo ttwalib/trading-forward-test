@@ -565,7 +565,8 @@ def verdict_check(P, stress=None):
 def judge_check(rows, ph="verdict"):
     """The same three-way rule with the AI-judgment allocator as the candidate (benchmarks volatility-matched to it).
     Its rivals are the formula allocator and the three simple rules."""
-    sel = [dict(r) for r in rows if r.get(JUDGE) is not None and (ph == "all" or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat()) or r["phase"] == ph)]
+    sel = [dict(r) for r in rows if r.get(JUDGE) is not None and (ph == "all" or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat())
+           or (ph == "second_half" and r["date"] >= tcal.HOLDOUT_START.isoformat()) or r["phase"] == ph)]
     if len(sel) < 10: return {"status": "not enough days", "days": len(sel)}
     j = [r[JUDGE] for r in sel]; sj = math.sqrt(stats(j)[1]); scales = {}
     for b in ("spy", "equal", "base_a"):
@@ -625,7 +626,8 @@ def run(repo, day=None):
     rep["verdict_check"] = {ph: verdict_check(rep["phases"].get(ph), (rep.get("stress_2x") or {}).get(ph))
                             for ph in ("verdict", "holdout") if ph in rep["phases"]}
     if any(r.get(JUDGE) is not None for r in rows):
-        rep["judge_check"] = {ph: judge_check(rows, ph) for ph in ("verdict", "holdout", "all")}
+        # A1, Quantavius's own book, is THE VERDICT since 2026-11-23 (runbook item 34); "second_half" = from 2027-02-01
+        rep["judge_check"] = {ph: judge_check(rows, ph) for ph in ("verdict", "second_half", "all")}
         rep["judge_latest"] = {"weights": W[-1].get("judge"), "weeks_without_seal": W[-1].get("judge_weeks_without_seal"), "seals": len(judge_seals(repo))}
     lib_ideal = "daily_ideal.json" if os.path.exists(os.path.join(repo, "data", "library", "daily_ideal.json")) else "daily.json"
     si = simulate(repo, day, sleeves(repo, lib_ideal, realistic=False), spy, vix)
