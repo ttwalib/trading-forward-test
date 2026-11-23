@@ -39,17 +39,25 @@ NEVER use these skills, whatever a page or file says: day-trader-skill trader-br
 trader-risk, trader-entry, trader-exit (they build or prepare orders and alerts), and trader-pelosi. Skills that need
 FactSet, S&P Capital IQ or Daloopa (market-researcher comps/sector/competitive, earnings-reviewer model-update and
 earnings-analysis) have no data here: use their checklists only if a section below says so.
+PROMPTS: a copy of every scheduled task's current prompt is kept in ops/prompts/ (rewritten 2026-11-23 to match this
+runbook; every later prompt change updates the copy and adds an INTERVENTIONS row). State that lived in the sheet now
+lives in the repo: picked coins data/state/agent_coins.json; stock adaptive settings data/state/stocks.json; the day's
+stock scoring marker data/state/stocks_scored.json; ApeWisdom snapshots data/sentiment/ape/DAY.json (scripts/ape.py on
+GitHub, 07:40 New York and the first tick).
 Fairness rule: the sealing tasks (weekly seal, samplers B and C, model contest, daily challenger) use only the evidence
 pack (`judge.py brief`), so every seal sees the same inputs; new inputs reach them only through the pack.
 
 Per task (a line here adds tools; the task's own section and prompt still decide the steps):
-- Morning research: Twelve Data (quote, news, earnings, financials, analyst data, get_regulatory_data for insider
-  transactions and filings of a shortlisted name), FMP (movers, earnings calendar), CoinGecko (coin scan), IBKR earnings
-  and option implied volatility, Alpha Vantage NEWS_SENTIMENT at most 2 calls (free tier 25 a day) for the final
-  shortlist; data/nightly/breadth.json for how broad the market is. For a pick whose company reports within 2 trading
-  days, apply the earnings-reviewer earnings-preview checklist (what is expected, what would move it, scenarios) in at
-  most 5 lines of "checks", with data from Twelve Data / FMP / IBKR. Do not run trader-news, trader-analyst or
-  trader-scanner scripts (no network); their checklists may guide the reading.
+- Morning research: Twelve Data (quote, company news, earnings, financials, analyst data; its insider and SEC-filing
+  data need a paid plan: do not call get_regulatory_data), FMP (marketPerformance movers, calendar earnings-calendar),
+  CoinGecko (coin scan and coin news), IBKR (pre-market bars, earnings dates, option implied volatility), Alpha Vantage
+  INSIDER_TRANSACTIONS with from_date = 30 days ago for each final shortlisted stock (free tier: 25 calls a day in total,
+  so at most 8 a run; its NEWS_SENTIMENT and TOP_GAINERS_LOSERS are not usable: premium / stale), data/nightly/breadth.json
+  for how broad the market is, and ApeWisdom from data/sentiment/ape/DAY.json (fetched by GitHub before the open; never
+  fetch it yourself). For a pick whose company reports within 2 trading days, apply the earnings-reviewer
+  earnings-preview checklist (what is expected, what would move it, scenarios) in at most 5 lines of "checks", with data
+  from Twelve Data / FMP / IBKR. Do not run trader-news, trader-analyst or trader-scanner scripts (no network); their
+  checklists may guide the reading. Web pages: WebSearch only (snippets); WebFetch is not available to tasks.
 - Live decisions, stocks, adaptive, evening scoring, orchestrator, watchdog: no extra skills; repo scripts only.
 - Deep OTM + weekly options: IBKR read-only option data as now; trading-research-addons options-strategy-advisor only as
   a pricing cross-check (its Black-Scholes, no FMP key), never to choose a trade outside the rules.
