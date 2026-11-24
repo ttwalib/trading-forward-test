@@ -78,7 +78,7 @@ ROBUST only if the AI's Sharpe is also above the best shadow's (and it beats SPY
 complexity added nothing over a simple rule.
 AI-JUDGMENT ALLOCATOR "sh_judge" (added 2026-11-21, owner decision, before the freeze): each weekend a language-model
 task reads the same evidence (scripts/judge.py brief), argues the case for and against, and seals next week's weights
-in data/allocator/judge.jsonl (same rules: fully invested, at most 25% per sleeve, eligible sleeves only). A seal
+in data/allocator/judge.jsonl (same rules: fully invested, at most 25% per sleeve, or 50% for its own sleeves AP, AP2, AS since 2026-11-24, eligible sleeves only). A seal
 counts only if it was made before 09:30 New York on the first trading day it applies to; a week without a valid seal
 keeps the previous week's weights. It trades weekly with the same rebalancing costs as the other rivals. It is a
 fourth rival in the "robust" test, and "judge_check" applies the same three-way rule to it as a candidate, so the

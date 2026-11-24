@@ -36,7 +36,11 @@ fixed), or PLAYER (how Quantavius decides: should be free to evolve, within hone
 | G2 counts lab approvals only | Referee | Pre-registered; admitted lane entries are reported beside it |
 | Simple-rule response (pre-registration section 4) | Player | Quantavius may itself follow a simple rule in its book; the version-2 challenger runs beside it |
 
-## For the owner to decide (before 2026-12-07, because the scripts involved freeze then)
+## Decided by the owner the same day (item 55)
+
+Both were decided on 2026-11-24: own sleeves may hold up to 50% each, and the weekly seal may set as_mix. The original questions follow.
+
+## The questions as put
 
 1. OWN-WORK CEILING. Every sleeve, Quantavius's own included, is capped at 25% of its weekly book (judge.py LO/HI,
    allocator.CAP). Its own work (AP, AP2, AS) can therefore hold at most 75%, and at least 25% must sit in foundation

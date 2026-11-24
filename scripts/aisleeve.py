@@ -26,6 +26,9 @@ registered by hand) join the same pool, so that they can earn weight in this tes
  - LEAVES: on a later admission day when its chance of beating the best yardstick over its last 120 forward days is at
    or below 0.10, or at once when the lane retires it. Every admission and exit is a row in
    data/ai/lane_admissions.jsonl (append-only, in the hash chain); data/ai/lane_admitted.json holds the current set.
+AS MIX (2026-11-24, item 55): the weekly seal may carry "as_mix" = {member: share}; from that seal's effective day AS
+weights its members by it instead of equally (see as_mixes). Every book that holds AS (formula, rivals, contests)
+sees the same AS series.
 Testing only, not financial advice.
 """
 import json, os, sys, datetime as dt
@@ -33,6 +36,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tcal, registry
 SLEEVE = "AS AI strategies (lab, approved)"
 ADMIT_FROM = "2027-02-16"; ADMIT_DAYS = 40; ADMIT_P = 0.90; EXIT_P = 0.10
+
+
+def as_mixes(repo):
+    """[(effective day, as_mix or None)] of the valid weekly seals (judge.jsonl, the same validity rule the allocator
+    uses: sealed before 09:30 New York of the effective day; the first valid row per day stands). A seal without
+    as_mix resets AS to equal weight from its effective day. Members active but not named in a mix get no weight until
+    a later seal names them; if a mix names no active member, AS is equal weight (item 55, 2026-11-24)."""
+    import allocator
+    valid = allocator.judge_seals(repo); out = []
+    for r in _jl(os.path.join(repo, "data", "allocator", "judge.jsonl")):
+        e = r.get("effective")
+        if e in valid and all(x[0] != e for x in out): out.append((e, r.get("as_mix") or None))
+    return sorted(out)
 
 
 def is_admission_day(d):
@@ -98,10 +114,15 @@ def build(repo, day=None):
             ser = registry.series(repo, e, a["from"], days, port, {})
             per["lane:" + eid] = {d: round(v, 5) for d, v in ser.items() if d >= a["from"] and d < a.get("until", "9999")}
         except BaseException as x: errors[eid] = "%s: %s" % (type(x).__name__, x)
-    pooled = {}
+    mixes = as_mixes(repo); pooled = {}
     for d in days:
-        xs = [s[d] for s in per.values() if d in s]
-        if xs: pooled[d] = round(sum(xs) / len(xs), 5)
+        act = {k: s[d] for k, s in per.items() if d in s}
+        if not act: continue
+        mx = next((m for e, m in reversed(mixes) if e <= d), None)
+        w = {k: mx[k] for k in act if mx and mx.get(k, 0) > 0} if mx else {}
+        if w:
+            t = sum(w.values()); pooled[d] = round(sum(act[k] * v / t for k, v in w.items()), 5)
+        else: pooled[d] = round(sum(act.values()) / len(act), 5)
     os.makedirs(os.path.join(repo, "data", "ai"), exist_ok=True)
     json.dump({SLEEVE: pooled} if pooled else {}, open(os.path.join(repo, "data", "ai", "daily.json"), "w"), separators=(",", ":"))
     json.dump(per, open(os.path.join(repo, "data", "ai", "strategies.json"), "w"), separators=(",", ":"))

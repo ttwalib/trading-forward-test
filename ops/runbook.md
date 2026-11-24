@@ -834,7 +834,10 @@ change during the window; its model is pinned (INTERVENTIONS).
 2. Think in four voices, each written down in 2-5 sentences: BULL (which sleeves deserve more than the formula gives
    them and why), BEAR (what in this evidence is noise, flattered or likely to reverse), RISK (concentration, sleeves
    that fall together, the regime, what the worst week for this mix looks like), then the DECISION.
-3. Choose shares for the eligible sleeves only: each between 0.02 and 0.25, adding up to exactly 1.00, no cash (W1, W2,
+3. Choose shares for the eligible sleeves only: each between 0.02 and 0.25, or up to 0.50 for your own sleeves AP, AP2
+   and AS (item 55, 2026-11-24: so that you can back your own work harder), adding up to exactly 1.00, no cash. In the
+   weekly book you may also set "as_mix" = {AS member: share} (members in the brief's your_own_work.as_members, shares
+   adding up to 1.00) to weight the strategies inside AS yourself; without it AS weights them equally (W1, W2,
    D2 and D3 together at most 25%: judge.py refuses a seal above it). You may copy the formula, a simple rule or go
    your own way; say which and why. Changing shares costs money (rules in the brief), so do not churn without a reason.
    LESSONS: write "lessons": what the earlier seals got right and wrong against their own reasoning; each lesson must
@@ -965,3 +968,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 52 | 2026-11-24 | Lane cap 3 -> 6 new entries a month (registry.MAX_NEW_PER_MONTH), before any lane entry had a scored day |
 | 53 | 2026-11-24 | Lane admission: own-strategy lane entries that beat every yardstick join the AS sleeve on fixed monthly dates from 2027-02-16 (aisleeve.py) |
 | 54 | 2026-11-24 | Goal alignment review: findings act through Quantavius's own levers; the morning pick filters split into FIXED FILTERS and a STARTING METHOD the playbook may replace; registry wording; audit checklist step for admission (reports/goal_alignment_2026-11-24.md) |
+| 55 | 2026-11-24 | Own sleeves AP, AP2, AS capped at 50% each in every seal (others stay 25%); weekly seal may set as_mix inside AS (judge.py, aisleeve.py) |

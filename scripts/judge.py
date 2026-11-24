@@ -17,7 +17,11 @@ rival (weekly rebalancing, same costs). Nothing is traded.
 
 Rules the seal enforces (a seal that breaks one is refused, nothing is written):
   - only eligible sleeves (the list in the brief: at least 10 active days in the last 120, duplicates excluded);
-  - every share between 0.02 and 0.25, shares add up to 1.00 (fully invested, no cash);
+  - every share between 0.02 and 0.25, except Quantavius's own sleeves (AP, AP2, AS), which may hold up to 0.50 each
+    (OWN_CAP, owner decision 2026-11-24, item 55); shares add up to 1.00 (fully invested, no cash);
+  - optional "as_mix": {AS member: share}, shares >= 0 adding up to 1.00, members as listed in the brief's
+    your_own_work.as_members; it sets how the AS sleeve weights its strategies from the seal's effective day (weekly
+    book only; read by scripts/aisleeve.py). Without it AS weights its members equally;
   - the short-premium option sleeves (W1, W2, D2, D3) together at most 0.25 (allocator.GROUP_CAP, since 2026-11-21);
   - sealed while the stock market is closed, before 09:30 New York of the first trading day it applies to
     ("effective"), and only one seal per effective day;
@@ -31,6 +35,25 @@ import tcal, allocator
 
 NY = ZoneInfo("America/New_York")
 LO, HI = 0.02, allocator.CAP
+OWN_CAP = 0.50        # cap for Quantavius's own sleeves AP, AP2, AS (owner decision 2026-11-24, item 55); others HI
+
+
+def cap_of(name):
+    return OWN_CAP if name.startswith(OWN) else HI
+
+
+def _fill(scores):
+    """Scale positive scores to 1.00 under each sleeve's own cap (water-filling)."""
+    w = {}; free = {k: v for k, v in scores.items() if v > 0}; room = 1.0
+    for _ in range(len(free) + 1):
+        tot = sum(free.values())
+        if tot <= 0 or room <= 1e-12: break
+        over = {k for k, v in free.items() if w.get(k, 0.0) + room * v / tot >= cap_of(k) - 1e-12}
+        if not over:
+            for k, v in free.items(): w[k] = w.get(k, 0.0) + room * v / tot
+            break
+        for k in over: room -= cap_of(k) - w.get(k, 0.0); w[k] = cap_of(k); free.pop(k)
+    return w
 FILE = os.path.join("data", "allocator", "judge.jsonl")
 
 
@@ -94,7 +117,8 @@ def brief(repo, now=None):
     eff = effective_day(now)
     return {"now_new_york": now.strftime("%Y-%m-%d %H:%M"), "evidence_through": cal[-1] if cal else None, "effective": eff.isoformat(),
             "market_closed_now": market_closed(now), "phase_of_effective_day": tcal.phase(eff),
-            "rules": {"min_share": LO, "max_share": HI, "sum": 1.0, "short_premium_group_max": allocator.GROUP_CAP,
+            "rules": {"min_share": LO, "max_share": HI, "own_sleeves_max_share": OWN_CAP, "own_sleeves": list(OWN),
+                      "as_mix": "optional {AS member: share} adding up to 1.00 (weekly book); without it AS is equal weight", "sum": 1.0, "short_premium_group_max": allocator.GROUP_CAP,
                       "short_premium_group": "W1, W2, D2, D3 together", "cash": "not allowed", "only_listed_sleeves": True,
                       "rebalancing": "weekly; changing a share costs 0% (intraday sleeves), 0.05% (daily library), 0.15% (crypto), 0.5% (options) of the amount moved"},
             "regime_last_day": regime.get(cal[-1]) if cal else None,
@@ -181,8 +205,11 @@ def ai_layer(repo, through):
     rx = L("data", "nightly", "riskx.json")
     if rx and (rx.get("contributions") or {}).get("date", "9999") <= (through or ""):
         out["risk_share_of_formula_weights"] = rx["contributions"].get("sleeves")
+    out["as_members"] = sorted(st)
     out["note"] = ("AP / AP2 are your own stock picks (equal weight one day / your own sizing and holding), AS is your own "
-                   "approved strategies. They are eligible like any sleeve; nothing obliges you to hold or avoid them.")
+                   "approved strategies and admitted lane entries. They are eligible like any sleeve and may hold up to "
+                   "%.2f each; nothing obliges you to hold or avoid them. In the weekly book you may set as_mix to weight "
+                   "the AS members yourself." % OWN_CAP)
     return out
 
 
@@ -197,7 +224,16 @@ def _check(repo, D, now):
     except Exception: err.append("weights must be a {sleeve: number} object")
     bad = sorted(k for k in w if k not in el)
     if bad: err.append("not eligible: " + ", ".join(bad))
-    if any(v < LO - 1e-9 or v > HI + 1e-9 for v in w.values()): err.append("every share must be between %.2f and %.2f" % (LO, HI))
+    if any(v < LO - 1e-9 or v > cap_of(k) + 1e-9 for k, v in w.items()):
+        err.append("every share must be between %.2f and %.2f (%.2f for your own sleeves AP, AP2, AS)" % (LO, HI, OWN_CAP))
+    mix = D.get("as_mix")
+    if mix:
+        try:
+            mix = {str(k): float(v) for k, v in mix.items() if float(v) > 0}
+            members = set((json.load(open(os.path.join(repo, "data", "ai", "strategies.json"))) if os.path.exists(os.path.join(repo, "data", "ai", "strategies.json")) else {}))
+            if set(mix) - members: err.append("as_mix names strategies that are not AS members: " + ", ".join(sorted(set(mix) - members)))
+            if abs(sum(mix.values()) - 1.0) > 0.001: err.append("as_mix shares add up to %.4f, not 1.00" % sum(mix.values()))
+        except Exception: err.append("as_mix must be a {member: share} object")
     if abs(sum(w.values()) - 1.0) > 0.001: err.append("shares add up to %.4f, not 1.00" % sum(w.values()))
     sp = sum(v for k, v in w.items() if k.startswith(allocator.SHORT_PREMIUM))
     if sp > allocator.GROUP_CAP + 1e-9: err.append("the short-premium option sleeves (W1, W2, D2, D3) hold %.2f together; the limit is %.2f" % (sp, allocator.GROUP_CAP))
@@ -237,11 +273,11 @@ def _median_book(samples):
     keys = sorted({k for s in samples for k in s})
     med = {k: st.median([s.get(k, 0.0) for s in samples]) for k in keys}
     med = {k: v for k, v in med.items() if v >= LO / 2}
-    w = allocator.fill_to_one([med]) if med else {}
+    w = _fill(med) if med else {}
     for _ in range(5):
         small = [k for k, v in w.items() if v < LO - 1e-9]
         if not small: break
-        med = {k: v for k, v in med.items() if k not in small}; w = allocator.fill_to_one([med])
+        med = {k: v for k, v in med.items() if k not in small}; w = _fill(med)
     pairs = [(a, b) for i, a in enumerate(samples) for b in samples[i + 1:]]
     disp = sum(sum(abs(a.get(k, 0.0) - b.get(k, 0.0)) for k in keys) / 2 for a, b in pairs) / len(pairs) if pairs else None
     return {k: round(v, 4) for k, v in sorted(w.items())}, (round(disp, 4) if disp is not None else None)
@@ -282,7 +318,8 @@ def seal(repo, path, dry=False, now=None, out=None, daily=False):
            "risk": str(D.get("risk") or "")[:1000], "decision": str(D["decision"])[:1500], "model": str(D.get("model") or "")[:60],
            # since 2026-11-23 (item 35): the stated chance that this book beats the equal-weight foundation over the
            # period it applies to (scored for calibration), the lessons drawn from the earlier seals, and the horizon
-           "p_beat_equal": pb, "lessons": str(D.get("lessons") or "")[:1500], "horizon": "day" if daily else "week"}
+           "p_beat_equal": pb, "lessons": str(D.get("lessons") or "")[:1500], "horizon": "day" if daily else "week",
+           "as_mix": ({str(k): round(float(v), 4) for k, v in (D.get("as_mix") or {}).items() if float(v) > 0} or None)}
     if not dry:
         os.makedirs(os.path.dirname(f), exist_ok=True)
         with open(f, "a") as fh: fh.write(json.dumps(row, separators=(",", ":")) + "\n")
