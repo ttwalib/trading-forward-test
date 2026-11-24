@@ -53,3 +53,4 @@
 {"strategy":"L2 VWAP pullback","symbol":"NFLX","list":"library","side":"long","signal_end":"10:55","detected_at":"2026-11-24T10:55:23-05:00","delay_min":0.4,"ideal_entry":59.08,"fill_price":59.035,"iex_bid":59.03,"iex_ask":59.04,"feed":"iex"}
 {"strategy":"L2 VWAP pullback","symbol":"UBER","list":"library","side":"long","signal_end":"10:55","detected_at":"2026-11-24T10:55:23-05:00","delay_min":0.4,"ideal_entry":65.09,"fill_price":65.08,"iex_bid":65.06,"iex_ask":65.12,"feed":"iex"}
 {"strategy":"L2 VWAP pullback","symbol":"UBER","list":"library","side":"long","signal_end":"11:00","detected_at":"2026-11-24T11:00:37-05:00","delay_min":0.6,"ideal_entry":65.19,"fill_price":65.125,"iex_bid":65.12,"iex_ask":65.18,"feed":"iex"}
+{"strategy":"L2 VWAP pullback","symbol":"DIS","list":"library","side":"long","signal_end":"11:10","detected_at":"2026-11-24T11:10:26-05:00","delay_min":0.4,"ideal_entry":121.61,"fill_price":121.61,"iex_bid":121.65,"iex_ask":122,"feed":"iex"}
