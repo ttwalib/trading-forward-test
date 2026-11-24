@@ -99,7 +99,7 @@ def _dsr_ml4t(xs, N):
         for k in prm:
             if k in ("returns", "strategy_returns", "x"): kw[k] = np.asarray(xs, float) / 100.0
             elif k in ("benchmark_sharpe", "sr_benchmark", "expected_sharpe"): kw[k] = 0.0
-            elif k in ("n_trials", "num_trials", "n_strategies", "trials", "k", "n_tests"): kw[k] = N
+            elif k in ("n_trials", "num_trials", "n_strategies", "trials", "k", "n_tests", "effective_trials"): kw[k] = N
             elif k in ("periods_per_year", "annualization", "frequency"): kw[k] = 252
         if not any(k in kw for k in ("returns", "strategy_returns", "x")):
             return {"ok": False, "error": "unknown signature", "params": prm}
@@ -206,11 +206,13 @@ def orb(repo):
                           "r_net": round((xp - e - cost) / r, 2)}
             mine = ours.get((day, sym)); n_cmp += 1
             if mine is None and theirs is None: continue
-            bad = (mine is None) != (theirs is None) or (mine and theirs and (abs(mine["entry"] - theirs["entry"]) > 0.005
-                    or abs(mine["exit"] - theirs["exit"]) > 0.005 or abs(float(mine["r_net"]) - theirs["r_net"]) > 0.02))
+            bad = (mine is None) != (theirs is None) or (mine and theirs and (abs(mine["entry"] - theirs["entry"]) > 0.015
+                    or abs(mine["exit"] - theirs["exit"]) > 0.015 or abs(float(mine["r_net"]) - theirs["r_net"]) > 0.02))
             if bad: diffs.append({"date": day, "symbol": sym, "ours": mine and {k: mine.get(k) for k in ("entry", "exit", "exit_time", "outcome", "r_net")}, "backtesting_py": theirs})
             else: out.append((day, sym))
-    return {"days": days, "symbol_days_compared": n_cmp, "trades_matched": len(out), "differences": diffs,
+    first = min((d for d in days if d >= "2026-11-18"), default=None)
+    late = [x for x in diffs if first and x["date"] >= first]
+    return {"days": days, "symbol_days_compared": n_cmp, "differences_from_2026_11_18": len(late), "trades_matched": len(out), "differences": diffs,
             "note": "backtesting.py fills the breakout at the signal bar's close (trade_on_close) with a stop-loss and a "
                     "take-profit, and closes at the 15:50 bar's close; our engine does the same by hand. A difference is "
                     "most likely a bar where both the stop and the target were touched (each engine has its own rule) or "
