@@ -27,6 +27,10 @@ STEP 1 - LOOK-AHEAD
 1.5 AI-judgment seals. For every row of data/allocator/judge.jsonl: is sealed_at before 09:30 New York of its
     effective day, does the git commit that added the row have a commit time before that moment too, and does
     evidence_through lie before the effective day? Does allocator.py ignore a late seal (build one on the copy)?
+1.6 Lane admission (scripts/aisleeve.py, item 53). On a copy, fake a lane entry and data/lane/scores.json and run
+    aisleeve.build for an admission day: an entry is admitted only with scores dated before the admission day, counts
+    only from the next trading day, weekly books (kind "allocator") and seeds are never admitted, and an exit stops its
+    returns from the next trading day. Confirm data/ai/lane_admissions.jsonl is in the hash chain.
 
 STEP 2 - FILL FEASIBILITY
 2.1 Volume. The simulation trades in units of risk, not dollars. Assume a $10,000 position per trade and count the

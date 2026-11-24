@@ -298,7 +298,7 @@ data/pit end 2026-11-13, so the ranker (after 2026-12-07) needs a nightly refres
 POINT-IN-TIME UNIVERSE: scripts/pitu.py gives for any date the 100 S&P 500 members of that time with the highest prior
 dollar volume (cache data/pit/monthly_top100.json). The allocator's priors stay on today's S&P 100 (the pit stand-in is
 not used as the backtest record).
-CHALLENGER LANE (outside the frozen scripts, zero weight in the verdict): scripts/registry.py keeps
+CHALLENGER LANE (outside the frozen scripts; the verdict code never reads it, but its own-strategy entries can earn weight in Quantavius's book through LANE ADMISSION below): scripts/registry.py keeps
 strategies/registry.json (every idea with a SHA-256 of its code, scored from the next full trading day after
 registration: data/lane/scores.json) against SPY, equal weight, baseline A, risk parity, the formula ("ai" in
 registry.YARDSTICKS) and the champion. Champion: ai_judgment (data/lane/champions.jsonl, 2026-11-23). Entries also
@@ -307,6 +307,14 @@ registered automatically. Reviews on the third Tuesday of Feb, May, Aug, Nov (ta
 promote with >= 60 forward days, bootstrap chance >= 0.98 against the champion and every yardstick, deflated Sharpe
 chance >= 0.95 with the lifetime trial count; retire on a recent chance <= 0.10 of beating the best yardstick over 120
 days or a forward drawdown above 20%. At most 6 new entries a month (3 until 2026-11-24; raised because the owner expects four or more new ideas a month; the deflated-Sharpe test counts every lifetime trial, so more entries make each promotion harder); a retrain is a new version with its own start.
+LANE ADMISSION (2026-11-24, item 53; scripts/aisleeve.py): on the third Tuesday of every month from 2027-02-16, any lane
+entry that is Quantavius's own strategy or model (not a seed, not a weekly book of kind "allocator", not retired) with
+at least 40 forward days, a bootstrap chance >= 0.90 of beating every yardstick and a deflated-Sharpe chance >= 0.90
+(lifetime trials) joins the AS sleeve pool from the next trading day, using the lane scores of the night before. It
+leaves on a later admission day when its chance of beating the best yardstick over its last 120 forward days is <= 0.10,
+or at once when the lane retires it. Log: data/ai/lane_admissions.jsonl (hash chain); current set:
+data/ai/lane_admitted.json. Quantavius then weighs AS in its weekly book as it sees fit (25% cap). G2 still counts lab
+approvals only; admitted lane entries are reported beside it.
 DAILY CHALLENGER "judge_daily": Mondays and Thursdays at 08:41 New York from 2026-12-07, `judge.py seal ... --out
 data/allocator/judge_daily.jsonl --daily`; on other days its last seal carries forward (scripts/seals.py). MODEL
 CONTEST from 2026-11-29: Opus (Sun 13:41 ET) and Sonnet (Sun 13:56 ET) seal weekly weights from the identical evidence
@@ -614,8 +622,10 @@ returns of EVERY setting tried as {"configs": {setting: {date: ret %}}} and run
 `python3 -I /tmp/repo/scripts/cpcv.py /tmp/cfg.json`; put its output in cand.json as "cpcv". A candidate without a
 passing cpcv is not approved (the gate checks it). New ideas enter only as new strategies through the gate.
 TRIALS: every parameter set or idea you evaluate, kept or dropped, is a trial: the gate logs its own; log any other sweep
-with `python3 -I /tmp/repo/scripts/checks.py trial /tmp/repo learning "<short name>" <configs tried>`. Every proposal
-names the trial count. Inputs add: the latest models/report_*.json (permutation importance, calibration) and
+with `python3 -I /tmp/repo/scripts/checks.py trial /tmp/repo learning "<short name>" <configs tried>`. Every finding
+names the trial count. FINDINGS ACT THROUGH QUANTAVIUS'S OWN LEVERS (item 54): the pick playbook (below), new strategies
+through the gate, the ranking and the lessons the weekly seals read; they never change the foundation (data/state
+settings, baseline and control rules, the library), which stays fixed so that it can measure Quantavius. Inputs add: the latest models/report_*.json (permutation importance, calibration) and
 reports/stats/<latest>.json.
 GATE: a candidate is APPROVED only if `python3 -I /tmp/repo/scripts/review.py gate /tmp/repo /tmp/cand.json` says PASS.
 cand.json = {"id", "thesis", "family", "oos_results" (held-out per-trade net %/100), "n_configs_tried", "pbo" (cpcv
@@ -653,7 +663,8 @@ at the top of ops/pick_playbook.md (version number + 1, date, the rule text in f
 "change", "evidence", "n", "q"} to data/picks/playbook_log.jsonl, log `checks.py trial /tmp/repo playbook "v<N>:
 <change>" 1`, and log the change with `interventions.py add ... quantavius playbook ...` (INTERVENTIONS). No qualifying
 finding: change nothing and say so. Never change the filters that keep picks liquid and long-only, the 09:30 cut-off or
-the 3-8 picks range. The playbook keeps learning to the end of the test.
+the 3-8 picks range (the FIXED FILTERS of the morning prompt). The STARTING METHOD (a confirmed catalyst or a pre-market
+gap, favour gap-ups) is Quantavius's own and the playbook may replace it. The playbook keeps learning to the end of the test.
 
 ## WEEKLY REPORT
 
@@ -952,3 +963,5 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 50 | 2026-11-24 | Stocks scoring and Reddit snapshot moved to GitHub (daily.py stocks, sentiment); AI stocks task retired |
 | 51 | 2026-11-24 | Outside-repo review (ML for Trading, FinceptTerminal, awesome-quant): xcheck workflow (calendar vs exchange_calendars, DSR and PBO vs independent code and ml4t-diagnostic, baseline A re-run in backtesting.py), report only and isolated; lab gate neighbour check; nightly cost reality check (checks.py cost-check). Dec 8 plan gains the rest (session addendum) |
 | 52 | 2026-11-24 | Lane cap 3 -> 6 new entries a month (registry.MAX_NEW_PER_MONTH), before any lane entry had a scored day |
+| 53 | 2026-11-24 | Lane admission: own-strategy lane entries that beat every yardstick join the AS sleeve on fixed monthly dates from 2027-02-16 (aisleeve.py) |
+| 54 | 2026-11-24 | Goal alignment review: findings act through Quantavius's own levers; the morning pick filters split into FIXED FILTERS and a STARTING METHOD the playbook may replace; registry wording; audit checklist step for admission (reports/goal_alignment_2026-11-24.md) |

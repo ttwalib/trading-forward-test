@@ -2,7 +2,8 @@
 """The challenger lane: a permanent register of strategies, scored only on days after they were written down.
 
 Added 2026-11-22 (owner decision: the test should keep running and building on new data). It sits OUTSIDE the
-frozen scripts and has no weight in the H1 verdict; cycle 1 (to 2027-05-14) is judged exactly as registered.
+frozen scripts; the verdict code never reads it. Since 2026-11-24 (item 53) entries that are Quantavius's own strategies
+or models can join the AS sleeve through LANE ADMISSION (scripts/aisleeve.py) and so earn weight in its book.
 
 How it works
 - REGISTER: every new idea (strategy-lab approvals, the "version 2" of the simple-rule response, ML models, ideas
