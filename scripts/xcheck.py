@@ -93,9 +93,21 @@ def _dsr_ml4t(xs, N):
     try:
         import numpy as np
         from ml4t.diagnostic.evaluation.stats import deflated_sharpe_ratio
-        r = deflated_sharpe_ratio(returns=np.asarray(xs, float) / 100.0, benchmark_sharpe=0.0, n_trials=N, periods_per_year=252)
+        import inspect
+        prm = list(inspect.signature(deflated_sharpe_ratio).parameters)
+        kw = {}
+        for k in prm:
+            if k in ("returns", "strategy_returns", "x"): kw[k] = np.asarray(xs, float) / 100.0
+            elif k in ("benchmark_sharpe", "sr_benchmark", "expected_sharpe"): kw[k] = 0.0
+            elif k in ("n_trials", "num_trials", "n_strategies", "trials", "k", "n_tests"): kw[k] = N
+            elif k in ("periods_per_year", "annualization", "frequency"): kw[k] = 252
+        if not any(k in kw for k in ("returns", "strategy_returns", "x")):
+            return {"ok": False, "error": "unknown signature", "params": prm}
+        r = deflated_sharpe_ratio(**kw)
         fields = {k: getattr(r, k) for k in dir(r) if not k.startswith("_") and isinstance(getattr(r, k, None), (int, float))}
-        return {"ok": True, "fields": fields}
+        if isinstance(r, dict): fields = {k: v for k, v in r.items() if isinstance(v, (int, float))}
+        elif isinstance(r, (int, float)): fields = {"value": float(r)}
+        return {"ok": True, "fields": fields, "params": prm}
     except Exception as ex:
         return {"ok": False, "error": "%s: %s" % (type(ex).__name__, str(ex)[:200])}
 
@@ -132,8 +144,9 @@ def stats_check(repo):
     return {"n_trials_used": N, "dsr": rows, "max_dsr_diff_ours_vs_scipy": max((r["diff"] for r in rows), default=None),
             "pbo": {"ours_cpcv": {k: ours_pbo.get(k) for k in ("pbo", "median_sharpe", "share_positive", "pass", "error") if k in ours_pbo},
                     "independent_cscv": _pbo_cscv(configs)},
-            "note": "DSR: same formula written twice, so differences above 1e-6 mean an implementation error in one of "
-                    "them. ml4t-diagnostic may use a different benchmark (correlation-adjusted trial count), so its value "
+            "note": "DSR: same formula written twice. Ours standardises skewness and kurtosis with the sample standard "
+                    "deviation, scipy with the population one, so differences of about 1e-4 are that convention; larger ones "
+                    "would mean an implementation error. ml4t-diagnostic may use a different benchmark (correlation-adjusted trial count), so its value "
                     "is a third opinion, not a match target. PBO: different split designs, compare the size, not the digits."}
 
 
@@ -154,6 +167,7 @@ def orb(repo):
         def next(self):
             t = self.data.index[-1]; hm = t.strftime("%H:%M"); end = (t + pd.Timedelta(minutes=5)).strftime("%H:%M")
             h, l, c = Dec(str(self.data.High[-1])), Dec(str(self.data.Low[-1])), Dec(str(self.data.Close[-1]))
+            if hm < "09:30": return
             if hm in ("09:30", "09:35", "09:40"):
                 self.hi = h if self.hi is None else max(self.hi, h); self.lo = l if self.lo is None else min(self.lo, l); return
             if self.position:
@@ -177,6 +191,9 @@ def orb(repo):
             rows = [b for b in B if dt.datetime.fromtimestamp(b["t"], NY).date().isoformat() == day]
             rows = [b for b in rows if "09:30" <= dt.datetime.fromtimestamp(b["t"], NY).strftime("%H:%M") < "16:00"]
             if len(rows) < 4: continue
+            # backtesting.py calls next() from the SECOND bar on, so a copy of the first bar stamped 09:25 is put in
+            # front; the strategy ignores any bar before 09:30.
+            rows = sorted(rows, key=lambda b: b["t"]); rows = [dict(rows[0], t=rows[0]["t"] - 300)] + rows
             idx = pd.DatetimeIndex([dt.datetime.fromtimestamp(b["t"], NY).replace(tzinfo=None) for b in rows])
             df = pd.DataFrame({"Open": [b["o"] for b in rows], "High": [b["h"] for b in rows], "Low": [b["l"] for b in rows],
                                "Close": [b["c"] for b in rows], "Volume": [b.get("v", 0) for b in rows]}, index=idx).sort_index()
