@@ -1,0 +1,30 @@
+{
+ "day": "2026-11-24",
+ "at": "2026-11-24 18:43",
+ "ok": true,
+ "picks": [
+  "BBY",
+  "DLTR",
+  "DKS"
+ ],
+ "baseline": {
+  "rules": "15m/mid/2R",
+  "trades": 3,
+  "wins": 0,
+  "total_r": -1.61
+ },
+ "adaptive": {
+  "rules": "5m/mid/1R",
+  "trades": 3,
+  "wins": 1,
+  "total_r": -0.38
+ },
+ "no_trade": [],
+ "parity": {
+  "compared": false,
+  "identical": true,
+  "diffs": []
+ },
+ "check_only": false,
+ "written": 6
+}

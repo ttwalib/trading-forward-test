@@ -1,0 +1,30 @@
+{
+ "day": "2026-11-24",
+ "at": "2026-11-24 18:43",
+ "ok": true,
+ "check_only": false,
+ "label": "5m/mid/1R",
+ "summary": {
+  "trades": 13,
+  "win_rate": 69.2,
+  "avg_r_net": 0.415
+ },
+ "days": [
+  "2026-11-20",
+  "2026-11-23",
+  "2026-11-24"
+ ],
+ "missing": [],
+ "parity": {
+  "compared": true,
+  "identical": true,
+  "diffs": []
+ },
+ "retune": {
+  "decision": "already logged: challenger still on trial"
+ },
+ "written": {
+  "trades": 0,
+  "log_row": false
+ }
+}
