@@ -1,6 +1,8 @@
 {
  "all": {
   "days": 1,
+  "missed_days": 0,
+  "coverage": 1.0,
   "mean_ic": -0.1759,
   "t": null,
   "p_mean_ic_above_0": null,

@@ -102,7 +102,7 @@
    "forward_trades": 6,
    "forward_avg_pct": -0.206,
    "open": 0,
-   "days": 68
+   "days": 69
   },
   "L2 VWAP pullback": {
    "backtest_trades": 267,
@@ -138,5 +138,6 @@
   }
  },
  "new_closed": 0,
- "new_closed_rows": []
+ "new_closed_rows": [],
+ "skipped_no_fill_bar": {}
 }

@@ -6,11 +6,7 @@
    "deflated_sharpe_p": null,
    "forward_from": "2026-11-23",
    "perf": {
-    "days": 2,
-    "max_dd_pct": 0.0,
-    "mean_pct": 0.08532,
-    "return_pct": 0.171,
-    "sharpe": 11.225
+    "days": 1
    },
    "recent_vs_best_yardstick": null,
    "status": "champion",

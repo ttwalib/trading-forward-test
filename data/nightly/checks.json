@@ -1,17 +1,17 @@
 {
  "engine_report": {
   "baseline": {
-   "n": 50,
-   "median_cost_vs_lag_pct": -0.0172,
-   "mean_cost_vs_lag_pct": -0.0607,
-   "worse_than_lag": 23,
+   "n": 83,
+   "median_cost_vs_lag_pct": -0.0489,
+   "mean_cost_vs_lag_pct": -0.0663,
+   "worse_than_lag": 34,
    "median_delay_min": 0.4
   },
   "library": {
-   "n": 34,
-   "median_cost_vs_lag_pct": 0.0031,
-   "mean_cost_vs_lag_pct": -0.0261,
-   "worse_than_lag": 18,
+   "n": 39,
+   "median_cost_vs_lag_pct": 0.0032,
+   "mean_cost_vs_lag_pct": -0.0301,
+   "worse_than_lag": 21,
    "median_delay_min": 0.4
   },
   "note": "measurement only: fills.py keeps using engine prices for baseline rows detected within 20 minutes; a mean cost clearly above 0 over 100+ rows would mean the engine fill is harsher than the 5-minute rule, a mean below 0 that it flatters"
@@ -93,7 +93,7 @@
  },
  "cost_check": {
   "n_quotes": 56,
-  "n_engine_fills": 50,
+  "n_engine_fills": 83,
   "half_spread_pct": 0.0126,
   "engine_fill_gap_pct": 0.0,
   "measured_side_cost_pct": 0.0126,
@@ -104,20 +104,20 @@
   "note": "per side, in percent of price; the delay drift of the hourly AI runs is left out because the engine, not the hourly run, sets fills since 2026-11-19"
  },
  "health": {
-  "at": "2026-11-24 09:55",
-  "ticks_today": 11,
-  "last_tick": "09:50",
-  "last_tick_age_min": 5,
-  "max_gap_min": 5,
-  "tick_seconds_median": 4.0,
-  "tick_seconds_max": 5.9,
-  "minutes_month_so_far": 269,
-  "minutes_month_projected": 430,
+  "at": "2026-11-24 11:06",
+  "ticks_today": 25,
+  "last_tick": "11:00",
+  "last_tick_age_min": 6,
+  "max_gap_min": 8,
+  "tick_seconds_median": 4.9,
+  "tick_seconds_max": 7.9,
+  "minutes_month_so_far": 283,
+  "minutes_month_projected": 453,
   "minutes_full_month_estimate": 2924,
   "minutes_quota": 3000,
   "token_expiry": "2027-06-15",
   "token_days_left": 203,
-  "data_size_mb": 142.3,
+  "data_size_mb": 177.9,
   "alerts": []
  },
  "replay_day": {

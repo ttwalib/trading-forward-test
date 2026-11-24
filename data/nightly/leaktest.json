@@ -1,0 +1,22 @@
+{
+ "plants": {
+  "late_seal_dropped": true,
+  "on_time_seal_kept": true,
+  "late_ranking_counted_as_missed": true,
+  "late_pick_not_counted": true,
+  "edited_pick_scored_as_first_seen": true,
+  "deleted_pick_still_scored": true,
+  "integrity_flags_edit_and_delete": true
+ },
+ "ml_parity": {
+  "day": "2026-11-19",
+  "planted_in": 7,
+  "clean_ok": true,
+  "clean_feature_share": 0.0,
+  "leak_ok": false,
+  "leak_feature_share": 1.0,
+  "passed": true,
+  "note": null
+ },
+ "passed": true
+}
