@@ -194,3 +194,25 @@
 {"date":"2026-11-23","variant":"AC control","symbol":"T","outcome":"flat by close","r_net":0.42,"entry_time":"13:25"}
 {"date":"2026-11-23","variant":"AC control","symbol":"TMUS","outcome":"flat by close","r_net":0.39,"entry_time":"15:10"}
 {"date":"2026-11-23","variant":"AC control","symbol":"V","outcome":"flat by close","r_net":-0.09,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"ABBV","outcome":"flat by close","r_net":1.43,"entry_time":"09:55"}
+{"date":"2026-11-24","variant":"AC control","symbol":"ACN","outcome":"flat by close","r_net":-0.1,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"ADBE","outcome":"flat by close","r_net":0.02,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"AMT","outcome":"flat by close","r_net":0.07,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"AXP","outcome":"stop","r_net":-1.06,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"CVS","outcome":"flat by close","r_net":-0.2,"entry_time":"10:05"}
+{"date":"2026-11-24","variant":"AC control","symbol":"DIS","outcome":"flat by close","r_net":1.03,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"GD","outcome":"stop","r_net":-1.08,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"GM","outcome":"stop","r_net":-1.07,"entry_time":"09:55"}
+{"date":"2026-11-24","variant":"AC control","symbol":"GS","outcome":"stop","r_net":-1.06,"entry_time":"10:05"}
+{"date":"2026-11-24","variant":"AC control","symbol":"HON","outcome":"flat by close","r_net":1.16,"entry_time":"09:55"}
+{"date":"2026-11-24","variant":"AC control","symbol":"JNJ","outcome":"flat by close","r_net":0.98,"entry_time":"09:55"}
+{"date":"2026-11-24","variant":"AC control","symbol":"LMT","outcome":"flat by close","r_net":0.02,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"MS","outcome":"stop","r_net":-1.06,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"PEP","outcome":"flat by close","r_net":0.78,"entry_time":"10:00"}
+{"date":"2026-11-24","variant":"AC control","symbol":"PFE","outcome":"flat by close","r_net":1.0,"entry_time":"09:50"}
+{"date":"2026-11-24","variant":"AC control","symbol":"PM","outcome":"flat by close","r_net":-0.26,"entry_time":"10:10"}
+{"date":"2026-11-24","variant":"AC control","symbol":"QCOM","outcome":"flat by close","r_net":0.09,"entry_time":"12:35"}
+{"date":"2026-11-24","variant":"AC control","symbol":"T","outcome":"flat by close","r_net":0.31,"entry_time":"10:00"}
+{"date":"2026-11-24","variant":"AC control","symbol":"TMUS","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
+{"date":"2026-11-24","variant":"AC control","symbol":"UNP","outcome":"stop","r_net":-1.06,"entry_time":"10:05"}
+{"date":"2026-11-24","variant":"AC control","symbol":"V","outcome":"flat by close","r_net":0.92,"entry_time":"09:50"}

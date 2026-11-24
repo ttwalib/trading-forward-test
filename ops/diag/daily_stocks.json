@@ -1,14 +1,14 @@
 {
- "day": "2026-11-23",
- "at": "2026-11-24 02:23",
+ "day": "2026-11-24",
+ "at": "2026-11-24 18:27",
  "ok": true,
  "parity": {
-  "compared": true,
+  "compared": false,
   "identical": true,
   "diffs": []
  },
- "baseline_trades": 11,
- "control_trades": 16,
+ "baseline_trades": 13,
+ "control_trades": 22,
  "no_data": [],
- "written": false
+ "written": true
 }
