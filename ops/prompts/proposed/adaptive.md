@@ -1,0 +1,1 @@
+Retired 2026-11-25: the adaptive stock review runs on GitHub (scripts/daily.py adaptive, after the nightly fetch). Reply only "Retired: adaptive stocks run on GitHub (scripts/daily.py adaptive)." and stop.

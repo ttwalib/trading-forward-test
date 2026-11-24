@@ -388,8 +388,10 @@ workflow right after the nightly fetch and the stocks scoring, calling orb_adapt
 inputs as the old 17:20 task (the last 240 stored 5-minute bars of SPY and the 22 watchlist stocks, DAYS = the last 3
 stored dates). It writes AdaptiveStocks, one AdaptiveLog "stocks" row and data/state/stocks.json; run report
 ops/diag/daily_adaptive.json. If the ledgers already hold the day it compares instead of writing (parity; identical on
-2026-11-18 to 2026-11-24 with the settings in use each day). The AI task trig_01XqVW4yGp2cwSyEXUobMusn is disabled and
-replies "retired". To re-run, push ops/fetch_request.json with mode "nightly".
+2026-11-18 to 2026-11-24 with the settings in use each day). Until the owner approves disabling the AI task
+trig_01XqVW4yGp2cwSyEXUobMusn (a scheduled run cannot change scheduled tasks; proposed prompt in ops/prompts/proposed/),
+the 17:20 task still writes first and the GitHub step only compares; once it is disabled, GitHub writes. To re-run, push
+ops/fetch_request.json with mode "nightly".
 frozen is always false (no holdout): score (orb_adaptive.py score) and run optimize as the prompt says, to 2027-05-14.
 Settings: data/state/stocks.json holds the stock adaptive settings (copied from "Adaptive"!B3/D3); with the sheet
 retired, read and write them there instead of the sheet cells: {"live": {or_min, stop, target_r, spy},
@@ -424,8 +426,12 @@ Neither file is a pick or a seal. Research budget: 15 searches, 20 Twelve Data c
 The scripted evening scoring (below) is split since 2026-11-25 (item 62): GitHub writes the stock rows (`scripts/daily.py
 picks-evening` after the nightly fetch, which also stores the picks' 5-minute bars: baseline A, adaptive with the day's
 AdaptiveLog old_settings, and "no trade" rows; run report ops/diag/daily_picks_evening.json; parity identical on
-2026-11-19, 11-20 and 11-23); the 20:20 AI task now writes only the ATM-call and smart-call replays, which need IBKR
-option data, reading the baseline trades from those rows.
+2026-11-19, 11-20 and 11-23); the 20:20 AI task is then to write only the ATM-call and smart-call replays, which need IBKR
+option data, reading the baseline trades from those rows. SWITCH: GitHub writes only when data/state/picks_evening.json
+has "github_writes": true, set by the session that pushes the option-only prompt (ops/prompts/proposed/evening.md) after
+the owner's approval; until then the AI task writes every row as before and GitHub only compares. Exception: GitHub
+wrote the stock rows of 2026-11-24 during the build test, so the old prompt stops as "already scored" that night and the
+option replays of 2026-11-24 are to be added by a later session (IBKR read-only option bars).
 
 LEDGER AgentTrades. Its option replays are on the AI's own picks and continue. GIT.
 
@@ -1072,4 +1078,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 59 | 2026-11-24 | External review of Nov 24 (Jarvis): witness for seals, drafts and rankings with GitHub's push clock, one file per sighting (N1, N7); picks scored from first-seen copies with an integrity report (N3); nightly critical-path fix (N4); freeze list 17 -> 28, hand freeze record (scripts/freeze.py), pinned numpy, guard reads the record, ops/nightly_extra.json (N2); nightly planted-leak test on the verdict path (N5); G1 coverage rule: a missed ranking day counts as IC 0 (N6); AI sessions per weekday in tasks.json and SPEC (N8); pack_schema and pack_sha in seal rows (N9); skipped fill-bar signals counted (N11); unfloored variance for reported Sharpe, volatility matching and beta (N12); picks reported by playbook version and by vehicle (N13) |
 | 60 | 2026-11-24 | AP and AP2 joint share (same stock picks) recorded in every seal row as same_picks_share and flagged above 50%, not capped (owner choice); evidence pack schema 3 |
 | 61 | 2026-11-24 | Lab runs four times a week (Mon, Wed, Fri, Sat 23:15 ET; Monday options track, Friday the other Wednesday track); more lab runs mean more trials, and every one is counted |
-| 62 | 2026-11-25 | Adaptive stocks moved to GitHub (scripts/daily.py adaptive; AI task retired); stock half of the evening picks scoring moved to GitHub (daily.py picks-evening; nightly fetch stores the picks' 5-minute bars); the 20:20 task keeps only the option replays; watchdog list updated |
+| 62 | 2026-11-25 | Adaptive stocks and the stock half of the evening picks scoring built on GitHub (scripts/daily.py adaptive, picks-evening; nightly fetch stores the picks' 5-minute bars); parity identical Nov 18-24; switching off the AI steps awaits the owner's approval (prompts in ops/prompts/proposed/) |

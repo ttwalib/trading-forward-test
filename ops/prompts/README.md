@@ -9,8 +9,8 @@ the copy and adds a row to ops/interventions.jsonl.
 |---|---|---|
 | morning.md | Morning research + events (08:05 ET daily, Fable) | trig_01NH3ceZ9ypKfB94HSpRW65A |
 | stocks.md | Stocks + control list (09:12, 16:12 ET, Sonnet) | trig_01Udt8Hay1dh3AyxtaP4ejDN |
-| adaptive.md | Adaptive stocks (retired 2026-11-25, runs on GitHub) | trig_01XqVW4yGp2cwSyEXUobMusn |
-| evening.md | Evening scoring of picks: option replays only since 2026-11-25 (20:20 ET, Sonnet) | trig_0158DyhLj3M3cKod2eXxFn1g |
+| adaptive.md | Adaptive stocks (17:20 ET, Sonnet; retirement proposed in proposed/adaptive.md, awaiting the owner's approval) | trig_01XqVW4yGp2cwSyEXUobMusn |
+| evening.md | Evening scoring of picks (20:20 ET, Sonnet; option-only prompt proposed in proposed/evening.md, awaiting the owner's approval) | trig_0158DyhLj3M3cKod2eXxFn1g |
 | orchestrator.md | Orchestrator (21:05 ET, Sonnet) | trig_01PgUGPDdTViNz1u3Wkqy4GW |
 | watchdog.md | Watchdog (07:35, 19:35 ET, Sonnet; rebuilt 2026-11-24) | trig_01McTsF59Sw14Dm9ogHwr8Z1 |
 | lab.md | Learning + strategy lab (Mon, Wed, Fri, Sat 23:15 ET, Fable) | trig_012qn78KzSzn173hQGXeEnJq |
@@ -39,3 +39,5 @@ data:statistical-analysis; audit, review, debate, lane review: data:statistical-
 (audit also backtest-expert); build sessions: code-review:code-review.
 
 | evening_review.md | Evening review + prep (20:47 ET weekdays) | trig_013i7PDxNJPCsBBZoKbfZGVw |
+
+PROPOSED (2026-11-25, build day 3): ops/prompts/proposed/ holds prompts written by a scheduled build session that could not push them, because a scheduled run may not change scheduled tasks without the owner's approval. A session the owner approves pushes them with update_trigger, copies them over the live copies here and deletes the proposed file.

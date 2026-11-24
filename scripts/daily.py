@@ -368,7 +368,12 @@ def picks_evening(repo, day=None, check_only=False):
     res = {"day": day, "at": nowny, "ok": True, "picks": picks, "baseline": {"rules": sa["rules"], "trades": sa["count"], "wins": sa["wins"], "total_r": sa["total_r_net"]},
            "adaptive": {"rules": sb["rules"], "trades": sb["count"], "wins": sb["wins"], "total_r": sb["total_r_net"]},
            "no_trade": sorted(set(picks) - traded), "parity": {"compared": bool(old), "identical": not diffs, "diffs": diffs[:20]}, "check_only": check_only}
-    if not check_only and not old:
+    # Switch (2026-11-25): GitHub writes the stock rows only once the 20:20 AI task runs the option-only prompt, because
+    # the old prompt stops as "already scored" when stock rows exist. data/state/picks_evening.json {"github_writes": true}
+    # is set by the session that pushes that prompt; until then this step only compares (parity).
+    writes = bool(jload(os.path.join(repo, "data", "state", "picks_evening.json"), {}).get("github_writes"))
+    res["github_writes"] = writes
+    if not check_only and not old and writes:
         ledger.add(repo, "AgentTrades", rows); res["written"] = len(rows)
     jsave(dpath, res); return res
 
