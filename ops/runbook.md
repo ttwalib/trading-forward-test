@@ -306,7 +306,7 @@ registry.YARDSTICKS) and the champion. Champion: ai_judgment (data/lane/champion
 registered automatically. Reviews on the third Tuesday of Feb, May, Aug, Nov (task "Lane review", first 2027-05-18):
 promote with >= 60 forward days, bootstrap chance >= 0.98 against the champion and every yardstick, deflated Sharpe
 chance >= 0.95 with the lifetime trial count; retire on a recent chance <= 0.10 of beating the best yardstick over 120
-days or a forward drawdown above 20%. At most 3 new entries a month; a retrain is a new version with its own start.
+days or a forward drawdown above 20%. At most 6 new entries a month (3 until 2026-11-24; raised because the owner expects four or more new ideas a month; the deflated-Sharpe test counts every lifetime trial, so more entries make each promotion harder); a retrain is a new version with its own start.
 DAILY CHALLENGER "judge_daily": Mondays and Thursdays at 08:41 New York from 2026-12-07, `judge.py seal ... --out
 data/allocator/judge_daily.jsonl --daily`; on other days its last seal carries forward (scripts/seals.py). MODEL
 CONTEST from 2026-11-29: Opus (Sun 13:41 ET) and Sonnet (Sun 13:56 ET) seal weekly weights from the identical evidence
@@ -951,3 +951,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 44-49 | 2026-11-23 | Tools and skills per task; outside data on GitHub (ape.py, extdata.py, SEC_CONTACT secret); peer map; Alpha Vantage readings kept; Data and code-review plugins |
 | 50 | 2026-11-24 | Stocks scoring and Reddit snapshot moved to GitHub (daily.py stocks, sentiment); AI stocks task retired |
 | 51 | 2026-11-24 | Outside-repo review (ML for Trading, FinceptTerminal, awesome-quant): xcheck workflow (calendar vs exchange_calendars, DSR and PBO vs independent code and ml4t-diagnostic, baseline A re-run in backtesting.py), report only and isolated; lab gate neighbour check; nightly cost reality check (checks.py cost-check). Dec 8 plan gains the rest (session addendum) |
+| 52 | 2026-11-24 | Lane cap 3 -> 6 new entries a month (registry.MAX_NEW_PER_MONTH), before any lane entry had a scored day |

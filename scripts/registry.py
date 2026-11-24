@@ -46,7 +46,7 @@ import hashlib, importlib.util, json, math, os, random, sys, datetime as dt
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import tcal
 
-MAX_NEW_PER_MONTH = 3
+MAX_NEW_PER_MONTH = 6   # raised from 3 on 2026-11-24 (owner expects 4+ new ideas a month; no lane entry scored yet)
 MIN_DAYS, PROMOTE_P, DSR_MIN = 60, 0.98, 0.95
 RETIRE_WINDOW, RETIRE_P, RETIRE_DD = 120, 0.10, 20.0
 FIRST_REVIEW = dt.date(2027, 5, 18)
