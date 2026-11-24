@@ -411,6 +411,11 @@ the stocks that share it).
 KEEP WHAT YOU FETCH: save every Alpha Vantage EARNINGS_CALL_TRANSCRIPT, HISTORICAL_PUT_CALL_RATIO and INSIDER_TRANSACTIONS
 result to /tmp and log it with `python3 -I /tmp/repo/scripts/extlog.py transcript|putcall|insider /tmp/repo FILE SYM
 [QUARTER]` (data/ext/av/), so the readings accumulate as a point-in-time dataset.
+SOURCE LOG (every run, from 2026-11-25): right after the ToolSearch that loads the data tools, write
+ops/diag/morning_sources.json = {"day": DAY, "at": NOWNY, "loaded": [tool names that loaded], "not_loaded": [names
+ToolSearch did not return], "failed": {"<tool>": "<exact error text>"}} with python, and update "failed" whenever a
+call errors (plan, rate limit, auth, not connected). It is committed with the final GIT. It records tool access only;
+it changes no pick.
 FMP 8-K TIMING (2026-11-24): FMP secFilings 8k-latest lists filings by acceptance time, and the first 8-Ks of a day are
 usually accepted after 08:30 New York, so a run at 08:05-08:15 often gets an empty list for today. Call it with from_date =
 the previous trading day and to_date = DAY (one call), and treat an empty result as "no filings yet", not as a failed source.
