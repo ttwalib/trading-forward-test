@@ -1,6 +1,6 @@
 {
- "at": "2026-11-23T22:20:17Z",
- "nowny": "2026-11-23 17:20",
+ "at": "2026-11-24T01:48:07Z",
+ "nowny": "2026-11-23 20:48",
  "ok": true,
  "tracks": {
   "15m fixed": {
@@ -16,81 +16,19 @@
    "open": 0
   },
   "1h fixed": {
-   "closed": 1,
+   "closed": 0,
    "wins": 0,
-   "total_r": -0.81,
+   "total_r": 0,
    "open": 2
   },
   "1h adaptive": {
-   "closed": 1,
+   "closed": 0,
    "wins": 0,
-   "total_r": -0.81,
+   "total_r": 0,
    "open": 2
   }
  },
  "gaps": {},
- "ledger_rows": 6,
- "ml_predictions": 0,
- "review": [
-  {
-   "track": "15m adaptive",
-   "strategy": "X1",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "15m adaptive",
-   "strategy": "X2",
-   "decision": "challenger still on trial"
-  },
-  {
-   "track": "15m adaptive",
-   "strategy": "X3",
-   "decision": "new challenger proposed"
-  },
-  {
-   "track": "15m adaptive",
-   "strategy": "M1",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "15m adaptive",
-   "strategy": "M2",
-   "decision": "challenger still on trial"
-  },
-  {
-   "track": "15m adaptive",
-   "strategy": "M3",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "1h adaptive",
-   "strategy": "X1",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "1h adaptive",
-   "strategy": "X2",
-   "decision": "challenger still on trial"
-  },
-  {
-   "track": "1h adaptive",
-   "strategy": "X3",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "1h adaptive",
-   "strategy": "M1",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "1h adaptive",
-   "strategy": "M2",
-   "decision": "no better settings found"
-  },
-  {
-   "track": "1h adaptive",
-   "strategy": "M3",
-   "decision": "no better settings found"
-  }
- ]
+ "ledger_rows": 4,
+ "ml_predictions": 0
 }
