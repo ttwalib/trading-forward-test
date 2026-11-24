@@ -193,9 +193,12 @@ def stocks(repo, day=None, check_only=False):
     cal = tcal.info(day) if hasattr(tcal, "info") else None
     full = cal.get("full_trading_day") if isinstance(cal, dict) else None
     if full is False: return {"day": day, "status": "not a full trading day"}
+    if day > now.date().isoformat() or (day == now.date().isoformat() and now.strftime("%H:%M") < "16:05"):
+        return {"day": day, "status": "session not closed yet"}
     U = jload(os.path.join(repo, "data", "universe.json"), {}); here = os.path.dirname(os.path.abspath(__file__)); res = {"day": day}
     for name, syms in (("watchlist", U["watchlist"]), ("control", U["control"])):
         bars = _day_bars(repo, syms, day)
+        if not bars: return {"day": day, "status": "no stored bars for the %s yet" % name}
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as t: json.dump(bars, t); tmp = t.name
         p = subprocess.run([sys.executable, "-I", os.path.join(here, "orb_daily.py"), tmp, day, "16:00"], capture_output=True, text=True); os.remove(tmp)
         if p.returncode: raise SystemExit("orb_daily failed: " + p.stderr[-300:])
