@@ -1,0 +1,6 @@
+{"check_time":"2026-11-23","symbols":"-","check":"parity","note":"2","detail":"GOOGL 13:20 in replay but never seen live (and T 13:25); live 24 vs replay 27, 2 outcome flags","status":"CHECK"}
+{"check_time":"2026-11-23","symbols":"INTC,NOW,NVDA","check":"dq 1d jump","note":"3","detail":"INTC 2026-10-30 jump -28.6%; NOW 2026-10-29 -26.9%; NVDA 2026-11-23 +31.5%","status":"CHECK"}
+{"check_time":"2026-11-23","symbols":"FRO,INTC,NVDA","check":"dq 5m bad OHLC / jump","note":"11","detail":"FRO 5m bad OHLC (first 2026-11-20 ~ t 1795203900); 9 bad OHLC, 2 5m jumps","status":"CHECK"}
+{"check_time":"2026-11-23","symbols":"MU,NVDA,PEP,QCOM,T","check":"dq bar timing","note":"5","detail":"MU 2026-08-27: 5m close 928.9 vs daily 935.39","status":"CHECK"}
+{"check_time":"2026-11-23","symbols":"ETH/USD","check":"cross-check 1h vs Twelve Data","note":"0.137","detail":"stored 1708.715 vs TD 1711.06 at 2026-11-24 00:00 UTC","status":"ok"}
+{"check_time":"2026-11-23","symbols":"SPY+8","check":"xcheck 1d","note":"0","detail":"45 closes compared, 0 flagged, max diff 0.0%","status":"ok"}

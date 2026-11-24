@@ -178,3 +178,57 @@
 {"checked_at":"2026-11-22 21:07","date":"2026-11-18","diff_pct":0.0,"ibkr":119.2,"symbol":"XLY","twelve_data":119.2}
 {"checked_at":"2026-11-22 21:07","date":"2026-11-17","diff_pct":0.0,"ibkr":117.1,"symbol":"XLY","twelve_data":117.099998}
 {"checked_at":"2026-11-22 21:07","date":"2026-11-16","diff_pct":0.0,"ibkr":118.15,"symbol":"XLY","twelve_data":118.15}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"SPY"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"AMZN"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"DIA"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"GOOGL"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"JNJ"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"MSTR"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"PM"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"TSLA"}
+{"checked_at":"2026-11-23 21:08","status":"no data","symbol":"XOM"}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":722.29,"symbol":"SPY","twelve_data":722.28998}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":0.0,"ibkr":689.81,"symbol":"SPY","twelve_data":689.81}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":715.87,"symbol":"SPY","twelve_data":715.87}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":-0.0,"ibkr":730.2,"symbol":"SPY","twelve_data":730.20001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":0.0,"ibkr":732.44,"symbol":"SPY","twelve_data":732.44}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":255.39,"symbol":"AMZN","twelve_data":255.39}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":-0.0,"ibkr":246.82,"symbol":"AMZN","twelve_data":246.82001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":257.37,"symbol":"AMZN","twelve_data":257.37}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":0.0,"ibkr":267.74,"symbol":"AMZN","twelve_data":267.73999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":-0.0,"ibkr":257.89,"symbol":"AMZN","twelve_data":257.89001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":495.8,"symbol":"DIA","twelve_data":495.79999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":0.0,"ibkr":481.08,"symbol":"DIA","twelve_data":481.079987}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":-0.0,"ibkr":490.79,"symbol":"DIA","twelve_data":490.79001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":-0.0,"ibkr":501.73,"symbol":"DIA","twelve_data":501.73001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":0.0,"ibkr":507.31,"symbol":"DIA","twelve_data":507.31}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":-0.0,"ibkr":282.1,"symbol":"GOOGL","twelve_data":282.10001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":-0.0,"ibkr":265.29,"symbol":"GOOGL","twelve_data":265.29001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":272.66,"symbol":"GOOGL","twelve_data":272.66}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":0.0,"ibkr":282.44,"symbol":"GOOGL","twelve_data":282.44}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":-0.0,"ibkr":280.2,"symbol":"GOOGL","twelve_data":280.20001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":270.05,"symbol":"JNJ","twelve_data":270.049988}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":0.0,"ibkr":270.47,"symbol":"JNJ","twelve_data":270.47}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":-0.0,"ibkr":267.14,"symbol":"JNJ","twelve_data":267.14001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":-0.0,"ibkr":272.7,"symbol":"JNJ","twelve_data":272.70001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":-0.0,"ibkr":278.7,"symbol":"JNJ","twelve_data":278.70001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":84.4,"symbol":"MSTR","twelve_data":84.4}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":0.0,"ibkr":77.8,"symbol":"MSTR","twelve_data":77.8}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":86.13,"symbol":"MSTR","twelve_data":86.13}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":0.0,"ibkr":90.32,"symbol":"MSTR","twelve_data":90.32}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":0.0,"ibkr":96.5,"symbol":"MSTR","twelve_data":96.5}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":182.5,"symbol":"PM","twelve_data":182.5}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":0.0,"ibkr":184.09,"symbol":"PM","twelve_data":184.089996}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":186.43,"symbol":"PM","twelve_data":186.42999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":0.0,"ibkr":192.73,"symbol":"PM","twelve_data":192.73}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":0.0,"ibkr":194.38,"symbol":"PM","twelve_data":194.38}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":385.46,"symbol":"TSLA","twelve_data":385.45999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":-0.0,"ibkr":345.82,"symbol":"TSLA","twelve_data":345.82001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":374.41,"symbol":"TSLA","twelve_data":374.41}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":0.0,"ibkr":383.72,"symbol":"TSLA","twelve_data":383.72}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":0.0,"ibkr":380.11,"symbol":"TSLA","twelve_data":380.10999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-23","diff_pct":0.0,"ibkr":156.9,"symbol":"XOM","twelve_data":156.89999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-20","diff_pct":-0.0,"ibkr":159.99,"symbol":"XOM","twelve_data":159.99001}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-19","diff_pct":0.0,"ibkr":158.93,"symbol":"XOM","twelve_data":158.92999}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-18","diff_pct":0.0,"ibkr":160.58,"symbol":"XOM","twelve_data":160.58}
+{"checked_at":"2026-11-23 21:08","date":"2026-11-17","diff_pct":-0.0,"ibkr":167.21,"symbol":"XOM","twelve_data":167.21001}
