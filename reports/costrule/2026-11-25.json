@@ -1,0 +1,288 @@
+{
+ "rule": "drop when median absolute gross move per trade < 2x round-trip cost (sizes only)",
+ "status": "listing only: not a written rule, reported to the owner",
+ "sleeves": [
+  {
+   "sleeve": "15m adaptive M1",
+   "trades": 12,
+   "median_abs_gross_pct": 0.5535,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": true
+  },
+  {
+   "sleeve": "15m adaptive M2",
+   "trades": 7,
+   "median_abs_gross_pct": 1.364,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m adaptive M3",
+   "trades": 3,
+   "median_abs_gross_pct": 1.283,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m adaptive X1",
+   "trades": 13,
+   "median_abs_gross_pct": 0.978,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m adaptive X2",
+   "trades": 29,
+   "median_abs_gross_pct": 1.314,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m adaptive X3",
+   "trades": 30,
+   "median_abs_gross_pct": 0.928,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m fixed M1",
+   "trades": 12,
+   "median_abs_gross_pct": 0.5535,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": true
+  },
+  {
+   "sleeve": "15m fixed M2",
+   "trades": 7,
+   "median_abs_gross_pct": 1.364,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m fixed M3",
+   "trades": 3,
+   "median_abs_gross_pct": 1.283,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m fixed X1",
+   "trades": 13,
+   "median_abs_gross_pct": 0.978,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m fixed X2",
+   "trades": 29,
+   "median_abs_gross_pct": 1.314,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "15m fixed X3",
+   "trades": 30,
+   "median_abs_gross_pct": 0.928,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h adaptive M1",
+   "trades": 4,
+   "median_abs_gross_pct": 1.6615,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h adaptive M2",
+   "trades": 7,
+   "median_abs_gross_pct": 1.696,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h adaptive M3",
+   "trades": 3,
+   "median_abs_gross_pct": 2.462,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h adaptive X2",
+   "trades": 6,
+   "median_abs_gross_pct": 2.339,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h adaptive X3",
+   "trades": 10,
+   "median_abs_gross_pct": 1.72,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h fixed M1",
+   "trades": 4,
+   "median_abs_gross_pct": 1.6615,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h fixed M2",
+   "trades": 7,
+   "median_abs_gross_pct": 1.696,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h fixed M3",
+   "trades": 3,
+   "median_abs_gross_pct": 2.462,
+   "round_trip_cost_pct": 0.6,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h fixed X2",
+   "trades": 6,
+   "median_abs_gross_pct": 2.339,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "1h fixed X3",
+   "trades": 10,
+   "median_abs_gross_pct": 1.72,
+   "round_trip_cost_pct": 0.4,
+   "would_drop": false
+  },
+  {
+   "sleeve": "A baseline (watchlist)",
+   "trades": 56,
+   "median_abs_gross_pct": 1.0969,
+   "round_trip_cost_pct": 0.04,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L1 SPY intraday momentum",
+   "trades": 67,
+   "median_abs_gross_pct": 0.0776,
+   "round_trip_cost_pct": 0.02,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L10 Earnings drift",
+   "trades": 33,
+   "median_abs_gross_pct": 5.4342,
+   "round_trip_cost_pct": 0.2594,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L11 SPY overnight",
+   "trades": 509,
+   "median_abs_gross_pct": 0.3017,
+   "round_trip_cost_pct": 0.02,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L12 Turn of month",
+   "trades": 24,
+   "median_abs_gross_pct": 1.1901,
+   "round_trip_cost_pct": 0.1,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L14 ORB breakdown short",
+   "trades": 333,
+   "median_abs_gross_pct": 0.7415,
+   "round_trip_cost_pct": 0.269,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L15 Market-neutral momentum",
+   "trades": 236,
+   "median_abs_gross_pct": 4.6718,
+   "round_trip_cost_pct": 0.2748,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L16 SPY trend short",
+   "trades": 5,
+   "median_abs_gross_pct": 1.5213,
+   "round_trip_cost_pct": 0.02,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L17 Multi-asset trend",
+   "trades": 20,
+   "median_abs_gross_pct": 1.5704,
+   "round_trip_cost_pct": 0.1,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L2 VWAP pullback",
+   "trades": 285,
+   "median_abs_gross_pct": 0.4846,
+   "round_trip_cost_pct": 0.2972,
+   "would_drop": true
+  },
+  {
+   "sleeve": "L3 Gap and go",
+   "trades": 93,
+   "median_abs_gross_pct": 1.1219,
+   "round_trip_cost_pct": 0.3,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L4 Gap fade",
+   "trades": 246,
+   "median_abs_gross_pct": 0.2773,
+   "round_trip_cost_pct": 0.2673,
+   "would_drop": true
+  },
+  {
+   "sleeve": "L5 RSI(2) pullback",
+   "trades": 61,
+   "median_abs_gross_pct": 0.8196,
+   "round_trip_cost_pct": 0.1,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L6 Bollinger reversion",
+   "trades": 241,
+   "median_abs_gross_pct": 3.7136,
+   "round_trip_cost_pct": 0.258,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L7 Donchian trend",
+   "trades": 213,
+   "median_abs_gross_pct": 5.5127,
+   "round_trip_cost_pct": 0.2526,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L8 Momentum top 8",
+   "trades": 101,
+   "median_abs_gross_pct": 4.6815,
+   "round_trip_cost_pct": 0.3,
+   "would_drop": false
+  },
+  {
+   "sleeve": "L9 Sector rotation",
+   "trades": 57,
+   "median_abs_gross_pct": 2.3192,
+   "round_trip_cost_pct": 0.1,
+   "would_drop": false
+  }
+ ],
+ "date": "2026-11-25",
+ "basis": "All closed trades in the Library and CryptoTracks ledgers (backtest priors included) and the Trades ledger for baseline A; gross move = |exit/entry - 1| (crypto: gross_pct); round-trip cost = 2 x the per-side cost each trade carried (crypto_tracks.COST: X 0.2%, M 0.3%). Sizes only, no signs or profits.",
+ "would_drop": [
+  "15m adaptive M1",
+  "15m fixed M1",
+  "L2 VWAP pullback",
+  "L4 Gap fade"
+ ],
+ "not_covered": "AP, AP2, AP3, AS, the four Agent picks sleeves, adaptive ORB, AC control and ML meta (no per-trade prices in their ledgers or too few trades); allocator.DROPPED sleeves are already out."
+}

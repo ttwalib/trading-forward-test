@@ -64,3 +64,7 @@ Quantavius picking its own stocks, developing its own strategies and running its
 3. Strategy health states per lane entry (healthy / under watch / decayed / switched off); never overrides the
    pre-registered retirement rule.
 4. Check the Opus and Sonnet contest seals are sealing and scoring (about 23 weekly seals can only show a large gap).
+
+ADDED 2026-11-25 (build day 3, item 32-34 follow-up d): register the ML take/skip gate on baseline A as a lane challenger
+(registry.register, series type "sleeve" on its "ML meta: ..." sleeve) as soon as the nightly ML has a champion other
+than "always take"; it counts against the lane cap of 6 new entries a month.
