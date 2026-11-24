@@ -29,7 +29,8 @@ permissions:
   contents: write
   issues: write
 concurrency:
-  group: market-data
+  # the long one-off option backfill runs in its own group so it never holds back the market-hours ticks (2026-11-24)
+  group: ${{ (github.event.inputs.mode == 'optback' || contains(github.event.head_commit.message, '[optback]')) && 'optback' || 'market-data' }}
   cancel-in-progress: false
 jobs:
   fetch:
