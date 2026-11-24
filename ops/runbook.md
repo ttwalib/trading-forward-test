@@ -411,6 +411,9 @@ the stocks that share it).
 KEEP WHAT YOU FETCH: save every Alpha Vantage EARNINGS_CALL_TRANSCRIPT, HISTORICAL_PUT_CALL_RATIO and INSIDER_TRANSACTIONS
 result to /tmp and log it with `python3 -I /tmp/repo/scripts/extlog.py transcript|putcall|insider /tmp/repo FILE SYM
 [QUARTER]` (data/ext/av/), so the readings accumulate as a point-in-time dataset.
+FMP 8-K TIMING (2026-11-24): FMP secFilings 8k-latest lists filings by acceptance time, and the first 8-Ks of a day are
+usually accepted after 08:30 New York, so a run at 08:05-08:15 often gets an empty list for today. Call it with from_date =
+the previous trading day and to_date = DAY (one call), and treat an empty result as "no filings yet", not as a failed source.
 MORE DATA FOR PICKING: the research may also use Twelve Data get_earnings, get_financials and get_analyst_data, and IBKR
 option data for implied volatility (read-only).
 LEDGER AgentPicks and AgentTrades.
