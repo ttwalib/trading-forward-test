@@ -25,9 +25,13 @@ jobs:
           python -m pip install -q "ml4t-diagnostic==0.2.1" || echo "ml4t-diagnostic did not install; stats runs without it"
           python -m pip freeze > /tmp/freeze.txt
       - name: Run
+        env:
+          PYTHONWARNINGS: ignore
+          TQDM_DISABLE: "1"
         run: |
           mkdir -p out && cp /tmp/freeze.txt out/pip_freeze.txt
-          python scripts/xcheck.py . "${{ github.event.inputs.mode }}" out
+          python scripts/xcheck.py . "${{ github.event.inputs.mode }}" out > /dev/null
+          echo "=====XCHECK_BEGIN"; cat out/xcheck.json; echo; echo "=====XCHECK_END"
       - uses: actions/upload-artifact@v4
         with:
           name: xcheck
