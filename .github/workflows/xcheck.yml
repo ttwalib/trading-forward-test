@@ -1,0 +1,35 @@
+# Independent cross-checks with outside packages (scripts/xcheck.py; runbook item 51, 2026-11-24).
+# Isolated on purpose: read-only repository token, no secrets, no commit. The report is uploaded as an artifact and a
+# build session commits it. Manual runs only.
+name: xcheck
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "calendar | stats | orb | all"
+        default: "all"
+permissions:
+  contents: read
+jobs:
+  xcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install outside packages (versions recorded in the report)
+        run: |
+          python -m pip install -q "numpy<3" "pandas<3" "scipy<2" "exchange_calendars>=4,<5" "backtesting>=0.6,<0.7"
+          python -m pip install -q "ml4t-diagnostic==0.2.1" || echo "ml4t-diagnostic did not install; stats runs without it"
+          python -m pip freeze > /tmp/freeze.txt
+      - name: Run
+        run: |
+          mkdir -p out && cp /tmp/freeze.txt out/pip_freeze.txt
+          python scripts/xcheck.py . "${{ github.event.inputs.mode }}" out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcheck
+          path: out/
+          retention-days: 30

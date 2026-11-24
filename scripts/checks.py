@@ -325,6 +325,26 @@ def slip_report(repo, start=None):
     return out
 
 
+# ---------- cost reality check (report only, added 2026-11-24, runbook item 51) ----------
+def cost_check(repo):
+    """Are the costs the simulation charges at least what the market would really have charged? Per side, measured =
+    half the quoted bid/ask spread at our signals (slip-report) plus the median price difference between the engine's
+    detection fill and the 5-minute rule (engine-report, positive = the engine fill was worse). Assumed = the median
+    per-side cost the library model charges for the same symbols and days. Verdict "conservative" when assumed >=
+    measured, "too cheap" otherwise. Becomes meaningful after about 100 measured rows; nothing is changed by it."""
+    sr, er = slip_report(repo), engine_report(repo)
+    if not sr.get("n"): return {"n": 0, "note": "no slippage rows yet"}
+    half = sr["spread_pct_median"] / 2; fillgap = max(0.0, (er.get("baseline") or {}).get("median_cost_vs_lag_pct") or 0.0)
+    measured = round(half + fillgap, 4); assumed = sr.get("model_side_cost_pct_median")
+    return {"n_quotes": sr["n"], "n_engine_fills": (er.get("baseline") or {}).get("n"), "half_spread_pct": round(half, 4),
+            "engine_fill_gap_pct": round(fillgap, 4), "measured_side_cost_pct": measured, "assumed_side_cost_pct": assumed,
+            "ratio_assumed_to_measured": round(assumed / measured, 2) if assumed and measured else None,
+            "verdict": None if assumed is None else ("conservative" if assumed >= measured else "too cheap"),
+            "enough_data": sr["n"] >= 100,
+            "note": "per side, in percent of price; the delay drift of the hourly AI runs is left out because the engine, "
+                    "not the hourly run, sets fills since 2026-11-19"}
+
+
 # ---------- engine fill vs the 5-minute rule (measurement only, added 2026-11-20) ----------
 def engine_report(repo, start=None):
     """For every engine detection made within 20 minutes of its signal: the engine's detection price against the price
@@ -463,6 +483,6 @@ if __name__ == "__main__":
           "leaktest": lambda: leaktest(a[1], a[2]), "replay-day": lambda: replay_day(a[1], a[2] if len(a) > 2 else None), "replay-days": lambda: replay_days(a[1], int(a[2]) if len(a) > 2 else 5),
           "engine-report": lambda: engine_report(a[1], a[2] if len(a) > 2 else None), "health": lambda: health(a[1], a[2] if len(a) > 2 else None),
           "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
-          "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None),
+          "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None), "cost-check": lambda: cost_check(a[1]),
           "fresh": lambda: fresh(a[1], a[2], a[3] if len(a) > 3 else None)}[a[0]]
     print(json.dumps(fn(), indent=1))

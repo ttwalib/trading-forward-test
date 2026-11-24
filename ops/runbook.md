@@ -626,6 +626,10 @@ and report it first in the StrategyLab row: data quality, the trade count (under
 whatever the return), and the profit factor. A held-out profit factor above 5 is treated as a probable bug (look-ahead, a
 fill on the signal bar, a cost not charged, a survivorship artefact): find the cause; only if there is none, say why in
 "pf_explained".
+NEIGHBOUR CHECK (2026-11-24, item 51): whenever more than one setting was tried, cand.json must also carry "grid" = every
+setting tried, each {"params": {...}, "score": x}, scored on the TUNING data with the same measure used to choose. The
+gate passes "neighbours_hold" only if the chosen setting's one-step neighbours have a median score above 0 and at least
+half the chosen score: a plateau, not a lone peak. Report the read_first "neighbours" block with the data quality.
 
 PEER MAP (SATURDAY runs only, before PART B): if data/ext/peers/latest.json is missing or older than 6 days, call IBKR
 get_company_themes (max_themes 3, max_companies 5) for each of the 44 ranked stocks (contract ids in data/contracts.json),
@@ -936,3 +940,6 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 41 | 2026-11-23 | Point-in-time universe (pitu.py) for the wide run and the lab |
 | 42 | 2026-11-23 | Cost view for the picks (report only) |
 | 43 | 2026-11-23 | Own sleeves out of equal_f; scheduled nightly maths; live decisions once at 13:05; picks review into weekly report Fri 21:41; sheet retired; daily challenger Mon/Thu; runbook consolidated (43g) |
+| 44-49 | 2026-11-23 | Tools and skills per task; outside data on GitHub (ape.py, extdata.py, SEC_CONTACT secret); peer map; Alpha Vantage readings kept; Data and code-review plugins |
+| 50 | 2026-11-24 | Stocks scoring and Reddit snapshot moved to GitHub (daily.py stocks, sentiment); AI stocks task retired |
+| 51 | 2026-11-24 | Outside-repo review (ML for Trading, FinceptTerminal, awesome-quant): xcheck workflow (calendar vs exchange_calendars, DSR and PBO vs independent code and ml4t-diagnostic, baseline A re-run in backtesting.py), report only and isolated; lab gate neighbour check; nightly cost reality check (checks.py cost-check). Dec 8 plan gains the rest (session addendum) |

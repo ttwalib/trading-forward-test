@@ -60,6 +60,34 @@ def _data_quality(repo, d):
             "below_0.98": sorted(k for k, v in per.items() if v < 0.98)}
 
 
+def neighbours(grid, chosen):
+    """NEIGHBOUR CHECK (2026-11-24, runbook item 51; idea from the robustness chapters of Jansen's ML for Trading and
+    the plateau test of backtesting tools, no code taken). grid = every setting tried, each {"params": {...}, "score": x}
+    scored on the TUNING data with the measure used to choose. A neighbour differs from the chosen setting in exactly
+    one parameter, by one step in that parameter's sorted list of tried values. Pass when the chosen setting has at
+    least one neighbour and the neighbours' median score is above 0 and at least half the chosen score: the chosen
+    setting must sit on a plateau, not a lone peak."""
+    try:
+        G = [g for g in grid if isinstance(g.get("params"), dict)]
+        me = next((g for g in G if g["params"] == chosen), None)
+        if me is None: return False, {"error": "the declared params are not in the grid"}
+        keys = sorted(chosen); vals = {k: sorted({json.dumps(g["params"].get(k), sort_keys=True) for g in G}) for k in keys}
+        nb = []
+        for g in G:
+            diff = [k for k in keys if g["params"].get(k) != chosen.get(k)]
+            if len(diff) != 1 or set(g["params"]) != set(chosen): continue
+            k = diff[0]; v = vals[k]
+            i, j = v.index(json.dumps(chosen[k], sort_keys=True)), v.index(json.dumps(g["params"][k], sort_keys=True))
+            try: num = sorted(v, key=lambda x: float(json.loads(x))); i, j = num.index(v[i]), num.index(v[j])
+            except Exception: pass
+            if abs(i - j) == 1: nb.append(float(g["score"]))
+        import statistics; sc = float(me["score"]); med = statistics.median(nb) if nb else None
+        ok = bool(nb) and med > 0 and (sc <= 0 or med >= 0.5 * sc)
+        return ok, {"chosen_score": sc, "n_neighbours": len(nb), "neighbour_median": med, "neighbour_scores": nb}
+    except Exception as ex:
+        return False, {"error": "%s: %s" % (type(ex).__name__, ex)}
+
+
 def gate(repo, c):
     day = dt.datetime.now(stats.NY).date().isoformat()
     if tcal.phase(day) == "holdout":
@@ -100,6 +128,10 @@ def gate(repo, c):
     if c.get("pbo") is not None: checks["pbo<0.5"] = float(c["pbo"]) < 0.5
     if c.get("cpcv") is not None:   # cpcv.py output over the long archive (required by the runbook since 2026-11-19)
         checks["cpcv_pass"] = bool(c["cpcv"].get("pass"))
+    nbr = None
+    if int(c.get("n_configs_tried", 1)) > 1:     # neighbour check (2026-11-24): required whenever settings were tuned
+        if c.get("grid"): ok_, nbr = neighbours(c["grid"], prm or {}); checks["neighbours_hold"] = ok_
+        else: checks["neighbours_hold"] = False; nbr = {"error": "no grid given (every setting tried, scored on the tuning data)"}
     rv = reviewer(c["draft"]) if c.get("draft") else {"verdict": "n/a", "note": "no draft given"}
     checks["edge_reviewer_PASS"] = rv.get("verdict") == "PASS"
     try:     # the trial is logged with the settings hash (a different hash = a different trial)
@@ -111,7 +143,7 @@ def gate(repo, c):
     else: v = "REVISE"
     return {"id": c.get("id"), "verdict": v, "n_oos": n, "oos_mean": round(mean, 4), "p_gt0": round(p, 3),
             "dsr": round(dsr, 3) if dsr is not None else None, "luck_sharpe": round(sr0, 4), "checks": checks, "reviewer": rv,
-            "read_first": {"data_quality": dq, "n_oos": n, "few_trades": n < 30, "profit_factor": pf, "pf_suspicious": pf_flag},
+            "read_first": {"data_quality": dq, "n_oos": n, "few_trades": n < 30, "profit_factor": pf, "pf_suspicious": pf_flag, "neighbours": nbr},
             "params_hash": phash}
 
 
