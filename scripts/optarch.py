@@ -118,7 +118,8 @@ def snap(repo, syms=None):
 def back(repo, syms, months=33):
     ff = F(); today = dt.date.today(); a = today - dt.timedelta(days=months * 31); res = {"from": a.isoformat(), "per": {}, "errors": []}
     for und in syms:
-        if os.path.exists(os.path.join(repo, "data", "optarch", "hist", und + ".csv.gz")) and not os.environ.get("OPTBACK_FORCE"):
+        hp = os.path.join(repo, "data", "optarch", "hist", und + ".csv.gz")
+        if os.path.exists(hp) and os.path.getsize(hp) > 200 and not os.environ.get("OPTBACK_FORCE"):
             res["per"][und] = "already archived (set OPTBACK_FORCE=1 to redo)"; continue   # a rerun resumes where a cut-off run stopped
         c = hist_closes(repo, und)
         if not c: res["per"][und] = "no closes"; continue
@@ -131,16 +132,23 @@ def back(repo, syms, months=33):
                 for r in ("C", "P"): syms_.add(occ(und, exp, r, k))
                 k += s
         syms_ = sorted(syms_); rows = []
-        for i in range(0, len(syms_), 100):
-            chunk = syms_[i:i + 100]
+        by_exp = {}
+        for o in syms_: by_exp.setdefault(o[len(und):len(und) + 6], []).append(o)
+        chunks = [(e, v[i:i + 100]) for e, v in sorted(by_exp.items()) for i in range(0, len(v), 100)]
+        blocked = []
+        for e, chunk in chunks:
+            ed = dt.date(2000 + int(e[:2]), int(e[2:4]), int(e[4:6]))
+            st = max(a, ed - dt.timedelta(days=70)); en = min(today, ed)   # each contract only over its last 70 days
             try:
                 got = ff.paged(ff.DATA + "/v1beta1/options/bars", {"symbols": ",".join(chunk), "timeframe": "1Day",
-                               "start": a.isoformat() + "T00:00:00Z", "end": today.isoformat() + "T23:59:59Z", "limit": 10000, "sort": "asc"}, "bars")
+                               "start": st.isoformat() + "T00:00:00Z", "end": en.isoformat() + "T23:59:59Z", "limit": 10000, "sort": "asc"}, "bars")
                 for o, bs in got.items():
                     for b in bs:
                         d = dt.datetime.fromisoformat(b["t"].replace("Z", "+00:00")).astimezone(NY).date().isoformat()
                         rows.append([o, d, b.get("o"), b.get("h"), b.get("l"), b.get("c"), b.get("v"), b.get("n"), b.get("vw")])
-            except Exception as e: res["errors"].append("%s %s: %s" % (und, chunk[0], str(e)[:160]))
+            except Exception as x:
+                if "OPRA agreement" in str(x): blocked.append(ed.isoformat())
+                else: res["errors"].append("%s %s: %s" % (und, chunk[0], str(x)[:160]))
             time.sleep(0.3)
         p = os.path.join(repo, "data", "optarch", "hist", und + ".csv.gz"); os.makedirs(os.path.dirname(p), exist_ok=True)
         old = []
@@ -151,8 +159,9 @@ def back(repo, syms, months=33):
         for k_ in sorted(keep): w.writerow(keep[k_])
         open(p, "wb").write(gzip.compress(buf.getvalue().encode(), 9))
         res["per"][und] = {"candidates": len(syms_), "contracts_with_bars": len({r[0] for r in rows}), "bars": len(rows),
-                           "first": min((r[1] for r in rows), default=None), "bytes": os.path.getsize(p)}
-    diag(repo, "back", res); return res
+                           "first": min((r[1] for r in rows), default=None), "bytes": os.path.getsize(p),
+                           "blocked_expiries": len(blocked), "blocked_last": max(blocked, default=None), "blocked_first": min(blocked, default=None)}
+    diag(repo, "back_" + ("index" if all(u in INDEX for u in syms) else "stocks"), res); return res
 
 
 def diag(repo, kind, res):
