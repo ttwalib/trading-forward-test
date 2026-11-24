@@ -20,6 +20,13 @@ on and is measured against.
   refits, the lab and its gate, crypto and stock adaptive retunes and the pick playbook continue to the end.
 - Where a prompt calls the formula's result "the verdict", the verdict is A1, Quantavius's own weekly book (allocator
   report judge_check); the cycle-1 formula's verdict_check is a FOUNDATION reading.
+- PLAYER FREEDOMS (2026-11-24, item 56; these override any task prompt that still says otherwise):
+  (1) STOCK PICKS may include watchlist names; only the 22 control-list stocks stay excluded, because they are the
+  benchmark the picks are measured against. (2) THE LAB CHOOSES ITS OWN TRACK: the Wednesday and Saturday assignments
+  (daily stocks/ETFs, improve a baseline, hourly crypto) are defaults; when your learning findings or the idea shelf
+  point elsewhere, research that instead and say why, through the same gate; a second candidate in one run is allowed
+  when time permits. (3) NO 5-POINT LIMIT on a seal's moves. (4) The evidence pack carries your learning findings and
+  the lane standings.
 - Unchanged: no orders ever; every decision sealed before its outcome; the trial count is never reset; no data is
   deleted; window dates; the human approval step for any real or paper order.
 
@@ -841,8 +848,10 @@ change during the window; its model is pinned (INTERVENTIONS).
    D2 and D3 together at most 25%: judge.py refuses a seal above it). You may copy the formula, a simple rule or go
    your own way; say which and why. Changing shares costs money (rules in the brief), so do not churn without a reason.
    LESSONS: write "lessons": what the earlier seals got right and wrong against their own reasoning; each lesson must
-   state a claim that later data can contradict, and one lesson may move a sleeve's weight by at most 5 points against
-   the previous seal. CONFIDENCE: give "p_beat_equal" (scored by calib.py).
+   state a claim that later data can contradict. There is no limit on how far a share may move (the 5-point
+   limit per lesson was removed on 2026-11-24, item 56; moves above 5 points are listed in the seal row and must be
+   explained in "decision"). The brief's your_own_work now carries your latest learning findings and the lane
+   standings: use them. CONFIDENCE: give "p_beat_equal" (scored by calib.py).
 4. Write /tmp/seal.json = {"weights": {...}, "bull": "...", "bear": "...", "risk": "...", "decision": "...",
    "lessons": "...", "p_beat_equal": 0.xx, "model": "<your model id>"} and run
    `python3 /tmp/repo/scripts/judge.py seal /tmp/repo /tmp/seal.json`. If it is refused, fix exactly what the errors say
@@ -969,3 +978,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 53 | 2026-11-24 | Lane admission: own-strategy lane entries that beat every yardstick join the AS sleeve on fixed monthly dates from 2027-02-16 (aisleeve.py) |
 | 54 | 2026-11-24 | Goal alignment review: findings act through Quantavius's own levers; the morning pick filters split into FIXED FILTERS and a STARTING METHOD the playbook may replace; registry wording; audit checklist step for admission (reports/goal_alignment_2026-11-24.md) |
 | 55 | 2026-11-24 | Own sleeves AP, AP2, AS capped at 50% each in every seal (others stay 25%); weekly seal may set as_mix inside AS (judge.py, aisleeve.py) |
+| 56 | 2026-11-24 | Setup debate (reports/setup_debate_2026-11-24.md): picks may include watchlist names; lab chooses its track; 5-point lesson limit removed; evidence pack gains learning findings and lane standings; Dec 8 work merged into ops/dec8_plan.md; watchdog to merge into the orchestrator |

@@ -206,6 +206,19 @@ def ai_layer(repo, through):
     if rx and (rx.get("contributions") or {}).get("date", "9999") <= (through or ""):
         out["risk_share_of_formula_weights"] = rx["contributions"].get("sleeves")
     out["as_members"] = sorted(st)
+    # since 2026-11-24 (item 56): what Quantavius's own learning review found and how the lane entries stand, so the
+    # book can act on them; only rows dated on or before `through`
+    try:
+        lf = os.path.join(repo, "data", "ledger", "Learning.jsonl")
+        if os.path.exists(lf) and through:
+            rows = [json.loads(l) for l in open(lf) if l.strip()]
+            rows = [r for r in rows if str(r.get("review_time") or r.get("date") or "9999")[:10] <= through]
+            out["learning_findings"] = [{k: (str(v)[:300] if isinstance(v, str) else v) for k, v in r.items()} for r in rows[-8:]]
+        ls = L("data", "lane", "scores.json")
+        if ls and through and ls.get("day", "9999") <= through:
+            out["lane"] = {"day": ls["day"], "champion": ls.get("champion"),
+                           "entries": {k: {"status": v.get("status"), "perf": v.get("perf"), "vs": v.get("vs")} for k, v in (ls.get("entries") or {}).items()}}
+    except Exception: pass
     out["note"] = ("AP / AP2 are your own stock picks (equal weight one day / your own sizing and holding), AS is your own "
                    "approved strategies and admitted lane entries. They are eligible like any sleeve and may hold up to "
                    "%.2f each; nothing obliges you to hold or avoid them. In the weekly book you may set as_mix to weight "
