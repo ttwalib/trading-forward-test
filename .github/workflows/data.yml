@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape | ext"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape | ext | optarch | optback"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -34,7 +34,7 @@ concurrency:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: ${{ (github.event.inputs.mode == 'optback' || contains(github.event.head_commit.message, '[optback]')) && 300 || 30 }}
     steps:
       - uses: actions/checkout@v4
       - name: Pick mode
@@ -50,7 +50,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "40 12 * * 1-5" ]; then M=ape;
           elif [ "${{ github.event.schedule }}" = "20 23 * * 1-5" ]; then M=ext;
           elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then M=compute; D=$(TZ=America/New_York date +%F); else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape|ext) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape|ext|optarch|optback) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -81,7 +81,7 @@ jobs:
           for f in LICENSE NOTICE; do if [ -e package/$f ]; then cp package/$f "$GITHUB_WORKSPACE/ops/dashboard/vendor/lightweight-charts-$f"; fi; done
           ls -la "$GITHUB_WORKSPACE/ops/dashboard/vendor"
       - name: Fetch
-        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'mlnight' && steps.m.outputs.mode != 'vendor' && steps.m.outputs.mode != 'ape' && steps.m.outputs.mode != 'ext'
+        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'mlnight' && steps.m.outputs.mode != 'vendor' && steps.m.outputs.mode != 'ape' && steps.m.outputs.mode != 'ext' && steps.m.outputs.mode != 'optarch' && steps.m.outputs.mode != 'optback'
         env:
           QV_ENGINE_NEW: /tmp/engine_new.json
           GH_TOKEN: ${{ github.token }}
@@ -115,6 +115,21 @@ jobs:
           python3 scripts/daily.py crypto . | tail -n 40 || echo "daily crypto failed (see ops/diag/daily_crypto.json)"
       # Stocks scoring (baseline A on the watchlist, the same rules on the control list) after the nightly fetch,
       # from the stored 5-minute bars with the frozen orb_daily.py; replaced the 16:12 AI run on 2026-11-24.
+      # Option history archive (scripts/optarch.py, runbook item 58): the chain snapshot each night with the nightly
+      # fetch, and a one-off backfill of past contracts' daily bars. Market data host only.
+      - name: Option archive
+        if: steps.m.outputs.mode == 'nightly' || steps.m.outputs.mode == 'optarch' || steps.m.outputs.mode == 'optback'
+        env:
+          ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
+          ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
+        run: |
+          if [ "${{ steps.m.outputs.mode }}" = "optback" ]; then
+            python3 scripts/optarch.py back . SPY,QQQ,IWM 33 | tail -n 40 || echo "option backfill (index) failed"
+            S=$(python3 -c "import json;u=json.load(open('data/universe.json'));print(','.join(sorted(set(u['watchlist'])|set(u['control']))))")
+            python3 scripts/optarch.py back . "$S" 33 | tail -n 80 || echo "option backfill (stocks) failed"
+          else
+            python3 scripts/optarch.py snap . | tail -n 30 || echo "option snapshot failed"
+          fi
       - name: Stocks scoring
         if: steps.m.outputs.mode == 'nightly'
         run: python3 scripts/daily.py stocks . | tail -n 30 || echo "daily stocks failed (see ops/diag/daily_stocks.json)"
@@ -141,7 +156,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json data/ledger/Sentiment.jsonl data/ledger/Trades.jsonl data/ledger/VariantTrades.jsonl ops/diag/daily_stocks.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json data/ledger/Sentiment.jsonl data/ledger/Trades.jsonl data/ledger/VariantTrades.jsonl ops/diag/daily_stocks.json data/optarch ops/diag/optarch.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "crypto" ]; then git add data/ledger/CryptoTracks.jsonl data/ledger/MLShadow.jsonl; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then
