@@ -99,7 +99,7 @@ def _dsr_ml4t(xs, N):
         for k in prm:
             if k in ("returns", "strategy_returns", "x"): kw[k] = np.asarray(xs, float) / 100.0
             elif k in ("benchmark_sharpe", "sr_benchmark", "expected_sharpe"): kw[k] = 0.0
-            elif k in ("n_trials", "num_trials", "n_strategies", "trials", "k", "n_tests", "effective_trials"): kw[k] = N
+            elif k in ("n_trials", "num_trials", "n_strategies", "trials", "k", "n_tests"): kw[k] = N
             elif k in ("periods_per_year", "annualization", "frequency"): kw[k] = 252
         if not any(k in kw for k in ("returns", "strategy_returns", "x")):
             return {"ok": False, "error": "unknown signature", "params": prm}
@@ -110,6 +110,34 @@ def _dsr_ml4t(xs, N):
         return {"ok": True, "fields": fields, "params": prm}
     except Exception as ex:
         return {"ok": False, "error": "%s: %s" % (type(ex).__name__, str(ex)[:200])}
+
+
+def _ml4t_multi(L):
+    """ml4t-diagnostic with every library sleeve at once (its correlation-adjusted effective trial count), beside our
+    own gate formula for the best sleeve with N = the number of sleeves."""
+    out = {}
+    try:
+        import inspect, numpy as np
+        import ml4t.diagnostic.evaluation.stats as S
+        days = sorted(set.intersection(*[set(v) for v in L.values() if len(v) >= 200]))
+        names = sorted(k for k, v in L.items() if len(v) >= 200)
+        M = np.array([[float(L[n][d]) / 100.0 for n in names] for d in days])
+        out["signature"] = str(inspect.signature(S.deflated_sharpe_ratio))
+        if hasattr(S, "deflated_sharpe_ratio_from_statistics"):
+            out["signature_from_statistics"] = str(inspect.signature(S.deflated_sharpe_ratio_from_statistics))
+        for label, arg in (("list", [M[:, j] for j in range(M.shape[1])]), ("matrix_TxK", M), ("matrix_KxT", M.T)):
+            try:
+                r = S.deflated_sharpe_ratio(returns=arg, periods_per_year=252)
+                f = {k: getattr(r, k) for k in dir(r) if not k.startswith("_") and isinstance(getattr(r, k, None), (int, float, str))}
+                out["result"] = {"input": label, "fields": f}; break
+            except Exception as ex:
+                out["try_" + label] = "%s: %s" % (type(ex).__name__, str(ex)[:160])
+        sr = M.mean(axis=0) / M.std(axis=0, ddof=1); b = int(np.argmax(sr))
+        xs = [float(x) * 100 for x in M[:, b]]; o, sr0 = _dsr_ours(xs, len(names))
+        out["ours_best"] = {"sleeve": names[b], "n_days": len(days), "N": len(names), "dsr": round(o, 4), "luck_sharpe": round(sr0, 4)}
+    except Exception as ex:
+        out["error"] = "%s: %s" % (type(ex).__name__, str(ex)[:300])
+    return out
 
 
 def _pbo_cscv(configs, S=16):
@@ -141,7 +169,7 @@ def stats_check(repo):
                      "ml4t": _dsr_ml4t(xs, N)})
     configs = {k: {d: float(v) for d, v in s.items()} for k, s in L.items() if len(s) >= 200}
     ours_pbo = cpcv.cpcv(configs)
-    return {"n_trials_used": N, "dsr": rows, "max_dsr_diff_ours_vs_scipy": max((r["diff"] for r in rows), default=None),
+    return {"n_trials_used": N, "dsr": rows, "ml4t_all_sleeves": _ml4t_multi(L), "max_dsr_diff_ours_vs_scipy": max((r["diff"] for r in rows), default=None),
             "pbo": {"ours_cpcv": {k: ours_pbo.get(k) for k in ("pbo", "median_sharpe", "share_positive", "pass", "error") if k in ours_pbo},
                     "independent_cscv": _pbo_cscv(configs)},
             "note": "DSR: same formula written twice. Ours standardises skewness and kurtosis with the sample standard "
