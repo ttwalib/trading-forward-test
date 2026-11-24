@@ -55,11 +55,11 @@ def put_rows(repo, cal_idx, W):
     beats the control list today for a call, does worse for a put) and optional stop=/tgt= in percent of the premium
     (the net debit for a spread)."""
     out = {}
-    for r in ledger.load(repo, "AgentPicks"):
+    for r in witness.pick_rows(repo)[0]:     # first-seen copies (review N3): later edits or deletions change nothing
         t = str(r.get("picked_at") or ""); w = W.get(witness.row_id(r))
         if not (r.get("asset") in ("put", "option") and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30" and witness.counts(w, t[:10])):
             continue
-        ck = str((w or {}).get("checks") if w and not w.get("grandfathered") else r.get("checks") or "")
+        ck = str(r.get("checks") or "")
         mo = re.search(r"\bocc=(" + OCC_RE + r")\b", ck)
         if not mo: continue
         o1 = mo.group(1); m2 = re.search(r"\bocc2=(" + OCC_RE + r")\b", ck); o2 = m2.group(1) if m2 else None
@@ -204,8 +204,9 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     cal = [d for d in tcal.trading_days(tcal.START, tcal.END) if d <= day]
     cal_idx = {d: i for i, d in enumerate(cal)}
-    picks = {}; sized = {}; probs = {}; exits = {}; W = witness.load(repo)
-    for r in ledger.load(repo, "AgentPicks"):
+    picks = {}; sized = {}; probs = {}; exits = {}; PR, W = witness.pick_rows(repo)
+    vers = {}       # (pick day, symbol) -> playbook version, for the by-version report (review N13)
+    for r in PR:    # first-seen copies (review N3): a witnessed pick edited or deleted later is still scored as first seen
         t = str(r.get("picked_at") or "")
         w = W.get(witness.row_id(r))
         # from 2026-11-30 a pick counts only if GitHub first saw it before 09:30 New York (scripts/witness.py); sizing and
@@ -214,18 +215,19 @@ def build(repo, day=None):
                 and witness.counts(w, t[:10])):
             picks.setdefault(t[:10], [])
             if r["symbol"] not in picks[t[:10]]: picks[t[:10]].append(r["symbol"])
-            ck = str((w or {}).get("checks") if w and not w.get("grandfathered") else r.get("checks") or ""); mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck)
+            ck = str(r.get("checks") or ""); mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck)
             try: w = float(mw.group(1)) if mw else None
             except ValueError: w = None
             sized.setdefault(t[:10], {})[r["symbol"]] = (w if w is not None and 0.05 <= w <= 0.40 else None, int(mh.group(1)) if mh else 1)
             exits.setdefault(t[:10], {})[r["symbol"]] = _exits(ck)
+            mv = re.search(r"\bplaybook v(\d+)", ck); vers[(t[:10], r["symbol"])] = int(mv.group(1)) if mv else None
             mp = re.search(r"\bp=(0?\.[0-9]+|1(?:\.0+)?)\b", ck)              # stated chance to beat the control list today
             if mp: probs.setdefault(t[:10], {})[r["symbol"]] = float(mp.group(1))
     cache = {}
     def B(s):
         if s not in cache: cache[s] = bars(repo, s)
         return cache[s]
-    rows, series, started, calib = [], {}, False, []
+    rows, series, started, calib, by_pick = [], {}, False, [], []
     mean = lambda xs: sum(xs) / len(xs) if xs else None
     for d in cal:
         if d in picks: started = True
@@ -241,6 +243,8 @@ def build(repo, day=None):
         if ps:
             cmean = mean(c1) if c1 else None
             for sym, r1, _ in pm:
+                if r1 is not None and cmean is not None:
+                    by_pick.append({"date": d, "symbol": sym, "version": vers.get((d, sym)), "edge": r1 - cmean})
                 if r1 is not None and cmean is not None and sym in probs.get(d, {}):
                     calib.append({"date": d, "kind": "pick", "id": sym, "p": probs[d][sym], "hit": r1 > cmean})
             rows.append({"date": d, "phase": tcal.phase(d), "verdict_window": tcal.info(d)["verdict_window"], "picks": ps,
@@ -335,6 +339,18 @@ def build(repo, day=None):
                                  "Report only; G1 counts the long stock picks; AP3 carries the option P&L.",
                          "n": len(bear), "mean_view_edge": round(mean([(b["stock_day"] - b["control_day"]) * (1 if b["right"] == "C" else -1) for b in bear]), 4) if bear else None,
                          "rows": bear, "closed": closed3, "no_fill": nofill3}}
+    # By playbook version and by vehicle (review N13): the playbook keeps changing to the end, so results are also
+    # reported per version; stock picks and option picks are reported apart. Report only.
+    bv = {}
+    for x in by_pick: bv.setdefault("v%s" % x["version"], []).append(x["edge"])
+    score["by_version"] = {k: {"picks": len(v), "mean_edge_vs_control": round(mean(v), 4)} for k, v in sorted(bv.items())}
+    score["by_vehicle"] = {"stock": {"picks": len(by_pick), "mean_edge_vs_control": round(mean([x["edge"] for x in by_pick]), 4) if by_pick else None},
+                           "option": {"picks": len(bear), "mean_view_edge": score["options"]["mean_view_edge"]}}
+    # Integrity (review N3): witnessed picks later edited or deleted in the ledger; they are scored as first seen.
+    try:
+        ig = witness.integrity(repo); score["integrity"] = {"altered": [x["id"] for x in ig["altered"] if x["kind"] == "pick"],
+                                                              "missing_from_ledger": [x["id"] for x in ig["missing"] if x["kind"] == "pick"]}
+    except Exception as e: score["integrity"] = {"error": str(e)[:200]}
     json.dump(score, open(os.path.join(repo, "data", "picks", "score.json"), "w"), indent=1)
     json.dump(calib, open(os.path.join(repo, "data", "picks", "calib_picks.json"), "w"))
     return {"sleeve_days": len(series), "all": score["all"], "verdict": score["verdict"],

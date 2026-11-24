@@ -72,6 +72,7 @@ Changes made before the window are allowed if they are dated and visible. After 
 | 2026-11-23 | Runbook item 43: the four "Agent picks: ..." sleeves (Quantavius's picks under fixed rules or as calls) leave the foundation benchmark equal_f because they are Quantavius's own work; nightly maths runs on a GitHub schedule; live decisions once a day; picks review merged into the weekly report; the sheet is retired (the repository ledger was already the record); the daily challenger runs on Mondays and Thursdays. The A1 rule itself, its seed and block length are unchanged. | Own work was still inside the benchmark; scoring must not depend on an AI task; fewer sessions, fewer failure points. |
 | 2026-11-24 | Picks (runbook item 57): optional sealed stop and target per stock pick, applied in AP2 only (AP and G1 unchanged); bearish views as simulated puts in a new own sleeve AP3 (entry at the first option trade 09:30-10:30, $0.68 a contract and 2% of premium per side, exits at sealed stop/target, last holding day or expiry); an evening review task writes a pick journal and a next-day prep list. G1 still counts the long picks only; the put stock moves are reported beside it. | Owner: more performance for the goal; act on bearish views with options. Before the window opens. |
 | 2026-11-24 | Options (runbook item 58): option picks may be calls, puts or debit verticals in AP3 (same sealing, witness, fill window and per-leg costs as item 57); a nightly option chain archive and a backfill of past contracts' daily bars; the lab gate adds four option checks (conservative fills, fees, no stale prices, earnings handled) for family "option". G1, the verdict A1 and the foundation are unchanged. | Owner: Quantavius should trade options both ways and develop option strategies. Before the window opens. |
+| 2026-11-24 | External review fixes before the window (runbook item 59): seals and rankings count only if GitHub's witness saw them before 09:30 on their effective day (from 2026-11-30, as for picks); picks are scored from their first-seen copy; G1 primary counts every full trading day from the first ranking, a day without a valid ranking as IC 0 (coverage reported); freeze list 17 -> 28 scripts, recorded by hand on 2026-12-06; reported Sharpe, volatility matching and beta use the unfloored variance (the weighting floor is unchanged). No result changed on the data so far (checked: book, picks and ranking identical). | External review (Jarvis, Nov 24) N1-N13. Before the window opens. |
 | 2026-11-24 | Player freedoms (runbook item 56): stock picks may include watchlist names (the control list stays excluded as the benchmark); the 5-point limit per lesson on seal moves is removed; the lab chooses its research track; the evidence pack adds the learning findings and lane standings dated on or before evidence_through. A1, G1, G2 rules, benchmarks and scoring unchanged. | Owner: nothing supersedes the ultimate goal; remove rules that hold the player back. Before the window opens. |
 | 2026-11-24 | Own-work room (runbook item 55): in every seal Quantavius's own sleeves AP, AP2 and AS may hold up to 50% each (other sleeves stay at 25%, the short-premium group at 25%); the weekly seal may carry "as_mix" to weight the strategies inside AS (equal weight without it). Scoring code, A1 rule, benchmarks (equal_f excludes own sleeves as before) and the formula allocator's 25% cap unchanged. | Owner: let Quantavius back itself harder and choose inside its own strategy sleeve. Decided before the window opens and before any AS member exists. |
 | 2026-11-24 | LANE ADMISSION (runbook item 53): from 2027-02-16, on the third Tuesday of each month, lane entries that are Quantavius's own strategies or models and beat every yardstick (>= 40 forward days, bootstrap chance >= 0.90 against each, deflated Sharpe chance >= 0.90) join the AS sleeve from the next trading day; exit at chance <= 0.10 against the best yardstick over 120 days or on lane retirement. A1, G1, G2, H1 rules, benchmarks and frozen scripts unchanged; G2 still counts lab approvals only. Goal alignment (item 54): pick filters split into fixed filters and a replaceable starting method. | Owner: let challengers earn weight within this test and align every rule with the ultimate goal. Written before any lane entry had a scored day. |
@@ -209,16 +210,21 @@ returns.
 
 ## 5. Freeze list (from 2026-12-07): the REFEREE
 
-`ops/freeze.json` records the hash of these scripts on the first nightly run on or after 2026-12-07; the nightly run
-and the freeze-guard workflow compare them on every push:
+`ops/freeze.json` records the hash of these scripts; it is recorded by hand on 2026-12-06 after the audit
+(`scripts/freeze.py record`), else on the first nightly run on or after 2026-12-07; the nightly run and the
+freeze-guard workflow compare them on every push:
 
 `allocator.py` (weights, benchmarks, bootstrap, verdict), `library.py`, `corp.py`, `fills.py`, `tcal.py` (the
 calendar and the window), `judge.py` (seal rules), `ledger.py` (trade table), and the scripts that score the ledger
 sleeves: `weekly_opts.py`, `deep_otm.py`, `options_sim.py`, `fees.py`, `crypto_tracks.py`, `orb_daily.py`,
-`orb_variants.py`, `orb_adaptive.py`, `agent_score.py`, `smart_opt.py`.
+`orb_variants.py`, `orb_adaptive.py`, `agent_score.py`, `smart_opt.py`; and since 2026-11-24 (external review N2)
+`picks.py` and `aisleeve.py` (Quantavius's own sleeves inside A1), `rank.py` (G1), `witness.py` (what counts),
+`stats.py`, `nightly.py`, `seals.py`, `chain.py`, `calib.py`, `optarch.py` (option fills used by approved option
+strategies) and `freeze.py`. Package pins of the nightly maths are recorded with the hashes.
 
-Not frozen, because they do not produce a verdict number: data fetching, checks, dashboard, statistics for the
-exploratory tables, machine learning (it has its own freeze on 2027-01-29) and the strategy lab.
+Not frozen, because they do not produce a verdict number: data fetching, checks, dashboard, machine learning, the
+lane register and the strategy lab gate (review.py, registry.py), ops/nightly_extra.json and everything that is the
+player's own (prompts, playbook, strategies).
 
 ## 6. Defects found after 2026-12-07
 
@@ -254,4 +260,6 @@ calm test window flatters them. The stress test and the weight cap that follow f
 | GitHub Actions minutes, projected for the month | at most 70% of the allowance |
 | Days with a missing ledger row for a strategy that should have traded | none unexplained |
 | Weekly random-day replay against stored results | identical |
+| Nightly planted-leak test on the verdict path (data/nightly/leaktest.json) | passed every night |
+| Witness: deliberately late pick, ranking and weekly seal in the shakedown (review N1) | none of them counts |
 | GitHub scripted jobs (ops/diag/daily_*.json, data/nightly/ml_report.json, data/nightly/stamp.json) | every scheduled run ok, or re-run ok the same day |

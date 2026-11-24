@@ -193,6 +193,81 @@ def leaktest(repo, day):
             "note": None if base["ok"] else "the clean replay already fails on this day: pick a day whose parity is ok"}
 
 
+def verdict_leaktest(repo):
+    """Planted late and edited objects on the VERDICT path (review N5, 2026-11-24), run every night on a throw-away copy
+    of the repository; writes nothing to the repo. It plants, with GitHub sightings at chosen times: (1) a weekly seal
+    whose own sealed_at says 09:00 but which GitHub first saw at 10:00 -> allocator.judge_seals must drop it, while an
+    on-time control seal must count; (2) a ranking first seen at 09:45 -> rank.score must drop it and count the day as
+    missed; (3) a pick first seen at 09:40 -> it must not count; (4) a pick whose ledger row was edited after it was
+    witnessed -> scored with the first-seen sizing; (5) a witnessed pick deleted from the ledger -> still scored.
+    Also runs the ML parity leak test (leaktest) on the latest day with live candidates. passed = every plant caught."""
+    import shutil, tempfile, witness, importlib
+    out = {"plants": {}}
+    with tempfile.TemporaryDirectory() as T:
+        dst = os.path.join(T, "r")
+        shutil.copytree(repo, dst, ignore=shutil.ignore_patterns(".git", "hist", "optarch", "5m", "15m", "1h", "opt5m", "models", "pit", "decisions"))
+        W = importlib.reload(witness); W.ENFORCE_FROM = "2000-01-01"    # the rule applies to every planted day
+        days = [d for d in __import__("tcal").trading_days("2026-11-16", dt.datetime.now(NY).date().isoformat())]
+        d_late, d_ok = days[-1], days[-2]
+        def sight(kind, oid, obj, ny, extra=None):
+            t = dt.datetime.fromisoformat(ny).replace(tzinfo=NY)
+            w = {"kind": kind, "id": oid, "sha": W.sha(obj), "seen_at_ny": t.strftime("%Y-%m-%d %H:%M:%S"),
+                 "seen_at_utc": t.astimezone(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), "source": "plant", "grandfathered": False, "altered": False}
+            w.update(extra or {}); d = os.path.join(dst, W.OBJ, kind); os.makedirs(d, exist_ok=True)
+            open(os.path.join(d, "plant-%s-%s.json" % (kind, W.sha(oid)[:8])), "w").write(json.dumps(w) + "\n")
+        # (1) seals: one late, one on time (the planted effective days replace nothing: first valid row per day stands)
+        jf = os.path.join(dst, "data", "allocator", "judge.jsonl"); os.makedirs(os.path.dirname(jf), exist_ok=True)
+        rows = [{"effective": d_late, "sealed_at": d_late + "T09:00:00-05:00", "weights": {"PLANT late": 1.0}},
+                {"effective": d_ok, "sealed_at": d_ok + "T09:00:00-05:00", "weights": {"PLANT ok": 1.0}}]
+        keep = [l for l in open(jf)] if os.path.exists(jf) else []
+        keep = [l for l in keep if l.strip() and json.loads(l).get("effective") not in (d_late, d_ok)]
+        open(jf, "w").write("".join(keep) + "".join(json.dumps(r) + "\n" for r in rows))
+        sight("seal", "judge.jsonl|%s|%s" % (d_late, rows[0]["sealed_at"]), rows[0], d_late + " 10:00:00")
+        sight("seal", "judge.jsonl|%s|%s" % (d_ok, rows[1]["sealed_at"]), rows[1], d_ok + " 09:00:00")
+        import allocator as A; A = importlib.reload(A)
+        js = A.judge_seals(dst)
+        out["plants"]["late_seal_dropped"] = "PLANT late" not in (js.get(d_late) or {})
+        out["plants"]["on_time_seal_kept"] = "PLANT ok" in (js.get(d_ok) or {})
+        # (2) ranking first seen at 09:45
+        rd = os.path.join(dst, "data", "picks", "rank"); os.makedirs(rd, exist_ok=True)
+        R = {"date": d_late, "sealed_at": d_late + "T09:10:00-05:00", "scores": {"AAPL": 1}, "model": "plant"}
+        json.dump(R, open(os.path.join(rd, d_late + ".json"), "w"))
+        sight("rank", "rank|%s|%s" % (d_late, R["sealed_at"]), R, d_late + " 09:45:00")
+        import rank as RK; RK = importlib.reload(RK); RK.score(dst, d_late)
+        rs = json.load(open(os.path.join(dst, "data", "picks", "rank_score.json")))
+        row = [r for r in rs["rows"] if r["date"] == d_late]
+        out["plants"]["late_ranking_counted_as_missed"] = bool(row) and bool(row[0].get("missed"))
+        # (3)-(5) picks
+        lp = os.path.join(dst, "data", "ledger", "AgentPicks.jsonl")
+        late = {"picked_at": d_late + " 09:00", "asset": "stock", "symbol": "PLNTL", "status": "picked", "checks": "w=0.30 | hold=1"}
+        edit = {"picked_at": d_late + " 08:50", "asset": "stock", "symbol": "PLNTE", "status": "picked", "checks": "w=0.10 | hold=1"}
+        gone = {"picked_at": d_late + " 08:55", "asset": "stock", "symbol": "PLNTG", "status": "picked", "checks": "w=0.20 | hold=1"}
+        with open(lp, "a") as f:
+            for r in (late, dict(edit, checks="w=0.40 | hold=1")): f.write(json.dumps(r) + "\n")
+        cp = W._pick_copy
+        sight("pick", W.row_id(late), cp(late), d_late + " 09:40:00", {"row": cp(late)})
+        sight("pick", W.row_id(edit), cp(edit), d_late + " 09:00:00", {"row": cp(edit)})
+        sight("pick", W.row_id(gone), cp(gone), d_late + " 09:00:00", {"row": cp(gone)})
+        PR, WW = W.pick_rows(dst); by = {r["symbol"]: r for r in PR}
+        out["plants"]["late_pick_not_counted"] = not W.counts(WW.get(W.row_id(late)), d_late)
+        out["plants"]["edited_pick_scored_as_first_seen"] = "w=0.10" in str(by.get("PLNTE", {}).get("checks"))
+        out["plants"]["deleted_pick_still_scored"] = "PLNTG" in by and W.counts(WW.get(W.row_id(gone)), d_late)
+        ig = W.integrity(dst)
+        out["plants"]["integrity_flags_edit_and_delete"] = (any(x["id"] == W.row_id(edit) for x in ig["altered"])
+                                                             and any(x["id"] == W.row_id(gone) for x in ig["missing"]))
+    importlib.reload(witness)
+    try:      # the ML parity leak test on the latest day with live candidates
+        lv = sorted(f[:-6] for f in os.listdir(os.path.join(repo, "data", "decisions", "live")) if f.endswith(".jsonl"))
+        out["ml_parity"] = {"status": "no live day with a clean parity"}
+        for d in reversed(lv[-8:]):           # the latest day whose clean replay passes parity (else the test proves nothing)
+            r = leaktest(repo, d)
+            if r.get("clean_ok"): out["ml_parity"] = r; break
+    except Exception as e: out["ml_parity"] = {"error": str(e)[:200]}
+    ml_ok = out["ml_parity"].get("passed") is not False
+    out["passed"] = all(out["plants"].values()) and ml_ok
+    return out
+
+
 # ---------- weekly random-day replay ----------
 def replay_days(repo, n=5):
     """Five random past days a night instead of one (2026-11-23, after the GitHub budget rise): distinct days, drawn
@@ -443,6 +518,14 @@ def health(repo, now=None):
         C = json.load(open(os.path.join(repo, "data", "nightly", "chain.json")))
         if not C.get("ok", True): H["alerts"].append("CHAIN BROKEN: %d append-only evidence line(s) changed after sealing (data/nightly/chain.json)" % len(C.get("broken", [])))
     except Exception: pass
+    try:      # the nightly planted-leak test on the verdict path (review N5)
+        L = json.load(open(os.path.join(repo, "data", "nightly", "leaktest.json")))
+        if L.get("passed") is False: H["alerts"].append("LEAK TEST FAILED: a planted late or edited seal, ranking or pick was not caught (data/nightly/leaktest.json)")
+    except Exception: pass
+    try:      # witnessed objects edited or deleted afterwards (review N3)
+        G = json.load(open(os.path.join(repo, "data", "nightly", "witness.json"))).get("integrity", {})
+        if G.get("altered") or G.get("missing"): H["alerts"].append("WITNESS: %d witnessed object(s) altered and %d missing after they were first seen (python3 scripts/witness.py . --report)" % (G.get("altered", 0), G.get("missing", 0)))
+    except Exception: pass
     if proj > 0.8 * MINUTES_QUOTA: H["alerts"].append("MINUTES: projected %d of %d this month" % (proj, MINUTES_QUOTA))
     if days_to_expiry <= 21: H["alerts"].append("TOKEN: the pinger token expires in %d days (%s)" % (days_to_expiry, TOKEN_EXPIRY))
     if size_mb and size_mb > 700: H["alerts"].append("REPO: data is %.0f MB (GitHub soft limit 1 GB)" % size_mb)
@@ -480,7 +563,7 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     fn = {"bar-timing": lambda: bar_timing(a[1]), "xcheck-plan": lambda: xcheck_plan(a[1], a[2]), "xcheck": lambda: xcheck(a[1], a[2]),
           "live-save": lambda: live_save(a[1], a[2], a[3]), "parity": lambda: parity(a[1], a[2]),
-          "leaktest": lambda: leaktest(a[1], a[2]), "replay-day": lambda: replay_day(a[1], a[2] if len(a) > 2 else None), "replay-days": lambda: replay_days(a[1], int(a[2]) if len(a) > 2 else 5),
+          "leaktest": lambda: leaktest(a[1], a[2]), "verdict-leaktest": lambda: verdict_leaktest(a[1]), "replay-day": lambda: replay_day(a[1], a[2] if len(a) > 2 else None), "replay-days": lambda: replay_days(a[1], int(a[2]) if len(a) > 2 else 5),
           "engine-report": lambda: engine_report(a[1], a[2] if len(a) > 2 else None), "health": lambda: health(a[1], a[2] if len(a) > 2 else None),
           "trial": lambda: trial(a[1], a[2], a[3], a[4] if len(a) > 4 else 1), "trials": lambda: trials(a[1]), "stamp": lambda: stamp(a[1]),
           "slip-save": lambda: slip_save(a[1], a[2], a[3], a[4]), "slip-report": lambda: slip_report(a[1], a[2] if len(a) > 2 else None), "cost-check": lambda: cost_check(a[1]),

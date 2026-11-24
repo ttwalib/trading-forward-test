@@ -114,7 +114,13 @@ BREAKER_MODE, BRK_DD_K, BRK_10_K = "vol", 3.0, 2.5
 # the AI-judgment seal rules, the ledger and the scripts that score the ledger sleeves were not covered before).
 FROZEN_FILES = ["allocator.py", "library.py", "corp.py", "fills.py", 
                 "tcal.py", "judge.py", "ledger.py", "weekly_opts.py", "deep_otm.py", "options_sim.py", "fees.py", "crypto_tracks.py", 
-                "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py"]
+                "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py",
+                # added 2026-11-24 (external review N2): the scripts that score Quantavius's own sleeves inside A1, the
+                # G1 ranking, the witness that decides what counts, the statistics, the nightly runner, the contest
+                # scorer, the evidence chain, the calibration score and the option fill helpers that approved option
+                # strategies use. The player's own files (prompts, playbook, strategies/*.py) stay free.
+                "picks.py", "aisleeve.py", "rank.py", "witness.py", "stats.py", "nightly.py", "seals.py", "chain.py",
+                "calib.py", "optarch.py", "freeze.py"]
 BASE = "A baseline (watchlist)"
 # Sleeves removed from the book on 2026-11-23 by a rule that ignores results (owner decision, runbook item 32): a sleeve
 # stays only if it is a benchmark, a control, the strategy menu the allocator manages (library L1-L17), or made or
@@ -251,6 +257,16 @@ def regime_of(spy, vix, cal):
     return out
 
 
+def rstats(xs):
+    """Mean and the UNFLOORED sample variance (review N12, 2026-11-24): used for reported Sharpe ratios, drawdown-free
+    volatility matching and beta, where the 0.01 floor of stats() (a 0.1% daily volatility) would distort a
+    diversified book. The floor stays in the weighting (stats, wstats), where it is a deliberate prior."""
+    n = len(xs)
+    if n < 2: return (xs[0] if xs else 0.0), 0.0
+    m = sum(xs) / n
+    return m, sum((x - m) ** 2 for x in xs) / (n - 1)
+
+
 def stats(xs):
     n = len(xs)
     if n == 0: return 0.0, 0.01
@@ -374,9 +390,12 @@ JUDGE = "sh_judge"
 
 def judge_seals(repo):
     """Valid sealed weights of the AI-judgment allocator: {effective day: weights}. A row counts only if sealed
-    before 09:30 New York on its effective day; the first valid row per effective day stands."""
+    before 09:30 New York on its effective day and, from witness.ENFORCE_FROM, first seen by GitHub before then (the
+    witness); the first valid row per effective day stands."""
+    import witness
     out = {}; f = os.path.join(repo, "data", "allocator", "judge.jsonl")
     if not os.path.exists(f): return out
+    WS = witness.sightings(repo)
     for line in open(f):
         if not line.strip(): continue
         try:
@@ -384,7 +403,9 @@ def judge_seals(repo):
             sealed = dt.datetime.fromisoformat(r["sealed_at"]).astimezone(NY)
             limit = dt.datetime.fromisoformat(eff + "T09:30:00").replace(tzinfo=NY)
             w = {k: float(v) for k, v in r["weights"].items() if float(v) > 0}
-            if sealed < limit and w and eff not in out: out[eff] = w
+            # GitHub must also have seen this exact row before 09:30 on its effective day (review N1, from witness.ENFORCE_FROM)
+            seen = witness.on_time(WS, "seal", "judge.jsonl|%s|%s" % (eff, r.get("sealed_at")), witness.sha(r), eff)
+            if sealed < limit and seen and w and eff not in out: out[eff] = w
         except Exception: continue
     return out
 
@@ -394,10 +415,11 @@ def perf(xs):
     cum = 1.0; peak = 1.0; mdd = 0.0
     for x in xs:
         cum *= 1 + x / 100; peak = max(peak, cum); mdd = max(mdd, 1 - cum / peak)
-    m, v = stats(xs)
+    m, v = rstats(xs)
     sd = math.sqrt(v) if len(xs) > 1 else 0
     return {"days": len(xs), "total_pct": round((cum - 1) * 100, 3), "sharpe": round(m / sd * math.sqrt(252), 2) if sd else None,
-            "max_dd_pct": round(mdd * 100, 3), "mean_daily_pct": round(m, 4)}
+            "max_dd_pct": round(mdd * 100, 3), "mean_daily_pct": round(m, 4),
+            "below_weighting_floor": len(xs) > 1 and v < 0.01}      # the 0.01 floor would have bound (review N12)
 
 
 def p_beats(a, b, B=5000, restart=0.2):
@@ -422,7 +444,7 @@ def freeze_check(repo, day):
     if day < tcal.ALLOC_FREEZE.isoformat(): return {"frozen": False, "freeze_date": tcal.ALLOC_FREEZE.isoformat()}
     if not os.path.exists(fz):
         os.makedirs(os.path.dirname(fz), exist_ok=True)
-        json.dump({"recorded_on": day, "sha256": cur}, open(fz, "w"), indent=1)
+        json.dump({"recorded_on": day, "recorded_by": "nightly fallback (nobody ran scripts/freeze.py record)", "sha256": cur}, open(fz, "w"), indent=1)
     rec = json.load(open(fz))
     bad = [f for f in cur if rec["sha256"].get(f) != cur[f]]
     return {"frozen": True, "recorded_on": rec["recorded_on"], "code_matches_freeze": not bad, "changed_files": bad}
@@ -513,9 +535,9 @@ def phase_report(rows):
                or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat()) or r["phase"] == ph]
         if not sel: continue
         ai = [r["ai"] for r in sel]; sp = [r["spy"] for r in sel]
-        sa = math.sqrt(stats(ai)[1]) if len(ai) > 1 else 0; scales = {}
+        sa = math.sqrt(rstats(ai)[1]) if len(ai) > 1 else 0; scales = {}
         for b in ("spy", "equal", "base_a"):
-            xs = [r[b] for r in sel]; sb = math.sqrt(stats(xs)[1]) if len(xs) > 1 and any(xs) else 0
+            xs = [r[b] for r in sel]; sb = math.sqrt(rstats(xs)[1]) if len(xs) > 1 and any(xs) else 0
             scales[b] = sa / sb if sb else 0.0
             for r in sel: r[b + "_vm"] = r[b] * scales[b]
         k_vm = scales["spy"]; BM = ("spy", "equal", "base_a", "spy_vm", "equal_vm", "base_a_vm")
@@ -534,7 +556,7 @@ def phase_report(rows):
         P["forced_fill"] = {"avg_weight": round(fw, 4), "return_pct_total": round(fr, 4),
                             "backed_return_pct_total": round(sum(r["ai"] + r.get("rebal_cost", 0) for r in sel) - fr, 4),
                             "days_with_fill": sum(1 for r in sel if r.get("fill_w", 0) > 0.0005)}
-        ms, vs = stats(sp) if len(sp) > 1 else (0.0, 0.0)
+        ms, vs = rstats(sp) if len(sp) > 1 else (0.0, 0.0)
         beta = (sum((a - sum(ai) / len(ai)) * (b - ms) for a, b in zip(ai, sp)) / (len(sp) - 1) / vs) if len(sp) > 2 and vs > 0 else None
         P["exposure"] = {"beta_spy": round(beta, 3) if beta is not None else None,
                          "after_beta_pct_total": round(sum(a - beta * b for a, b in zip(ai, sp)), 4) if beta is not None else None}
@@ -577,9 +599,9 @@ def judge_check(rows, ph="verdict"):
     sel = [dict(r) for r in rows if r.get(JUDGE) is not None and (ph == "all" or (ph == "verdict" and r["date"] >= tcal.ALLOC_FREEZE.isoformat())
            or (ph == "second_half" and r["date"] >= tcal.HOLDOUT_START.isoformat()) or r["phase"] == ph)]
     if len(sel) < 10: return {"status": "not enough days", "days": len(sel)}
-    j = [r[JUDGE] for r in sel]; sj = math.sqrt(stats(j)[1]); scales = {}
+    j = [r[JUDGE] for r in sel]; sj = math.sqrt(rstats(j)[1]); scales = {}
     for b in ("spy", "equal", "equal_f", "base_a"):
-        xs = [r[b] for r in sel]; sb = math.sqrt(stats(xs)[1]) if any(xs) else 0
+        xs = [r[b] for r in sel]; sb = math.sqrt(rstats(xs)[1]) if any(xs) else 0
         scales[b] = sj / sb if sb else 0.0
         for r in sel: r[b + "_vm"] = r[b] * scales[b]
     BM = ("spy", "equal", "equal_f", "base_a", "spy_vm", "equal_vm", "equal_f_vm", "base_a_vm")

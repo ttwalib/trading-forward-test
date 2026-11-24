@@ -31,6 +31,11 @@ STEP 1 - LOOK-AHEAD
     aisleeve.build for an admission day: an entry is admitted only with scores dated before the admission day, counts
     only from the next trading day, weekly books (kind "allocator") and seeds are never admitted, and an exit stops its
     returns from the next trading day. Confirm data/ai/lane_admissions.jsonl is in the hash chain.
+1.7 Witness (scripts/witness.py, item 59). Read data/nightly/leaktest.json (planted late seal, late ranking, late, edited
+    and deleted picks must all be caught) and run `python3 scripts/checks.py verdict-leaktest .` yourself. Then check on
+    real rows: every seal row in data/allocator/*.jsonl and every ranking in data/picks/rank/ has a sighting in
+    data/witness/obj/ before 09:30 on its effective day (`python3 scripts/witness.py . --report` lists late, altered and
+    missing objects), and a push-triggered sighting carries source "push".
 
 STEP 2 - FILL FEASIBILITY
 2.1 Volume. The simulation trades in units of risk, not dollars. Assume a $10,000 position per trade and count the

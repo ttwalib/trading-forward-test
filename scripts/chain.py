@@ -21,7 +21,8 @@ import glob, hashlib, json, os, sys
 SOURCES = ["data/allocator/judge.jsonl", "data/trials.jsonl", "data/lane/champions.jsonl",
            "data/decisions/engine/*.jsonl", "data/decisions/engine_ml/*.jsonl", "data/picks/playbook_log.jsonl",
            "data/picks/rank/*.json", "data/allocator/contest_*.jsonl", "data/allocator/judge_daily.jsonl",
-           "data/witness/picks.jsonl", "ops/interventions.jsonl", "data/ai/lane_admissions.jsonl"]
+           "data/witness/picks.jsonl", "ops/interventions.jsonl", "data/ai/lane_admissions.jsonl",
+           "data/witness/obj/*/*.json"]      # one file per witness sighting (2026-11-24, review N1/N7)
 GENESIS = "0" * 64
 H = lambda s: hashlib.sha256(s.encode()).hexdigest()
 

@@ -112,6 +112,7 @@ def borrow_fee(repo, sym, day):
     r = rows.get(sym)
     return max(0.25, float(r["fee"])) if r and r.get("fee") is not None else BORROW_PCT_YR
 FILL_LAG = 1          # implementable fills; 0 = old ideal fills (comparison run only)
+SKIPPED = {}          # signals dropped because the expected fill bar was missing, per strategy (review N11, report only)
 
 
 def jl(path):
@@ -491,7 +492,8 @@ def intraday_books(I, stocks, day=None):
                     sig2.append((hm, s, j, min(l, vw * 0.997), bars)); break
         for hm, s, j, stop, bars in sorted(sig2)[:5]:
             k = j + 1 + FILL_LAG if FILL_LAG else j + 1
-            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus(bars[j][0], 5 * (1 + FILL_LAG))): continue
+            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus(bars[j][0], 5 * (1 + FILL_LAG))):
+                SKIPPED['L2'] = SKIPPED.get('L2', 0) + 1; continue
             ep = bars[k][1] if FILL_LAG else bars[j][4]; hm = bars[k][0] if FILL_LAG else hm; r = ep - stop
             if r <= 0: continue
             tgt = ep + 2 * r; xp, xt = None, None
@@ -503,7 +505,8 @@ def intraday_books(I, stocks, day=None):
             b2.add_day(d, (xp / ep - 1) * 100 - 2 * C_INTRA); b2.trade(s, "long", d, hm, ep, d, xt, xp, C_INTRA)
         for hm, s, j, stop, bars in sorted(sig14)[:5]:
             k = j + 1 + FILL_LAG if FILL_LAG else j + 1
-            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus(bars[j][0], 5 * (1 + FILL_LAG))): continue
+            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus(bars[j][0], 5 * (1 + FILL_LAG))):
+                SKIPPED['L14'] = SKIPPED.get('L14', 0) + 1; continue
             ep = bars[k][1] if FILL_LAG else bars[j][4]; et = bars[k][0] if FILL_LAG else _plus(hm, 5); r = stop - ep
             if r <= 0 or r / ep * 100 < 0.05: continue
             tgt = ep - 2 * r; xp, xt = None, None
@@ -517,7 +520,8 @@ def intraday_books(I, stocks, day=None):
             bk = b3 if kind == "L3" else b4
             if sum(1 for t in bk.trades if t["entry_date"] == d) >= 5: continue
             k = 1 + FILL_LAG if FILL_LAG else 1
-            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus("09:30", 5 * (1 + FILL_LAG))): continue
+            if FILL_LAG and (k >= len(bars) or bars[k][0] != _plus("09:30", 5 * (1 + FILL_LAG))):
+                SKIPPED[kind] = SKIPPED.get(kind, 0) + 1; continue
             ep = bars[k][1] if FILL_LAG else bars[0][4]; et = bars[k][0] if FILL_LAG else "09:35"
             stop = bars[0][3] if kind == "L3" else bars[0][2]; xp = xt = None
             if (kind == "L3" and ep <= stop) or (kind == "L4" and ep >= stop): continue   # already past the stop: no trade
@@ -615,7 +619,8 @@ def write(repo, books):
                         "forward_trades": len(fw), "forward_avg_pct": round(sum(t["ret_pct"] for t in fw) / len(fw), 3) if fw else None,
                         "open": sum(1 for t in b.trades if t["status"] == "open"), "days": len(b.daily)}
     cols = ["strategy", "symbol", "side", "entry_date", "entry_time", "entry", "exit_date", "exit_time", "exit", "ret_pct", "status", "phase"]
-    return {"summary": summ, "new_closed": len(new_closed), "new_closed_rows": [[t[c] for c in cols] for t in new_closed]}
+    return {"summary": summ, "new_closed": len(new_closed), "new_closed_rows": [[t[c] for c in cols] for t in new_closed],
+            "skipped_no_fill_bar": dict(sorted(SKIPPED.items()))}
 
 
 if __name__ == "__main__":

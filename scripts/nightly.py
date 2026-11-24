@@ -67,7 +67,10 @@ def main():
     for name, args, out in plan:
         r = step(name, args, os.path.join(N, out)); stamp["steps"].append(r)
         if not r["ok"] and name in ("library", "allocator"): break       # later steps would read stale inputs
-    if all(s["ok"] for s in stamp["steps"] if s["step"] != "rank"):      # an optional step (rank) never stops the rest
+    # The second block runs when every CRITICAL first-block step passed (external review N4, 2026-11-24): an optional
+    # step (interventions, rank) failing never stops the checks, the chain or the seals.
+    CRIT1 = {"library", "library_2x", "library_ideal", "witness", "picks", "aisleeve", "allocator", "stats"}
+    if all(s["ok"] for s in stamp["steps"] if s["step"] in CRIT1):
         ck = {}
         for name, args in (("engine_report", ["engine-report", repo]), ("slip_report", ["slip-report", repo]), ("cost_check", ["cost-check", repo]), ("health", ["health", repo]),
                            ("replay_day", ["replay-days", repo, "5"])):      # random past day re-run against the ledger (2026-11-21)
@@ -82,6 +85,8 @@ def main():
         stamp["steps"].append(step("riskx", [S("riskx.py"), repo], os.path.join(N, "riskx.json"), 300))
         # report-only market breadth over the point-in-time top 100 (tools audit 2026-11-23); shown in the pack
         stamp["steps"].append(step("breadth", [S("breadth.py"), repo, day], os.path.join(N, "breadth.json"), 300))
+        # planted late and edited seals, rankings and picks on a throw-away copy must all be caught (review N5)
+        stamp["steps"].append(step("leaktest", [S("checks.py"), "verdict-leaktest", repo], os.path.join(N, "leaktest.json"), 300))
         stamp["steps"].append(step("chain", [S("chain.py"), "update", repo], None, 120))
         try: stamp["chain_head"] = json.load(open(os.path.join(N, "chain.json")))["head"]
         except Exception: stamp["chain_head"] = None
@@ -96,6 +101,21 @@ def main():
         stamp["steps"].append(step("lane", [S("registry.py"), "score", repo], None, 600))
         # the current specification, regenerated from the configuration every night (2026-11-21)
         stamp["steps"].append(step("spec", [S("spec.py"), repo, os.path.join(repo, "ops", "SPEC.md")], None, 120))
+        # EXTRA STEPS (2026-11-24): nightly.py is frozen from the window's start (review N2), so new report-only work
+        # (the lane's ML challengers, new readings) is listed in ops/nightly_extra.json, which stays free:
+        # [{"name": "...", "args": ["<script in scripts/>", "...REPO..."], "out": "<file name in data/nightly> or null",
+        #   "timeout": 600}]. They run last, are always optional and can never change the critical steps or "ok".
+        try: extra = json.load(open(os.path.join(repo, "ops", "nightly_extra.json")))
+        except Exception: extra = []
+        names = {x["step"] for x in stamp["steps"]}
+        for x in extra if isinstance(extra, list) else []:
+            try:
+                sc = os.path.basename(str(x["args"][0])); nm = "extra_" + str(x["name"])[:40]
+                if not sc.endswith(".py") or not os.path.exists(S(sc)) or nm in names: continue
+                args = [S(sc)] + [repo if a == "REPO" else str(a) for a in x["args"][1:]]
+                out = os.path.join(N, os.path.basename(str(x["out"]))) if x.get("out") else None
+                stamp["steps"].append(step(nm, args, out, min(int(x.get("timeout", 600)), 1800)))
+            except Exception as e: stamp["steps"].append({"step": "extra_?", "ok": False, "error": str(e)[:200]})
     # CRITICAL steps (the verdict's path): the stamp is ok only if all of these ran. Since 2026-11-23 (external review 3.6)
     # this includes the steps whose output the allocator reads (witness, picks, aisleeve) and the chain check. Every
     # other step is OPTIONAL: its failure is listed in "optional_failed" and never fails the night.

@@ -1,10 +1,12 @@
-# Quantavius the 1st - picks witness on push (2026-11-23). When the morning research pushes its picks, GitHub records
-# the time it first saw each pick row (scripts/witness.py, data/witness/picks.jsonl). The 5-minute tick does the same
-# from 09:00 ET; this run makes the proof as early as the push itself. Reads the repository only; no orders, no keys.
+# Quantavius the 1st - witness on push (picks 2026-11-23; seals, sampler drafts and rankings 2026-11-24, review N1).
+# When a task pushes picks, a seal or a ranking, GitHub records when it first saw each object (scripts/witness.py, one
+# file per sighting in data/witness/obj/), using GitHub's own push time. The 5-minute tick and the nightly maths do the
+# same as a backstop. Reads the repository only; no orders, no keys.
 name: picks-witness
 on:
   push:
-    paths: ["data/ledger/AgentPicks.jsonl"]
+    paths: ["data/ledger/AgentPicks.jsonl", "data/allocator/judge.jsonl", "data/allocator/judge_daily.jsonl",
+            "data/allocator/contest_*.jsonl", "data/allocator/drafts/**", "data/picks/rank/**"]
 permissions:
   contents: write
 concurrency:
@@ -17,6 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Witness
+        env:
+          WITNESS_AT: ${{ github.event.repository.pushed_at }}
         run: python3 scripts/witness.py .
       - name: Commit
         run: |
@@ -24,7 +28,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/witness
           git diff --cached --quiet && exit 0
-          git commit -q -m "data: picks witness $(date -u +%FT%TZ)"
+          git commit -q -m "data: witness $(date -u +%FT%TZ)"
           for i in 1 2 3 4 5; do
             if git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main; then OK=1; break; fi
             sleep $((i * 5))

@@ -9,7 +9,7 @@ Seal files and the lane series they become (data/lane/series/<id>.jsonl, rows {"
   data/allocator/contest_sonnet.jsonl weekly   -> contest_sonnet
   data/allocator/judge_daily.jsonl    daily    -> judge_daily      (the daily challenger)
 Method, identical to allocator.simulate for "sh_judge": a seal counts only if sealed before 09:30 New York on its
-effective day (allocator.judge_seals rule); a weekly seal applies from its effective day to the end of that ISO week,
+effective day and first seen by GitHub before then (allocator.judge_seals rule, scripts/witness.py); a weekly seal applies from its effective day to the end of that ISO week,
 a daily seal to its effective day only; a period without a valid seal carries the last weights forward; weights are
 water-filled to 100% over the sleeves that exist (allocator.fill_to_one); every change of weights pays
 allocator.rebal_cost per unit of turnover. Contestants differ only in their sealed weights.
@@ -24,15 +24,18 @@ FILES = {"contest_fable": ("judge.jsonl", "week"), "contest_opus": ("contest_opu
 
 
 def valid(repo, fn):
+    import witness
     out = {}; f = os.path.join(repo, "data", "allocator", fn)
     if not os.path.exists(f): return out
+    WS = witness.sightings(repo)
     for line in open(f):
         if not line.strip(): continue
         try:
             r = json.loads(line); eff = r["effective"]
             sealed = dt.datetime.fromisoformat(r["sealed_at"]).astimezone(NY)
             w = {k: float(v) for k, v in r["weights"].items() if float(v) > 0}
-            if sealed < dt.datetime.fromisoformat(eff + "T09:30:00").replace(tzinfo=NY) and w and eff not in out: out[eff] = w
+            seen = witness.on_time(WS, "seal", "%s|%s|%s" % (fn, eff, r.get("sealed_at")), witness.sha(r), eff)   # review N1
+            if sealed < dt.datetime.fromisoformat(eff + "T09:30:00").replace(tzinfo=NY) and seen and w and eff not in out: out[eff] = w
         except Exception: continue
     return out
 

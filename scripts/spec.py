@@ -46,6 +46,9 @@ def main(repo):
              % (dt.datetime.now(tcal.NY).strftime("%Y-%m-%d %H:%M ET"), git(repo, "rev-parse", "--short", "HEAD"), git(repo, "log", "-1", "--format=%cs")))
     P.append("Nothing is traded. Every result is simulated on real market prices. No script may contain an order call "
              "(`scripts/no_orders.py`). This is testing, not financial advice.\n")
+    wr = [x for x in T.get("tasks", []) if x.get("weekday_runs")]
+    P.append("AI sessions on an average weekday (ops/tasks.json weekday_runs, review N8): **%s**, from %s.\n"
+             % (round(sum(x["weekday_runs"] for x in wr), 1), ", ".join("%s %s" % (x["name"], x["weekday_runs"]) for x in wr)))
     P.append("## Dates\n")
     P.append(table(["Item", "Value"], [
         ["Test (stocks and options)", "%s to %s" % (tcal.START, tcal.END)], ["Crypto", "to %s" % tcal.CRYPTO_END],

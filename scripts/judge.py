@@ -28,7 +28,7 @@ Rules the seal enforces (a seal that breaks one is refused, nothing is written):
   - bull, bear and decision texts are present (at least 40 characters each), so the reasoning is on record.
 Evidence only reaches the last closed trading day, so the weights cannot see the week they are for.
 """
-import json, os, sys, math, datetime as dt
+import hashlib, json, os, sys, math, datetime as dt
 from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tcal, allocator
@@ -55,6 +55,10 @@ def _fill(scores):
         for k in over: room -= cap_of(k) - w.get(k, 0.0); w[k] = cap_of(k); free.pop(k)
     return w
 FILE = os.path.join("data", "allocator", "judge.jsonl")
+# Evidence-pack version (review N9, 2026-11-24): raised by hand whenever a field is added to or removed from brief(),
+# and logged as an intervention. Every seal row stores it with a sha256 of the pack it was sealed from (pack_sha, of the
+# pack without its clock field), so a change in what Quantavius was shown is always visible next to its decisions.
+PACK_SCHEMA = 2
 
 
 def effective_day(now):
@@ -95,7 +99,7 @@ def brief(repo, now=None):
     sleeves = []
     for k in sorted(el):
         s = S[k]; live = [s[d] for d in sorted(s) if d >= start]; prior = [s[d] for d in sorted(s) if d < start][-120:]
-        x = el[k]; sd = math.sqrt(allocator.stats(x[-20:])[1]) if len(x) >= 2 else None
+        x = el[k]; sd = math.sqrt(allocator.rstats(x[-20:])[1]) if len(x) >= 2 else None     # unfloored (review N12)
         sleeves.append({"sleeve": k, "live_days": len(live), "live_total_pct": sm(live), "last5_pct": sm(x[-5:]), "last20_pct": sm(x[-20:]),
                         "last60_pct": sm(x[-60:]), "daily_vol_20d_pct": round(sd, 3) if sd else None,
                         "backtest_days_before_test": len(prior), "backtest_mean_daily_pct": round(sum(prior) / len(prior), 4) if prior else None,
@@ -115,7 +119,7 @@ def brief(repo, now=None):
                       "p_beat_equal": r.get("p_beat_equal"), "lessons": r.get("lessons"),
                       "week_result_pct": {k: sm([p.get(k) or 0.0 for p in days]) for k in ("sh_judge", "ai", "equal", "spy")} if days else None})
     eff = effective_day(now)
-    return {"now_new_york": now.strftime("%Y-%m-%d %H:%M"), "evidence_through": cal[-1] if cal else None, "effective": eff.isoformat(),
+    return {"pack_schema": PACK_SCHEMA, "now_new_york": now.strftime("%Y-%m-%d %H:%M"), "evidence_through": cal[-1] if cal else None, "effective": eff.isoformat(),
             "market_closed_now": market_closed(now), "phase_of_effective_day": tcal.phase(eff),
             "rules": {"min_share": LO, "max_share": HI, "own_sleeves_max_share": OWN_CAP, "own_sleeves": list(OWN),
                       "as_mix": "optional {AS member: share} adding up to 1.00 (weekly book); without it AS is equal weight", "sum": 1.0, "short_premium_group_max": allocator.GROUP_CAP,
@@ -333,7 +337,8 @@ def seal(repo, path, dry=False, now=None, out=None, daily=False):
     row = {"effective": eff, "sealed_at": now.isoformat(timespec="seconds"), "evidence_through": B["evidence_through"],
            "weights": {k: round(v, 4) for k, v in sorted(w.items())},
            "n_samples": len(samples), "sample_tags": tags, "samples": samples if len(samples) > 1 else None,
-           "sample_dispersion": disp, "moves_over_5pts": moves, "pack_chars": len(json.dumps(B, default=str)), "bull": str(D["bull"])[:1500], "bear": str(D["bear"])[:1500],
+           "sample_dispersion": disp, "moves_over_5pts": moves, "pack_chars": len(json.dumps(B, default=str)), "pack_schema": B.get("pack_schema"),
+           "pack_sha": hashlib.sha256(json.dumps({k: v for k, v in B.items() if k != "now_new_york"}, sort_keys=True, default=str).encode()).hexdigest(), "bull": str(D["bull"])[:1500], "bear": str(D["bear"])[:1500],
            "risk": str(D.get("risk") or "")[:1000], "decision": str(D["decision"])[:1500], "model": str(D.get("model") or "")[:60],
            # since 2026-11-23 (item 35): the stated chance that this book beats the equal-weight foundation over the
            # period it applies to (scored for calibration), the lessons drawn from the earlier seals, and the horizon

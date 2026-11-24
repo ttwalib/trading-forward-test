@@ -58,7 +58,7 @@ jobs:
       - name: Compute
         if: steps.m.outputs.mode == 'compute'
         run: |
-          pip install -q numpy
+          pip install -q numpy==2.5.3
           python3 scripts/nightly.py . "${{ steps.m.outputs.day }}" || echo "nightly maths failed (see data/nightly/stamp.json)"
       # Second daily crypto ML fit, no AI in the loop: rebuild the decision rows from the ledger, evaluate, refit.
       - name: Crypto ML
@@ -91,7 +91,7 @@ jobs:
         run: |
           python3 scripts/fetch_free.py "${{ steps.m.outputs.mode }}" .
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/engine.py . || echo "engine failed"; fi
-          if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/witness.py . || echo "witness failed"; fi
+          if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then WITNESS_SOURCE=tick python3 scripts/witness.py . || echo "witness failed"; fi
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/ape.py . || echo "ape failed"; fi
           if [ "${{ steps.m.outputs.mode }}" = "tick" ]; then python3 scripts/daily.py sentiment . > /dev/null || echo "sentiment failed"; fi
           python3 scripts/dashboard.py . || echo "dashboard data failed"

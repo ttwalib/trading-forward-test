@@ -5,7 +5,7 @@
 name: freeze-guard
 on:
   push:
-    paths: ["scripts/allocator.py", "scripts/library.py", "scripts/corp.py", "scripts/fills.py", "scripts/tcal.py", "scripts/judge.py", "scripts/ledger.py", "scripts/weekly_opts.py", "scripts/deep_otm.py", "scripts/options_sim.py", "scripts/fees.py", "scripts/crypto_tracks.py", "scripts/orb_daily.py", "scripts/orb_variants.py", "scripts/orb_adaptive.py", "scripts/agent_score.py", "scripts/smart_opt.py", "ops/freeze.json"]
+    paths: ["scripts/**", "ops/freeze.json"]      # every script; the file list comes from ops/freeze.json itself (2026-11-24)
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,11 +24,11 @@ jobs:
         run: |
           python3 - <<'PY' > /tmp/guard.txt || true
           import hashlib, json, os, subprocess
-          F = ["allocator.py", "library.py", "corp.py", "fills.py", "tcal.py", "judge.py", "ledger.py", "weekly_opts.py", "deep_otm.py", "options_sim.py", "fees.py", "crypto_tracks.py", "orb_daily.py", "orb_variants.py", "orb_adaptive.py", "agent_score.py", "smart_opt.py"]
+
           msg = []
           if os.path.exists("ops/freeze.json"):
-              rec = json.load(open("ops/freeze.json"))["sha256"]
-              bad = [f for f in F if f in rec and hashlib.sha256(open("scripts/" + f, "rb").read()).hexdigest() != rec[f]]
+              rec = json.load(open("ops/freeze.json"))["sha256"]      # every file recorded at the freeze (review N2)
+              bad = [f for f in rec if not os.path.exists("scripts/" + f) or hashlib.sha256(open("scripts/" + f, "rb").read()).hexdigest() != rec[f]]
               if bad: msg.append("frozen scripts differ from ops/freeze.json: " + ", ".join(bad))
               try:
                   old = subprocess.run(["git", "show", "HEAD~1:ops/freeze.json"], capture_output=True, text=True)

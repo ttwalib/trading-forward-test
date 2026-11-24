@@ -194,9 +194,14 @@ model during the window. If a model is withdrawn by its maker, the forced replac
 add ... model ...`, the lane entry's results before and after are reported separately, and for the weekly book the
 change resets "autonomous since". data/nightly/interventions.json lists the models seen in each seal file
 ("seal_models"): more than one model in a file is flagged there and must be explained in the next weekly report.
-WITNESS: picks are witnessed by GitHub (scripts/witness.py on every tick, in the nightly, and on every push of
-data/ledger/AgentPicks.jsonl via the picks-witness workflow); from 2026-11-30 a pick first seen at or after 09:30 New
-York does not count, so the morning task (08:05) must commit and push its picks before 09:30.
+WITNESS (picks 2026-11-23; seals and rankings 2026-11-24, external review N1, N3, N7): GitHub records when it first saw
+every pick row, weekly / contest / daily seal row, sampler draft and ranking (scripts/witness.py on every push of those
+files via the witness workflow, timed by GitHub's own push time; also on every tick and in the nightly), one file per
+sighting in data/witness/obj/ (in the hash chain; merges can never drop a sighting). From 2026-11-30: a pick first seen
+at or after 09:30 New York on its day does not count; a seal or ranking counts only if its exact content was first seen
+before 09:30 on its effective day. Picks are scored from their first-seen copy, so a pick edited or deleted later is
+still scored as first seen and the nightly lists it (score.json "integrity"; health alert WITNESS). Every task that seals
+must therefore commit and push before 09:30, as the prompts already say.
 
 ## DATA FEED AND GITHUB JOBS (reference for every task)
 
@@ -608,10 +613,19 @@ Runs 21:05 New York. All sheet writes below go to the ledger only (LEDGER). Afte
   summary and a shareable doc for his second reviewer; it packages the findings and does not judge them. The owner and
   his reviewer reply before 2026-12-06 evening. A human reviewer is the owner's to arrange; ops/audit_checklist.md is
   written so a person can follow it.
-- 2026-12-07: allocator.py records the hashes in ops/freeze.json on its first run on or after that day. Never edit that
-  file. The freeze covers 17 scripts (allocator.FROZEN_FILES; ops/preregistration.md section 5). The freeze-guard
-  workflow (freeze-guard.yml) fails and opens an issue "FREEZE BROKEN" if a frozen script or ops/freeze.json changes after the freeze; the
-  first commit holding ops/freeze.json gets the permanent tag "freeze-registered".
+- FREEZE RECORD (external review N2, 2026-11-24): after the Dec 4 audit is triaged, a build session runs
+  `python3 scripts/freeze.py record .` by hand on 2026-12-06 (or the day before the window opens), commits
+  ops/freeze.json and tags it "freeze-<date>". The record holds the sha256 of every file in allocator.FROZEN_FILES (28
+  scripts since 2026-11-24, incl. picks, aisleeve, rank, witness, stats, nightly, seals, chain, calib, optarch), the
+  commit and the package pins of the nightly maths (numpy==2.5.3). If nobody records it, allocator.py writes it on its
+  first run on or after the freeze date ("recorded_by": "nightly fallback"). Never edit that file. The freeze-guard
+  workflow (freeze-guard.yml) checks every push to scripts/ against every file in the record and opens an issue
+  "FREEZE BROKEN" on any change; the first commit holding ops/freeze.json gets the permanent tag "freeze-registered".
+- NIGHTLY EXTRA STEPS: nightly.py is frozen, so new report-only nightly work (the lane's challengers, new readings) is
+  listed in ops/nightly_extra.json (not frozen). Extra steps run last, are always optional and never change "ok".
+- EVIDENCE PACK VERSION (review N9): every seal row stores pack_schema and pack_sha (judge.PACK_SCHEMA). A change to
+  what brief() shows raises PACK_SCHEMA and is logged as an intervention, so the pack can still grow (the goal) and
+  every change is visible next to the seals it affected.
 - Defects found after 2026-12-07 follow ops/preregistration.md section 6 (log, both results reported).
 
 AUDIT TRIAGE (overrides any prompt wording such as "only defects all three AI reports agree on"): EVERY blocking finding
@@ -1038,3 +1052,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 56 | 2026-11-24 | Setup debate (reports/setup_debate_2026-11-24.md): picks may include watchlist names; lab chooses its track; 5-point lesson limit removed; evidence pack gains learning findings and lane standings; Dec 8 work merged into ops/dec8_plan.md; watchdog to merge into the orchestrator |
 | 57 | 2026-11-24 | Picks learn and exit: evening journal + next-day prep task; stop/target per pick (AP2); bearish views as simulated puts (sleeve AP3, own sleeve); journal in the evidence pack |
 | 58 | 2026-11-24 | Options both ways and an options lab: option picks may be calls, puts or debit verticals (AP3 renamed "AP3 Agent picks: options"); option archive (scripts/optarch.py: nightly chain snapshots, a backfill of past contracts' daily bars); lab OPTIONS TRACK with four option checks in review.py gate |
+| 59 | 2026-11-24 | External review of Nov 24 (Jarvis): witness for seals, drafts and rankings with GitHub's push clock, one file per sighting (N1, N7); picks scored from first-seen copies with an integrity report (N3); nightly critical-path fix (N4); freeze list 17 -> 28, hand freeze record (scripts/freeze.py), pinned numpy, guard reads the record, ops/nightly_extra.json (N2); nightly planted-leak test on the verdict path (N5); G1 coverage rule: a missed ranking day counts as IC 0 (N6); AI sessions per weekday in tasks.json and SPEC (N8); pack_schema and pack_sha in seal rows (N9); skipped fill-bar signals counted (N11); unfloored variance for reported Sharpe, volatility matching and beta (N12); picks reported by playbook version and by vehicle (N13) |

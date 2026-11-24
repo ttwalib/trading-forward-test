@@ -1,150 +1,174 @@
 {
- "note": "Scheduled AI tasks of the forward test (New York time). Edited by hand when a task changes; scripts/spec.py prints it into ops/SPEC.md. The task prompts live in the scheduler; every prompt defers to ops/runbook.md.",
+ "note": "Scheduled AI tasks of the forward test (New York time). Edited by hand when a task changes; scripts/spec.py prints it into ops/SPEC.md. The task prompts live in the scheduler; every prompt defers to ops/runbook.md. weekday_runs = AI sessions this task starts on an average weekday (review N8, 2026-11-24); update it whenever a task moves, retires or changes schedule; spec.py prints the total.",
  "tasks": [
   {
    "name": "Morning research + events",
    "when": "08:05 daily",
    "model": "Fable",
-   "does": "Picks stocks and coins with its own weights, holding periods and confidence; seals the 44-stock ranking before 09:30; logs events; keeps every Alpha Vantage reading in data/ext/av"
+   "does": "Picks stocks and coins with its own weights, holding periods and confidence; seals the 44-stock ranking before 09:30; logs events; keeps every Alpha Vantage reading in data/ext/av",
+   "weekday_runs": 1
   },
   {
    "name": "Stocks + control list",
    "when": "retired 2026-11-24 (moved to GitHub)",
    "model": "Sonnet",
-   "does": "Moved to GitHub: the Reddit snapshot after the 07:40 ApeWisdom fetch and the scoring in the 17:40 nightly fetch (scripts/daily.py sentiment / stocks)"
+   "does": "Moved to GitHub: the Reddit snapshot after the 07:40 ApeWisdom fetch and the scoring in the 17:40 nightly fetch (scripts/daily.py sentiment / stocks)",
+   "weekday_runs": 0
   },
   {
    "name": "Live decisions",
    "when": "13:05 on trading days (once)",
    "model": "Sonnet",
-   "does": "Midday spread and implied-volatility snapshot, breakouts so far with the ML choice, slippage quotes (no option quotes since 2026-11-23)"
+   "does": "Midday spread and implied-volatility snapshot, breakouts so far with the ML choice, slippage quotes (no option quotes since 2026-11-23)",
+   "weekday_runs": 1
   },
   {
    "name": "Deep OTM + weekly options",
    "when": "retired 2026-11-23 (nothing open)",
    "model": "Sonnet",
-   "does": "Retired 2026-11-23 (purpose trim): only settles positions still open, opens nothing"
+   "does": "Retired 2026-11-23 (purpose trim): only settles positions still open, opens nothing",
+   "weekday_runs": 0
   },
   {
    "name": "Adaptive stocks",
    "when": "17:20 weekdays",
    "model": "Sonnet",
-   "does": "Scores the adaptive breakout settings and runs champion/challenger"
+   "does": "Scores the adaptive breakout settings and runs champion/challenger",
+   "weekday_runs": 1
   },
   {
    "name": "Evening scoring of picks",
    "when": "20:20 weekdays",
    "model": "Sonnet",
-   "does": "Scores the morning's stock picks; moving to GitHub (the nightly maths already scores them)"
+   "does": "Scores the morning's stock picks; moving to GitHub (the nightly maths already scores them)",
+   "weekday_runs": 1
   },
   {
    "name": "Orchestrator",
    "when": "21:05 daily",
    "model": "Sonnet",
-   "does": "Checks the pipeline and data checks, reads the scheduled nightly maths (requests it only if missing or failed), writes the digest"
+   "does": "Checks the pipeline and data checks, reads the scheduled nightly maths (requests it only if missing or failed), writes the digest",
+   "weekday_runs": 1
   },
   {
    "name": "Watchdog",
    "when": "05:35, 12:35, 19:35 daily",
    "model": "Sonnet",
-   "does": "Re-runs a failed task; logs problems only"
+   "does": "Re-runs a failed task; logs problems only",
+   "weekday_runs": 3
   },
   {
    "name": "Learning + strategy lab",
    "when": "Wed and Sat 23:15 (to 2027-05-14)",
    "model": "Fable",
-   "does": "Learns from logged trades and the outside data; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once and refreshes the IBKR peer map"
+   "does": "Learns from logged trades and the outside data; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once and refreshes the IBKR peer map",
+   "weekday_runs": 0.2
   },
   {
    "name": "Quantavius's own book (weekly seal, the verdict)",
    "when": "Sun 13:23",
    "model": "Fable",
-   "does": "Seals next week's weights across the foundation and its own sleeves, with lessons and stated confidence"
+   "does": "Seals next week's weights across the foundation and its own sleeves, with lessons and stated confidence",
+   "weekday_runs": 0
   },
   {
    "name": "Weekly report",
    "when": "Fri 21:41",
    "model": "Fable",
-   "does": "Plain-English report of the week after the day's scoring, including the picks review"
+   "does": "Plain-English report of the week after the day's scoring, including the picks review",
+   "weekday_runs": 0.2
   },
   {
    "name": "Picks review",
    "when": "retired 2026-11-23",
    "model": "Opus",
-   "does": "Merged into the weekly report (task disabled)"
+   "does": "Merged into the weekly report (task disabled)",
+   "weekday_runs": 0
   },
   {
    "name": "Independent audit",
    "when": "2026-12-04 05:10 (once)",
    "model": "see task",
-   "does": "A session that did not build the system works through ops/audit_checklist.md"
+   "does": "A session that did not build the system works through ops/audit_checklist.md",
+   "weekday_runs": 0
   },
   {
    "name": "Audit review and challenge",
    "when": "2026-12-04 07:41 (once)",
    "model": "Opus",
-   "does": "A second AI checks every audit finding, re-runs the key tests and looks for missed defects"
+   "does": "A second AI checks every audit finding, re-runs the key tests and looks for missed defects",
+   "weekday_runs": 0
   },
   {
    "name": "Audit debate",
    "when": "2026-12-04 09:51 (once)",
    "model": "Opus",
-   "does": "Settles each disputed finding by re-running the test; writes the resolution table and the questions for the owner"
+   "does": "Settles each disputed finding by re-running the test; writes the resolution table and the questions for the owner",
+   "weekday_runs": 0
   },
   {
    "name": "Interim report",
    "when": "2027-02-16 10:07 (once)",
    "model": "Fable",
-   "does": "Reading after 46 of 109 days; decides nothing"
+   "does": "Reading after 46 of 109 days; decides nothing",
+   "weekday_runs": 0
   },
   {
    "name": "Final report",
    "when": "2027-05-18 10:07 (once)",
    "model": "Fable",
-   "does": "The verdict on the whole window"
+   "does": "The verdict on the whole window",
+   "weekday_runs": 0
   },
   {
    "name": "Lane review",
    "when": "Tuesdays in Feb, May, Aug, Nov at 10:41; acts only on the third Tuesday, first 2027-05-18",
    "model": "Sonnet",
-   "does": "Promotes or retires challengers by the fixed rules of scripts/registry.py"
+   "does": "Promotes or retires challengers by the fixed rules of scripts/registry.py",
+   "weekday_runs": 0
   },
   {
    "name": "Model contest: Opus seal",
    "when": "Sun 13:41",
    "model": "Opus",
-   "does": "Seals weekly weights from the identical evidence pack (lane entry contest_opus)"
+   "does": "Seals weekly weights from the identical evidence pack (lane entry contest_opus)",
+   "weekday_runs": 0
   },
   {
    "name": "Model contest: Sonnet seal",
    "when": "Sun 13:56",
    "model": "Sonnet",
-   "does": "Seals weekly weights from the identical evidence pack (lane entry contest_sonnet)"
+   "does": "Seals weekly weights from the identical evidence pack (lane entry contest_sonnet)",
+   "weekday_runs": 0
   },
   {
    "name": "Daily challenger seal",
    "when": "08:41 Mon and Thu from 2026-12-07",
    "model": "Fable",
-   "does": "Quantavius re-judges its weights on Monday and Thursday mornings; the last seal carries forward (lane entry judge_daily)"
+   "does": "Quantavius re-judges its weights on Monday and Thursday mornings; the last seal carries forward (lane entry judge_daily)",
+   "weekday_runs": 0.4
   },
   {
    "name": "Weekly book: sampler B",
    "when": "Sun 13:02",
    "model": "Fable",
-   "does": "Independent draft of the weekly weights from the same evidence pack (the seal takes the median of three)"
+   "does": "Independent draft of the weekly weights from the same evidence pack (the seal takes the median of three)",
+   "weekday_runs": 0
   },
   {
    "name": "Weekly book: sampler C",
    "when": "Sun 13:11",
    "model": "Fable",
-   "does": "Independent draft of the weekly weights from the same evidence pack (the seal takes the median of three)"
+   "does": "Independent draft of the weekly weights from the same evidence pack (the seal takes the median of three)",
+   "weekday_runs": 0
   },
   {
    "name": "Evening review + prep",
    "when": "20:47 weekdays",
    "model": "Opus",
    "does": "Post-mortem of today's picks and puts (data/picks/journal) and tomorrow's leads (data/picks/prep); read by the morning research and the evidence pack",
-   "id": "trig_013i7PDxNJPCsBBZoKbfZGVw"
+   "id": "trig_013i7PDxNJPCsBBZoKbfZGVw",
+   "weekday_runs": 1
   }
  ],
  "github": [
