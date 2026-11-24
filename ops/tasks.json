@@ -59,10 +59,10 @@
   },
   {
    "name": "Learning + strategy lab",
-   "when": "Wed and Sat 23:15 (to 2027-05-14)",
+   "when": "Mon, Wed, Fri and Sat 23:15 (to 2027-05-14; four a week since 2026-11-24)",
    "model": "Fable",
    "does": "Learns from logged trades and the outside data; invents and gates one strategy per run (Wed: daily stocks/ETFs, Sat: hourly crypto); Sat: may change the pick playbook once and refreshes the IBKR peer map",
-   "weekday_runs": 0.2
+   "weekday_runs": 0.6
   },
   {
    "name": "Quantavius's own book (weekly seal, the verdict)",

@@ -13,7 +13,7 @@ the copy and adds a row to ops/interventions.jsonl.
 | evening.md | Evening scoring of picks (20:20 ET, Sonnet) | trig_0158DyhLj3M3cKod2eXxFn1g |
 | orchestrator.md | Orchestrator (21:05 ET, Sonnet) | trig_01PgUGPDdTViNz1u3Wkqy4GW |
 | watchdog.md | Watchdog (05:35, 12:35, 19:35 ET, Sonnet) | trig_01RqMJrg5xfsW4xYYgo7RZY4 |
-| lab.md | Learning + strategy lab (Wed and Sat 23:15 ET, Fable) | trig_012qn78KzSzn173hQGXeEnJq |
+| lab.md | Learning + strategy lab (Mon, Wed, Fri, Sat 23:15 ET, Fable) | trig_012qn78KzSzn173hQGXeEnJq |
 | weekly_report.md | Weekly report incl. picks (Fri 21:41 ET, Fable) | trig_01GEc25Hnp6tGicRbiankK62 |
 | interim_report.md | Interim report (2027-02-16, Fable) | trig_01R5sHJU64phYuAxf7PQBNjz |
 | final_report.md | Final report (2027-05-18, Fable) | trig_01LhTmXikGruYFghXwBp5a9D |

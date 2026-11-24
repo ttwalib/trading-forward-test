@@ -22,7 +22,7 @@ on and is measured against.
   report judge_check); the cycle-1 formula's verdict_check is a FOUNDATION reading.
 - PLAYER FREEDOMS (2026-11-24, item 56; these override any task prompt that still says otherwise):
   (1) STOCK PICKS may include watchlist names; only the 22 control-list stocks stay excluded, because they are the
-  benchmark the picks are measured against. (2) THE LAB CHOOSES ITS OWN TRACK: the Wednesday and Saturday assignments
+  benchmark the picks are measured against. (2) THE LAB CHOOSES ITS OWN TRACK: the Monday, Wednesday, Friday and Saturday assignments
   (daily stocks/ETFs, improve a baseline, hourly crypto) are defaults; when your learning findings or the idea shelf
   point elsewhere, research that instead and say why, through the same gate; a second candidate in one run is allowed
   when time permits. (3) NO 5-POINT LIMIT on a seal's moves. (4) The evidence pack carries your learning findings and
@@ -638,7 +638,9 @@ reply.
 ## LEARNING + STRATEGY LAB
 
 TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
-Runs Wednesday and Saturday 23:15 to 2027-05-14. If phase is "after": reply "The forward test is over." and stop. The
+Runs Monday, Wednesday, Friday and Saturday 23:15 to 2027-05-14 (four a week since 2026-11-24, owner: more new ideas;
+default tracks: Monday options, Wednesday and Friday daily strategies / improve a baseline by ISO-week parity,
+Saturday hourly crypto with the playbook review and the peer map; every run does PART A learning first). If phase is "after": reply "The forward test is over." and stop. The
 lab, the learning and the playbook run to the end (no holdout). Rows go to the StrategyLab and Learning ledgers.
 From 2026-12-07 never edit scripts/allocator.py, scripts/library.py, scripts/corp.py or scripts/fills.py, or any other
 frozen script (CHANGE FREEZE AND AUDIT; the hash check in allocator.py reports any change).
@@ -1058,3 +1060,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 58 | 2026-11-24 | Options both ways and an options lab: option picks may be calls, puts or debit verticals (AP3 renamed "AP3 Agent picks: options"); option archive (scripts/optarch.py: nightly chain snapshots, a backfill of past contracts' daily bars); lab OPTIONS TRACK with four option checks in review.py gate |
 | 59 | 2026-11-24 | External review of Nov 24 (Jarvis): witness for seals, drafts and rankings with GitHub's push clock, one file per sighting (N1, N7); picks scored from first-seen copies with an integrity report (N3); nightly critical-path fix (N4); freeze list 17 -> 28, hand freeze record (scripts/freeze.py), pinned numpy, guard reads the record, ops/nightly_extra.json (N2); nightly planted-leak test on the verdict path (N5); G1 coverage rule: a missed ranking day counts as IC 0 (N6); AI sessions per weekday in tasks.json and SPEC (N8); pack_schema and pack_sha in seal rows (N9); skipped fill-bar signals counted (N11); unfloored variance for reported Sharpe, volatility matching and beta (N12); picks reported by playbook version and by vehicle (N13) |
 | 60 | 2026-11-24 | AP and AP2 joint share (same stock picks) recorded in every seal row as same_picks_share and flagged above 50%, not capped (owner choice); evidence pack schema 3 |
+| 61 | 2026-11-24 | Lab runs four times a week (Mon, Wed, Fri, Sat 23:15 ET; Monday options track, Friday the other Wednesday track); more lab runs mean more trials, and every one is counted |
