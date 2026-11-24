@@ -1,11 +1,11 @@
 {
- "day": "2026-11-22",
- "started": "2026-11-23 08:37:26",
+ "day": "2026-11-23",
+ "started": "2026-11-23 21:11:41",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 9.1,
+   "seconds": 8.9,
    "exit": 0,
    "error": null
   },
@@ -19,7 +19,7 @@
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 8.9,
+   "seconds": 9.0,
    "exit": 0,
    "error": null
   },
@@ -54,28 +54,28 @@
   {
    "step": "rank",
    "ok": true,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 12.1,
+   "seconds": 14.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 4.1,
+   "seconds": 4.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 13.7,
    "exit": 0,
    "error": null
   },
@@ -96,14 +96,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 2.3,
+   "seconds": 2.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 3.7,
+   "seconds": 3.8,
    "exit": 0,
    "error": null
   },
@@ -117,7 +117,14 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 11.8,
+   "seconds": 13.6,
+   "exit": 0,
+   "error": null
+  },
+  {
+   "step": "breadth",
+   "ok": true,
+   "seconds": 1.2,
    "exit": 0,
    "error": null
   },
@@ -131,28 +138,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 11.0,
+   "seconds": 15.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 7.3,
+   "seconds": 7.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 11.7,
+   "seconds": 14.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 12.0,
+   "seconds": 13.6,
    "exit": 0,
    "error": null
   },
@@ -173,14 +180,14 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 11.6,
+   "seconds": 13.6,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "f7f62344eadc1620a3e1baaac45ec53c15831618",
- "chain_head": "86b08eee98f425241fffb7470438c4c7410bb9e1084e757a41898ff7e2fc74d9",
+ "commit": "85b9d60434abf8589d02aa399be8601017f8a80c",
+ "chain_head": "2bd86281eac615f87488a2adbca909f077962194cd93605f6693b3221061fff6",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-23 08:39:31"
+ "finished": "2026-11-23 21:14:06"
 }

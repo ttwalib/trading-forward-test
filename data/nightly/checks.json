@@ -1,26 +1,26 @@
 {
  "engine_report": {
   "baseline": {
-   "n": 24,
-   "median_cost_vs_lag_pct": -0.0999,
-   "mean_cost_vs_lag_pct": -0.1414,
-   "worse_than_lag": 10,
+   "n": 50,
+   "median_cost_vs_lag_pct": -0.0172,
+   "mean_cost_vs_lag_pct": -0.0607,
+   "worse_than_lag": 23,
    "median_delay_min": 0.4
   },
   "library": {
-   "n": 15,
-   "median_cost_vs_lag_pct": -0.0318,
-   "mean_cost_vs_lag_pct": 0.0335,
-   "worse_than_lag": 6,
+   "n": 34,
+   "median_cost_vs_lag_pct": 0.0031,
+   "mean_cost_vs_lag_pct": -0.0261,
+   "worse_than_lag": 18,
    "median_delay_min": 0.4
   },
   "note": "measurement only: fills.py keeps using engine prices for baseline rows detected within 20 minutes; a mean cost clearly above 0 over 100+ rows would mean the engine fill is harsher than the 5-minute rule, a mean below 0 that it flatters"
  },
  "slip_report": {
-  "n": 32,
+  "n": 56,
   "from": "2026-11-19 10:06",
-  "to": "2026-11-20 14:09",
-  "spread_pct_median": 0.0367,
+  "to": "2026-11-23 13:11",
+  "spread_pct_median": 0.0253,
   "drift_pct_median_by_delay": {
    "0-15": {
     "n": 3,
@@ -31,17 +31,32 @@
     "median": -0.2991
    },
    "30-65": {
-    "n": 6,
-    "median": 0.0223
+    "n": 7,
+    "median": 0.0386
    },
    "65+": {
-    "n": 3,
-    "median": -2.5445
+    "n": 26,
+    "median": -0.329
    }
   },
-  "total_pct_median": -0.015,
-  "model_side_cost_pct_median": 0.081,
+  "total_pct_median": -0.094,
+  "model_side_cost_pct_median": 0.0633,
   "worst": [
+   {
+    "ask": 706.1,
+    "at": "2026-11-23 13:11",
+    "bid": 705.84,
+    "decided_at": "2026-11-23 10:00",
+    "delay_min": 191.0,
+    "drift_pct": 1.59888,
+    "id": "3c8e0f8b640c",
+    "outcome_open": false,
+    "side": "long",
+    "sim_entry": 694.86,
+    "spread_pct": 0.01841,
+    "symbol": "MU",
+    "total_pct": 1.61759
+   },
    {
     "ask": 55.39,
     "at": "2026-11-20 10:17",
@@ -71,41 +86,26 @@
     "spread_pct": 0.05489,
     "symbol": "ACN",
     "total_pct": 1.01977
-   },
-   {
-    "ask": 185.3,
-    "at": "2026-11-20 10:17",
-    "bid": 184.95000000000002,
-    "decided_at": "2026-11-20 09:50",
-    "delay_min": 27.0,
-    "drift_pct": 0.63876,
-    "id": "424cd94ad66d",
-    "outcome_open": true,
-    "side": "long",
-    "sim_entry": 183.95,
-    "spread_pct": 0.09453,
-    "symbol": "AMT",
-    "total_pct": 0.7339
    }
   ],
   "model_cheaper_than_spread": false,
   "note": "spread = what a market order pays now; drift = price move between the simulated fill and the quote (mostly the hourly-run delay); the simulation charges model_side_cost per side"
  },
  "health": {
-  "at": "2026-11-23 08:38",
-  "ticks_today": 2,
-  "last_tick": "06:03",
-  "last_tick_age_min": 155,
+  "at": "2026-11-23 21:12",
+  "ticks_today": 91,
+  "last_tick": "16:36",
+  "last_tick_age_min": 276,
   "max_gap_min": 203,
-  "tick_seconds_median": 2.5,
-  "tick_seconds_max": 3.2,
-  "minutes_month_so_far": 158,
-  "minutes_month_projected": 316,
-  "minutes_full_month_estimate": 2418,
+  "tick_seconds_median": 5.5,
+  "tick_seconds_max": 12.5,
+  "minutes_month_so_far": 253,
+  "minutes_month_projected": 506,
+  "minutes_full_month_estimate": 2902,
   "minutes_quota": 3000,
   "token_expiry": "2027-06-15",
   "token_days_left": 204,
-  "data_size_mb": 141.0,
+  "data_size_mb": 142.1,
   "alerts": []
  },
  "replay_day": {

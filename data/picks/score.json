@@ -2,14 +2,14 @@
  "note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). Days before 2026-12-07 are warm-up.",
  "cost_side_pct": 0.1,
  "all": {
-  "pick_days": 2,
-  "picks": 7,
-  "mean_picks_day": -1.5999,
-  "mean_control_day": -1.782,
-  "mean_diff_day": 0.1821,
+  "pick_days": 3,
+  "picks": 12,
+  "mean_picks_day": -1.7132,
+  "mean_control_day": -1.0653,
+  "mean_diff_day": -0.6478,
   "days_ahead": 1,
   "p_picks_beat_control": null,
-  "g1": "too few pick days (2 of 60)"
+  "g1": "too few pick days (3 of 60)"
  },
  "verdict": {
   "pick_days": 0,
@@ -19,15 +19,15 @@
   "note": "report only; per position, unweighted; win rate after costs vs the break-even win rate",
   "AP": {
    "all": {
-    "trades": 7,
+    "trades": 12,
     "round_trip_cost_pct": 0.2,
-    "gross_sum_pct": -17.078,
-    "cost_sum_pct": 1.4,
-    "cost_share_of_gross": 0.082,
-    "win_rate": 0.286,
-    "avg_net_win_pct": 0.903,
-    "avg_net_loss_pct": 4.057,
-    "breakeven_win_rate": 0.818
+    "gross_sum_pct": -26.777,
+    "cost_sum_pct": 2.4,
+    "cost_share_of_gross": 0.09,
+    "win_rate": 0.25,
+    "avg_net_win_pct": 0.606,
+    "avg_net_loss_pct": 3.444,
+    "breakeven_win_rate": 0.85
    },
    "verdict": {
     "trades": 0
@@ -35,15 +35,15 @@
   },
   "AP2": {
    "all": {
-    "trades": 7,
+    "trades": 10,
     "round_trip_cost_pct": 0.2,
-    "gross_sum_pct": -17.078,
-    "cost_sum_pct": 1.4,
-    "cost_share_of_gross": 0.082,
-    "win_rate": 0.286,
+    "gross_sum_pct": -27.011,
+    "cost_sum_pct": 2.0,
+    "cost_share_of_gross": 0.074,
+    "win_rate": 0.2,
     "avg_net_win_pct": 0.903,
-    "avg_net_loss_pct": 4.057,
-    "breakeven_win_rate": 0.818
+    "avg_net_loss_pct": 3.852,
+    "breakeven_win_rate": 0.81
    },
    "verdict": {
     "trades": 0
@@ -81,6 +81,24 @@
    "n": 2,
    "picks_day": 0.3597,
    "control_day": -1.7636,
+   "picks_5d": null,
+   "control_5d": null
+  },
+  {
+   "date": "2026-11-23",
+   "phase": "train",
+   "verdict_window": false,
+   "picks": [
+    "TXN",
+    "TSM",
+    "LRCX",
+    "MRVL",
+    "TFC"
+   ],
+   "missing": [],
+   "n": 5,
+   "picks_day": -1.9397,
+   "control_day": 0.368,
    "picks_5d": null,
    "control_5d": null
   }

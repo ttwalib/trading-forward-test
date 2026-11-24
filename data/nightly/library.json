@@ -6,23 +6,23 @@
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 2,
-   "days": 509
+   "days": 510
   },
   "L6 Bollinger reversion": {
-   "backtest_trades": 240,
-   "backtest_avg_pct": -0.035,
+   "backtest_trades": 241,
+   "backtest_avg_pct": -0.097,
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 10,
-   "days": 509
+   "days": 510
   },
   "L7 Donchian trend": {
-   "backtest_trades": 212,
-   "backtest_avg_pct": 1.006,
+   "backtest_trades": 213,
+   "backtest_avg_pct": 1.018,
    "forward_trades": 0,
    "forward_avg_pct": null,
-   "open": 8,
-   "days": 509
+   "open": 7,
+   "days": 510
   },
   "L10 Earnings drift": {
    "backtest_trades": 33,
@@ -30,47 +30,47 @@
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 0,
-   "days": 509
+   "days": 510
   },
   "L8 Momentum top 8": {
-   "backtest_trades": 100,
-   "backtest_avg_pct": 5.179,
+   "backtest_trades": 101,
+   "backtest_avg_pct": 5.034,
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 8,
-   "days": 509
+   "days": 510
   },
   "L9 Sector rotation": {
-   "backtest_trades": 54,
-   "backtest_avg_pct": 0.501,
+   "backtest_trades": 57,
+   "backtest_avg_pct": 0.609,
    "forward_trades": 0,
    "forward_avg_pct": null,
-   "open": 3,
-   "days": 509
+   "open": 1,
+   "days": 510
   },
   "L17 Multi-asset trend": {
-   "backtest_trades": 18,
-   "backtest_avg_pct": 3.446,
-   "forward_trades": 0,
-   "forward_avg_pct": null,
-   "open": 2,
-   "days": 509
+   "backtest_trades": 19,
+   "backtest_avg_pct": 4.941,
+   "forward_trades": 1,
+   "forward_avg_pct": -4.718,
+   "open": 0,
+   "days": 510
   },
   "L15 Market-neutral momentum": {
-   "backtest_trades": 233,
-   "backtest_avg_pct": 1.825,
-   "forward_trades": 0,
-   "forward_avg_pct": null,
+   "backtest_trades": 235,
+   "backtest_avg_pct": 1.78,
+   "forward_trades": 1,
+   "forward_avg_pct": 3.114,
    "open": 16,
-   "days": 509
+   "days": 510
   },
   "L11 SPY overnight": {
    "backtest_trades": 504,
    "backtest_avg_pct": 0.018,
-   "forward_trades": 4,
-   "forward_avg_pct": 0.125,
+   "forward_trades": 5,
+   "forward_avg_pct": 1.096,
    "open": 0,
-   "days": 509
+   "days": 510
   },
   "L12 Turn of month": {
    "backtest_trades": 24,
@@ -78,7 +78,7 @@
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 0,
-   "days": 509
+   "days": 510
   },
   "L16 SPY trend short": {
    "backtest_trades": 5,
@@ -86,7 +86,7 @@
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 1,
-   "days": 509
+   "days": 510
   },
   "L13 Pairs reversion": {
    "backtest_trades": 58,
@@ -94,49 +94,316 @@
    "forward_trades": 0,
    "forward_avg_pct": null,
    "open": 0,
-   "days": 509
+   "days": 510
   },
   "L1 SPY intraday momentum": {
    "backtest_trades": 61,
    "backtest_avg_pct": -0.054,
-   "forward_trades": 5,
-   "forward_avg_pct": -0.184,
+   "forward_trades": 6,
+   "forward_avg_pct": -0.206,
    "open": 0,
-   "days": 67
+   "days": 68
   },
   "L2 VWAP pullback": {
    "backtest_trades": 267,
    "backtest_avg_pct": -0.2,
-   "forward_trades": 14,
-   "forward_avg_pct": -0.485,
+   "forward_trades": 18,
+   "forward_avg_pct": -0.529,
    "open": 0,
-   "days": 67
+   "days": 68
   },
   "L3 Gap and go": {
    "backtest_trades": 84,
    "backtest_avg_pct": -0.172,
-   "forward_trades": 5,
-   "forward_avg_pct": -1.854,
+   "forward_trades": 9,
+   "forward_avg_pct": -1.992,
    "open": 0,
-   "days": 67
+   "days": 68
   },
   "L4 Gap fade": {
    "backtest_trades": 223,
    "backtest_avg_pct": -0.236,
-   "forward_trades": 20,
-   "forward_avg_pct": -0.13,
+   "forward_trades": 23,
+   "forward_avg_pct": -0.125,
    "open": 0,
-   "days": 67
+   "days": 68
   },
   "L14 ORB breakdown short": {
    "backtest_trades": 304,
    "backtest_avg_pct": -0.233,
-   "forward_trades": 25,
-   "forward_avg_pct": 1.043,
+   "forward_trades": 29,
+   "forward_avg_pct": 0.841,
    "open": 0,
-   "days": 67
+   "days": 68
   }
  },
- "new_closed": 0,
- "new_closed_rows": []
+ "new_closed": 19,
+ "new_closed_rows": [
+  [
+   "L17 Multi-asset trend",
+   "EFA",
+   "long",
+   "2026-11-16",
+   "open",
+   103.72,
+   "2026-11-23",
+   "open",
+   98.93,
+   -4.7182,
+   "closed",
+   "train"
+  ],
+  [
+   "L15 Market-neutral momentum",
+   "AVGO",
+   "short",
+   "2026-11-16",
+   "open",
+   332.2,
+   "2026-11-23",
+   "open",
+   320.86,
+   3.1136,
+   "closed",
+   "train"
+  ],
+  [
+   "L11 SPY overnight",
+   "SPY",
+   "long",
+   "2026-11-20",
+   "close",
+   689.81,
+   "2026-11-23",
+   "open",
+   724.33,
+   4.9774,
+   "closed",
+   "train"
+  ],
+  [
+   "L1 SPY intraday momentum",
+   "SPY",
+   "long",
+   "2026-11-23",
+   "15:30",
+   724.53,
+   "2026-11-23",
+   "16:00",
+   722.42,
+   -0.3183,
+   "closed",
+   "train"
+  ],
+  [
+   "L2 VWAP pullback",
+   "HOOD",
+   "long",
+   "2026-11-23",
+   "10:45",
+   68.8805,
+   "2026-11-23",
+   "10:45",
+   68.6644,
+   -0.4404,
+   "closed",
+   "train"
+  ],
+  [
+   "L2 VWAP pullback",
+   "AXP",
+   "long",
+   "2026-11-23",
+   "10:55",
+   307.925,
+   "2026-11-23",
+   "12:00",
+   305.4597,
+   -0.9006,
+   "closed",
+   "train"
+  ],
+  [
+   "L2 VWAP pullback",
+   "GS",
+   "long",
+   "2026-11-23",
+   "10:55",
+   825.18,
+   "2026-11-23",
+   "11:40",
+   820.9442,
+   -0.6405,
+   "closed",
+   "train"
+  ],
+  [
+   "L2 VWAP pullback",
+   "JPM",
+   "long",
+   "2026-11-23",
+   "10:55",
+   319.05,
+   "2026-11-23",
+   "15:50",
+   316.8229,
+   -0.7591,
+   "closed",
+   "train"
+  ],
+  [
+   "L3 Gap and go",
+   "MARA",
+   "long",
+   "2026-11-23",
+   "09:40",
+   6.17,
+   "2026-11-23",
+   "11:40",
+   5.75,
+   -7.0036,
+   "closed",
+   "train"
+  ],
+  [
+   "L3 Gap and go",
+   "PLTR",
+   "long",
+   "2026-11-23",
+   "09:40",
+   157.77,
+   "2026-11-23",
+   "09:40",
+   156.76,
+   -0.7667,
+   "closed",
+   "train"
+  ],
+  [
+   "L3 Gap and go",
+   "TSLA",
+   "long",
+   "2026-11-23",
+   "09:40",
+   386.815,
+   "2026-11-23",
+   "16:00",
+   385.86,
+   -0.3299,
+   "closed",
+   "train"
+  ],
+  [
+   "L3 Gap and go",
+   "HON",
+   "long",
+   "2026-11-23",
+   "09:40",
+   219.68,
+   "2026-11-23",
+   "09:40",
+   219,
+   -0.5604,
+   "closed",
+   "train"
+  ],
+  [
+   "L4 Gap fade",
+   "UNP",
+   "short",
+   "2026-11-23",
+   "09:40",
+   289.09,
+   "2026-11-23",
+   "16:00",
+   288.94,
+   -0.0462,
+   "closed",
+   "train"
+  ],
+  [
+   "L4 Gap fade",
+   "ACN",
+   "short",
+   "2026-11-23",
+   "09:40",
+   223.1426,
+   "2026-11-23",
+   "11:00",
+   221.21,
+   0.7189,
+   "closed",
+   "train"
+  ],
+  [
+   "L4 Gap fade",
+   "AAPL",
+   "short",
+   "2026-11-23",
+   "09:40",
+   346.6955,
+   "2026-11-23",
+   "10:20",
+   349.76,
+   -0.9528,
+   "closed",
+   "train"
+  ],
+  [
+   "L14 ORB breakdown short",
+   "AMD",
+   "short",
+   "2026-11-23",
+   "09:55",
+   439.48,
+   "2026-11-23",
+   "10:30",
+   463.9751,
+   -5.6506,
+   "closed",
+   "train"
+  ],
+  [
+   "L14 ORB breakdown short",
+   "LMT",
+   "short",
+   "2026-11-23",
+   "09:55",
+   566,
+   "2026-11-23",
+   "10:30",
+   568.395,
+   -0.5787,
+   "closed",
+   "train"
+  ],
+  [
+   "L14 ORB breakdown short",
+   "MSTR",
+   "short",
+   "2026-11-23",
+   "09:55",
+   87.2599,
+   "2026-11-23",
+   "16:00",
+   84.36,
+   3.0568,
+   "closed",
+   "train"
+  ],
+  [
+   "L14 ORB breakdown short",
+   "AMT",
+   "short",
+   "2026-11-23",
+   "10:00",
+   182.245,
+   "2026-11-23",
+   "16:00",
+   179.25,
+   1.4852,
+   "closed",
+   "train"
+  ]
+ ]
 }

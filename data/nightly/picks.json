@@ -1,14 +1,14 @@
 {
- "sleeve_days": 2,
+ "sleeve_days": 3,
  "all": {
-  "pick_days": 2,
-  "picks": 7,
-  "mean_picks_day": -1.5999,
-  "mean_control_day": -1.782,
-  "mean_diff_day": 0.1821,
+  "pick_days": 3,
+  "picks": 12,
+  "mean_picks_day": -1.7132,
+  "mean_control_day": -1.0653,
+  "mean_diff_day": -0.6478,
   "days_ahead": 1,
   "p_picks_beat_control": null,
-  "g1": "too few pick days (2 of 60)"
+  "g1": "too few pick days (3 of 60)"
  },
  "verdict": {
   "pick_days": 0,
