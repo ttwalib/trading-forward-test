@@ -31,16 +31,16 @@
   },
   {
    "name": "Adaptive stocks",
-   "when": "17:20 weekdays",
+   "when": "retired 2026-11-25 (moved to GitHub)",
    "model": "Sonnet",
-   "does": "Scores the adaptive breakout settings and runs champion/challenger",
-   "weekday_runs": 1
+   "does": "Moved to GitHub: scripts/daily.py adaptive scores the adaptive breakout settings and runs champion/challenger after the nightly fetch (task trig_01XqVW4yGp2cwSyEXUobMusn disabled)",
+   "weekday_runs": 0
   },
   {
-   "name": "Evening scoring of picks",
+   "name": "Evening scoring of picks: option replays",
    "when": "20:20 weekdays",
    "model": "Sonnet",
-   "does": "Scores the morning's stock picks; moving to GitHub (the nightly maths already scores them)",
+   "does": "ATM-call and smart-call replays of the picks' baseline breakouts (needs IBKR option data); the stock rows moved to GitHub on 2026-11-25 (scripts/daily.py picks-evening)",
    "weekday_runs": 1
   },
   {
@@ -52,10 +52,10 @@
   },
   {
    "name": "Watchdog",
-   "when": "05:35, 12:35, 19:35 daily",
+   "when": "07:35 and 19:35 daily (trig_01McTsF59Sw14Dm9ogHwr8Z1; rebuilt 2026-11-24, the old trig_01RqMJrg5xfsW4xYYgo7RZY4 is disabled after the new one's first good run)",
    "model": "Sonnet",
    "does": "Re-runs a failed task; logs problems only",
-   "weekday_runs": 3
+   "weekday_runs": 2
   },
   {
    "name": "Learning + strategy lab",

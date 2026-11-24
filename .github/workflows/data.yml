@@ -134,6 +134,14 @@ jobs:
       - name: Stocks scoring
         if: steps.m.outputs.mode == 'nightly'
         run: python3 scripts/daily.py stocks . | tail -n 30 || echo "daily stocks failed (see ops/diag/daily_stocks.json)"
+      # Adaptive stock review (champion/challenger retune) and the stock half of the evening scoring of the picks,
+      # both from the stored 5-minute bars with the frozen orb_adaptive.py and agent_score.py; replaced the 17:20 AI task
+      # and the stock steps of the 20:20 AI task on 2026-11-25 (runbook item 62).
+      - name: Adaptive stocks and picks evening scoring
+        if: steps.m.outputs.mode == 'nightly'
+        run: |
+          python3 scripts/daily.py adaptive . | tail -n 30 || echo "daily adaptive failed (see ops/diag/daily_adaptive.json)"
+          python3 scripts/daily.py picks-evening . | tail -n 30 || echo "picks evening failed (see ops/diag/daily_picks_evening.json)"
       # ML at detection: only on ticks where the engine sealed a new baseline breakout (a few a day), so the usual
       # tick stays short. Same package versions as the ones the model file was saved with.
       - name: Score
@@ -157,7 +165,7 @@ jobs:
         run: |
           git config user.name "quantavius-data-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json data/ledger/Sentiment.jsonl data/ledger/Trades.jsonl data/ledger/VariantTrades.jsonl ops/diag/daily_stocks.json data/optarch ops/diag/optarch.json; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in data/bars data/opt_legs.json ops/diag/optbars.json data/corp data/borrow data/pit data/decisions/engine_ml ops/diag/fetch_free.json ops/diag/ticks.json data/hist data/decisions/engine ops/diag/engine.json data/dashboard.json data/state ops/diag/daily_crypto.json data/witness data/sentiment data/ext ops/diag/extdata.json data/ledger/Sentiment.jsonl data/ledger/Trades.jsonl data/ledger/VariantTrades.jsonl ops/diag/daily_stocks.json data/ledger/AdaptiveStocks.jsonl data/ledger/AdaptiveLog.jsonl data/ledger/AgentTrades.jsonl ops/diag/daily_adaptive.json ops/diag/daily_picks_evening.json data/optarch ops/diag/optarch.json; do if [ -e "$p" ]; then git add "$p"; fi; done
           if [ "${{ steps.m.outputs.mode }}" = "vendor" ]; then git add ops/dashboard/vendor; fi
           if [ "${{ steps.m.outputs.mode }}" = "crypto" ]; then git add data/ledger/CryptoTracks.jsonl data/ledger/MLShadow.jsonl; fi
           if [ "${{ steps.m.outputs.mode }}" = "mlcrypto" ]; then

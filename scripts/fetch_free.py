@@ -420,6 +420,14 @@ def main():
             LOG["pick_symbols"] = len(pk)
         except Exception as e: LOG["errors"].append("pick bars: %s" % e)
         stock_bars(repo, intr + extra, "5m", now() - dt.timedelta(hours=10), end)   # the session's last bars (wide data too)
+        try:                                    # 5-minute bars of the last days' stock picks for the scripted evening
+            import ledger                       # scoring (scripts/daily.py picks-evening, 2026-11-25)
+            c5 = (now() - dt.timedelta(days=6)).strftime("%Y-%m-%d")
+            p5 = sorted({r["symbol"] for r in ledger.load(repo, "AgentPicks") if r.get("asset") == "stock"
+                         and str(r.get("picked_at"))[:10] >= c5 and str(r.get("symbol", "")).isalpha()} - set(intr + extra))
+            if p5: stock_bars(repo, p5, "5m", now() - dt.timedelta(days=6), end)
+            LOG["pick_symbols_5m"] = p5
+        except Exception as e: LOG["errors"].append("pick 5m bars: %s" % e)
         crypto_bars(repo, "1d", now() - dt.timedelta(days=15))
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
