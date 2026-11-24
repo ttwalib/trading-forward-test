@@ -15,3 +15,8 @@ For the build sessions. Do these with the day 3 list; schedule another session i
 6. Tell the owner which disabled tasks can be deleted (stocks, crypto tracks, ML nightly, deep OTM, picks review).
 7. Review N8 (item 59): after each move or retirement, set that task's weekday_runs in ops/tasks.json (AI sessions it
    starts on an average weekday, 9.8 on 2026-11-24); ops/SPEC.md prints the total.
+8. ONE AGENT (owner, Nov 24): compile the setup into one agent with many entry points (ops/agent/COMMON.md plus one module
+   per job; every scheduled task becomes a thin prompt; schedules, separate sessions and pinned models unchanged), AFTER
+   the window has opened and every queued change has run. Cloud task trig_016WmNKiuwvvea3P8WGQoJkF (from 2026-12-15
+   10:23 New York) checks readiness first and re-schedules itself weekly until ready; it proves equivalence, switches the
+   watchdog first, and never switches a sealing task over a weekend. After 2027-02-01 it defers to between test cycles.
