@@ -402,7 +402,7 @@ in the ledger. The six 15m M1 trades with stops of 0.4-0.5% are real and stay in
 ## AGENT EVENING
 
 EVENING REVIEW AND PREP (2026-11-24, item 57; task "evening review + prep", Fable, 20:47 New York on weekdays): (1) for
-today's picks and puts, compare the stated reason, w, hold and p with what happened (daily and 5-minute bars, news
+today's picks and option picks, compare the stated reason, w, hold and p with what happened (daily and 5-minute bars, news
 since the open, data/picks/score.json after the nightly maths if present); write data/picks/journal/<DAY>.json =
 {"day", "made_at_ny", "per_pick": [{"symbol", "asset", "result_pct", "vs_control_pct", "what_happened", "reason_held":
 true|false, "lesson"}], "lessons": [at most 3 claims later data can contradict]}. (2) Build tomorrow's shortlist from
@@ -433,20 +433,27 @@ EXITS (2026-11-24, item 57): a stock pick may also carry "stop=-N" (percent belo
 (percent above, 1 to 200) in its checks cell. They apply in AP2 only (AP and G1 stay open to close), on daily bars,
 the stop first; a gap through a level exits at that day's open. Leave them out to hold to the close of the last
 holding day.
-BEARISH VIEWS AS PUTS (2026-11-24, item 57): when you expect a stock to fall today or over the next days, you may buy
-a put instead of a stock: AgentPicks row with asset "put", symbol = the stock, contract_id = the option's IBKR id,
-status "picked", checks = "playbook v<N> | src=own | dir=bear | occ=<OCC symbol> | w=0.xx | hold=N | p=0.xx |
-stop=-N | tgt=N | " + why the stock should fall, the strike, expiry, delta and implied volatility. Same filters as stock
-picks (US listing, price >= $5, volume, market cap; control-list stocks excluded; no short stock) plus: listed options with an expiry
-at least 5 trading days after the last holding day, delta about -0.35 to -0.65 from IBKR get_option_data, no
-earnings before expiry unless earnings is the reason. 0-3 puts a day; their w add up to 1.00 among the puts. stop and
-tgt are percent of the premium (stop -20 to -80, tgt 20 to 200). The OCC symbol is SYMBOL + YYMMDD + P + strike x
-1000 in 8 digits (for example DKS261204P00200000). GitHub fetches the put's 5-minute bars in the nightly fetch and
-scripts/picks.py scores it as sleeve "AP3 Agent picks: bearish puts" (one of your own sleeves, up to 50% of the book):
-entry at the first option trade from 09:30 to 10:30, marked on each day's last trade, exits at the sealed stop or
-target (stop first), at the close of the last holding day or on expiry day; $0.68 a contract and 2% of the premium
-per side are charged. A put with no trade by 10:30 is "no fill". It is a simulated position: nothing is ordered. The
-stock's move against the control list is reported beside G1 (score.json "bear"); G1 itself counts the long picks.
+OPTION VIEWS (2026-11-24, items 57 and 58; replaces BEARISH VIEWS AS PUTS): when an option expresses a directional view
+better than the stock, you may write an option row instead of a stock pick: AgentPicks row with asset "option" (rows
+with asset "put" from item 57 are still read), symbol = the stock, contract_id = the bought option's IBKR id, status
+"picked", checks = "playbook v<N> | src=own | dir=bull|bear | occ=<OCC symbol> | occ2=<OCC symbol, spreads only> |
+w=0.xx | hold=N | p=0.xx | stop=-N | tgt=N | " + why, the strikes, expiry, delta and implied volatility. Three shapes:
+a call (rising view), a put (falling view), or a debit vertical: buy occ=, sell occ2= with the same underlying, expiry
+and right and a strike farther out of the money (a higher strike for calls, a lower one for puts); anything else is
+ignored. Same filters as stock picks (US listing, price >= $5, volume, market cap; control-list stocks excluded; no
+short stock and no sold option except the covered leg of a debit vertical) plus: listed options with an expiry at
+least 5 trading days after the last holding day, bought leg delta about 0.35 to 0.65 in size from IBKR
+get_option_data, no earnings before expiry unless earnings is the reason. Check the spread in last night's stored
+chain (data/optarch/snap/<SYMBOL>/<DAY>.json.gz; `scripts/optarch.py chain`). 0-3 option rows a day; their w add up to
+1.00 among the options. stop and tgt are percent of the premium, or of the net debit for a spread (stop -20 to -80, tgt
+20 to 200). The OCC symbol is SYMBOL + YYMMDD + C or P + strike x 1000 in 8 digits (for example DKS261204P00200000).
+GitHub fetches every leg's 5-minute bars in the nightly fetch and scripts/picks.py scores them as sleeve "AP3 Agent
+picks: options" (one of your own sleeves, up to 50% of the book): entry at the first option trade from 09:30 to 10:30
+(for a spread, once both legs have traded; a net debit under $0.05 is no fill), marked on each day's last trade, exits
+at the sealed stop or target (stop first; a spread's stop and target are seen only at bar ends), at the close of the
+last holding day or on expiry day. $0.68 a contract per leg and 2% of each leg's premium per side are charged. A pick
+with no trade by 10:30 is "no fill". It is a simulated position: nothing is ordered. The stock's move against the
+control list, signed by the view, is reported beside G1 (score.json "options"); G1 itself counts the long stock picks.
 EVENING JOURNAL AND PREP (2026-11-24, item 57): the evening review task writes data/picks/journal/<DAY>.json (what
 each pick and put did, why it worked or failed, lessons) and data/picks/prep/<NEXT DAY>.json (tomorrow's candidates
 from after-hours earnings, filings and news). READ the last five journal files and today's prep file before
@@ -687,6 +694,22 @@ NEIGHBOUR CHECK (2026-11-24, item 51): whenever more than one setting was tried,
 setting tried, each {"params": {...}, "score": x}, scored on the TUNING data with the same measure used to choose. The
 gate passes "neighbours_hold" only if the chosen setting's one-step neighbours have a median score above 0 and at least
 half the chosen score: a plateau, not a lone peak. Report the read_first "neighbours" block with the data quality.
+
+OPTIONS TRACK (2026-11-24, item 58): the lab may build option strategies (family "option") from the option archive:
+data/optarch/snap/<UND>/<DAY>.json.gz (each night's chain from 2026-11-24 with bid, ask, last, implied volatility and
+greeks, expiries within 50 days and strikes within 15% of spot, for SPY, QQQ, IWM and the 44 ranked stocks) and
+data/optarch/hist/<UND>.csv.gz (daily trade bars of past contracts from about February 2024: every Friday expiry and
+$5 strikes within 12% for SPY, QQQ and IWM, the monthly expiry within 12% for the stocks). Use the helpers in
+scripts/optarch.py: fill() buys at the ask and sells at the bid from a snapshot, or adds 2% per leg per side to a daily
+bar's price, and returns None for a bar with no volume (a stale print: drop that trade, never mark it at an old price);
+spans_earnings() tells whether a holding period crosses a known earnings date (data/events/earnings.jsonl starts
+2025-11; before that, source the dates or exclude single-stock trades). cand.json for an option idea carries "family":
+"option" and "options": {"fill": "bidask" or "trade_plus_spread", "spread_allowance_pct": >= 2.0, "fee_per_contract":
+>= 0.65, "stale_excluded": true, "earnings": "excluded" or "split" with "oos_ex_earnings" (results without the trades
+that span earnings; mean > 0 with n >= 20)}. The gate adds four checks (options_fills_conservative, options_fees>=0.65,
+options_no_stale_prices, options_earnings_handled) to every other check, unchanged. An approved option strategy joins
+the AS sleeve through the lane like any other; its daily_series(repo) for forward scoring must enter at the ask and
+mark at the bid from the nightly snapshots (the backfill is one-off and does not grow). The archive is market data only: nothing is ordered.
 
 PEER MAP (SATURDAY runs only, before PART B): if data/ext/peers/latest.json is missing or older than 6 days, call IBKR
 get_company_themes (max_themes 3, max_companies 5) for each of the 44 ranked stocks (contract ids in data/contracts.json),
@@ -1012,3 +1035,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 55 | 2026-11-24 | Own sleeves AP, AP2, AS capped at 50% each in every seal (others stay 25%); weekly seal may set as_mix inside AS (judge.py, aisleeve.py) |
 | 56 | 2026-11-24 | Setup debate (reports/setup_debate_2026-11-24.md): picks may include watchlist names; lab chooses its track; 5-point lesson limit removed; evidence pack gains learning findings and lane standings; Dec 8 work merged into ops/dec8_plan.md; watchdog to merge into the orchestrator |
 | 57 | 2026-11-24 | Picks learn and exit: evening journal + next-day prep task; stop/target per pick (AP2); bearish views as simulated puts (sleeve AP3, own sleeve); journal in the evidence pack |
+| 58 | 2026-11-24 | Options both ways and an options lab: option picks may be calls, puts or debit verticals (AP3 renamed "AP3 Agent picks: options"); option archive (scripts/optarch.py: nightly chain snapshots, a backfill of past contracts' daily bars); lab OPTIONS TRACK with four option checks in review.py gate |

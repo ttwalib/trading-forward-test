@@ -132,6 +132,21 @@ def gate(repo, c):
     if int(c.get("n_configs_tried", 1)) > 1:     # neighbour check (2026-11-24): required whenever settings were tuned
         if c.get("grid"): ok_, nbr = neighbours(c["grid"], prm or {}); checks["neighbours_hold"] = ok_
         else: checks["neighbours_hold"] = False; nbr = {"error": "no grid given (every setting tried, scored on the tuning data)"}
+    # OPTIONS TRACK (2026-11-24, item 58): an option idea must also show that its fills are conservative, that no stale
+    # price was used, and that its edge is not only earnings jumps. cand.json "options": {"fill": "bidask" (buy at the
+    # ask, sell at the bid, from data/optarch snapshots) or "trade_plus_spread" (daily trade bars, allowance per leg per
+    # side in "spread_allowance_pct", at least 2.0 like live AP3), "fee_per_contract" (>= 0.65), "stale_excluded": true
+    # (optarch.fill gives None for a bar with no volume; those trades are dropped, never marked at an old print),
+    # "earnings": "excluded" (no trade spans an earnings date) or "split" with "oos_ex_earnings" (the per-trade results
+    # without the trades that span one, whose mean must also be > 0 with n >= 20)}.
+    if str(c.get("family") or "") == "option":
+        o = c.get("options") or {}
+        fl = o.get("fill"); al = o.get("spread_allowance_pct")
+        checks["options_fills_conservative"] = fl == "bidask" or (fl == "trade_plus_spread" and isinstance(al, (int, float)) and al >= 2.0)
+        checks["options_fees>=0.65"] = isinstance(o.get("fee_per_contract"), (int, float)) and o["fee_per_contract"] >= 0.65
+        checks["options_no_stale_prices"] = o.get("stale_excluded") is True
+        ex = [float(x) for x in (o.get("oos_ex_earnings") or [])]
+        checks["options_earnings_handled"] = o.get("earnings") == "excluded" or (o.get("earnings") == "split" and len(ex) >= 20 and sum(ex) / len(ex) > 0)
     rv = reviewer(c["draft"]) if c.get("draft") else {"verdict": "n/a", "note": "no draft given"}
     checks["edge_reviewer_PASS"] = rv.get("verdict") == "PASS"
     try:     # the trial is logged with the settings hash (a different hash = a different trial)

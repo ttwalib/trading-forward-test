@@ -35,29 +35,44 @@ NY = tcal.NY
 COST_SIDE = 0.10
 SLEEVE = "AP Agent picks (open to close)"
 SLEEVE2 = "AP2 Agent picks (AI sizing and holding)"
-SLEEVE3 = "AP3 Agent picks: bearish puts (AI sizing and holding)"
-PUT_FEE = 0.68          # dollars per contract per side (IBKR fixed $0.65 + about $0.03 regulatory fees)
-PUT_SLIP = 2.0          # percent of the premium per side: allowance for the bid/ask spread on a market order
+SLEEVE3 = "AP3 Agent picks: options (AI sizing and holding)"
+PUT_FEE = 0.68          # dollars per contract per side per leg (IBKR fixed $0.65 + about $0.03 regulatory fees)
+PUT_SLIP = 2.0          # percent of each leg's premium per side: allowance for the bid/ask spread on a market order
 PUT_FILL_BY = "10:30"   # the first option trade at or after 09:30 and before this time is the entry; else no fill
+OPT_MIN_DEBIT = 0.05    # a spread whose net debit at entry is below this (dollars per share) is a no fill
+OCC_RE = r"[A-Z]{1,6}\d{6}[CP]\d{8}"
+
+
+def _occ_parts(o):
+    return o[:-15], o[-15:-9], o[-9], int(o[-8:]) / 1000.0
 
 
 def put_rows(repo, cal_idx, W):
-    """Witnessed bearish picks (asset "put", status "picked", sealed before 09:30 New York; item 57, 2026-11-24).
-    The checks cell carries occ=<OCC symbol> (the put bought), w=, hold= (1-5 trading days), p= (chance the stock does
-    worse than the control list today) and optional stop=/tgt= in percent of the premium."""
+    """Witnessed option picks (asset "option", or "put" from item 57; status "picked", sealed before 09:30 New York;
+    item 58, 2026-11-24). The checks cell carries occ=<OCC symbol> (the contract bought: a call for a rising view, a put
+    for a falling one), optional occ2=<OCC symbol> (the contract sold against it, making a debit vertical: same
+    underlying, expiry and right, strike farther out of the money), w=, hold= (1-5 trading days), p= (chance the stock
+    beats the control list today for a call, does worse for a put) and optional stop=/tgt= in percent of the premium
+    (the net debit for a spread)."""
     out = {}
     for r in ledger.load(repo, "AgentPicks"):
         t = str(r.get("picked_at") or ""); w = W.get(witness.row_id(r))
-        if not (r.get("asset") == "put" and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30" and witness.counts(w, t[:10])):
+        if not (r.get("asset") in ("put", "option") and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30" and witness.counts(w, t[:10])):
             continue
         ck = str((w or {}).get("checks") if w and not w.get("grandfathered") else r.get("checks") or "")
-        mo = re.search(r"\bocc=([A-Z]{1,6}\d{6}P\d{8})\b", ck)
+        mo = re.search(r"\bocc=(" + OCC_RE + r")\b", ck)
         if not mo: continue
+        o1 = mo.group(1); m2 = re.search(r"\bocc2=(" + OCC_RE + r")\b", ck); o2 = m2.group(1) if m2 else None
+        u1, e1, r1, k1 = _occ_parts(o1)
+        if r.get("asset") == "put" and r1 != "P": continue
+        if o2:
+            u2, e2, r2, k2 = _occ_parts(o2)
+            if (u2, e2, r2) != (u1, e1, r1) or (r1 == "C" and k2 <= k1) or (r1 == "P" and k2 >= k1): continue   # debit verticals only
         mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck); mp = re.search(r"\bp=(0?\.[0-9]+)\b", ck)
         try: wt = float(mw.group(1)) if mw else None
         except ValueError: wt = None
         st, tg = _exits(ck)
-        out.setdefault(t[:10], []).append({"und": r["symbol"], "occ": mo.group(1), "w": wt if wt and 0.05 <= wt <= 1.0 else None,
+        out.setdefault(t[:10], []).append({"und": r["symbol"], "occ": o1, "occ2": o2, "right": r1, "w": wt if wt and 0.05 <= wt <= 1.0 else None,
                                            "hold": int(mh.group(1)) if mh else 1, "p": float(mp.group(1)) if mp else None,
                                            "stop": st, "tgt": tg, "cid": str(r.get("contract_id") or "")})
     return out
@@ -79,21 +94,52 @@ def opt_bars(repo, occ):
     return out
 
 
+def spread_bars(a, b):
+    """Net (long minus short) 5-minute bars of a debit vertical, on the bars where either leg traded, each leg carried
+    forward from its last trade that day. Only open and close are known for a spread, so high = max(open, close) and
+    low = min(open, close): a stop or target inside a bar is seen only at the bar's ends."""
+    out = {}
+    for d in set(a) | set(b):
+        A = {r[0]: r for r in a.get(d, [])}; B_ = {r[0]: r for r in b.get(d, [])}; la = lb = None; rows = []
+        for t in sorted(set(A) | set(B_)):
+            if t in A: la = A[t]
+            if t in B_: lb = B_[t]
+            if la is None or lb is None: continue
+            o = (A[t][1] if t in A else la[4]) - (B_[t][1] if t in B_ else lb[4]); c = la[4] - lb[4]
+            rows.append((t, o, max(o, c), min(o, c), c))
+        if rows: out[d] = rows
+    return out
+
+
 def puts(repo, cal, cal_idx, day, W):
-    """AP3: each put bought at the open (first trade 09:30-10:30) and marked on each day's last trade, exits at its
-    sealed stop/target on the premium (stop first inside a bar) or at the close of its last holding day or expiry day,
-    whichever comes first. Day return = weighted average over open puts (weights rescaled over what is open), minus
-    the fee and the spread allowance on entry and exit. A put that never trades in the fill window is "no fill"."""
+    """AP3: each option pick (a single call or put, or a debit vertical) bought at the open (first trade 09:30-10:30;
+    both legs for a spread) and marked on each day's last trade, exits at its sealed stop/target on the premium (stop
+    first inside a bar) or at the close of its last holding day or expiry day, whichever comes first. Day return =
+    weighted average over open positions (weights rescaled over what is open), minus the per-leg fee and the per-leg
+    spread allowance on entry and exit, both as a percent of the premium paid. A pick that never trades in the fill
+    window (or a spread whose net debit is under OPT_MIN_DEBIT) is "no fill"."""
     P = put_rows(repo, cal_idx, W); pos, series, closed, nofill = [], {}, [], []
     for d in cal:
         for x in P.get(d, []):
-            ob = opt_bars(repo, x["occ"]); b = [r for r in ob.get(d, []) if r[0] < PUT_FILL_BY]
+            l1 = opt_bars(repo, x["occ"]); legs = 1; gross = None
+            if x["occ2"]:
+                l2 = opt_bars(repo, x["occ2"]); ob = spread_bars(l1, l2); legs = 2
+                f1 = [r for r in l1.get(d, []) if r[0] < PUT_FILL_BY]; f2 = [r for r in l2.get(d, []) if r[0] < PUT_FILL_BY]
+                if f1 and f2:
+                    st0 = max(f1[0][0], f2[0][0]); e = [r for r in ob.get(d, []) if r[0] >= st0]
+                    b = [(st0, e[0][1], e[0][1], e[0][1], e[0][1])] if e else []
+                    gross = (f1[0][1] + f2[0][1]) if b else None
+                else: b = []
+                if b and b[0][1] < OPT_MIN_DEBIT: b = []
+            else:
+                ob = l1; b = [r for r in ob.get(d, []) if r[0] < PUT_FILL_BY]
             exp = "20" + x["occ"][-15:-9]; exp = "%s-%s-%s" % (exp[:4], exp[4:6], exp[6:8])
-            if not b: nofill.append({"date": d, "occ": x["occ"]}); continue
+            if not b: nofill.append({"date": d, "occ": x["occ"], "occ2": x["occ2"]}); continue
             e = b[0][1]; i = cal_idx[d]; last = cal[min(i + x["hold"] - 1, len(cal) - 1)]
             if exp < last: last = exp
-            fee = PUT_FEE / e if e else 0
-            pos.append(dict(x, d0=d, entry=e, mark=e, last=last, ob=ob, new=True, fee=fee, start=b[0][0],
+            g = gross if gross else e   # premium the spread allowance is charged on (both legs for a spread)
+            fee = (PUT_FEE * legs / (100 * e) * 100 if e else 0) + PUT_SLIP * g / e
+            pos.append(dict(x, d0=d, entry=e, mark=e, last=last, ob=ob, new=True, fee=fee, start=b[0][0], legs=legs, g_ratio=g / e,
                             stop_px=e * (1 + x["stop"] / 100) if x["stop"] else None, tgt_px=e * (1 + x["tgt"] / 100) if x["tgt"] else None))
         if not pos:
             if any(d >= k for k in P): series[d] = 0.0
@@ -106,9 +152,13 @@ def puts(repo, cal, cal_idx, day, W):
                 if p["stop_px"] is not None and l <= p["stop_px"]: px = min(o, p["stop_px"]) if hhmm != p["start"] or not p["new"] else p["stop_px"]; out_now = True; break
                 if p["tgt_px"] is not None and h >= p["tgt_px"]: px = max(o, p["tgt_px"]) if hhmm != p["start"] or not p["new"] else p["tgt_px"]; out_now = True; break
             if px is None: px = bars_d[-1][4] if bars_d else p["mark"]
-            cost = (p["fee"] + PUT_SLIP if p["new"] else 0) + (PUT_FEE / max(px, 0.01) + PUT_SLIP if out_now and px > 0 else 0)
-            r += wt * ((px / p["mark"] - 1) * 100 - cost); p["mark"] = px; p["new"] = False
-            if out_now: done.append(p); closed.append({"date": p["d0"], "und": p["und"], "occ": p["occ"], "entry": p["entry"], "exit": px, "exit_day": d,
+            px = max(px, 0.0)
+            m0 = p["mark"]
+            if m0 > 0:   # day return on the position's value at the start of the day; costs in the same units
+                exit_cost = (PUT_FEE * p["legs"] / (100 * m0) * 100 + PUT_SLIP * p["g_ratio"] * px / m0) if out_now and px > 0 else 0
+                r += wt * ((px / m0 - 1) * 100 - (p["fee"] if p["new"] else 0) - exit_cost)
+            p["mark"] = px; p["new"] = False
+            if out_now: done.append(p); closed.append({"date": p["d0"], "und": p["und"], "occ": p["occ"], "occ2": p["occ2"], "entry": p["entry"], "exit": px, "exit_day": d,
                                                         "gross_pct": round((px / p["entry"] - 1) * 100, 2)})
         series[d] = round(r / tot, 5)
         pos = [p for p in pos if p not in done]
@@ -234,8 +284,9 @@ def build(repo, day=None):
         for x in xs:
             m = moves(B(x["und"]), d, cal_idx, cal)[0]
             if m is not None and c1:
-                bear.append({"date": d, "und": x["und"], "stock_day": round(m, 4), "control_day": round(mean(c1), 4)})
-                if x["p"] is not None: calib.append({"date": d, "kind": "put", "id": x["und"], "p": x["p"], "hit": m < mean(c1)})
+                bear.append({"date": d, "und": x["und"], "right": x.get("right", "P"), "spread": bool(x.get("occ2")), "stock_day": round(m, 4), "control_day": round(mean(c1), 4)})
+                hit = m < mean(c1) if x.get("right", "P") == "P" else m > mean(c1)
+                if x["p"] is not None: calib.append({"date": d, "kind": "put" if x.get("right", "P") == "P" else "call", "id": x["und"], "p": x["p"], "hit": hit})
     def summary(R):
         a = [(r["picks_day"], r["control_day"]) for r in R if r["picks_day"] is not None and r["control_day"] is not None]
         f = [(r["picks_5d"], r["control_5d"]) for r in R if r["picks_5d"] is not None and r["control_5d"] is not None]
@@ -279,10 +330,11 @@ def build(repo, day=None):
     score = {"note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). "
                      "Days before 2026-12-07 are warm-up.", "cost_side_pct": COST_SIDE,
              "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "cost_view": cview, "rows": rows,
-             "bear": {"note": "bearish picks (puts, item 57): the stock's open-to-close move against the control list's; "
-                              "negative = the view was right. Report only; G1 counts the long picks.",
-                      "n": len(bear), "mean_stock_minus_control": round(mean([b["stock_day"] - b["control_day"] for b in bear]), 4) if bear else None,
-                      "rows": bear, "puts_closed": closed3, "no_fill": nofill3}}
+             "options": {"note": "option picks (calls, puts and debit verticals; items 57-58): the stock's open-to-close move against "
+                                 "the control list's, signed by the view (+ for a call, - for a put), so positive = the view was right. "
+                                 "Report only; G1 counts the long stock picks; AP3 carries the option P&L.",
+                         "n": len(bear), "mean_view_edge": round(mean([(b["stock_day"] - b["control_day"]) * (1 if b["right"] == "C" else -1) for b in bear]), 4) if bear else None,
+                         "rows": bear, "closed": closed3, "no_fill": nofill3}}
     json.dump(score, open(os.path.join(repo, "data", "picks", "score.json"), "w"), indent=1)
     json.dump(calib, open(os.path.join(repo, "data", "picks", "calib_picks.json"), "w"))
     return {"sleeve_days": len(series), "all": score["all"], "verdict": score["verdict"],

@@ -173,6 +173,43 @@ def series(repo, und):
     return out
 
 
+# ---------- lab helpers (runbook OPTIONS TRACK) ----------
+OPT_FEE = 0.68      # dollars per contract per side, as in live AP3 (scripts/picks.py PUT_FEE)
+OPT_SLIP = 2.0      # percent of the premium per side per leg when only trades are known (daily bars), as in live AP3
+
+
+def fill(day_bar=None, snap_row=None, side="buy", allow=OPT_SLIP):
+    """Conservative fill for one leg. From a snapshot row: buy at the ask, sell at the bid (None if either is missing or
+    the bid is zero). From a daily bar (trades only): the bar's volume-weighted price (else its close) plus allow% on a
+    buy, minus allow% on a sell. A bar with no volume is a stale print and gives None: the trade did not happen."""
+    if snap_row is not None:
+        bid, ask = snap_row[0], snap_row[1]
+        if not bid or not ask or bid <= 0 or ask < bid: return None
+        return ask if side == "buy" else bid
+    if not day_bar or not day_bar.get("v"): return None
+    px = day_bar.get("vw") or day_bar.get("c")
+    if not px: return None
+    return px * (1 + allow / 100) if side == "buy" else px * (1 - allow / 100)
+
+
+def earnings_days(repo, sym):
+    """Known earnings dates of one stock (data/events/earnings.jsonl, from 2025-11), as {date: session}. Before the
+    first stored date the lab must source dates itself or exclude single-stock trades that span an unknown date."""
+    p = os.path.join(repo, "data", "events", "earnings.jsonl"); out = {}
+    if os.path.exists(p):
+        for l in open(p):
+            if l.strip():
+                r = json.loads(l)
+                if r.get("symbol") == sym: out[r["date"]] = r.get("session")
+    return out
+
+
+def spans_earnings(repo, sym, d0, d1):
+    """True if an earnings release falls inside the holding period (an after-close release on the entry day counts)."""
+    if sym in INDEX: return False
+    return any(d0 <= d <= d1 for d in earnings_days(repo, sym))
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "snap": print(json.dumps({k: v for k, v in snap(a[1], a[2].split(",") if len(a) > 2 else None).items() if k != "ok"}, indent=1)[:3000])
