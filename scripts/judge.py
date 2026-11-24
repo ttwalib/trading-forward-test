@@ -58,7 +58,7 @@ FILE = os.path.join("data", "allocator", "judge.jsonl")
 # Evidence-pack version (review N9, 2026-11-24): raised by hand whenever a field is added to or removed from brief(),
 # and logged as an intervention. Every seal row stores it with a sha256 of the pack it was sealed from (pack_sha, of the
 # pack without its clock field), so a change in what Quantavius was shown is always visible next to its decisions.
-PACK_SCHEMA = 2
+PACK_SCHEMA = 3     # 3 (2026-11-24): rules.same_picks_note
 
 
 def effective_day(now):
@@ -122,6 +122,7 @@ def brief(repo, now=None):
     return {"pack_schema": PACK_SCHEMA, "now_new_york": now.strftime("%Y-%m-%d %H:%M"), "evidence_through": cal[-1] if cal else None, "effective": eff.isoformat(),
             "market_closed_now": market_closed(now), "phase_of_effective_day": tcal.phase(eff),
             "rules": {"min_share": LO, "max_share": HI, "own_sleeves_max_share": OWN_CAP, "own_sleeves": list(OWN),
+                      "same_picks_note": "AP and AP2 hold the same stock picks: their joint share is recorded in the seal row (same_picks_share) and flagged above 0.50, never capped",
                       "as_mix": "optional {AS member: share} adding up to 1.00 (weekly book); without it AS is equal weight", "sum": 1.0, "short_premium_group_max": allocator.GROUP_CAP,
                       "short_premium_group": "W1, W2, D2, D3 together", "cash": "not allowed", "only_listed_sleeves": True,
                       "rebalancing": "weekly; changing a share costs 0% (intraday sleeves), 0.05% (daily library), 0.15% (crypto), 0.5% (options) of the amount moved"},
@@ -343,7 +344,11 @@ def seal(repo, path, dry=False, now=None, out=None, daily=False):
            # since 2026-11-23 (item 35): the stated chance that this book beats the equal-weight foundation over the
            # period it applies to (scored for calibration), the lessons drawn from the earlier seals, and the horizon
            "p_beat_equal": pb, "lessons": str(D.get("lessons") or "")[:1500], "horizon": "day" if daily else "week",
-           "as_mix": ({str(k): round(float(v), 4) for k, v in (D.get("as_mix") or {}).items() if float(v) > 0} or None)}
+           "as_mix": ({str(k): round(float(v), 4) for k, v in (D.get("as_mix") or {}).items() if float(v) > 0} or None),
+           # SAME-PICKS SHARE (owner 2026-11-24, recorded, not capped): AP and AP2 hold the same morning stock picks, so
+           # their joint share is the book's real bet on those picks; above 50% it is flagged for the weekly report
+           "same_picks_share": round(sum(v for k, v in w.items() if k.startswith(("AP ", "AP2 "))), 4),
+           "same_picks_over_50": sum(v for k, v in w.items() if k.startswith(("AP ", "AP2 "))) > 0.5 + 1e-9}
     if not dry:
         os.makedirs(os.path.dirname(f), exist_ok=True)
         with open(f, "a") as fh: fh.write(json.dumps(row, separators=(",", ":")) + "\n")

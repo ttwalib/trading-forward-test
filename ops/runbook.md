@@ -754,7 +754,8 @@ final (2027-05-18) reports are separate tasks. Follow ops/preregistration.md sec
 LAYOUT (scoreboard, in this order): SCOREBOARD - A1 first (primary and strict side by side with equal prominence, with
 the number of weekly decisions beside every A1 probability, worded "promising, not proof" on a primary pass, never "beat
 the market"), then G1 (daily ranking primary; picks vs control secondary) and G2 (lab strategies forward); then the AI
-LAYER (picks AP and AP2 with the playbook version, the AI strategies sleeve and each approved strategy, the ML filter and
+LAYER (picks AP and AP2 with the playbook version; the latest seal's same_picks_share, the joint share of AP and AP2,
+which hold the same stock picks, flagged when above 50%; the AI strategies sleeve and each approved strategy, the ML filter and
 ranker, the AI-judgment book, the model contest when it starts); then the FOUNDATION (formula H1 /
 verdict_check so far, simple rules, SPY, equal weight, baseline A, the control list, the library L1-L17, the crypto
 tracks, data and plumbing health). From the 2027-02-05 report show the second half (from 2027-02-01) separately; freeze
@@ -937,6 +938,9 @@ sample_dispersion: the weekly measure of seal noise; the row also records the ev
 sealed row's weights, not your own, and say n_samples. Fewer than two drafts: your own weights are sealed with
 n_samples 1; say so. The row also lists moves_over_5pts against the previous seal: explain each one in "decision"
 (nothing is clipped).
+SAME PICKS (owner 2026-11-24, recorded, not capped): AP and AP2 hold the same morning stock picks, so their joint share
+is the book's real bet on those few stocks. The row records same_picks_share and flags same_picks_over_50; when you put
+more than 50% into AP and AP2 together, say why in "decision".
 The model contest (Opus Sun 13:41 ET, Sonnet Sun 13:56 ET) and the daily challenger (Mon and Thu 08:41 ET from
 2026-12-07) seal from the same kind of pack into their own files (NIGHTLY MATHS reference, CHALLENGER LANE).
 
@@ -1053,3 +1057,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 57 | 2026-11-24 | Picks learn and exit: evening journal + next-day prep task; stop/target per pick (AP2); bearish views as simulated puts (sleeve AP3, own sleeve); journal in the evidence pack |
 | 58 | 2026-11-24 | Options both ways and an options lab: option picks may be calls, puts or debit verticals (AP3 renamed "AP3 Agent picks: options"); option archive (scripts/optarch.py: nightly chain snapshots, a backfill of past contracts' daily bars); lab OPTIONS TRACK with four option checks in review.py gate |
 | 59 | 2026-11-24 | External review of Nov 24 (Jarvis): witness for seals, drafts and rankings with GitHub's push clock, one file per sighting (N1, N7); picks scored from first-seen copies with an integrity report (N3); nightly critical-path fix (N4); freeze list 17 -> 28, hand freeze record (scripts/freeze.py), pinned numpy, guard reads the record, ops/nightly_extra.json (N2); nightly planted-leak test on the verdict path (N5); G1 coverage rule: a missed ranking day counts as IC 0 (N6); AI sessions per weekday in tasks.json and SPEC (N8); pack_schema and pack_sha in seal rows (N9); skipped fill-bar signals counted (N11); unfloored variance for reported Sharpe, volatility matching and beta (N12); picks reported by playbook version and by vehicle (N13) |
+| 60 | 2026-11-24 | AP and AP2 joint share (same stock picks) recorded in every seal row as same_picks_share and flagged above 50%, not capped (owner choice); evidence pack schema 3 |
