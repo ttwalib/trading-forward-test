@@ -7,7 +7,7 @@ the copy and adds a row to ops/interventions.jsonl.
 
 | File | Task | Id |
 |---|---|---|
-| morning.md | Morning research + events (08:05 ET daily, Fable) | trig_01NH3ceZ9ypKfB94HSpRW65A |
+| morning.md | Morning research + events (08:05 ET daily, Fable; coin-drop text proposed in proposed/morning.md, awaiting the owner's approval; the runbook already applies) | trig_01NH3ceZ9ypKfB94HSpRW65A |
 | stocks.md | Stocks + control list (09:12, 16:12 ET, Sonnet) | trig_01Udt8Hay1dh3AyxtaP4ejDN |
 | adaptive.md | Adaptive stocks (17:20 ET, Sonnet; retirement proposed in proposed/adaptive.md, awaiting the owner's approval) | trig_01XqVW4yGp2cwSyEXUobMusn |
 | evening.md | Evening scoring of picks (20:20 ET, Sonnet; option-only prompt proposed in proposed/evening.md, awaiting the owner's approval) | trig_0158DyhLj3M3cKod2eXxFn1g |

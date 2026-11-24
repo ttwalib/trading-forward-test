@@ -2,6 +2,10 @@
 
   python3 daily.py crypto REPO [NOW]    one crypto-tracks checkpoint: the four tracks, the ledger, the ML shadow
                                         predictions and (first run at or after 16:00 New York) the daily review
+  python3 daily.py coins REPO [NOW]     settle Quantavius's picked coins (morning STEP 1, data/state/agent_coins.json) and
+                                        apply "dropped" AgentPicks rows (2026-11-25, build list item 4); prints the
+                                        same shape as crypto_tracks.py stream plus "coins", "dropped" and "pending_drops";
+                                        writes nothing (the morning task writes the rows and the state)
   python3 daily.py ml REPO [DAY]        the nightly machine-learning job: rebuild the decision rows, score the shadow
                                         predictions, walk-forward evaluation and refit (never in the frozen holdout),
                                         drift check; summary in data/nightly/ml_report.json
@@ -378,9 +382,90 @@ def picks_evening(repo, day=None, check_only=False):
     jsave(dpath, res); return res
 
 
+def _ny_epoch(s):
+    return int(dt.datetime.strptime(str(s)[:16], "%Y-%m-%d %H:%M").replace(tzinfo=NY).timestamp())
+
+
+def coin_drops(repo, coins):
+    """Effective drops of picked coins (build list item 4, 2026-11-25). A drop is an AgentPicks row with asset "crypto",
+    status "dropped" and its own picked_at (the time Quantavius decided). It takes effect at the start of the first full
+    hour after the LATER of its picked_at and its first GitHub witness sighting, so a drop can never act on bars that
+    were already known when it was written. From witness.ENFORCE_FROM an unwitnessed drop waits (it is not lost: it
+    applies once GitHub has seen it). Returns {coin: {"cut": epoch, "row_id", "decided_ny", "witnessed_ny"}}, the
+    earliest drop per coin; drops of coins not in the list are ignored."""
+    import witness
+    S = witness.sightings(repo); out = {}
+    for r in ledger.load(repo, "AgentPicks"):
+        if r.get("asset") != "crypto" or r.get("status") != "dropped" or r.get("symbol") not in coins: continue
+        rid = witness.row_id(r); seen = (S.get(("pick", rid)) or [None])[0]
+        t = _ny_epoch(r["picked_at"])
+        if seen:
+            t = max(t, int(dt.datetime.strptime(seen["seen_at_utc"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=dt.timezone.utc).timestamp()))
+        elif str(r["picked_at"])[:10] >= witness.ENFORCE_FROM:
+            continue
+        cut = (t // 3600 + 1) * 3600
+        c = r["symbol"]
+        if c not in out or cut < out[c]["cut"]:
+            out[c] = {"cut": cut, "row_id": rid, "decided_ny": str(r["picked_at"])[:16],
+                      "witnessed_ny": seen["seen_at_ny"][:16] if seen else None}
+    return out
+
+
+def coins(repo, now=None):
+    """Settle the picked coins exactly as morning STEP 1 did with crypto_tracks.py stream (1h fixed rules, the coin in
+    both the X and M strategy sets, BTC as the M2 reference), and apply drops. A dropped coin's track ENDS at its cut
+    (coin_drops): bars up to the cut are streamed as usual; a position still open is closed at the OPEN of the hour bar
+    that starts at the cut (reason "dropped", same costs and R as any exit); a pending entry is cancelled (never filled);
+    the coin leaves the list and its state is removed, so it no longer counts towards the 8 coins held at once and may
+    be picked again later as a new track. If the bar at the cut is not stored yet, the drop waits (pending_drops) and
+    the coin is settled only up to the cut."""
+    now = int(now or time.time()); step = 3600
+    A = jload(os.path.join(repo, "data", "state", "agent_coins.json"), {"coins": [], "state": {}})
+    coins_ = list(A.get("coins") or []); st = A.get("state") or {}
+    drops = coin_drops(repo, coins_)
+    pos, last = dict(st.get("pos") or {}), dict(st.get("last_t") or {})
+    start = st.get("start")
+    keep, closed, openp, dropped, pending, cover = [], [], [], [], [], {}
+    for c in coins_:
+        d = drops.get(c); upto = min(now, d["cut"]) if d else now
+        sub = {"last_t": {c: last[c]} if c in last else {}, "pos": {k: v for k, v in pos.items() if k.split("|")[0] == c}}
+        if start: sub["start"] = start
+        o = crypto_tracks.stream(sub, export(repo, "1h", upto, [c, "BTC"], 300), upto, step, {"_coins": {"X": [c], "M": [c]}})
+        closed += o["closed"]; cover[c] = o["coverage"].get(c)
+        start = start or o["state"]["start"]
+        p2 = {k: v for k, v in o["state"]["pos"].items() if k.split("|")[0] == c}
+        l2 = o["state"]["last_t"].get(c)
+        if d and d["cut"] <= now:
+            bar = [b for b in hist.load(repo, "1h", c) if b["t"] == d["cut"]]
+            if bar and (l2 or 0) >= d["cut"] - step:
+                out = []
+                for k, p in p2.items():
+                    if p.get("st") == "open":
+                        out.append(crypto_tracks.rec(c, p, bar[0]["o"], d["cut"], p["why"] if p.get("xn") else "dropped", "closed"))
+                closed += out
+                for k in [k for k in pos if k.split("|")[0] == c]: pos.pop(k)
+                last.pop(c, None)
+                dropped.append(dict(coin=c, cut_ny=crypto_tracks.et(d["cut"]), closed=len(out),
+                                    cancelled=sum(1 for p in p2.values() if p.get("st") == "pending"),
+                                    decided_ny=d["decided_ny"], witnessed_ny=d["witnessed_ny"]))
+                continue
+            pending.append(dict(coin=c, cut_ny=crypto_tracks.et(d["cut"]), why="bar at the cut not stored yet" if not bar else "bars before the cut missing"))
+        elif d:
+            pending.append(dict(coin=c, cut_ny=crypto_tracks.et(d["cut"]), why="cut is in the future"))
+        keep.append(c)
+        for k in [k for k in pos if k.split("|")[0] == c]: pos.pop(k)
+        pos.update(p2)
+        if l2 is not None: last[c] = l2
+        openp += [r for r in o["open"] if r["symbol"] == c]
+    state = {"start": start, "last_t": last, "pos": pos} if (keep or start) else {}
+    return {"closed": sorted(closed, key=lambda r: r["exit_time"]), "open": openp, "coverage": cover,
+            "state": state, "coins": keep, "dropped": dropped, "pending_drops": pending}
+
+
 def main():
     a = sys.argv[1:]
-    if a[0] == "crypto": print(json.dumps(crypto(a[1], a[2] if len(a) > 2 else None), indent=1))
+    if a[0] == "coins": print(json.dumps(coins(a[1], int(a[2]) if len(a) > 2 else None), indent=1))
+    elif a[0] == "crypto": print(json.dumps(crypto(a[1], a[2] if len(a) > 2 else None), indent=1))
     elif a[0] == "ml":
         r = ml_night(a[1], a[2] if len(a) > 2 else None)
         print(json.dumps({k: r[k] for k in r if k != "report"}, indent=1, default=str)[:3000])

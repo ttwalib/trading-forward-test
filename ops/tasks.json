@@ -19,7 +19,7 @@
    "name": "Live decisions",
    "when": "13:05 on trading days (once)",
    "model": "Sonnet",
-   "does": "Midday spread and implied-volatility snapshot, breakouts so far with the ML choice, slippage quotes (no option quotes since 2026-11-23)",
+   "does": "Midday spread and implied-volatility snapshot, breakouts so far with the ML choice, slippage quotes (no option quotes since 2026-11-23); stays an AI task after the 2026-11-25 review (runbook LIVE DECISIONS, WHY IT STAYS AN AI TASK: GitHub has no IBKR quotes and the frozen cost model reads them)",
    "weekday_runs": 1
   },
   {
@@ -54,7 +54,7 @@
    "name": "Watchdog",
    "when": "07:35 and 19:35 daily (trig_01McTsF59Sw14Dm9ogHwr8Z1; rebuilt 2026-11-24, the old trig_01RqMJrg5xfsW4xYYgo7RZY4 is disabled after the new one's first good run)",
    "model": "Sonnet",
-   "does": "Re-runs a failed task; logs problems only",
+   "does": "Re-runs a failed task; logs problems only; kept separate from the orchestrator after the 2026-11-25 review (runbook ORCHESTRATOR, WATCHDOG AND ORCHESTRATOR)",
    "weekday_runs": 2
   },
   {

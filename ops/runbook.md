@@ -455,6 +455,20 @@ EXITS (2026-11-24, item 57): a stock pick may also carry "stop=-N" (percent belo
 (percent above, 1 to 200) in its checks cell. They apply in AP2 only (AP and G1 stay open to close), on daily bars,
 the stop first; a gap through a level exits at that day's open. Leave them out to hold to the close of the last
 holding day.
+COIN PICKS AND DROPS (2026-11-25, item 63; build list item 4): picked coins no longer have to stay to the end.
+STEP 1 settles them with `python3 -I /tmp/repo/scripts/daily.py coins /tmp/repo NOW > /tmp/po.json` (after storing the
+missing hourly bars as before) instead of the crypto_tracks.py stream call: the output has the same "closed", "open"
+and "state" as the stream, plus "coins" (the list that replaces coins), "dropped" and "pending_drops". For coins that
+are not dropped the result is identical to the old call (checked on 2026-11-25). TO DROP a coin, write a NEW AgentPicks
+row in STEP 2 with your own picked_at (NOWNY), asset "crypto", the same symbol and contract id, status "dropped", why =
+the reason (what changed since you picked it), checks "drops=<original picked_at> | " + evidence; never rewrite or delete
+the original row. The coin's track ends at the start of the first full hour after the later of that row's picked_at
+and GitHub's first witness sighting of it (WITNESS; from 2026-11-30 an unwitnessed drop waits until it is seen): bars
+before that hour are settled as usual, a position still open is closed at the open of that hour's bar (reason
+"dropped", same costs and R), a pending entry is cancelled. The drop is applied at the next morning's STEP 1, which
+writes the closed trades as usual and the shorter coin list. The limit of 8 is on coins HELD AT ONCE: a coin whose drop
+has been applied no longer counts (a drop still in pending_drops does), and it may be picked again on a later day as a
+new track. Every drop is a decision like a pick: give the reason, and the weekly report lists drops with their result.
 OPTION VIEWS (2026-11-24, items 57 and 58; replaces BEARISH VIEWS AS PUTS): when an option expresses a directional view
 better than the stock, you may write an option row instead of a stock pick: AgentPicks row with asset "option" (rows
 with asset "put" from item 57 are still read), symbol = the stock, contract_id = the bought option's IBKR id, status
@@ -608,6 +622,17 @@ Runs 21:05 New York. All sheet writes below go to the ledger only (LEDGER). Afte
    result, the trial count, one costgrid line (sleeves that lose at today's costs or do not survive double costs) and one
    riskx line (largest risk share vs money share; AI book value at risk), saying plainly that both are reports, not
    rules; the GitHub minutes line (4f); optional nightly steps that failed (stamp.optional_failed).
+
+WATCHDOG AND ORCHESTRATOR (2026-11-25, item 63; setup-debate build list item 2): the debate proposed one nightly health
+task instead of four runs. Done as far as it helps: the watchdog was rebuilt on 2026-11-24 (trig_01McTsF59Sw14Dm9ogHwr8Z1,
+07:35 and 19:35 New York, two runs instead of three; the old trig_01RqMJrg5xfsW4xYYgo7RZY4 is disabled after the new
+one's first good run), and the orchestrator already re-runs the failed pipeline tasks it names (Watchdog ledger). The
+watchdog is NOT folded into the 21:05 orchestrator, because that would lose checks: the 07:35 run sees the overnight
+GitHub jobs, the ApeWisdom file and the extdata sources before the 08:05 morning research and can still fire a failed
+Sunday sampler or seal inside its window; the 19:35 run sees the GitHub stocks, adaptive and picks-evening jobs before
+the 20:20 and 20:47 evening tasks read them. A single 21:05 run would find a failed morning research about 13 hours late
+and could no longer re-run anything inside its time window. Revisit only if the one-agent build (item 8) changes the
+schedule.
 
 ## CHANGE FREEZE AND AUDIT (owner decision 2026-11-20)
 
@@ -993,6 +1018,19 @@ ONE RUN A DAY at 13:05 New York, on full trading days. Write Live and MLShadow r
    P(win), list), no "atm_call" rows; the predictions as MLShadow rows (A-N). LEDGER Live and MLShadow, then GIT ("live
    decisions").
 
+WHY IT STAYS AN AI TASK (2026-11-25, item 63; setup-debate build list item 3): only this task produces (a) the midday
+IBKR snapshots in data/snap (bid/ask, implied volatility, its 52-week percentile and historical volatility for the 44
+stocks and the ETFs) and (b) the slippage quotes of data/quality/slippage.jsonl. GitHub cannot replace them: it has no
+IBKR access, and the free feed's quote (iex_bid / iex_ask beside the engine's fill) is one exchange's quote, not the
+national best bid and offer, so its spreads are wider and noisier. The snapshots feed the per-symbol cost model of
+library.py (a frozen script: swapping its input would change the referee) and the machine-learning features iv_snap,
+iv_hv and ivp_52w (decisions.py), for which no free source gives the same fields. The candidate list, the ML
+predictions and the live-vs-replay rows (decisions.py live, ml.py predict, checks.py live-save) need no AI, but they are
+a few seconds of the same run and moving them alone would save no session. So the task stays, once a day at 13:05,
+weekday_runs 1. Revisit after the window: the midday option chain on GitHub (mode optmid, if switched on by the usage
+session) could supply implied volatility, but only as a new, separately registered feature, never by swapping the input
+of a frozen script.
+
 ## ML NIGHTLY (GitHub, 03:07 UTC daily)
 
 RUNS ON GITHUB, NOT AS AN AI TASK (since 2026-11-22): `scripts/daily.py ml` at 03:07 UTC (22:07 New York in winter):
@@ -1079,3 +1117,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 60 | 2026-11-24 | AP and AP2 joint share (same stock picks) recorded in every seal row as same_picks_share and flagged above 50%, not capped (owner choice); evidence pack schema 3 |
 | 61 | 2026-11-24 | Lab runs four times a week (Mon, Wed, Fri, Sat 23:15 ET; Monday options track, Friday the other Wednesday track); more lab runs mean more trials, and every one is counted |
 | 62 | 2026-11-25 | Adaptive stocks and the stock half of the evening picks scoring built on GitHub (scripts/daily.py adaptive, picks-evening; nightly fetch stores the picks' 5-minute bars); parity identical Nov 18-24; switching off the AI steps awaits the owner's approval (prompts in ops/prompts/proposed/) |
+| 63 | 2026-11-25 | Setup-debate build list items 2-7: picked coins may be DROPPED (AGENT MORNING COIN PICKS AND DROPS; scripts/daily.py coins; a dropped coin leaves the 8-coin limit); live decisions stays an AI task (LIVE DECISIONS, WHY IT STAYS AN AI TASK); the watchdog stays separate from the orchestrator (WATCHDOG AND ORCHESTRATOR); the owner's list of disabled tasks he may delete (reports/retired_tasks_2026-11-25.md); tasks.json weekday_runs reviewed |
