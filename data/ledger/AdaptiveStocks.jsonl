@@ -32,3 +32,16 @@
 {"date":"2026-11-23","symbol":"TSLA","outcome":"flat","r_net":-0.19,"entry_time":"09:40","params":"5m/mid/1R"}
 {"date":"2026-11-23","symbol":"UBER","outcome":"stop","r_net":-1.04,"entry_time":"10:20","params":"5m/mid/1R"}
 {"date":"2026-11-23","symbol":"XOM","outcome":"stop","r_net":-1.06,"entry_time":"09:55","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"AAPL","outcome":"flat","r_net":0.79,"entry_time":"09:40","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"AMZN","outcome":"target","r_net":0.93,"entry_time":"09:45","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"AVGO","outcome":"stop","r_net":-1.02,"entry_time":"10:00","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"BAC","outcome":"target","r_net":0.92,"entry_time":"09:40","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"JPM","outcome":"target","r_net":0.93,"entry_time":"09:45","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"MARA","outcome":"flat","r_net":-0.43,"entry_time":"15:10","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"META","outcome":"stop","r_net":-1.04,"entry_time":"09:45","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"MSFT","outcome":"target","r_net":0.94,"entry_time":"09:50","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"NFLX","outcome":"target","r_net":0.93,"entry_time":"09:45","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"PLTR","outcome":"target","r_net":0.96,"entry_time":"09:40","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"SOFI","outcome":"target","r_net":0.94,"entry_time":"09:50","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"UBER","outcome":"target","r_net":0.97,"entry_time":"09:50","params":"5m/mid/1R"}
+{"date":"2026-11-24","symbol":"XOM","outcome":"flat","r_net":-0.42,"entry_time":"09:40","params":"5m/mid/1R"}
