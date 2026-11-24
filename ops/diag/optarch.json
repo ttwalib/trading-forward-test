@@ -927,5 +927,489 @@
    "XOM XOM261016P00165000: HTTP 403 https://data.alpaca.markets/v1beta1/options/bars: {\"message\":\"OPRA agreement is not signed\"}\n"
   ],
   "at_utc": "2026-11-24T15:13:21Z"
+ },
+ "back_index": {
+  "from": "2024-02-05",
+  "per": {
+   "SPY": {
+    "candidates": 9234,
+    "contracts_with_bars": 8198,
+    "bars": 251715,
+    "first": "2024-02-05",
+    "bytes": 4525495,
+    "blocked_expiries": 7,
+    "blocked_last": "2027-01-08",
+    "blocked_first": "2026-11-27"
+   },
+   "QQQ": {
+    "candidates": 8256,
+    "contracts_with_bars": 7380,
+    "bars": 230629,
+    "first": "2024-02-05",
+    "bytes": 4233403,
+    "blocked_expiries": 7,
+    "blocked_last": "2027-01-08",
+    "blocked_first": "2026-11-27"
+   },
+   "IWM": {
+    "candidates": 3492,
+    "contracts_with_bars": 3148,
+    "bars": 93507,
+    "first": "2024-02-05",
+    "bytes": 1633042,
+    "blocked_expiries": 7,
+    "blocked_last": "2027-01-08",
+    "blocked_first": "2026-11-27"
+   }
+  },
+  "errors": [],
+  "at_utc": "2026-11-24T15:21:02Z"
+ },
+ "back_stocks": {
+  "from": "2024-02-05",
+  "per": {
+   "AAPL": {
+    "candidates": 1296,
+    "contracts_with_bars": 1179,
+    "bars": 42276,
+    "first": "2024-02-05",
+    "bytes": 814366,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "ABBV": {
+    "candidates": 1248,
+    "contracts_with_bars": 1031,
+    "bars": 24880,
+    "first": "2024-03-07",
+    "bytes": 406774,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "ACN": {
+    "candidates": 1194,
+    "contracts_with_bars": 983,
+    "bars": 28391,
+    "first": "2024-03-07",
+    "bytes": 427631,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "ADBE": {
+    "candidates": 1410,
+    "contracts_with_bars": 1230,
+    "bars": 46093,
+    "first": "2024-03-07",
+    "bytes": 797633,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "AMD": {
+    "candidates": 1218,
+    "contracts_with_bars": 956,
+    "bars": 31581,
+    "first": "2024-02-05",
+    "bytes": 619096,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "AMT": {
+    "candidates": 1300,
+    "contracts_with_bars": 476,
+    "bars": 15716,
+    "first": "2024-02-05",
+    "bytes": 228241,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "AMZN": {
+    "candidates": 1336,
+    "contracts_with_bars": 1212,
+    "bars": 41546,
+    "first": "2024-02-05",
+    "bytes": 800260,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "AVGO": {
+    "candidates": 1782,
+    "contracts_with_bars": 1371,
+    "bars": 39595,
+    "first": "2024-03-07",
+    "bytes": 741618,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "AXP": {
+    "candidates": 1172,
+    "contracts_with_bars": 988,
+    "bars": 24963,
+    "first": "2024-03-07",
+    "bytes": 413616,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "BAC": {
+    "candidates": 784,
+    "contracts_with_bars": 717,
+    "bars": 24619,
+    "first": "2024-02-05",
+    "bytes": 404146,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "COIN": {
+    "candidates": 1168,
+    "contracts_with_bars": 1019,
+    "bars": 30268,
+    "first": "2024-02-05",
+    "bytes": 567274,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "CVS": {
+    "candidates": 1192,
+    "contracts_with_bars": 1032,
+    "bars": 19963,
+    "first": "2024-02-05",
+    "bytes": 309696,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "DIS": {
+    "candidates": 926,
+    "contracts_with_bars": 605,
+    "bars": 18865,
+    "first": "2024-02-05",
+    "bytes": 320877,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "GD": {
+    "candidates": 1094,
+    "contracts_with_bars": 819,
+    "bars": 15066,
+    "first": "2024-02-05",
+    "bytes": 199330,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "GM": {
+    "candidates": 1014,
+    "contracts_with_bars": 897,
+    "bars": 23259,
+    "first": "2024-02-05",
+    "bytes": 362317,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "GOOGL": {
+    "candidates": 1130,
+    "contracts_with_bars": 976,
+    "bars": 37257,
+    "first": "2024-02-05",
+    "bytes": 705538,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "GS": {
+    "candidates": 2332,
+    "contracts_with_bars": 2052,
+    "bars": 71548,
+    "first": "2024-02-05",
+    "bytes": 1189031,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "HON": {
+    "candidates": 1446,
+    "contracts_with_bars": 1144,
+    "bars": 20822,
+    "first": "2024-02-05",
+    "bytes": 304551,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "HOOD": {
+    "candidates": 834,
+    "contracts_with_bars": 616,
+    "bars": 20182,
+    "first": "2024-02-05",
+    "bytes": 360419,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "INTC": {
+    "candidates": 770,
+    "contracts_with_bars": 668,
+    "bars": 23924,
+    "first": "2024-02-05",
+    "bytes": 422975,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "JNJ": {
+    "candidates": 1144,
+    "contracts_with_bars": 896,
+    "bars": 23542,
+    "first": "2024-02-05",
+    "bytes": 390560,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "JPM": {
+    "candidates": 1174,
+    "contracts_with_bars": 1050,
+    "bars": 37053,
+    "first": "2024-02-05",
+    "bytes": 649091,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "LMT": {
+    "candidates": 1722,
+    "contracts_with_bars": 1504,
+    "bars": 41861,
+    "first": "2024-02-05",
+    "bytes": 624376,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "MARA": {
+    "candidates": 492,
+    "contracts_with_bars": 462,
+    "bars": 15411,
+    "first": "2024-02-05",
+    "bytes": 267370,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "META": {
+    "candidates": 2010,
+    "contracts_with_bars": 1836,
+    "bars": 81364,
+    "first": "2024-02-05",
+    "bytes": 1547195,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "MS": {
+    "candidates": 1130,
+    "contracts_with_bars": 852,
+    "bars": 22426,
+    "first": "2024-02-05",
+    "bytes": 364727,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "MSFT": {
+    "candidates": 1490,
+    "contracts_with_bars": 1365,
+    "bars": 60278,
+    "first": "2024-02-05",
+    "bytes": 1134357,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "MSTR": {
+    "candidates": 1708,
+    "contracts_with_bars": 1369,
+    "bars": 39416,
+    "first": "2024-02-05",
+    "bytes": 722234,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "MU": {
+    "candidates": 1496,
+    "contracts_with_bars": 1169,
+    "bars": 35538,
+    "first": "2024-02-05",
+    "bytes": 678748,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "NFLX": {
+    "candidates": 2310,
+    "contracts_with_bars": 2071,
+    "bars": 70927,
+    "first": "2024-02-05",
+    "bytes": 1270343,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "NVDA": {
+    "candidates": 1326,
+    "contracts_with_bars": 1088,
+    "bars": 39726,
+    "first": "2024-02-05",
+    "bytes": 804879,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "PEP": {
+    "candidates": 1030,
+    "contracts_with_bars": 719,
+    "bars": 21810,
+    "first": "2024-02-05",
+    "bytes": 356624,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "PFE": {
+    "candidates": 548,
+    "contracts_with_bars": 510,
+    "bars": 18589,
+    "first": "2024-02-05",
+    "bytes": 301096,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "PLTR": {
+    "candidates": 948,
+    "contracts_with_bars": 744,
+    "bars": 26290,
+    "first": "2024-02-05",
+    "bytes": 498433,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "PM": {
+    "candidates": 1116,
+    "contracts_with_bars": 810,
+    "bars": 19796,
+    "first": "2024-02-05",
+    "bytes": 295771,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "QCOM": {
+    "candidates": 1118,
+    "contracts_with_bars": 876,
+    "bars": 27964,
+    "first": "2024-02-05",
+    "bytes": 489007,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "SOFI": {
+    "candidates": 458,
+    "contracts_with_bars": 416,
+    "bars": 14986,
+    "first": "2024-02-05",
+    "bytes": 263996,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "T": {
+    "candidates": 592,
+    "contracts_with_bars": 525,
+    "bars": 17847,
+    "first": "2024-02-05",
+    "bytes": 272478,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "TMUS": {
+    "candidates": 1268,
+    "contracts_with_bars": 1050,
+    "bars": 22124,
+    "first": "2024-02-05",
+    "bytes": 338250,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "TSLA": {
+    "candidates": 1328,
+    "contracts_with_bars": 1186,
+    "bars": 50108,
+    "first": "2024-02-05",
+    "bytes": 1016357,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "UBER": {
+    "candidates": 1278,
+    "contracts_with_bars": 1164,
+    "bars": 26898,
+    "first": "2024-02-05",
+    "bytes": 456405,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "UNP": {
+    "candidates": 1380,
+    "contracts_with_bars": 1078,
+    "bars": 23312,
+    "first": "2024-02-05",
+    "bytes": 318664,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "V": {
+    "candidates": 1096,
+    "contracts_with_bars": 970,
+    "bars": 37444,
+    "first": "2024-02-05",
+    "bytes": 621953,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   },
+   "XOM": {
+    "candidates": 872,
+    "contracts_with_bars": 495,
+    "bars": 18028,
+    "first": "2024-02-05",
+    "bytes": 315883,
+    "blocked_expiries": 1,
+    "blocked_last": "2026-12-18",
+    "blocked_first": "2026-12-18"
+   }
+  },
+  "errors": [],
+  "at_utc": "2026-11-24T15:34:08Z"
  }
 }
