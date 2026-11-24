@@ -156,6 +156,17 @@ def option_bars(repo):
     p = os.path.join(repo, "data", "opt_legs.json")
     if not os.path.exists(p): return
     reg = json.load(open(p)); end = now() - dt.timedelta(minutes=16); todo = {}
+    # bearish picks (AgentPicks asset "put", item 57, 2026-11-24): register the put named in the checks cell
+    try:
+        import re as _re
+        lp = os.path.join(repo, "data", "ledger", "AgentPicks.jsonl")
+        for l in (open(lp) if os.path.exists(lp) else []):
+            if not l.strip(): continue
+            r = json.loads(l); m = _re.search(r"\bocc=([A-Z]{1,6}(\d{6})P\d{8})\b", str(r.get("checks") or ""))
+            if r.get("asset") == "put" and m and str(r.get("picked_at", ""))[:10]:
+                k = "OCC_" + m.group(1)
+                if k not in reg: reg[k] = {"occ": m.group(1), "expiry": "20" + m.group(2), "from": str(r["picked_at"])[:10]}
+    except Exception as e: LOG["errors"].append("put legs: %s" % e)
     for cid, v in reg.items():
         if v.get("final"): continue
         lt = last_t(repo, "opt5m", "OPT_" + cid)

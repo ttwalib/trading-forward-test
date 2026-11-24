@@ -401,6 +401,16 @@ in the ledger. The six 15m M1 trades with stops of 0.4-0.5% are real and stay in
 
 ## AGENT EVENING
 
+EVENING REVIEW AND PREP (2026-11-24, item 57; task "evening review + prep", Fable, 20:47 New York on weekdays): (1) for
+today's picks and puts, compare the stated reason, w, hold and p with what happened (daily and 5-minute bars, news
+since the open, data/picks/score.json after the nightly maths if present); write data/picks/journal/<DAY>.json =
+{"day", "made_at_ny", "per_pick": [{"symbol", "asset", "result_pct", "vs_control_pct", "what_happened", "reason_held":
+true|false, "lesson"}], "lessons": [at most 3 claims later data can contradict]}. (2) Build tomorrow's shortlist from
+after-hours earnings, 8-K filings and news: data/picks/prep/<NEXT TRADING DAY>.json = {"for_day", "made_at_ny",
+"candidates": [{"symbol", "direction": "long"|"bear", "catalyst", "sources", "what_to_check_pre_market"}]} (at most 12).
+Neither file is a pick or a seal. Research budget: 15 searches, 20 Twelve Data calls, 3 FMP calls, 2 Alpha Vantage calls.
+The scripted evening scoring (below) is unchanged.
+
 LEDGER AgentTrades. Its option replays are on the AI's own picks and continue. GIT.
 
 ## AGENT MORNING
@@ -419,6 +429,28 @@ them at the start of the "checks" cell after the playbook tag, exactly like:
 equal weight and one day (AP2). These choices can never be changed after 09:30. src: every pick is tagged src=own until
 the ML stock ranker exists (after 2026-12-08); then the ranker hands the research a daily shortlist and every pick is
 tagged src=own, src=ml or src=both and scored by source.
+EXITS (2026-11-24, item 57): a stock pick may also carry "stop=-N" (percent below the entry, 1 to 50) and "tgt=N"
+(percent above, 1 to 200) in its checks cell. They apply in AP2 only (AP and G1 stay open to close), on daily bars,
+the stop first; a gap through a level exits at that day's open. Leave them out to hold to the close of the last
+holding day.
+BEARISH VIEWS AS PUTS (2026-11-24, item 57): when you expect a stock to fall today or over the next days, you may buy
+a put instead of a stock: AgentPicks row with asset "put", symbol = the stock, contract_id = the option's IBKR id,
+status "picked", checks = "playbook v<N> | src=own | dir=bear | occ=<OCC symbol> | w=0.xx | hold=N | p=0.xx |
+stop=-N | tgt=N | " + why the stock should fall, the strike, expiry, delta and implied volatility. Same filters as stock
+picks (US listing, price >= $5, volume, market cap; control-list stocks excluded; no short stock) plus: listed options with an expiry
+at least 5 trading days after the last holding day, delta about -0.35 to -0.65 from IBKR get_option_data, no
+earnings before expiry unless earnings is the reason. 0-3 puts a day; their w add up to 1.00 among the puts. stop and
+tgt are percent of the premium (stop -20 to -80, tgt 20 to 200). The OCC symbol is SYMBOL + YYMMDD + P + strike x
+1000 in 8 digits (for example DKS261204P00200000). GitHub fetches the put's 5-minute bars in the nightly fetch and
+scripts/picks.py scores it as sleeve "AP3 Agent picks: bearish puts" (one of your own sleeves, up to 50% of the book):
+entry at the first option trade from 09:30 to 10:30, marked on each day's last trade, exits at the sealed stop or
+target (stop first), at the close of the last holding day or on expiry day; $0.68 a contract and 2% of the premium
+per side are charged. A put with no trade by 10:30 is "no fill". It is a simulated position: nothing is ordered. The
+stock's move against the control list is reported beside G1 (score.json "bear"); G1 itself counts the long picks.
+EVENING JOURNAL AND PREP (2026-11-24, item 57): the evening review task writes data/picks/journal/<DAY>.json (what
+each pick and put did, why it worked or failed, lessons) and data/picks/prep/<NEXT DAY>.json (tomorrow's candidates
+from after-hours earnings, filings and news). READ the last five journal files and today's prep file before
+researching. A prep candidate is a lead, not a pick: verify it pre-market like any other candidate.
 DAILY RANKING (G1 primary): each full trading day before 09:30 score the 44 fixed stocks (watchlist + control list)
 from -2 to +2 and seal them with `scripts/rank.py seal`.
 Use data/ext/peers/latest.json for sector and peer moves (a pre-market move in a peer or a theme is information about
@@ -979,3 +1011,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 54 | 2026-11-24 | Goal alignment review: findings act through Quantavius's own levers; the morning pick filters split into FIXED FILTERS and a STARTING METHOD the playbook may replace; registry wording; audit checklist step for admission (reports/goal_alignment_2026-11-24.md) |
 | 55 | 2026-11-24 | Own sleeves AP, AP2, AS capped at 50% each in every seal (others stay 25%); weekly seal may set as_mix inside AS (judge.py, aisleeve.py) |
 | 56 | 2026-11-24 | Setup debate (reports/setup_debate_2026-11-24.md): picks may include watchlist names; lab chooses its track; 5-point lesson limit removed; evidence pack gains learning findings and lane standings; Dec 8 work merged into ops/dec8_plan.md; watchdog to merge into the orchestrator |
+| 57 | 2026-11-24 | Picks learn and exit: evening journal + next-day prep task; stop/target per pick (AP2); bearish views as simulated puts (sleeve AP3, own sleeve); journal in the evidence pack |

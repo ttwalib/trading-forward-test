@@ -223,7 +223,7 @@ def rebal_cost(name):
     if name.startswith(("L1 ", "L2 ", "L3 ", "L4 ", "L14 ", "A ", "Agent picks: stocks", "ML")) or "variant" in name or "ORB" in name:
         return 0.0
     if name.startswith("Crypto") or "crypto" in name.lower(): return 0.15
-    if name.startswith(("O ", "D1", "D2", "D3", "W1", "W2", "W3", "W4")): return 0.5
+    if name.startswith(("O ", "D1", "D2", "D3", "W1", "W2", "W3", "W4", "AP3 ")): return 0.5
     return 0.05
 
 
@@ -501,7 +501,7 @@ def simulate(repo, day, S, spy, vix, judge=True):
     return rows, W
 
 
-OWN_SLEEVES = ("AP ", "AP2 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
+OWN_SLEEVES = ("AP ", "AP2 ", "AP3 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
 # strategies and (since 2026-11-23, runbook item 43) its picks traded under the breakout rules or as calls; none of these
 # may sit inside the foundation benchmark (equal_f)
 

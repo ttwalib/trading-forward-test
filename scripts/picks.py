@@ -35,6 +35,85 @@ NY = tcal.NY
 COST_SIDE = 0.10
 SLEEVE = "AP Agent picks (open to close)"
 SLEEVE2 = "AP2 Agent picks (AI sizing and holding)"
+SLEEVE3 = "AP3 Agent picks: bearish puts (AI sizing and holding)"
+PUT_FEE = 0.68          # dollars per contract per side (IBKR fixed $0.65 + about $0.03 regulatory fees)
+PUT_SLIP = 2.0          # percent of the premium per side: allowance for the bid/ask spread on a market order
+PUT_FILL_BY = "10:30"   # the first option trade at or after 09:30 and before this time is the entry; else no fill
+
+
+def put_rows(repo, cal_idx, W):
+    """Witnessed bearish picks (asset "put", status "picked", sealed before 09:30 New York; item 57, 2026-11-24).
+    The checks cell carries occ=<OCC symbol> (the put bought), w=, hold= (1-5 trading days), p= (chance the stock does
+    worse than the control list today) and optional stop=/tgt= in percent of the premium."""
+    out = {}
+    for r in ledger.load(repo, "AgentPicks"):
+        t = str(r.get("picked_at") or ""); w = W.get(witness.row_id(r))
+        if not (r.get("asset") == "put" and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30" and witness.counts(w, t[:10])):
+            continue
+        ck = str((w or {}).get("checks") if w and not w.get("grandfathered") else r.get("checks") or "")
+        mo = re.search(r"\bocc=([A-Z]{1,6}\d{6}P\d{8})\b", ck)
+        if not mo: continue
+        mw = re.search(r"\bw=([0-9.]+)", ck); mh = re.search(r"\bhold=([1-5])\b", ck); mp = re.search(r"\bp=(0?\.[0-9]+)\b", ck)
+        try: wt = float(mw.group(1)) if mw else None
+        except ValueError: wt = None
+        st, tg = _exits(ck)
+        out.setdefault(t[:10], []).append({"und": r["symbol"], "occ": mo.group(1), "w": wt if wt and 0.05 <= wt <= 1.0 else None,
+                                           "hold": int(mh.group(1)) if mh else 1, "p": float(mp.group(1)) if mp else None,
+                                           "stop": st, "tgt": tg, "cid": str(r.get("contract_id") or "")})
+    return out
+
+
+def occ_key(occ):
+    return "OPT_OCC_" + occ
+
+
+def opt_bars(repo, occ):
+    """Stored 5-minute option bars by day: {day: [(hhmm, o, h, l, c)]}."""
+    f = os.path.join(repo, "data", "bars", "opt5m", occ_key(occ) + ".jsonl"); out = {}
+    if os.path.exists(f):
+        for l in open(f):
+            if l.strip():
+                b = json.loads(l); x = dt.datetime.fromtimestamp(b["t"], NY)
+                if "09:30" <= x.strftime("%H:%M") < "16:00": out.setdefault(x.date().isoformat(), []).append((x.strftime("%H:%M"), b["o"], b["h"], b["l"], b["c"]))
+    for v in out.values(): v.sort()
+    return out
+
+
+def puts(repo, cal, cal_idx, day, W):
+    """AP3: each put bought at the open (first trade 09:30-10:30) and marked on each day's last trade, exits at its
+    sealed stop/target on the premium (stop first inside a bar) or at the close of its last holding day or expiry day,
+    whichever comes first. Day return = weighted average over open puts (weights rescaled over what is open), minus
+    the fee and the spread allowance on entry and exit. A put that never trades in the fill window is "no fill"."""
+    P = put_rows(repo, cal_idx, W); pos, series, closed, nofill = [], {}, [], []
+    for d in cal:
+        for x in P.get(d, []):
+            ob = opt_bars(repo, x["occ"]); b = [r for r in ob.get(d, []) if r[0] < PUT_FILL_BY]
+            exp = "20" + x["occ"][-15:-9]; exp = "%s-%s-%s" % (exp[:4], exp[4:6], exp[6:8])
+            if not b: nofill.append({"date": d, "occ": x["occ"]}); continue
+            e = b[0][1]; i = cal_idx[d]; last = cal[min(i + x["hold"] - 1, len(cal) - 1)]
+            if exp < last: last = exp
+            fee = PUT_FEE / e if e else 0
+            pos.append(dict(x, d0=d, entry=e, mark=e, last=last, ob=ob, new=True, fee=fee, start=b[0][0],
+                            stop_px=e * (1 + x["stop"] / 100) if x["stop"] else None, tgt_px=e * (1 + x["tgt"] / 100) if x["tgt"] else None))
+        if not pos:
+            if any(d >= k for k in P): series[d] = 0.0
+            continue
+        ws = [p["w"] or 1.0 for p in pos]; tot = sum(ws); r = 0.0; done = []
+        for p, wt in zip(pos, ws):
+            bars_d = [b for b in p["ob"].get(d, []) if not (p["new"] and b[0] < p["start"])]
+            px = None; out_now = d >= p["last"]
+            for hhmm, o, h, l, c in bars_d:
+                if p["stop_px"] is not None and l <= p["stop_px"]: px = min(o, p["stop_px"]) if hhmm != p["start"] or not p["new"] else p["stop_px"]; out_now = True; break
+                if p["tgt_px"] is not None and h >= p["tgt_px"]: px = max(o, p["tgt_px"]) if hhmm != p["start"] or not p["new"] else p["tgt_px"]; out_now = True; break
+            if px is None: px = bars_d[-1][4] if bars_d else p["mark"]
+            cost = (p["fee"] + PUT_SLIP if p["new"] else 0) + (PUT_FEE / max(px, 0.01) + PUT_SLIP if out_now and px > 0 else 0)
+            r += wt * ((px / p["mark"] - 1) * 100 - cost); p["mark"] = px; p["new"] = False
+            if out_now: done.append(p); closed.append({"date": p["d0"], "und": p["und"], "occ": p["occ"], "entry": p["entry"], "exit": px, "exit_day": d,
+                                                        "gross_pct": round((px / p["entry"] - 1) * 100, 2)})
+        series[d] = round(r / tot, 5)
+        pos = [p for p in pos if p not in done]
+    return series, closed, nofill, P
+
 
 
 def bars(repo, sym):
@@ -42,14 +121,26 @@ def bars(repo, sym):
     if os.path.exists(p):
         for l in open(p):
             if l.strip():
-                b = json.loads(l); out[dt.datetime.fromtimestamp(b["t"], NY).date().isoformat()] = (b["o"], b["c"])
+                b = json.loads(l); out[dt.datetime.fromtimestamp(b["t"], NY).date().isoformat()] = (b["o"], b["c"], b.get("h", max(b["o"], b["c"])), b.get("l", min(b["o"], b["c"])))
     return out
+
+
+def _exits(ck):
+    """Optional exits sealed in the checks cell (2026-11-24, item 57): stop=-4 (percent below entry) and tgt=8 (percent
+    above entry). Valid ranges: stop -1 to -50, tgt 1 to 200; anything else is ignored."""
+    def f(k, lo, hi):
+        m = re.search(r"\b%s=([+-]?[0-9.]+)%%?" % k, ck)
+        try: v = float(m.group(1)) if m else None
+        except ValueError: v = None
+        return v if v is not None and lo <= v <= hi else None
+    s = f("stop", -50, -1); t = f("tgt", 1, 200)
+    return (s, t)
 
 
 def moves(B, d, cal_idx, cal):
     """(open-to-close %, open-to-close-of-day+4 %) for one symbol; None where a bar is missing or broken."""
     if d not in B or not B[d][0]: return None, None
-    o, c = B[d]; r1 = (c / o - 1) * 100
+    o, c = B[d][0], B[d][1]; r1 = (c / o - 1) * 100
     if abs(r1) > 60: return None, None
     i = cal_idx[d]; r5 = None
     if i + 4 < len(cal) and cal[i + 4] in B:
@@ -63,7 +154,7 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     cal = [d for d in tcal.trading_days(tcal.START, tcal.END) if d <= day]
     cal_idx = {d: i for i, d in enumerate(cal)}
-    picks = {}; sized = {}; probs = {}; W = witness.load(repo)
+    picks = {}; sized = {}; probs = {}; exits = {}; W = witness.load(repo)
     for r in ledger.load(repo, "AgentPicks"):
         t = str(r.get("picked_at") or "")
         w = W.get(witness.row_id(r))
@@ -77,6 +168,7 @@ def build(repo, day=None):
             try: w = float(mw.group(1)) if mw else None
             except ValueError: w = None
             sized.setdefault(t[:10], {})[r["symbol"]] = (w if w is not None and 0.05 <= w <= 0.40 else None, int(mh.group(1)) if mh else 1)
+            exits.setdefault(t[:10], {})[r["symbol"]] = _exits(ck)
             mp = re.search(r"\bp=(0?\.[0-9]+|1(?:\.0+)?)\b", ck)              # stated chance to beat the control list today
             if mp: probs.setdefault(t[:10], {})[r["symbol"]] = float(mp.group(1))
     cache = {}
@@ -116,18 +208,34 @@ def build(repo, day=None):
             for sym, (w, h) in ws.items():
                 Bs = B(sym); i = cal_idx[d]
                 if d in Bs and Bs[d][0] and abs(Bs[d][1] / Bs[d][0] - 1) < 0.6:
-                    pos.append({"s": sym, "w": w, "mark": Bs[d][0], "entry": Bs[d][0], "d0": d, "last": cal[min(i + h - 1, len(cal) - 1)], "new": True, "end_i": i + h - 1})
+                    st, tg = exits.get(d, {}).get(sym, (None, None)); e0 = Bs[d][0]
+                    pos.append({"s": sym, "w": w, "mark": e0, "entry": e0, "d0": d, "last": cal[min(i + h - 1, len(cal) - 1)], "new": True, "end_i": i + h - 1,
+                                "stop": e0 * (1 + st / 100) if st else None, "tgt": e0 * (1 + tg / 100) if tg else None})
         tot = sum(p["w"] for p in pos); r = 0.0
         for p in pos:
             Bs = B(p["s"])
             if d in Bs:
-                r += p["w"] * ((Bs[d][1] / p["mark"] - 1) * 100 - (COST_SIDE if p["new"] else 0) - (COST_SIDE if cal_idx[d] >= p["end_i"] else 0)); p["mark"] = Bs[d][1]
+                o, c, hi, lo = Bs[d]; px = c
+                # sealed exits on daily bars, the stop first (conservative); a gap through a level exits at the open
+                if p["stop"] is not None and (lo <= p["stop"]): px = min(o, p["stop"]) if not p["new"] else p["stop"]; p["end_i"] = cal_idx[d]
+                elif p["tgt"] is not None and hi >= p["tgt"]: px = max(o, p["tgt"]) if not p["new"] else p["tgt"]; p["end_i"] = cal_idx[d]
+                p["exit_px"] = px
+                r += p["w"] * ((px / p["mark"] - 1) * 100 - (COST_SIDE if p["new"] else 0) - (COST_SIDE if cal_idx[d] >= p["end_i"] else 0)); p["mark"] = px
             p["new"] = False
         series2[d] = round(r / tot, 5) if tot else 0.0
         for p in pos:
             if cal_idx[d] >= p["end_i"] and d in B(p["s"]):
-                closed2.append({"date": p["d0"], "gross": (B(p["s"])[d][1] / p["entry"] - 1) * 100})
+                closed2.append({"date": p["d0"], "gross": (p.get("exit_px", B(p["s"])[d][1]) / p["entry"] - 1) * 100})
         pos = [p for p in pos if cal_idx[d] < p["end_i"]]
+    series3, closed3, nofill3, P3 = puts(repo, cal, cal_idx, day, W)
+    bear = []
+    for d, xs in sorted(P3.items()):
+        cm = [moves(B(s), d, cal_idx, cal)[0] for s in U["control"]]; c1 = [x for x in cm if x is not None]
+        for x in xs:
+            m = moves(B(x["und"]), d, cal_idx, cal)[0]
+            if m is not None and c1:
+                bear.append({"date": d, "und": x["und"], "stock_day": round(m, 4), "control_day": round(mean(c1), 4)})
+                if x["p"] is not None: calib.append({"date": d, "kind": "put", "id": x["und"], "p": x["p"], "hit": m < mean(c1)})
     def summary(R):
         a = [(r["picks_day"], r["control_day"]) for r in R if r["picks_day"] is not None and r["control_day"] is not None]
         f = [(r["picks_5d"], r["control_5d"]) for r in R if r["picks_5d"] is not None and r["control_5d"] is not None]
@@ -165,10 +273,16 @@ def build(repo, day=None):
              "AP": {"all": cost_view(ap_trades, 2 * COST_SIDE), "verdict": cost_view([x for x in ap_trades if x["date"] >= tcal.ALLOC_FREEZE.isoformat()], 2 * COST_SIDE)},
              "AP2": {"all": cost_view(closed2, 2 * COST_SIDE), "verdict": cost_view([x for x in closed2 if x["date"] >= tcal.ALLOC_FREEZE.isoformat()], 2 * COST_SIDE)}}
     os.makedirs(os.path.join(repo, "data", "picks"), exist_ok=True)
-    json.dump({SLEEVE: series, SLEEVE2: series2} if any(v is not None and (w is not None or h != 1) for x in sized.values() for w, h in x.values() for v in [1]) else {SLEEVE: series}, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
+    out_sleeves = {SLEEVE: series, SLEEVE2: series2} if any(v is not None and (w is not None or h != 1) for x in sized.values() for w, h in x.values() for v in [1]) else {SLEEVE: series}
+    if series3: out_sleeves[SLEEVE3] = series3
+    json.dump(out_sleeves, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
     score = {"note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). "
                      "Days before 2026-12-07 are warm-up.", "cost_side_pct": COST_SIDE,
-             "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "cost_view": cview, "rows": rows}
+             "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "cost_view": cview, "rows": rows,
+             "bear": {"note": "bearish picks (puts, item 57): the stock's open-to-close move against the control list's; "
+                              "negative = the view was right. Report only; G1 counts the long picks.",
+                      "n": len(bear), "mean_stock_minus_control": round(mean([b["stock_day"] - b["control_day"] for b in bear]), 4) if bear else None,
+                      "rows": bear, "puts_closed": closed3, "no_fill": nofill3}}
     json.dump(score, open(os.path.join(repo, "data", "picks", "score.json"), "w"), indent=1)
     json.dump(calib, open(os.path.join(repo, "data", "picks", "calib_picks.json"), "w"))
     return {"sleeve_days": len(series), "all": score["all"], "verdict": score["verdict"],

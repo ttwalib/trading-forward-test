@@ -37,3 +37,5 @@ backtest-expert, trade-performance-coach (Saturdays), data:statistical-analysis,
 reports (weekly, interim, final): dataviz, docs, trade-performance-coach (weekly), data:validate-data,
 data:statistical-analysis; audit, review, debate, lane review: data:statistical-analysis, data:validate-data
 (audit also backtest-expert); build sessions: code-review:code-review.
+
+| evening_review.md | Evening review + prep (20:47 ET weekdays) | trig_013i7PDxNJPCsBBZoKbfZGVw |

@@ -70,7 +70,7 @@ def market_closed(now):
     return not tcal.is_open(d) or hm < 9 * 60 + 25 or hm >= 16 * 60 + 5
 
 
-OWN = ("AP Agent picks", "AP2 Agent picks", "AS AI strategies")
+OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AS AI strategies")
 
 
 def context(repo):
@@ -206,6 +206,12 @@ def ai_layer(repo, through):
     if rx and (rx.get("contributions") or {}).get("date", "9999") <= (through or ""):
         out["risk_share_of_formula_weights"] = rx["contributions"].get("sleeves")
     out["as_members"] = sorted(st)
+    # since 2026-11-24 (item 57): the evening pick journal (post-mortems), dated on or before `through`
+    try:
+        import glob
+        js = sorted(g for g in glob.glob(os.path.join(repo, "data", "picks", "journal", "*.json")) if os.path.basename(g)[:10] <= (through or ""))[-5:]
+        out["pick_journal"] = [{k: v for k, v in json.load(open(g)).items() if k in ("day", "lessons")} for g in js]
+    except Exception: pass
     # since 2026-11-24 (item 56): what Quantavius's own learning review found and how the lane entries stand, so the
     # book can act on them; only rows dated on or before `through`
     try:

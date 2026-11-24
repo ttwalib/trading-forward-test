@@ -102,5 +102,13 @@
    "picks_5d": null,
    "control_5d": null
   }
- ]
+ ],
+ "bear": {
+  "note": "bearish picks (puts, item 57): the stock's open-to-close move against the control list's; negative = the view was right. Report only; G1 counts the long picks.",
+  "n": 0,
+  "mean_stock_minus_control": null,
+  "rows": [],
+  "puts_closed": [],
+  "no_fill": []
+ }
 }
