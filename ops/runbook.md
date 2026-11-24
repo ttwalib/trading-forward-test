@@ -699,7 +699,9 @@ OPTIONS TRACK (2026-11-24, item 58): the lab may build option strategies (family
 data/optarch/snap/<UND>/<DAY>.json.gz (each night's chain from 2026-11-24 with bid, ask, last, implied volatility and
 greeks, expiries within 50 days and strikes within 15% of spot, for SPY, QQQ, IWM and the 44 ranked stocks) and
 data/optarch/hist/<UND>.csv.gz (daily trade bars of past contracts from about February 2024: every Friday expiry and
-$5 strikes within 12% for SPY, QQQ and IWM, the monthly expiry within 12% for the stocks). Use the helpers in
+$5 strikes within 12% for SPY, QQQ and IWM, the monthly expiry within 12% for the stocks; each contract over its
+last 70 days; built 2026-11-24 from 2024-02-05, about 2.0 million bars; the free plan refuses bars of contracts that
+have not expired, so live contracts come only from the snapshots). Use the helpers in
 scripts/optarch.py: fill() buys at the ask and sells at the bid from a snapshot, or adds 2% per leg per side to a daily
 bar's price, and returns None for a bar with no volume (a stale print: drop that trade, never mark it at an old price);
 spans_earnings() tells whether a holding period crosses a known earnings date (data/events/earnings.jsonl starts
