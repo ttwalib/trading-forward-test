@@ -1,103 +1,103 @@
 {
  "errors": [],
  "files": {
-  "15m/LINK": {
-   "added": 2,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9286,
-   "last": "2026-11-24T07:30:00Z"
-  },
-  "15m/SHIB": {
-   "added": 2,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9283,
-   "last": "2026-11-24T07:30:00Z"
-  },
-  "15m/SOL": {
-   "added": 2,
-   "vol_filled": 0,
-   "coarse_fixed": 0,
-   "total": 9285,
-   "last": "2026-11-24T07:30:00Z"
-  },
   "15m/AVAX": {
-   "added": 2,
+   "added": 10,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9284,
-   "last": "2026-11-24T07:30:00Z"
+   "total": 9294,
+   "last": "2026-11-24T10:00:00Z"
   },
   "15m/BTC": {
-   "added": 2,
+   "added": 10,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9286,
-   "last": "2026-11-24T07:30:00Z"
+   "total": 9296,
+   "last": "2026-11-24T10:00:00Z"
   },
   "15m/DOGE": {
-   "added": 2,
+   "added": 10,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9281,
-   "last": "2026-11-24T07:30:00Z"
+   "total": 9291,
+   "last": "2026-11-24T10:00:00Z"
   },
   "15m/ETH": {
-   "added": 2,
+   "added": 10,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 9264,
-   "last": "2026-11-24T07:30:00Z"
+   "total": 9274,
+   "last": "2026-11-24T10:00:00Z"
   },
-  "1h/ETH": {
-   "added": 0,
+  "15m/LINK": {
+   "added": 10,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 9296,
+   "last": "2026-11-24T10:00:00Z"
+  },
+  "15m/SHIB": {
+   "added": 10,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 9293,
+   "last": "2026-11-24T10:00:00Z"
+  },
+  "15m/SOL": {
+   "added": 10,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 9295,
+   "last": "2026-11-24T10:00:00Z"
   },
   "1h/AVAX": {
-   "added": 0,
+   "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
   },
   "1h/BTC": {
-   "added": 0,
+   "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
   },
   "1h/DOGE": {
-   "added": 0,
+   "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
+  },
+  "1h/ETH": {
+   "added": 3,
+   "vol_filled": 0,
+   "coarse_fixed": 0,
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
   },
   "1h/LINK": {
-   "added": 0,
+   "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
   },
   "1h/SHIB": {
-   "added": 0,
+   "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
   },
   "1h/SOL": {
-   "added": 0,
+   "added": 3,
    "vol_filled": 0,
    "coarse_fixed": 0,
-   "total": 8895,
-   "last": "2026-11-24T06:00:00Z"
+   "total": 8898,
+   "last": "2026-11-24T09:00:00Z"
   },
   "1d/AVAX": {
    "added": 0,
@@ -153,13 +153,6 @@
   {
    "tf": "1h",
    "sym": "AVAX",
-   "t": 1795341600,
-   "stored": 6.6,
-   "alpaca": 6.672465
-  },
-  {
-   "tf": "1h",
-   "sym": "AVAX",
    "t": 1795345200,
    "stored": 6.6,
    "alpaca": 6.684925
@@ -172,20 +165,6 @@
    "alpaca": 0.05533
   },
   {
-   "tf": "1h",
-   "sym": "SHIB",
-   "t": 1795334400,
-   "stored": 3.61e-06,
-   "alpaca": 3.6e-06
-  },
-  {
-   "tf": "1h",
-   "sym": "SHIB",
-   "t": 1795341600,
-   "stored": 3.63e-06,
-   "alpaca": 3.64e-06
-  },
-  {
    "tf": "1d",
    "sym": "BTC",
    "t": 1795176000,
@@ -194,12 +173,11 @@
   }
  ],
  "mismatch_count": {
-  "1h/AVAX": 2,
+  "1h/AVAX": 1,
   "1h/DOGE": 1,
-  "1h/SHIB": 2,
   "1d/BTC": 1
  },
  "mode": "crypto",
- "started": "2026-11-24T07:54:34Z",
- "finished": "2026-11-24T07:54:36Z"
+ "started": "2026-11-24T10:29:28Z",
+ "finished": "2026-11-24T10:29:30Z"
 }

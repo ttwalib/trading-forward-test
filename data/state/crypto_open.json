@@ -1,35 +1,4 @@
 {
- "at": "2026-11-24 02:55",
- "open": [
-  {
-   "strategy": "M1",
-   "symbol": "SHIB",
-   "status": "open",
-   "entry_time": "2026-11-24 00:45",
-   "entry": 3.685e-06,
-   "stop": 3.63808e-06,
-   "exit_time": "2026-11-24 02:45",
-   "exit_or_mark": 3.65e-06,
-   "reason": "open (marked at last close)",
-   "r": -1.21,
-   "pct": -1.547,
-   "gross_pct": -0.95,
-   "track": "15m fixed"
-  },
-  {
-   "strategy": "M1",
-   "symbol": "SHIB",
-   "status": "open",
-   "entry_time": "2026-11-24 00:45",
-   "entry": 3.685e-06,
-   "stop": 3.63808e-06,
-   "exit_time": "2026-11-24 02:45",
-   "exit_or_mark": 3.65e-06,
-   "reason": "open (marked at last close)",
-   "r": -1.21,
-   "pct": -1.547,
-   "gross_pct": -0.95,
-   "track": "15m adaptive"
-  }
- ]
+ "at": "2026-11-24 05:29",
+ "open": []
 }
