@@ -1,0 +1,428 @@
+{
+ "at_utc": "2026-11-24T11:03:15Z",
+ "versions": {
+  "python": "3.12.16",
+  "exchange_calendars": "4.13.3",
+  "backtesting": "0.6.6",
+  "scipy": "1.18.1",
+  "numpy": "2.5.5",
+  "pandas": "2.3.3",
+  "ml4t-diagnostic": "0.2.1"
+ },
+ "calendar": {
+  "range": [
+   "2026-11-16",
+   "2027-05-21"
+  ],
+  "xnys_sessions": 129,
+  "xnys_holidays_on_weekdays": [
+   "2026-11-26",
+   "2026-12-25",
+   "2027-01-01",
+   "2027-01-18",
+   "2027-02-15",
+   "2027-03-26"
+  ],
+  "xnys_early_closes": {
+   "2026-11-27": "13:00",
+   "2026-12-24": "13:00"
+  },
+  "differences": [],
+  "identical": true
+ },
+ "stats": {
+  "n_trials_used": 27,
+  "dsr": [
+   {
+    "sleeve": "L1 SPY intraday momentum",
+    "n": 68,
+    "ours": 0.0,
+    "scipy": 0.0,
+    "diff": 0.0,
+    "sr0_ours": 0.247955,
+    "sr0_scipy": 0.247955,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L10 Earnings drift",
+    "n": 510,
+    "ours": 0.001758,
+    "scipy": 0.001758,
+    "diff": 1e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L11 SPY overnight",
+    "n": 510,
+    "ours": 0.140842,
+    "scipy": 0.140838,
+    "diff": 4e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L12 Turn of month",
+    "n": 510,
+    "ours": 0.227873,
+    "scipy": 0.227908,
+    "diff": 3.5e-05,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L13 Pairs reversion",
+    "n": 510,
+    "ours": 0.195662,
+    "scipy": 0.195649,
+    "diff": 1.3e-05,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L14 ORB breakdown short",
+    "n": 68,
+    "ours": 0.002968,
+    "scipy": 0.003048,
+    "diff": 8e-05,
+    "sr0_ours": 0.247955,
+    "sr0_scipy": 0.247955,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L15 Market-neutral momentum",
+    "n": 510,
+    "ours": 0.072563,
+    "scipy": 0.072564,
+    "diff": 1e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L16 SPY trend short",
+    "n": 510,
+    "ours": 0.023792,
+    "scipy": 0.023793,
+    "diff": 1e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L17 Multi-asset trend",
+    "n": 510,
+    "ours": 0.289088,
+    "scipy": 0.289108,
+    "diff": 2e-05,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L2 VWAP pullback",
+    "n": 68,
+    "ours": 1e-06,
+    "scipy": 1e-06,
+    "diff": 0.0,
+    "sr0_ours": 0.247955,
+    "sr0_scipy": 0.247955,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L3 Gap and go",
+    "n": 68,
+    "ours": 0.004221,
+    "scipy": 0.004304,
+    "diff": 8.3e-05,
+    "sr0_ours": 0.247955,
+    "sr0_scipy": 0.247955,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L4 Gap fade",
+    "n": 68,
+    "ours": 0.0,
+    "scipy": 0.0,
+    "diff": 0.0,
+    "sr0_ours": 0.247955,
+    "sr0_scipy": 0.247955,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L5 RSI(2) pullback",
+    "n": 510,
+    "ours": 0.122996,
+    "scipy": 0.122989,
+    "diff": 8e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L6 Bollinger reversion",
+    "n": 510,
+    "ours": 0.009266,
+    "scipy": 0.009266,
+    "diff": 0.0,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L7 Donchian trend",
+    "n": 510,
+    "ours": 0.091099,
+    "scipy": 0.0911,
+    "diff": 1e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L8 Momentum top 8",
+    "n": 510,
+    "ours": 0.158232,
+    "scipy": 0.158235,
+    "diff": 3e-06,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   },
+   {
+    "sleeve": "L9 Sector rotation",
+    "n": 510,
+    "ours": 0.079843,
+    "scipy": 0.079853,
+    "diff": 1e-05,
+    "sr0_ours": 0.08996,
+    "sr0_scipy": 0.08996,
+    "ml4t": {
+     "ok": false,
+     "note": "single-series call needs one trial; see ml4t_all_sleeves"
+    }
+   }
+  ],
+  "max_dsr_diff_ours_vs_scipy": 8.3e-05,
+  "pbo": {
+   "ours_cpcv": {
+    "pbo": 0.8,
+    "median_sharpe": -0.665,
+    "share_positive": 0.222,
+    "pass": false
+   },
+   "independent_cscv": {
+    "S": 16,
+    "splits": 12870,
+    "pbo": 0.738,
+    "n_configs": 12,
+    "n_days": 496
+   }
+  },
+  "note": "DSR: same formula written twice. Ours standardises skewness and kurtosis with the sample standard deviation, scipy with the population one, so differences of about 1e-4 are that convention; larger ones would mean an implementation error. ml4t-diagnostic may use a different benchmark (correlation-adjusted trial count), so its value is a third opinion, not a match target. PBO: different split designs, compare the size, not the digits.",
+  "ml4t_all_sleeves": {
+   "signature": "(returns: 'ArrayLike | Sequence[ArrayLike]', frequency: 'Frequency' = 'daily', benchmark_sharpe: 'float' = 0.0, confidence_level: 'float' = 0.95, periods_per_year: 'int | None' = None, *, skewness: 'float | None' = None, excess_kurtosis: 'float | None' = None, autocorrelation: 'float | None' = None, effective_trials: 'float | None' = None, correlation_method: 'EffectiveTrialsMethod | None' = None, min_k_eff: 'float' = 1.0) -> 'DSRResult'",
+   "signature_from_statistics": "(observed_sharpe: 'float', n_samples: 'int', n_trials: 'int' = 1, variance_trials: 'float' = 0.0, benchmark_sharpe: 'float' = 0.0, skewness: 'float' = 0.0, excess_kurtosis: 'float' = 0.0, autocorrelation: 'float' = 0.0, confidence_level: 'float' = 0.95, frequency: 'Frequency' = 'daily', periods_per_year: 'int | None' = None, *, effective_trials: 'float | None' = None, correlation_method: 'EffectiveTrialsMethod | None' = None, min_k_eff: 'float' = 1.0) -> 'DSRResult'",
+   "result": {
+    "input": "list",
+    "fields": {
+     "autocorrelation": -0.0418629754375003,
+     "benchmark_sharpe": 0.0,
+     "confidence_level": 0.95,
+     "deflated_sharpe": 0.014112452685301168,
+     "excess_kurtosis": 7.6423904758123555,
+     "expected_max_sharpe": 0.050316274088632824,
+     "frequency": "daily",
+     "has_adequate_sample": false,
+     "is_significant": false,
+     "min_k_eff": 1.0,
+     "min_trl": 601.0,
+     "min_trl_years": 2.384920634920635,
+     "n_samples": 510,
+     "n_trials": 12,
+     "n_trials_raw": 12,
+     "p_value": 0.2866923929113594,
+     "periods_per_year": 252,
+     "probability": 0.7133076070886406,
+     "sharpe_ratio": 0.06442872677393399,
+     "sharpe_ratio_annualized": 1.022774329994149,
+     "skewness": -0.983141981478211,
+     "variance_trials": 0.000913454400822301,
+     "z_score": 0.5630735731390816
+    }
+   },
+   "ours_best": {
+    "sleeve": "L17 Multi-asset trend",
+    "n_days": 510,
+    "N": 12,
+    "dsr": 0.4192,
+    "luck_sharpe": 0.0738
+   }
+  }
+ },
+ "orb": {
+  "days": [
+   "2026-11-16",
+   "2026-11-17",
+   "2026-11-18",
+   "2026-11-19",
+   "2026-11-20",
+   "2026-11-23"
+  ],
+  "symbol_days_compared": 132,
+  "differences_from_2026_11_18": 0,
+  "trades_matched": 37,
+  "differences": [
+   {
+    "date": "2026-11-17",
+    "symbol": "AAPL",
+    "ours": {
+     "entry": 354.73,
+     "exit": 352.66,
+     "exit_time": "10:40",
+     "outcome": "stop",
+     "r_net": -1.07
+    },
+    "backtesting_py": {
+     "entry": 354.68,
+     "exit": 352.67,
+     "exit_time": "10:45",
+     "r_net": -1.07
+    }
+   },
+   {
+    "date": "2026-11-16",
+    "symbol": "AVGO",
+    "ours": {
+     "entry": 334.67,
+     "exit": 331.77,
+     "exit_time": "13:15",
+     "outcome": "stop",
+     "r_net": -1.05
+    },
+    "backtesting_py": {
+     "entry": 336.46,
+     "exit": 331.78,
+     "exit_time": "13:20",
+     "r_net": -1.03
+    }
+   },
+   {
+    "date": "2026-11-16",
+    "symbol": "COIN",
+    "ours": {
+     "entry": 121.86,
+     "exit": 120.2,
+     "exit_time": "10:05",
+     "outcome": "stop",
+     "r_net": -1.03
+    },
+    "backtesting_py": {
+     "entry": 121.97,
+     "exit": 120.25,
+     "exit_time": "10:05",
+     "r_net": -1.03
+    }
+   },
+   {
+    "date": "2026-11-17",
+    "symbol": "JPM",
+    "ours": {
+     "entry": 335.07,
+     "exit": 333.43,
+     "exit_time": "10:15",
+     "outcome": "stop",
+     "r_net": -1.08
+    },
+    "backtesting_py": {
+     "entry": 335.09,
+     "exit": 333.53,
+     "exit_time": "10:20",
+     "r_net": -1.09
+    }
+   },
+   {
+    "date": "2026-11-17",
+    "symbol": "MARA",
+    "ours": {
+     "entry": 6.83,
+     "exit": 6.7,
+     "exit_time": "10:05",
+     "outcome": "stop",
+     "r_net": -1.02
+    },
+    "backtesting_py": null
+   },
+   {
+    "date": "2026-11-17",
+    "symbol": "XOM",
+    "ours": {
+     "entry": 169.21,
+     "exit": 168.31,
+     "exit_time": "10:00",
+     "outcome": "stop",
+     "r_net": -1.08
+    },
+    "backtesting_py": {
+     "entry": 169.23,
+     "exit": 168.3,
+     "exit_time": "10:05",
+     "r_net": -1.07
+    }
+   }
+  ],
+  "note": "backtesting.py fills the breakout at the signal bar's close (trade_on_close) with a stop-loss and a take-profit, and closes at the 15:50 bar's close; our engine does the same by hand. A difference is most likely a bar where both the stop and the target were touched (each engine has its own rule) or a gap through the stop; each one is listed for review, none is corrected automatically."
+ }
+}

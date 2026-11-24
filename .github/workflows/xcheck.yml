@@ -21,7 +21,7 @@ jobs:
           python-version: "3.12"
       - name: Install outside packages (versions recorded in the report)
         run: |
-          python -m pip install -q "numpy<3" "pandas<3" "scipy<2" "exchange_calendars>=4,<5" "backtesting>=0.6,<0.7"
+          python -m pip install -q "numpy==2.5.5" "pandas==2.3.3" "scipy==1.18.1" "exchange_calendars==4.13.3" "backtesting==0.6.6"
           python -m pip install -q "ml4t-diagnostic==0.2.1" || echo "ml4t-diagnostic did not install; stats runs without it"
           python -m pip freeze > /tmp/freeze.txt
       - name: Run
