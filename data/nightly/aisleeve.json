@@ -1,5 +1,8 @@
 {
  "strategies": [],
  "sleeve_days": 0,
- "errors": {}
+ "errors": {},
+ "lane_admitted": [],
+ "admission_changes": [],
+ "next_admission_day": "2027-02-16"
 }

@@ -1,9 +1,9 @@
 {
  "ok": true,
- "entries": 267,
- "added": 0,
+ "entries": 279,
+ "added": 12,
  "broken": [],
- "head": "2bd86281eac615f87488a2adbca909f077962194cd93605f6693b3221061fff6",
+ "head": "09203618fe5f015888d4583647c341601340caa9f74b844b574936dd36453fde",
  "sources": [
   "data/allocator/judge.jsonl",
   "data/trials.jsonl",
@@ -15,6 +15,7 @@
   "data/allocator/contest_*.jsonl",
   "data/allocator/judge_daily.jsonl",
   "data/witness/picks.jsonl",
-  "ops/interventions.jsonl"
+  "ops/interventions.jsonl",
+  "data/ai/lane_admissions.jsonl"
  ]
 }

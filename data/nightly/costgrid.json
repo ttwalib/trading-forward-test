@@ -507,60 +507,60 @@
    "move_to_cost": 33.33
   },
   "Crypto 15m fixed (pooled)": {
-   "n": 87,
+   "n": 93,
    "unit": "R per trade",
-   "mean_net_1x": -0.48552,
-   "mean_cost_1x": 0.45564,
+   "mean_net_1x": -0.47903,
+   "mean_cost_1x": 0.44991,
    "mean_at": {
-    "0.5": -0.2577,
-    "1.0": -0.48552,
-    "2.0": -0.94115,
-    "3.0": -1.39679
+    "0.5": -0.25408,
+    "1.0": -0.47903,
+    "2.0": -0.92894,
+    "3.0": -1.37885
    },
    "breakeven_mult": 0.0,
    "reading": "loses even at zero cost",
-   "move_to_cost": 2.44
+   "move_to_cost": 2.45
   },
   "Crypto 15m adaptive (pooled)": {
-   "n": 87,
+   "n": 93,
    "unit": "R per trade",
-   "mean_net_1x": -0.48552,
-   "mean_cost_1x": 0.45564,
+   "mean_net_1x": -0.47903,
+   "mean_cost_1x": 0.44991,
    "mean_at": {
-    "0.5": -0.2577,
-    "1.0": -0.48552,
-    "2.0": -0.94115,
-    "3.0": -1.39679
+    "0.5": -0.25408,
+    "1.0": -0.47903,
+    "2.0": -0.92894,
+    "3.0": -1.37885
    },
    "breakeven_mult": 0.0,
    "reading": "loses even at zero cost",
-   "move_to_cost": 2.44
+   "move_to_cost": 2.45
   },
   "Crypto 1h fixed (pooled)": {
-   "n": 27,
+   "n": 29,
    "unit": "R per trade",
-   "mean_net_1x": -0.58074,
-   "mean_cost_1x": 0.24772,
+   "mean_net_1x": -0.59069,
+   "mean_cost_1x": 0.24404,
    "mean_at": {
-    "0.5": -0.45688,
-    "1.0": -0.58074,
-    "2.0": -0.82846,
-    "3.0": -1.07618
+    "0.5": -0.46867,
+    "1.0": -0.59069,
+    "2.0": -0.83473,
+    "3.0": -1.07877
    },
    "breakeven_mult": 0.0,
    "reading": "loses even at zero cost",
    "move_to_cost": 4.8
   },
   "Crypto 1h adaptive (pooled)": {
-   "n": 27,
+   "n": 29,
    "unit": "R per trade",
-   "mean_net_1x": -0.58074,
-   "mean_cost_1x": 0.24772,
+   "mean_net_1x": -0.59069,
+   "mean_cost_1x": 0.24404,
    "mean_at": {
-    "0.5": -0.45688,
-    "1.0": -0.58074,
-    "2.0": -0.82846,
-    "3.0": -1.07618
+    "0.5": -0.46867,
+    "1.0": -0.59069,
+    "2.0": -0.83473,
+    "3.0": -1.07877
    },
    "breakeven_mult": 0.0,
    "reading": "loses even at zero cost",

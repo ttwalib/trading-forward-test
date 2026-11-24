@@ -1,43 +1,43 @@
 {
  "note": "Report only; never part of the verdict. Live and replay bases are kept apart.",
  "contributions": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "window_days": 60,
-  "book_daily_sd_pct": 0.2256,
+  "book_daily_sd_pct": 0.272,
   "sleeves": [
    {
     "sleeve": "L16 SPY trend short",
     "weight": 0.25,
-    "risk_share": 0.5535,
-    "risk_vs_money": 2.21
+    "risk_share": 0.6986,
+    "risk_vs_money": 2.79
    },
    {
     "sleeve": "L10 Earnings drift",
     "weight": 0.25,
-    "risk_share": 0.2237,
-    "risk_vs_money": 0.89
+    "risk_share": 0.151,
+    "risk_vs_money": 0.6
    },
    {
     "sleeve": "L12 Turn of month",
     "weight": 0.25,
-    "risk_share": 0.1928,
-    "risk_vs_money": 0.77
+    "risk_share": 0.1324,
+    "risk_vs_money": 0.53
    },
    {
     "sleeve": "L13 Pairs reversion",
     "weight": 0.25,
-    "risk_share": 0.03,
-    "risk_vs_money": 0.12
+    "risk_share": 0.018,
+    "risk_vs_money": 0.07
    }
   ],
   "note": "risk_vs_money above 1 = the sleeve carries more of the book's swings than its share of the money"
  },
  "live": {
   "from": "2026-11-16",
-  "to": "2026-11-23",
+  "to": "2026-11-24",
   "books": {
    "ai": {
-    "days": 6,
+    "days": 7,
     "total_pct": -2.047,
     "drawdowns": [
      {
@@ -45,35 +45,35 @@
       "trough": "2026-11-23",
       "depth_pct": 2.047,
       "recovered": null,
-      "length": 6,
+      "length": 7,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "equal": {
-    "days": 6,
-    "total_pct": -2.514,
+    "days": 7,
+    "total_pct": -2.527,
     "drawdowns": [
      {
       "peak": "2026-11-16",
-      "trough": "2026-11-23",
-      "depth_pct": 2.514,
+      "trough": "2026-11-24",
+      "depth_pct": 2.527,
       "recovered": null,
-      "length": 6,
+      "length": 7,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "spy": {
-    "days": 6,
+    "days": 7,
     "total_pct": -4.253,
     "drawdowns": [
      {
@@ -81,17 +81,17 @@
       "trough": "2026-11-20",
       "depth_pct": 8.558,
       "recovered": null,
-      "length": 6,
+      "length": 7,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "base_a": {
-    "days": 6,
+    "days": 7,
     "total_pct": -5.253,
     "drawdowns": [
      {
@@ -99,17 +99,17 @@
       "trough": "2026-11-23",
       "depth_pct": 5.253,
       "recovered": null,
-      "length": 6,
+      "length": 7,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "sh_rp": {
-    "days": 6,
+    "days": 7,
     "total_pct": -0.27,
     "drawdowns": [
      {
@@ -117,17 +117,17 @@
       "trough": "2026-11-19",
       "depth_pct": 0.499,
       "recovered": null,
-      "length": 6,
+      "length": 7,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "sh_mv": {
-    "days": 6,
+    "days": 7,
     "total_pct": 0.392,
     "drawdowns": [
      {
@@ -139,42 +139,42 @@
      },
      {
       "peak": "2026-11-20",
-      "trough": "2026-11-23",
+      "trough": "2026-11-24",
       "depth_pct": 0.022,
       "recovered": null,
-      "length": 1,
+      "length": 2,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "sh_win": {
-    "days": 6,
+    "days": 7,
     "total_pct": -5.154,
     "drawdowns": [
      {
       "peak": "2026-11-16",
-      "trough": "2026-11-23",
+      "trough": "2026-11-24",
       "depth_pct": 5.154,
       "recovered": null,
-      "length": 6,
+      "length": 7,
       "open": true
      }
     ],
     "tail": {
-     "n": 6,
+     "n": 7,
      "note": "too few days"
     }
    },
    "sh_judge": {
-    "days": 1,
+    "days": 2,
     "total_pct": 0.171,
     "drawdowns": [],
     "tail": {
-     "n": 1,
+     "n": 2,
      "note": "too few days"
     }
    }
