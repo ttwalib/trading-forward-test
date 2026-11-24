@@ -1,25 +1,25 @@
 {
  "day": "2026-11-24",
- "started": "2026-11-24 09:16:35",
+ "started": "2026-11-24 09:53:50",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.2,
+   "seconds": 9.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.1,
+   "seconds": 9.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.1,
+   "seconds": 9.9,
    "exit": 0,
    "error": null
   },
@@ -40,98 +40,98 @@
   {
    "step": "picks",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "aisleeve",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "rank",
    "ok": true,
-   "seconds": 0.2,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 14.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 2.8,
+   "seconds": 4.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 8.3,
+   "seconds": 13.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.3,
+   "seconds": 0.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 8.6,
+   "seconds": 14.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "health",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 1.5,
+   "seconds": 2.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 2.0,
+   "seconds": 3.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "costgrid",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 8.8,
+   "seconds": 14.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "breadth",
    "ok": true,
-   "seconds": 0.8,
+   "seconds": 1.2,
    "exit": 0,
    "error": null
   },
@@ -145,28 +145,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 9.7,
+   "seconds": 16.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 4.5,
+   "seconds": 7.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 8.6,
+   "seconds": 13.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 8.6,
+   "seconds": 14.1,
    "exit": 0,
    "error": null
   },
@@ -180,21 +180,21 @@
   {
    "step": "lane",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "spec",
    "ok": true,
-   "seconds": 8.5,
+   "seconds": 13.4,
    "exit": 0,
    "error": null
   }
  ],
- "commit": "c6b4657f06f34f3261b68954a9f7e0c1d852ff5c",
- "chain_head": "09203618fe5f015888d4583647c341601340caa9f74b844b574936dd36453fde",
+ "commit": "06f7f5b1ed737183f89f4c380a9dda53798bcbcf",
+ "chain_head": "91804b903be7efdd6a2396c008e37460afdf4e040375b8b3a833d54e8ce7e3e0",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-24 09:18:13"
+ "finished": "2026-11-24 09:56:31"
 }
