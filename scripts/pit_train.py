@@ -44,6 +44,10 @@ def load(repo):
     with gzip.open(os.path.join(P, "bars_1d.csv.gz"), "rt") as fh:
         for r in csv.DictReader(fh):
             bars.setdefault(r["sym"], {})[r["date"]] = (float(r["h"]), float(r["l"]), float(r["c"]), float(r["v"]))
+    import glob                  # forward bars from the nightly refresh (data/pit/fwd/, 2026-11-25); stored dates win
+    for f in sorted(glob.glob(os.path.join(P, "fwd", "*.csv.gz"))):
+        with gzip.open(f, "rt") as fh:
+            for r in csv.DictReader(fh): bars.setdefault(r["sym"], {}).setdefault(r["date"], (float(r["h"]), float(r["l"]), float(r["c"]), float(r["v"])))
     return mem, bars
 
 

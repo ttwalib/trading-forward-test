@@ -371,6 +371,58 @@ def pit(repo, start="2024-01-01", end="2026-11-14"):
     LOG["pit"] = {"symbols": len(got), "bars": n, "missing": len(seen) - len(got)}
 
 
+def pit_fwd(repo, days_back=10):
+    """Nightly forward refresh of the point-in-time data (Dec 8 plan stage 1.2, built 2026-11-25), so the ML ranker can run
+    forward. Daily bars of every CURRENT S&P 500 member for the last days_back days are merged into one small file per
+    month, data/pit/fwd/<YYYY-MM>.csv.gz (sym,date,o,h,l,c,v; a date already in bars_1d.csv.gz or in the month file is
+    kept as stored). The membership file is re-downloaded when data/pit/source.json says it is older than 7 days (the
+    window of bars_1d.csv.gz is not changed). pit.load and pit_train.load read the month files after bars_1d.csv.gz."""
+    import gzip
+    P = os.path.join(repo, "data", "pit"); src = json.load(open(os.path.join(P, "source.json")))
+    try:
+        age = (now() - dt.datetime.fromisoformat(src.get("membership_fetched") or src["fetched"])).days
+    except Exception: age = 99
+    if age >= 7:
+        try:
+            files = json.loads(urllib.request.urlopen(urllib.request.Request("https://api.github.com/repos/fja05680/sp500/contents/",
+                headers={"User-Agent": "quantavius-forward-test/1.0"}), timeout=60).read())
+            f = [x for x in files if x["name"].lower().endswith(".csv") and "historical components" in x["name"].lower() and "updated" in x["name"].lower()][0]
+            raw = urllib.request.urlopen(urllib.request.Request(f["download_url"], headers={"User-Agent": "quantavius-forward-test/1.0"}), timeout=60).read()
+            with gzip.open(os.path.join(P, "sp500_members.csv.gz"), "wb") as fh: fh.write(raw)
+            src["membership_fetched"] = now().isoformat(timespec="seconds"); src["membership_file_sha"] = f.get("sha")
+            json.dump(src, open(os.path.join(P, "source.json"), "w"), indent=1)
+        except Exception as e: LOG["errors"].append("pit membership refresh: %s" % str(e)[:120])
+    rows = [(r[0], [t.strip() for t in r[1].split(",") if t.strip()]) for r in
+            list(csv.reader(io.StringIO(gzip.open(os.path.join(P, "sp500_members.csv.gz"), "rt").read())))[1:] if len(r) >= 2]
+    cur = sorted(max(rows)[1]); end = now(); start = end - dt.timedelta(days=days_back)
+    base = {"timeframe": "1Day", "start": iso(start), "end": iso(end - dt.timedelta(minutes=16)), "limit": 10000,
+            "adjustment": "all", "feed": "sip", "sort": "asc"}
+    got = {}
+    for i in range(0, len(cur), 25):
+        try: got.update(paged(DATA + "/v2/stocks/bars", dict(base, symbols=",".join(cur[i:i + 25])), "bars"))
+        except Exception as e: LOG["errors"].append("pit fwd %s: %s" % (cur[i], str(e)[:120]))
+        time.sleep(0.4)
+    win_end = (src.get("window") or ["", "0000-00-00"])[1]
+    FD = os.path.join(P, "fwd"); os.makedirs(FD, exist_ok=True); bymonth = {}
+    for sym, bs in got.items():
+        for r in bs:
+            d = r["t"][:10]
+            if d <= win_end: continue
+            bymonth.setdefault(d[:7], {})[(sym, d)] = (r["o"], r["h"], r["l"], r["c"], int(r.get("v") or 0))
+    added = 0
+    for m, new in bymonth.items():
+        f = os.path.join(FD, m + ".csv.gz"); old = {}
+        if os.path.exists(f):
+            with gzip.open(f, "rt") as fh:
+                for r in csv.DictReader(fh): old[(r["sym"], r["date"])] = (r["o"], r["h"], r["l"], r["c"], r["v"])
+        for k, v in new.items():
+            if k not in old: old[k] = v; added += 1
+        with gzip.open(f, "wt") as fh:
+            fh.write("sym,date,o,h,l,c,v\n")
+            for (sym, d) in sorted(old): o = old[(sym, d)]; fh.write("%s,%s,%s,%s,%s,%s,%s\n" % (sym, d, o[0], o[1], o[2], o[3], o[4]))
+    LOG["pit_fwd"] = {"members": len(cur), "symbols_with_bars": len(got), "rows_added": added, "months": sorted(bymonth)}
+
+
 def main():
     T0 = time.time()
     mode, repo = sys.argv[1], sys.argv[2]
@@ -432,10 +484,14 @@ def main():
         crypto_bars(repo, "15m", now() - dt.timedelta(hours=12)); crypto_bars(repo, "1h", now() - dt.timedelta(days=2))
         corp_actions(repo, univ + etfs, now() - dt.timedelta(days=60)); cboe(repo, False)
         borrow(repo, univ + etfs); option_bars(repo)
+        try: pit_fwd(repo)                     # forward point-in-time bars for the ML ranker (2026-11-25)
+        except Exception as e: LOG["errors"].append("pit fwd: %s" % str(e)[:120])
     elif mode == "optbars":       # requested by the deep OTM + weekly options task (ops/fetch_request.json)
         option_bars(repo)
     elif mode == "pit":
         pit(repo)
+    elif mode == "pit2016":       # one-off (Dec 8 plan stage 1.1, 2026-11-25): the point-in-time history from 2016
+        pit(repo, "2016-01-01", (now() - dt.timedelta(days=1)).date().isoformat())
     elif mode == "borrow":
         borrow(repo, univ + etfs)
     elif mode == "hist":

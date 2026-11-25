@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape | ext | optarch | optback | optmid"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape | ext | optarch | optback | optmid | pit2016"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -31,12 +31,12 @@ permissions:
   issues: write
 concurrency:
   # the long one-off option backfill runs in its own group so it never holds back the market-hours ticks (2026-11-24)
-  group: ${{ (github.event.inputs.mode == 'optback' || contains(github.event.head_commit.message, '[optback]')) && 'optback' || 'market-data' }}
+  group: ${{ (github.event.inputs.mode == 'optback' || github.event.inputs.mode == 'pit2016' || contains(github.event.head_commit.message, '[optback]')) && 'optback' || 'market-data' }}
   cancel-in-progress: false
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ (github.event.inputs.mode == 'optback' || contains(github.event.head_commit.message, '[optback]')) && 300 || 30 }}
+    timeout-minutes: ${{ (github.event.inputs.mode == 'optback' || github.event.inputs.mode == 'pit2016' || contains(github.event.head_commit.message, '[optback]')) && 300 || 30 }}
     steps:
       - uses: actions/checkout@v4
       - name: Pick mode
@@ -53,7 +53,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "20 23 * * 1-5" ]; then M=ext;
           elif [ "${{ github.event.schedule }}" = "30 17 * * 1-5" ]; then M=optmid;
           elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then M=compute; D=$(TZ=America/New_York date +%F); else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape|ext|optarch|optback|optmid) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape|ext|optarch|optback|optmid|pit2016) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.

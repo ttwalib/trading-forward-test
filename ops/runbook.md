@@ -722,6 +722,16 @@ S&P 100; 5-minute bars exist only for today's names, so some bias remains for in
 daily_series(repo) -> {date: sleeve return %} for forward scoring (registry series type "lab_daily"), and write the row
 with market "US daily". Forward results count only after the Created date (pre-registration G2).
 
+LAB SWEEPS ON GITHUB (2026-11-25, item 65; optional): instead of running a heavy sweep inside the session, write the
+candidate as strategies/candidates/<id>.py with configs(repo, **args) -> {setting: {date: daily return %}} for EVERY
+setting in the grid (same tuning split, cost and fill rules as above; optional trades(repo, setting, **args) -> per-trade
+results), and strategies/requests/<id>.json = {"id", "module": "strategies/candidates/<id>.py", "args": {...},
+"cpcv": [10, 2, 5]}; push both. The labrun workflow (scripts/labrun.py; no secrets, stored bars only) writes
+strategies/results/<id>.json with every setting's series and the CPCV, usually within minutes; git pull and read it.
+You still build cand.json and run review.py gate yourself, and every setting counts as a trial. If the result is not
+there before your session must end, write the StrategyLab row as "pending GitHub sweep <id>" and finish the gate in
+the next lab run.
+
 IMPROVE A BASELINE (ODD ISO weeks): instead of a new daily idea, take ONE library strategy (L1-L17; not one you already
 tried: see StrategyLab) and propose ONE change to it, reasoned from data/nightly/costgrid.json (where costs eat it),
 data/nightly/riskx.json (how it swings) and its trades in the Library ledger: a filter, an exit, a universe or a sizing

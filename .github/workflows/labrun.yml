@@ -1,0 +1,42 @@
+# Lab sweeps on GitHub (scripts/labrun.py; Dec 8 plan stage 1.3, built 2026-11-25).
+# The lab task pushes strategies/requests/<id>.json and strategies/candidates/<id>.py; this job runs every setting's daily
+# series and the CPCV, and commits strategies/results/<id>.json. No secrets and no market-data keys are given to it; it
+# reads only stored bars, imports only files under strategies/, and never touches the frozen scripts or any score.
+name: labrun
+on:
+  push:
+    paths: ["strategies/requests/**"]
+  workflow_dispatch:
+    inputs:
+      id:
+        description: "request id to (re)run; empty = every request without a result"
+        default: ""
+permissions:
+  contents: write
+concurrency:
+  group: labrun
+  cancel-in-progress: false
+jobs:
+  labrun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: python3 -m pip install -q --break-system-packages "numpy==2.5.3" || python3 -m pip install -q "numpy==2.5.3"
+      - name: Run requests
+        run: |
+          ID="${{ github.event.inputs.id }}"
+          case "$ID" in ""|[A-Za-z0-9_-]*) ;; *) echo "bad id"; exit 1;; esac
+          python3 scripts/labrun.py . $ID | tail -n 60
+      - name: Commit results
+        run: |
+          git config user.name forward-test-bot
+          git config user.email forward-test-bot@users.noreply.github.com
+          git add strategies/results 2>/dev/null || true
+          git diff --cached --quiet && exit 0
+          git commit -q -m "labrun: results $(date -u +%FT%TZ)"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin main && git push -q origin HEAD:main; then break; fi
+            sleep $((i * 7))
+          done

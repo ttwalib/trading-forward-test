@@ -35,7 +35,17 @@ def load(repo):
     with gzip.open(os.path.join(P, "bars_1d.csv.gz"), "rt") as fh:
         for r in csv.DictReader(fh):
             bars.setdefault(r["sym"], []).append((r["date"], float(r["o"]), float(r["h"]), float(r["l"]), float(r["c"]), float(r["v"])))
+    for r in fwd_rows(P):        # forward bars from the nightly refresh (data/pit/fwd/, 2026-11-25); stored dates win
+        L = bars.setdefault(r["sym"], [])
+        if not L or r["date"] > L[-1][0]: L.append((r["date"], float(r["o"]), float(r["h"]), float(r["l"]), float(r["c"]), float(r["v"])))
     return mem, bars
+
+
+def fwd_rows(P):
+    import glob
+    for f in sorted(glob.glob(os.path.join(P, "fwd", "*.csv.gz"))):
+        with gzip.open(f, "rt") as fh:
+            for r in sorted(csv.DictReader(fh), key=lambda x: (x["sym"], x["date"])): yield r
 
 
 def monthly_lists(mem, bars, cal):
