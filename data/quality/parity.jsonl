@@ -2,3 +2,4 @@
 {"compared":23,"day":"2026-11-20","features_moved":23,"live":25,"mean_r_live_set":-0.7345,"mean_r_replay":-0.7345,"ok":false,"replay":23,"replay_only":0}
 {"compared":23,"day":"2026-11-20","features_moved":23,"live":25,"mean_r_live_set":-0.7345,"mean_r_replay":-0.7345,"ok":false,"replay":23,"replay_only":0}
 {"compared":24,"day":"2026-11-23","feature_share":0.0,"features_moved":0,"live":24,"mean_r_live_set":-0.3437,"mean_r_replay":-0.2902,"ok":false,"outcome_flags":2,"replay":27,"replay_only":2}
+{"compared":34,"day":"2026-11-24","feature_share":0.0,"features_moved":0,"live":34,"mean_r_live_set":-0.1723,"mean_r_replay":-0.1774,"ok":true,"outcome_flags":0,"replay":35,"replay_only":0}
