@@ -4,3 +4,8 @@
 {"check_time":"2026-11-23","symbols":"MU,NVDA,PEP,QCOM,T","check":"dq bar timing","note":"5","detail":"MU 2026-08-27: 5m close 928.9 vs daily 935.39","status":"CHECK"}
 {"check_time":"2026-11-23","symbols":"ETH/USD","check":"cross-check 1h vs Twelve Data","note":"0.137","detail":"stored 1708.715 vs TD 1711.06 at 2026-11-24 00:00 UTC","status":"ok"}
 {"check_time":"2026-11-23","symbols":"SPY+8","check":"xcheck 1d","note":"0","detail":"45 closes compared, 0 flagged, max diff 0.0%","status":"ok"}
+{"check_time":"2026-11-24","symbols":"-","check":"dq","note":"- bar timing: T 2026-11-20: 5m high 22.6800 vs daily 22.7500: 1","detail":"{\"issue\": \"bar timing: T 2026-11-20: 5m high 22.6800 vs daily 22.7500\"}","status":"CHECK"}
+{"check_time":"2026-11-24","symbols":"ETH/USD","check":"1h vs Twelve Data","note":"0.145","detail":"2026-11-25 00:00 UTC stored 1671.1 vs 1673.53","status":"ok"}
+{"check_time":"2026-11-24","symbols":"SPY,ACN,GD,IEF,META,PEP,T,XLB,XLRE","check":"xcheck","note":"45 compared, max diff 0.0%","detail":"no flags","status":"ok"}
+{"check_time":"2026-11-24","symbols":"-","check":"parity","note":"34 live / 35 replay, 0 outcome flags","detail":"ok","status":"ok"}
+{"check_time":"2026-11-24","symbols":"VIX","check":"daily bars stale","note":"IBKR get_price_history failed 3 times","detail":"Details currently unavailable; VIX stays at the 2026-11-23 close 26.62 in the Regime row","status":"CHECK"}
