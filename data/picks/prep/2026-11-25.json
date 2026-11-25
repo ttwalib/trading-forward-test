@@ -1,0 +1,84 @@
+{
+ "for_day": "2026-11-25",
+ "made_at_ny": "2026-11-24 20:51",
+ "note": "Leads only, not picks. Filters checked: US-listed, price >= $5, average volume >= 1M (Twelve Data), none on the control list. Dropped: CLSK (price about $5.11, borderline), NTNX (reported after the close, but its after-hours move could not be confirmed: Twelve Data showed no extended trade), ADSK (beat-and-raise but flat after hours: no direction). BBY and DLTR are still held (hold=2).",
+ "candidates": [
+  {
+   "symbol": "DELL",
+   "direction": "long",
+   "vehicle": "option: call, expiry 2026-12-04 (or the first expiry >=5 trading days after the hold), strike near 300 (delta ~0.5); or stock",
+   "catalyst": "Q3 FY27 after the close: ISG revenue tripled on AI servers, non-GAAP EPS $9.45 beat, FY27 revenue guide raised to $202B (IBKR recap). The stock had already fallen 11.8% in the session (334.91 to 295.28, chip slide after Monday's spike to 383); after hours it traded 302-307, then 298 (+0.9%).",
+   "sources": [
+    "IBKR earnings insight recap 770a1c0e-1db9-405e-a48e-3278f13aab4b (2026-11-24 21:32Z)",
+    "https://investing.com/news/stock-market-news/dell-lifts-annual-forecasts-after-record-quarter-on-surging-ai-server-demand-5049024"
+   ],
+   "what_to_check_pre_market": "Pre-market price vs 295.28 close and the 302-307 AH high; whether the AH pop faded (it was 298 by 20:00); pre-market volume; chip-sector tone (NVDA/AVGO/MU pre-market); IV and the call spread in the stored chain."
+  },
+  {
+   "symbol": "WDAY",
+   "direction": "bear",
+   "vehicle": "option: put, expiry 2026-12-04, strike near 165 (delta ~-0.5); or a 165/150 put debit vertical",
+   "catalyst": "Q3 after the close: AI sales tripled, but backlog beyond one year grew only 3%; shares -8.1% after hours (164.80 vs 179.23 close).",
+   "sources": [
+    "https://www.tipranks.com/news/the-fly/closing-bell-movers-workday-autodesk-fall-after-earnings-thefly-news",
+    "https://www.techi.com/workday-q3-results-ai-contract-value-backlog-shares-fall/"
+   ],
+   "what_to_check_pre_market": "Whether the -8% holds or deepens pre-market; analyst target cuts at the open; IV crush makes a put expensive relative to the expected follow-through: compare premium with a debit vertical; SaaS peer read (ADSK, CRM)."
+  },
+  {
+   "symbol": "URBN",
+   "direction": "bear",
+   "vehicle": "option: put, expiry 2026-12-04 (or 2026-12-18 if liquidity is thin), strike near 75",
+   "catalyst": "Q3 results after the close; shares -11.0% after hours (76.20 vs 85.58). Cited among the beats Wall Street did not reward.",
+   "sources": [
+    "https://in.investing.com/news/stock-market-news/afterhours-movers-dell-hpq-adsk-wday-ntnx-urbn-clsk-432SI-5724291",
+    "https://que.com/workday-slides-8-and-autodesk-falls-despite-beat-and-raise-quarters-as-nutanix-and-urban-outfitters-show-wall-street-wants-more-than-a-beat/"
+   ],
+   "what_to_check_pre_market": "The actual reason for the drop (comps, margin, guide) from the release; pre-market price and volume; option spreads (average volume only about 1.24M, so check the chain before choosing an option); read-through to ANF, which ran +19.7% today."
+  },
+  {
+   "symbol": "DE",
+   "direction": "long",
+   "vehicle": "option: call, expiry 2026-12-04, strike near 615 (earnings is the reason); or stock",
+   "catalyst": "Q4 FY26 results tomorrow before the open (IBKR reporting time 2026-11-25 11:05Z = 06:05 ET); FY27 outlook is the swing factor (is fiscal 2026 the bottom of the farm cycle?). Fell 3.0% today to 613.76. Direction is a placeholder: decide on the FY27 guide.",
+   "sources": [
+    "IBKR earnings insight preview 1825c317-cf6d-4a40-8f43-fa52bf823bc3 (reporting 2026-11-25 11:05Z)",
+    "https://finviz.com/news/424950/deeres-fourth-quarter-must-prove-fiscal-2026-was-the-bottom-of-the-farm-cycle"
+   ],
+   "what_to_check_pre_market": "EPS and equipment-operations sales vs consensus, the FY27 net income guide vs the Street, the pre-market gap and volume; flip to bear (put) if the guide disappoints. Apply the earnings-preview checklist."
+  },
+  {
+   "symbol": "ANF",
+   "direction": "long",
+   "vehicle": "stock",
+   "catalyst": "Q3 results this morning (8-K 2.02 at 07:36): +19.7% today to 168.10, a new 52-week high (178.38 intraday). Second-day continuation lead.",
+   "sources": [
+    "https://www.sec.gov/Archives/edgar/data/1018840/000101884026000052/0001018840-26-000052-index.htm",
+    "Twelve Data get_quote ANF 2026-11-24 (close 168.10, +19.69%, volume 4.70M vs 1.49M average)"
+   ],
+   "what_to_check_pre_market": "Day-2 behaviour of big earnings gaps (often fades): only if pre-market holds above about 165 on volume; URBN's AH drop as a sector headwind; analyst target raises."
+  },
+  {
+   "symbol": "HPQ",
+   "direction": "long",
+   "vehicle": "stock",
+   "catalyst": "FQ4 results after the close (8-K 2.02 at 16:17); +1.4% after hours to 28.32 after -3.3% in the session. A weak lead: read the guide (memory-cost pressure on PCs) before anything else.",
+   "sources": [
+    "https://www.sec.gov/Archives/edgar/data/47217/000004721726000054/0000047217-26-000054-index.htm",
+    "https://in.investing.com/news/stock-market-news/afterhours-movers-dell-hpq-adsk-wday-ntnx-urbn-clsk-432SI-5724291"
+   ],
+   "what_to_check_pre_market": "The FY27 EPS guide vs consensus; whether the +1.4% holds; DELL read-through on PCs."
+  },
+  {
+   "symbol": "AMBA",
+   "direction": "bear",
+   "vehicle": "option: put debit vertical only if IV allows, expiry 2026-12-18; otherwise no trade",
+   "catalyst": "Q3 miss and weak Q4 guide (memory supply crunch) after the close. The stock fell 20% in the session (55.56 to 44.47) and another ~37% after hours (27.84 on IBKR). Probably a late bear: about half the value is already gone.",
+   "sources": [
+    "https://www.gurufocus.com/news/9218592/ambarella-amba-shares-plunge-44-after-earnings-miss-and-weak-guidance",
+    "https://tradersagency.com/blog/ambarella-shares-plunge-after-hours-on-q3-miss-and-weak-q4-guidance-amid-memory-supply-crunch"
+   ],
+   "what_to_check_pre_market": "Market cap after the drop (about $1.2B at 28, still above $500M); the pre-market level vs 27.8 (bounce risk); put IV and spreads (likely prohibitive); memory-shortage read-through to other edge-AI and auto chip names."
+  }
+ ]
+}

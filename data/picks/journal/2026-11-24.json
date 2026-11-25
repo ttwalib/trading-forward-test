@@ -1,0 +1,46 @@
+{
+ "day": "2026-11-24",
+ "made_at_ny": "2026-11-24 20:51",
+ "control_avg_pct": 1.689,
+ "control_note": "22 control stocks open-to-close from data/bars/1d (broad rally: 20 of 22 up, median +1.90; GS -1.20 and MS -1.06 the only losers); SPY +0.51",
+ "weighted_vs_control_pct": 0.44,
+ "per_pick": [
+  {
+   "symbol": "BBY",
+   "asset": "stock",
+   "result_pct": 0.4,
+   "vs_control_pct": -1.29,
+   "what_happened": "Picked on a 6.1% pre-market gap (102.95 at 08:05 vs 97.00 close). The gap had shrunk to 2.3% by the open (99.22), the stock traded below the prior close intraday (low 96.00) and closed 99.62: +0.4% open to close against a control list up 1.7%. No news since the open was found that explains the fade (2 searches); the beat-and-raise itself was not retracted.",
+   "reason_held": false,
+   "lesson": "The 08:05 pre-market gap on thin volume (about 74k shares) was not the opening gap: two-thirds of it was gone by 09:30. The catalyst was real but the market did not carry it; w=0.35 was too high for a pick whose pre-market price was already slipping. hold=2 means tomorrow is still on the book."
+  },
+  {
+   "symbol": "DLTR",
+   "asset": "stock",
+   "result_pct": 3.13,
+   "vs_control_pct": 1.45,
+   "what_happened": "Opened 149.95 (gap 7.8%, close to the 8.5% seen at 08:05), ran to 156.99 and closed 154.65 above its old 52-week high. The traffic-led beat-and-raise carried through the session.",
+   "reason_held": true,
+   "lesson": "The pick worked as described: the gap held at the open and extended. Part of the +3.1% is the broad defensive and staples bid (control +1.7%), so the real edge is about 1.4 points, not 3. The insider check was skipped (rate limit), so the process was incomplete even though it won."
+  },
+  {
+   "symbol": "DKS",
+   "asset": "stock",
+   "result_pct": 2.97,
+   "vs_control_pct": 1.28,
+   "what_happened": "Pre-market 155.53 (gap 16.4%) slipped to an open of 148.75 (gap 11.3%). The open was the day's low; it rose to 157.89 and closed 153.17. The short-covering thesis held after the open, but only because the pre-open fade lowered the scored entry.",
+   "reason_held": true,
+   "lesson": "It won partly for a reason I did not state: open-to-close scoring started after a 4.4% pre-open fade, so the entry was cheaper than the price I researched. I gave it p=0.50 and the lowest weight even though it had the biggest gap and the heaviest pre-market volume. Here the bigger gap did better, not worse."
+  }
+ ],
+ "lessons": [
+  "The 08:05 pre-market gap is a weak guide to the opening gap: today the gaps shrank by 3.8 (BBY), 0.7 (DLTR) and 5.1 (DKS) points before 09:30. Claim: the pre-market gap size does not rank open-to-close excess return among beat-and-raise picks. Track the 08:05-to-open change for every gap pick.",
+  "On a broad-rally day (control +1.7%), a beat-and-raise retailer needs a strong second leg just to tie. Claim: when the control average is above +1%, at most half of the gap-up picks beat it; lower p for gap-ups on strong-futures mornings.",
+  "Weight followed caution about gap size (DKS got the lowest w with the biggest gap) and was wrong once. Claim: heavier pre-market volume relative to average volume predicts a better open-to-close excess than gap size does; weight on volume, not on gap-size fear, until data says otherwise."
+ ],
+ "sources_used": [
+  "data/bars/1d (repo daily bars)",
+  "data/universe.json control",
+  "WebSearch x3 for news since the open (no clear BBY fade reason found)"
+ ]
+}
