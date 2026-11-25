@@ -289,7 +289,10 @@ equal weight, forward days only; no sleeve until one is approved) and the four "
 under the baseline-A or adaptive rule, as at-the-money calls or as smart calls). allocator.OWN_SLEEVES (AP, AP2, AS,
 Agent picks) are excluded from the foundation equal weight equal_f but stay in the book's menu. OUT OF THE BOOK
 (allocator.DROPPED; ledger history stays): baseline-A variants A-G and T, option replays O, D1 lottery calls, D2/D3
-spreads, W1-W4. Options return later only as Quantavius's own per-pick choice (stock or call, with its reason) through
+spreads, W1-W4; and since 2026-11-25 by the COST RULE (owner decision, blind to results: median absolute gross move per
+trade below 2x the round-trip cost; listing reports/costrule/2026-11-25.json) L2 VWAP pullback, L4 Gap fade and the
+crypto strategies 15m fixed M1 and 15m adaptive M1 (allocator.COST_DROPPED_CRYPTO, left out of the pooled crypto
+sleeves; their ledgers keep running). Options return later only as Quantavius's own per-pick choice (stock or call, with its reason) through
 the 2026-12-08 lane build, never as a fixed overlay. L18 ETF IBS reversion was dropped (not in the library or lane).
 ALLOCATOR (cycle-1 formula, scripts/allocator.py, docstring; the AI-judgment book uses scripts/judge.py brief / draft /
 seal, scored by allocator.py as sh_judge): always 100% invested, no cash; weekly rebalancing; Thompson
@@ -1117,3 +1120,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 61 | 2026-11-24 | Lab runs four times a week (Mon, Wed, Fri, Sat 23:15 ET; Monday options track, Friday the other Wednesday track); more lab runs mean more trials, and every one is counted |
 | 62 | 2026-11-25 | Adaptive stocks and the stock half of the evening picks scoring built on GitHub (scripts/daily.py adaptive, picks-evening; nightly fetch stores the picks' 5-minute bars); parity identical Nov 18-24; switching off the AI steps awaits the owner's approval (prompts in ops/prompts/proposed/) |
 | 63 | 2026-11-25 | Setup-debate build list items 2-7: picked coins may be DROPPED (AGENT MORNING COIN PICKS AND DROPS; scripts/daily.py coins; a dropped coin leaves the 8-coin limit); live decisions stays an AI task (LIVE DECISIONS, WHY IT STAYS AN AI TASK); the watchdog stays separate from the orchestrator (WATCHDOG AND ORCHESTRATOR); the owner's list of disabled tasks he may delete (reports/retired_tasks_2026-11-25.md); tasks.json weekday_runs reviewed |
+| 64 | 2026-11-25 | Owner approvals applied: adaptive stocks AI task retired (GitHub writes), evening task option replays only (github_writes true), watchdog task list and morning coin-drop prompt pushed live; COST RULE applied (L2, L4, crypto 15m fixed M1 and 15m adaptive M1 out of the book; allocator.DROPPED and COST_DROPPED_CRYPTO) |

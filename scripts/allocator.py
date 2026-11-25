@@ -127,7 +127,14 @@ BASE = "A baseline (watchlist)"
 # picked by the AI. Rule variants of baseline A and the fixed option structures are none of these. Their past trades
 # stay in the ledger as history; they simply can no longer receive weight or count in the equal-weight benchmark.
 DROPPED = ("A variant", "B variant", "C variant", "D variant", "E variant", "F variant", "G variant", "T variant",
-           "O ATM calls", "D1 lottery calls", "D2 SPY put spreads", "D3 SPY call spreads", "W1", "W2", "W3", "W4")
+           "O ATM calls", "D1 lottery calls", "D2 SPY put spreads", "D3 SPY call spreads", "W1", "W2", "W3", "W4",
+           "L2 VWAP pullback", "L4 Gap fade")
+# COST RULE (owner decision 2026-11-25, before the freeze; blind to results: it reads only the size of each trade's gross
+# move, never its sign or profit): a sleeve or crypto strategy is dropped when its median absolute gross move per trade is
+# below 2x its round-trip cost (listing reports/costrule/2026-11-25.json). Library sleeves L2 and L4 are in DROPPED above;
+# the crypto strategies below are inside the pooled crypto sleeves, so their trades are left out of the pool. Their
+# ledgers keep running and stay as history; only the book and the equal-weight benchmarks stop counting them.
+COST_DROPPED_CRYPTO = ("15m fixed M1", "15m adaptive M1")
 # Short-premium option sleeves (they sell option premium on SPY and fall together in a sell-off): together they may
 # hold at most GROUP_CAP of the book, in the AI portfolio and in every rival allocator. Added 2026-11-21, before the
 # freeze, after the external review; the stress test behind it is scripts/stress_short_premium.py. Duplicates: since
@@ -156,6 +163,7 @@ def sleeves(repo, lib_file="daily.json", realistic=True):
     adj = fills.delay_r(repo, T) if realistic else {}
     for i, t in enumerate(T):
         if t["asset"] == "library": continue  # library sleeves come marked to market from daily.json
+        if t["asset"] == "crypto" and t["strategy"] in COST_DROPPED_CRYPTO: continue  # cost rule, 2026-11-25
         name = t["strategy"]
         if t["asset"] == "crypto": name = "Crypto " + " ".join(name.split()[:2]) + " (pooled)"
         S.setdefault(name, {}); S[name][t["day"]] = S[name].get(t["day"], 0.0) + (t["result"] + adj.get(i, 0.0)) / 5 * 1.0
