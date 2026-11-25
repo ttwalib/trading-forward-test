@@ -40,7 +40,7 @@ For the build sessions. Do these with the day 3 list; schedule another session i
 11. DONE 2026-11-25 (build session; ATM calls BBY -36.6%, DKS -6.2%, DLTR -17.6%, average -20.1%; smart calls skipped: all three reported on 2026-11-24 before the open; the Twelve Data earnings calendar is not on the plan, IBKR earnings insights used): option replays (ATM call, smart call) of 2026-11-24 for BBY, DLTR, DKS: GitHub wrote that day's stock rows in
    the build test, so the old 20:20 prompt stops as "already scored". Add them with IBKR read-only option bars as the
    evening prompt describes (STEPS 4-6), or record them as missing.
-12. PARTLY DONE 2026-11-25 (cost rule applied by the owner: L2, L4, crypto 15m fixed M1 and 15m adaptive M1 out of the book). OPEN (item 32-34 follow-ups): (a) dashboard layout (scoreboard, AI layer, foundation; scripts/dashboard.py and
+12. PARTLY DONE 2026-11-25 (cost rule applied by the owner: L2, L4, crypto 15m fixed M1 and 15m adaptive M1 out of the book; (a) DONE: dashboard Scoreboard view, dashboard.py scoreboard(), artifact version 1795594884-8a7c). OPEN (item 32-34 follow-ups): (a, done) dashboard layout (scoreboard, AI layer, foundation; scripts/dashboard.py and
    ops/dashboard/index.template.html; republish slug 41628095-7dd8-4a9a-be2e-162e0f2d375f); (e) check the Nov 25 lab
    run (ISO week 48: new daily idea, DAILY STRATEGIES, daily_series, a "grid" for the gate). DONE (b): lab_daily path
    and the neighbour check tested on a copy (plateau passes, lone peak and missing grid fail; note: lab_daily drops

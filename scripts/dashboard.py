@@ -158,7 +158,45 @@ def build(repo, now=None):
         out["ml"] = ml
     Rg = jl(os.path.join(repo, "data", "ledger", "Regime.jsonl"))
     out["regime"] = Rg[-1] if Rg else None
+    try: out["scoreboard"] = scoreboard(repo, A)
+    except Exception as e: out["scoreboard"] = {"error": str(e)[:120]}
     return out
+
+
+def scoreboard(repo, A):
+    """Three-layer view (runbook item 33e, built 2026-11-25): the SCOREBOARD (A1 book vs the foundation-only equal weight,
+    G1 ranking IC, G1 picks vs the control list, G2 approved strategies), the AI LAYER (Quantavius's own sleeves, the
+    lane, calibration, integrity) and, in the rest of the dashboard, the FOUNDATION. Report only: reads finished files."""
+    jc = A.get("judge_check") or {}
+    S = js(os.path.join(repo, "data", "picks", "score.json"), {}) or {}
+    R = js(os.path.join(repo, "data", "picks", "rank_score.json"), {}) or {}
+    L = js(os.path.join(repo, "data", "lane", "scores.json"), {}) or {}
+    C = js(os.path.join(repo, "data", "nightly", "calib.json"), {}) or {}
+    own = {}
+    for f in (("picks", "daily.json"), ("ai", "daily.json")):
+        for k, v in (js(os.path.join(repo, "data", *f), {}) or {}).items():
+            vals = [x for _, x in sorted(v.items())]
+            tot = 1.0
+            for x in vals: tot *= 1 + x / 100
+            own[k] = {"days": len(vals), "total_pct": r((tot - 1) * 100), "last_day": max(v) if v else None}
+    lane = [{"name": k, "status": e.get("status"), "from": e.get("forward_from"), "days": (e.get("perf") or {}).get("days"),
+             "return_pct": r((e.get("perf") or {}).get("return_pct")), "sharpe": r((e.get("perf") or {}).get("sharpe"), 2),
+             "dsr_p": r(e.get("deflated_sharpe_p"), 3)} for k, e in sorted((L.get("entries") or {}).items())]
+    cv = ((S.get("cost_view") or {}).get("AP") or {}).get("all") or {}
+    return {
+        "a1": {"verdict": jc.get("verdict"), "all": jc.get("all"), "second_half": jc.get("second_half"),
+               "rule": "Quantavius's weekly book vs the foundation-only equal weight; PASS at P >= 0.9 with a higher Sharpe"},
+        "g1_rank": {"all": R.get("all"), "verdict": R.get("verdict"), "rule": "daily ranking of 44 stocks, Spearman IC; 60 sealed days, P >= 0.9"},
+        "g1_picks": {"all": S.get("all"), "verdict": S.get("verdict"), "rule": "picks open to close vs the random control list; 60 pick days, P >= 0.9",
+                     "cost": {k: cv.get(k) for k in ("trades", "win_rate", "cost_share_of_gross")}},
+        "g2": {"approved": len(js(os.path.join(repo, "data", "ai", "daily.json"), {}) or {}),
+               "rule": "approved lab strategies, forward trades only (AS sleeve)"},
+        "own_sleeves": own,
+        "options": {k: (S.get("options") or {}).get(k) for k in ("n", "mean")},
+        "integrity": S.get("integrity"),
+        "calibration": {k: v for k, v in (C.get("picks") or {}).items() if not isinstance(v, (list, dict))},
+        "lane": {"champion": L.get("champion"), "day": L.get("day"), "trials": L.get("lifetime_unique_trials"), "entries": lane},
+    }
 
 
 if __name__ == "__main__":

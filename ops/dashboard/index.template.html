@@ -79,7 +79,8 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
 <header><div class="wrap bar">
   <div class="brand">Quantavius the 1st</div>
   <nav>
-    <a href="#overview" id="nav-overview">Overview</a>
+    <a href="#score" id="nav-score">Scoreboard</a>
+    <a href="#overview" id="nav-overview">Foundation</a>
     <a href="#strategies" id="nav-strategies">Strategies</a>
     <a href="#live" id="nav-live">Live &amp; data</a>
     <a href="#pipeline" id="nav-pipeline">Pipeline</a>
@@ -89,7 +90,22 @@ label{font-size:13px;color:var(--mut);display:grid;gap:4px}
 </div></header>
 
 <main class="wrap">
-<section id="v-overview">
+<section id="v-score">
+  <h1>Is Quantavius showing skill?</h1>
+  <p class="lede">The scoreboard decides; the AI layer shows Quantavius's own work; the Foundation tab shows the fixed rules and benchmarks it is measured against. Nothing is ever traded.</p>
+  <div class="figs" id="scFigs"></div>
+  <div class="grid2">
+    <div class="panel"><h2>Scoreboard</h2><div class="scroll"><table id="tScore"><thead><tr><th>Test</th><th>Status</th><th class="n">Days</th><th>Reading</th></tr></thead><tbody></tbody></table></div><p class="note" id="scRules"></p></div>
+    <div class="panel"><h2>Quantavius's own sleeves</h2><div class="scroll"><table id="tOwn"><thead><tr><th>Sleeve</th><th class="n">Days</th><th class="n">Total %</th><th>Last day</th></tr></thead><tbody></tbody></table></div><p class="note" id="ownNote"></p></div>
+  </div>
+  <section class="panel" style="margin-top:22px">
+    <h2>Lane: challengers against the champion</h2>
+    <div class="scroll"><table id="tLane"><thead><tr><th>Entry</th><th>Status</th><th>Forward from</th><th class="n">Days</th><th class="n">Return %</th><th class="n">Sharpe</th><th class="n">Deflated Sharpe P</th></tr></thead><tbody></tbody></table></div>
+    <p class="note" id="laneNote"></p>
+  </section>
+</section>
+
+<section id="v-overview" hidden>
   <h1 id="finding">AI-managed portfolio, simulated forward test</h1>
   <p class="lede" id="sub">Nothing is ever traded. Every strategy runs on real market prices; Quantavius keeps all the pretend money invested and decides how to split it.</p>
   <div class="banner" id="verdictBanner"></div>
@@ -261,8 +277,8 @@ let D=null,src="snapshot";
 try{D=JSON.parse($("snapshot").textContent)}catch(e){}
 
 /* routing */
-const views=["overview","strategies","live","pipeline","ask"];
-function route(){const h=(location.hash||"#overview").slice(1),v=views.includes(h)?h:"overview";
+const views=["score","overview","strategies","live","pipeline","ask"];
+function route(){const h=(location.hash||"#score").slice(1),v=views.includes(h)?h:"score";
   views.forEach(n=>{$("v-"+n).hidden=n!==v;const a=$("nav-"+n);n===v?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
   if(v==="live"&&CHdata)drawCharts(CHdata);
   if(v==="overview")drawCurve();}
@@ -273,7 +289,21 @@ function setSrc(){const g=D&&D.generated;const age=g?(Date.now()-Date.parse(g.re
   $("srcTxt").textContent=(src==="github"?"Live from the repo":"Saved snapshot")+(g?" · data as of "+g+" New York":"");}
 
 function perf(p){return p||{}}
-function render(){if(!D)return;setSrc();
+function renderScore(){const B=D&&D.scoreboard;if(!B||B.error){$("scRules").textContent=B&&B.error?"Scoreboard unavailable: "+B.error:"Scoreboard not built yet.";return}
+  const a1=B.a1||{},gr=B.g1_rank||{},gp=B.g1_picks||{},ra=gr.all||{},pa=gp.all||{},cal=B.calibration||{};
+  const st=x=>esc((x&&(x.status||x.g1||x.g1_primary))||"–");
+  $("scFigs").innerHTML=[["A1 book",st(a1.verdict)],["Ranking IC",num(ra.mean_ic,3)],["Picks vs control / day",sgn(pa.mean_diff_day,2,"%")],["Approved strategies",B.g2?B.g2.approved:"–"],["Calibration (Brier)",num(cal.brier,3)]].map(([k,v])=>`<div><b>${v}</b><span>${k}</span></div>`).join("");
+  const rows=[["A1 weekly book (the verdict)",st(a1.verdict),(a1.verdict||{}).days,"all days: "+st(a1.all)+" ("+((a1.all||{}).days??"–")+" days)"],
+    ["G1 ranking",st(ra),ra.days,`mean IC ${num(ra.mean_ic,3)}, t ${num(ra.t,2)}, coverage ${num(ra.coverage*100,0)}%`],
+    ["G1 picks",st(pa),pa.pick_days,`${pa.picks??0} picks, ahead on ${pa.days_ahead??0} days; win rate after costs ${num(((gp.cost||{}).win_rate||0)*100,0)}%`],
+    ["G2 strategies",B.g2&&B.g2.approved?"running":"none approved yet","–",esc((B.g2||{}).rule||"")]];
+  $("tScore").querySelector("tbody").innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${r[2]??"–"}</td><td>${r[3]}</td></tr>`).join("");
+  $("scRules").textContent=[a1.rule,gr.rule,gp.rule].filter(Boolean).join(" · ");
+  const own=B.own_sleeves||{};$("tOwn").querySelector("tbody").innerHTML=Object.keys(own).map(k=>{const o=own[k];return `<tr><td>${esc(k)}</td><td class="n">${o.days??0}</td><td class="n ${cls(o.total_pct)}">${sgn(o.total_pct,2)}</td><td>${esc(o.last_day||"–")}</td></tr>`}).join("")||'<tr><td colspan="4">No own sleeve has a day yet.</td></tr>';
+  const ig=B.integrity||{},op=B.options||{};$("ownNote").textContent=`Option picks: ${op.n??0}. Witness integrity: ${(ig.altered||[]).length} altered, ${(ig.missing_from_ledger||[]).length} missing. Calibration: ${cal.n??0} stated chances, Brier ${num(cal.brier,3)} (coin flip ${num(cal.coin_flip_brier,2)}).`;
+  const L=B.lane||{};$("tLane").querySelector("tbody").innerHTML=(L.entries||[]).map(e=>`<tr><td>${esc(e.name)}</td><td>${esc(e.status)}</td><td>${esc(e.from||"–")}</td><td class="n">${e.days??0}</td><td class="n ${cls(e.return_pct)}">${sgn(e.return_pct,2)}</td><td class="n">${num(e.sharpe,2)}</td><td class="n">${num(e.dsr_p,3)}</td></tr>`).join("");
+  $("laneNote").textContent=`Champion: ${L.champion||"–"}. Lifetime unique trials: ${L.trials??"–"}. Scores as of ${L.day||"–"}.`;}
+function render(){if(!D)return;setSrc();renderScore();
   const A=D.allocator||{},ph=A.phases||{},all=perf(ph.all),win=ph.verdict;
   const ai=perf(all.ai),spy=perf(all.spy),vm=perf(all.spy_vm),eq=perf(all.equal),ba=perf(all.base_a);
   const days=ai.days||0,cal=D.calendar||{};
