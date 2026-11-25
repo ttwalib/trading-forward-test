@@ -29,6 +29,10 @@ Quantavius picking its own stocks, developing its own strategies and running its
    strategies/results/<id>.json; update the runbook LAB section (the lab still runs review.py gate itself).
 
 ## Stage 2 - ML stock ranker (the model behind Quantavius's picks)
+MOVED EARLIER (owner, 2026-11-25): step 1 (the base ranker on the 13 price features, no outside packages) is built by the
+cloud session of 2026-12-05 (after the Dec 4 audit) and registered with forward_from 2026-12-07, so its 60-day promotion
+clock starts with the window. The Dec 8 build continues from step 2 (candidate features, alphalens, the qlib baseline)
+and records each retrain as a new version.
 1. Gradient boosting on the history, predicting next-week relative return; purged walk-forward (5-day label, embargo);
    weekly long-only top-N of current S&P 500 members with realistic costs. Method: chapters 7, 8 and 12 of Jansen's
    ML for Trading (MIT code; ideas, own implementation). Report IC with alphalens-reloaded (isolated job) beside the
