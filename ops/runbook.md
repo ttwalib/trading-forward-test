@@ -388,9 +388,8 @@ workflow right after the nightly fetch and the stocks scoring, calling orb_adapt
 inputs as the old 17:20 task (the last 240 stored 5-minute bars of SPY and the 22 watchlist stocks, DAYS = the last 3
 stored dates). It writes AdaptiveStocks, one AdaptiveLog "stocks" row and data/state/stocks.json; run report
 ops/diag/daily_adaptive.json. If the ledgers already hold the day it compares instead of writing (parity; identical on
-2026-11-18 to 2026-11-24 with the settings in use each day). Until the owner approves disabling the AI task
-trig_01XqVW4yGp2cwSyEXUobMusn (a scheduled run cannot change scheduled tasks; proposed prompt in ops/prompts/proposed/),
-the 17:20 task still writes first and the GitHub step only compares; once it is disabled, GitHub writes. To re-run, push
+2026-11-18 to 2026-11-24 with the settings in use each day). The AI task trig_01XqVW4yGp2cwSyEXUobMusn was
+retired and disabled on 2026-11-25 with the owner's approval (prompt ops/prompts/adaptive.md), so GitHub writes. To re-run, push
 ops/fetch_request.json with mode "nightly".
 frozen is always false (no holdout): score (orb_adaptive.py score) and run optimize as the prompt says, to 2027-05-14.
 Settings: data/state/stocks.json holds the stock adaptive settings (copied from "Adaptive"!B3/D3); with the sheet
@@ -428,8 +427,8 @@ picks-evening` after the nightly fetch, which also stores the picks' 5-minute ba
 AdaptiveLog old_settings, and "no trade" rows; run report ops/diag/daily_picks_evening.json; parity identical on
 2026-11-19, 11-20 and 11-23); the 20:20 AI task is then to write only the ATM-call and smart-call replays, which need IBKR
 option data, reading the baseline trades from those rows. SWITCH: GitHub writes only when data/state/picks_evening.json
-has "github_writes": true, set by the session that pushes the option-only prompt (ops/prompts/proposed/evening.md) after
-the owner's approval; until then the AI task writes every row as before and GitHub only compares. Exception: GitHub
+has "github_writes": true. It was set on 2026-11-25 in the session that pushed the option-only prompt
+(ops/prompts/evening.md) with the owner's approval, so GitHub writes the stock rows and the AI task writes option rows only. Exception: GitHub
 wrote the stock rows of 2026-11-24 during the build test, so the old prompt stops as "already scored" that night and the
 option replays of 2026-11-24 are to be added by a later session (IBKR read-only option bars).
 

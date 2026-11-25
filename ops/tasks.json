@@ -31,16 +31,16 @@
   },
   {
    "name": "Adaptive stocks",
-   "when": "17:20 weekdays (to retire: GitHub runs scripts/daily.py adaptive since 2026-11-25; disabling the task awaits the owner's approval)",
+   "when": "Retired 2026-11-25 (disabled with the owner's approval)",
    "model": "Sonnet",
-   "does": "Scores the adaptive breakout settings and runs champion/challenger. GitHub runs the same step after the nightly fetch and compares (parity) while this task still writes first; proposed retired prompt in ops/prompts/proposed/adaptive.md",
-   "weekday_runs": 1
+   "does": "Retired: GitHub runs scripts/daily.py adaptive after the nightly fetch and writes the rows",
+   "weekday_runs": 0
   },
   {
    "name": "Evening scoring of picks",
    "when": "20:20 weekdays",
    "model": "Sonnet",
-   "does": "Picks traded under baseline A and the adaptive settings, plus ATM-call and smart-call replays. GitHub computes the stock rows too (scripts/daily.py picks-evening, compare only until data/state/picks_evening.json github_writes is true); the option-only prompt waits for the owner's approval (ops/prompts/proposed/evening.md)",
+   "does": "Option replays only (ATM call and smart call) since 2026-11-25; GitHub writes the stock rows (scripts/daily.py picks-evening, github_writes true)",
    "weekday_runs": 1
   },
   {

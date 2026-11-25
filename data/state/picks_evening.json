@@ -1,4 +1,4 @@
 {
- "github_writes": false,
- "note": "Set to true in the same session that pushes the option-only prompt of trig_0158DyhLj3M3cKod2eXxFn1g (ops/prompts/evening.md). Until then the 20:20 AI task writes all AgentTrades rows and GitHub only compares."
+ "github_writes": true,
+ "note": "Set to true on 2026-11-25 in the build session that pushed the option-only prompt to trig_0158DyhLj3M3cKod2eXxFn1g (ops/prompts/evening.md). GitHub writes the stock rows; the 20:20 AI task writes option rows only."
 }
