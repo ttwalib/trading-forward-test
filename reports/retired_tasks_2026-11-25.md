@@ -1,5 +1,7 @@
 # Disabled scheduled tasks the owner may delete (setup-debate build list item 6)
 
+DONE 2026-11-25: the owner approved, and all 13 tasks listed below (both tables) were deleted in the build chat, with their run transcripts.
+
 Written on 2026-11-25 by a build session of Quantavius the 1st from list_triggers. Nothing was deleted: deleting is the
 owner's choice. Every task below is disabled and does no work; its job now runs on GitHub or was merged elsewhere.
 
