@@ -1,6 +1,6 @@
 {
  "date": "2026-11-24",
- "sleeves": 31,
+ "sleeves": 29,
  "freeze": {
   "frozen": false,
   "freeze_date": "2026-12-07"
@@ -25,10 +25,10 @@
    },
    "equal": {
     "days": 7,
-    "total_pct": -2.204,
-    "sharpe": -13.28,
-    "max_dd_pct": 2.512,
-    "mean_daily_pct": -0.3173,
+    "total_pct": -2.179,
+    "sharpe": -12.98,
+    "max_dd_pct": 2.491,
+    "mean_daily_pct": -0.3136,
     "below_weighting_floor": false
    },
    "base_a": {
@@ -49,10 +49,10 @@
    },
    "equal_vm": {
     "days": 7,
-    "total_pct": -2.898,
-    "sharpe": -13.28,
-    "max_dd_pct": 3.3,
-    "mean_daily_pct": -0.4182,
+    "total_pct": -2.834,
+    "sharpe": -12.98,
+    "max_dd_pct": 3.237,
+    "mean_daily_pct": -0.4087,
     "below_weighting_floor": false
    },
    "base_a_vm": {
@@ -66,7 +66,7 @@
    "spy_vm_scale": 0.191,
    "vm_scales": {
     "spy": 0.191,
-    "equal": 1.318,
+    "equal": 1.303,
     "base_a": 1.57
    },
    "p_ai_beats": {
@@ -85,18 +85,18 @@
    "shadows": {
     "sh_rp": {
      "days": 7,
-     "total_pct": -0.174,
-     "sharpe": -2.81,
-     "max_dd_pct": 0.499,
-     "mean_daily_pct": -0.0248,
+     "total_pct": 0.042,
+     "sharpe": 0.58,
+     "max_dd_pct": 0.456,
+     "mean_daily_pct": 0.0061,
      "below_weighting_floor": false
     },
     "sh_mv": {
      "days": 7,
-     "total_pct": 0.33,
-     "sharpe": 5.34,
-     "max_dd_pct": 0.1,
-     "mean_daily_pct": 0.0472,
+     "total_pct": 0.649,
+     "sharpe": 7.55,
+     "max_dd_pct": 0.079,
+     "mean_daily_pct": 0.0926,
      "below_weighting_floor": false
     },
     "sh_win": {
@@ -158,10 +158,10 @@
    },
    "equal": {
     "days": 3,
-    "total_pct": -0.077,
-    "sharpe": -1.25,
-    "max_dd_pct": 0.391,
-    "mean_daily_pct": -0.0255,
+    "total_pct": -0.029,
+    "sharpe": -0.48,
+    "max_dd_pct": 0.348,
+    "mean_daily_pct": -0.0093,
     "below_weighting_floor": false
    },
    "base_a": {
@@ -182,10 +182,10 @@
    },
    "equal_vm": {
     "days": 3,
-    "total_pct": -0.203,
-    "sharpe": -1.25,
-    "max_dd_pct": 1.006,
-    "mean_daily_pct": -0.0656,
+    "total_pct": -0.082,
+    "sharpe": -0.48,
+    "max_dd_pct": 0.933,
+    "mean_daily_pct": -0.025,
     "below_weighting_floor": false
    },
    "base_a_vm": {
@@ -199,7 +199,7 @@
    "spy_vm_scale": 0.198,
    "vm_scales": {
     "spy": 0.198,
-    "equal": 2.573,
+    "equal": 2.684,
     "base_a": 4.727
    },
    "p_ai_beats": {
@@ -218,18 +218,18 @@
    "shadows": {
     "sh_rp": {
      "days": 3,
-     "total_pct": 0.326,
-     "sharpe": 19.56,
+     "total_pct": 0.5,
+     "sharpe": 25.91,
      "max_dd_pct": 0.0,
-     "mean_daily_pct": 0.1087,
-     "below_weighting_floor": true
+     "mean_daily_pct": 0.1665,
+     "below_weighting_floor": false
     },
     "sh_mv": {
      "days": 3,
-     "total_pct": 0.242,
-     "sharpe": 6.03,
-     "max_dd_pct": 0.083,
-     "mean_daily_pct": 0.0809,
+     "total_pct": 0.411,
+     "sharpe": 7.09,
+     "max_dd_pct": 0.079,
+     "mean_daily_pct": 0.1371,
      "below_weighting_floor": false
     },
     "sh_win": {
@@ -291,10 +291,10 @@
    },
    "equal": {
     "days": 7,
-    "total_pct": -2.204,
-    "sharpe": -13.28,
-    "max_dd_pct": 2.512,
-    "mean_daily_pct": -0.3173,
+    "total_pct": -2.179,
+    "sharpe": -12.98,
+    "max_dd_pct": 2.491,
+    "mean_daily_pct": -0.3136,
     "below_weighting_floor": false
    },
    "base_a": {
@@ -315,10 +315,10 @@
    },
    "equal_vm": {
     "days": 7,
-    "total_pct": -2.898,
-    "sharpe": -13.28,
-    "max_dd_pct": 3.3,
-    "mean_daily_pct": -0.4182,
+    "total_pct": -2.834,
+    "sharpe": -12.98,
+    "max_dd_pct": 3.237,
+    "mean_daily_pct": -0.4087,
     "below_weighting_floor": false
    },
    "base_a_vm": {
@@ -332,7 +332,7 @@
    "spy_vm_scale": 0.191,
    "vm_scales": {
     "spy": 0.191,
-    "equal": 1.318,
+    "equal": 1.303,
     "base_a": 1.57
    },
    "p_ai_beats": {
@@ -351,18 +351,18 @@
    "shadows": {
     "sh_rp": {
      "days": 7,
-     "total_pct": -0.174,
-     "sharpe": -2.81,
-     "max_dd_pct": 0.499,
-     "mean_daily_pct": -0.0248,
+     "total_pct": 0.042,
+     "sharpe": 0.58,
+     "max_dd_pct": 0.456,
+     "mean_daily_pct": 0.0061,
      "below_weighting_floor": false
     },
     "sh_mv": {
      "days": 7,
-     "total_pct": 0.33,
-     "sharpe": 5.34,
-     "max_dd_pct": 0.1,
-     "mean_daily_pct": 0.0472,
+     "total_pct": 0.649,
+     "sharpe": 7.55,
+     "max_dd_pct": 0.079,
+     "mean_daily_pct": 0.0926,
      "below_weighting_floor": false
     },
     "sh_win": {
@@ -532,8 +532,8 @@
   }
  },
  "stamp": {
-  "commit": "b0bef4f",
-  "data_sha256": "65fd67dbbd0f7ded",
+  "commit": "6ae7736",
+  "data_sha256": "60105c8a77aa07f6",
   "data_files": 530,
   "versions": {
    "python": "3.14.4",
@@ -542,22 +542,20 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-24 21:51"
+  "at": "2026-11-25 03:48"
  },
  "latest_weights": {
   "date": "2026-11-24",
   "weights": {
    "L13 Pairs reversion": 0.25,
+   "L10 Earnings drift": 0.25,
    "L16 SPY trend short": 0.25,
-   "L12 Turn of month": 0.25,
-   "L10 Earnings drift": 0.25
+   "L12 Turn of month": 0.25
   },
   "breakers": [
    "L14 ORB breakdown short",
    "L15 Market-neutral momentum",
-   "L2 VWAP pullback",
    "L3 Gap and go",
-   "L4 Gap fade",
    "L6 Bollinger reversion"
   ],
   "duplicates": [
@@ -573,39 +571,34 @@
   "forced": [],
   "shadows": {
    "sh_rp": {
-    "L1 SPY intraday momentum": 0.1783,
-    "L10 Earnings drift": 0.0529,
-    "L11 SPY overnight": 0.0516,
-    "L12 Turn of month": 0.0572,
-    "L13 Pairs reversion": 0.1348,
-    "L14 ORB breakdown short": 0.0283,
-    "L15 Market-neutral momentum": 0.0165,
-    "L16 SPY trend short": 0.0494,
-    "L17 Multi-asset trend": 0.0502,
-    "L2 VWAP pullback": 0.0785,
-    "L3 Gap and go": 0.033,
-    "L4 Gap fade": 0.1126,
-    "L5 RSI(2) pullback": 0.0658,
-    "L6 Bollinger reversion": 0.0256,
-    "L7 Donchian trend": 0.0218,
-    "L8 Momentum top 8": 0.0108,
-    "L9 Sector rotation": 0.0327
+    "L1 SPY intraday momentum": 0.2204,
+    "L10 Earnings drift": 0.0654,
+    "L11 SPY overnight": 0.0638,
+    "L12 Turn of month": 0.0707,
+    "L13 Pairs reversion": 0.1666,
+    "L14 ORB breakdown short": 0.035,
+    "L15 Market-neutral momentum": 0.0205,
+    "L16 SPY trend short": 0.0611,
+    "L17 Multi-asset trend": 0.062,
+    "L3 Gap and go": 0.0408,
+    "L5 RSI(2) pullback": 0.0813,
+    "L6 Bollinger reversion": 0.0316,
+    "L7 Donchian trend": 0.027,
+    "L8 Momentum top 8": 0.0134,
+    "L9 Sector rotation": 0.0404
    },
    "sh_mv": {
-    "L1 SPY intraday momentum": 0.1781,
-    "L10 Earnings drift": 0.0634,
-    "L11 SPY overnight": 0.0529,
-    "L12 Turn of month": 0.0187,
-    "L13 Pairs reversion": 0.1542,
-    "L14 ORB breakdown short": 0.0283,
-    "L16 SPY trend short": 0.0778,
-    "L17 Multi-asset trend": 0.0977,
-    "L2 VWAP pullback": 0.0895,
-    "L3 Gap and go": 0.0176,
-    "L4 Gap fade": 0.128,
-    "L5 RSI(2) pullback": 0.0856,
-    "L6 Bollinger reversion": 0.0022,
-    "L9 Sector rotation": 0.006
+    "L1 SPY intraday momentum": 0.2158,
+    "L10 Earnings drift": 0.0776,
+    "L11 SPY overnight": 0.0608,
+    "L12 Turn of month": 0.0414,
+    "L13 Pairs reversion": 0.1895,
+    "L14 ORB breakdown short": 0.0416,
+    "L16 SPY trend short": 0.098,
+    "L17 Multi-asset trend": 0.1133,
+    "L3 Gap and go": 0.0346,
+    "L5 RSI(2) pullback": 0.1099,
+    "L9 Sector rotation": 0.0172
    },
    "sh_win": {
     "L16 SPY trend short": 0.25,

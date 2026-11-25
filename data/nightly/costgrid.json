@@ -507,34 +507,34 @@
    "move_to_cost": 33.33
   },
   "Crypto 15m fixed (pooled)": {
-   "n": 95,
+   "n": 97,
    "unit": "R per trade",
-   "mean_net_1x": -0.47884,
-   "mean_cost_1x": 0.44744,
+   "mean_net_1x": -0.48608,
+   "mean_cost_1x": 0.44767,
    "mean_at": {
-    "0.5": -0.25512,
-    "1.0": -0.47884,
-    "2.0": -0.92628,
-    "3.0": -1.37371
+    "0.5": -0.26225,
+    "1.0": -0.48608,
+    "2.0": -0.93375,
+    "3.0": -1.38142
    },
    "breakeven_mult": 0.0,
    "reading": "loses even at zero cost",
-   "move_to_cost": 2.45
+   "move_to_cost": 2.43
   },
   "Crypto 15m adaptive (pooled)": {
-   "n": 95,
+   "n": 97,
    "unit": "R per trade",
-   "mean_net_1x": -0.47884,
-   "mean_cost_1x": 0.44744,
+   "mean_net_1x": -0.48608,
+   "mean_cost_1x": 0.44767,
    "mean_at": {
-    "0.5": -0.25512,
-    "1.0": -0.47884,
-    "2.0": -0.92628,
-    "3.0": -1.37371
+    "0.5": -0.26225,
+    "1.0": -0.48608,
+    "2.0": -0.93375,
+    "3.0": -1.38142
    },
    "breakeven_mult": 0.0,
    "reading": "loses even at zero cost",
-   "move_to_cost": 2.45
+   "move_to_cost": 2.43
   },
   "Crypto 1h fixed (pooled)": {
    "n": 29,

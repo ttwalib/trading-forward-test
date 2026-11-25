@@ -1,0 +1,20 @@
+{
+ "seed": 20261125,
+ "draws": 2000,
+ "mean_block_days": 5,
+ "forward": {
+  "status": "not enough days",
+  "days": 7,
+  "models": 28,
+  "benchmark": "equal_f (foundation-only equal weight)",
+  "first": "2026-11-16"
+ },
+ "lab": {
+  "status": "no GitHub lab sweeps yet"
+ },
+ "trial_log": {
+  "rows": 64,
+  "trials_counted": 285,
+  "note": "trials without a stored daily series cannot enter the test; the p-values above are optimistic by that much"
+ }
+}

@@ -56,12 +56,12 @@
    },
    "equal": {
     "days": 7,
-    "total_pct": -2.204,
+    "total_pct": -2.179,
     "drawdowns": [
      {
       "peak": "2026-11-16",
       "trough": "2026-11-23",
-      "depth_pct": 2.512,
+      "depth_pct": 2.491,
       "recovered": null,
       "length": 7,
       "open": true
@@ -110,15 +110,14 @@
    },
    "sh_rp": {
     "days": 7,
-    "total_pct": -0.174,
+    "total_pct": 0.042,
     "drawdowns": [
      {
       "peak": "2026-11-16",
       "trough": "2026-11-19",
-      "depth_pct": 0.499,
-      "recovered": null,
-      "length": 7,
-      "open": true
+      "depth_pct": 0.456,
+      "recovered": "2026-11-24",
+      "length": 6
      }
     ],
     "tail": {
@@ -128,22 +127,22 @@
    },
    "sh_mv": {
     "days": 7,
-    "total_pct": 0.33,
+    "total_pct": 0.649,
     "drawdowns": [
-     {
-      "peak": "2026-11-16",
-      "trough": "2026-11-18",
-      "depth_pct": 0.1,
-      "recovered": "2026-11-19",
-      "length": 2
-     },
      {
       "peak": "2026-11-20",
       "trough": "2026-11-24",
-      "depth_pct": 0.083,
+      "depth_pct": 0.079,
       "recovered": null,
       "length": 2,
       "open": true
+     },
+     {
+      "peak": "2026-11-17",
+      "trough": "2026-11-18",
+      "depth_pct": 0.058,
+      "recovered": "2026-11-19",
+      "length": 1
      }
     ],
     "tail": {

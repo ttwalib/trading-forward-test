@@ -1,6 +1,6 @@
 {
  "champion": "ai_judgment",
- "day": "2026-11-24",
+ "day": "2026-11-25",
  "entries": {
   "ai_judgment": {
    "deflated_sharpe_p": null,
@@ -96,7 +96,7 @@
    }
   }
  },
- "lifetime_unique_trials": 27,
+ "lifetime_unique_trials": 28,
  "yardsticks": [
   "spy",
   "equal",
