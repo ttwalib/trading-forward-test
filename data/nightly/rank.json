@@ -1,13 +1,13 @@
 {
  "all": {
-  "days": 1,
+  "days": 2,
   "missed_days": 0,
   "coverage": 1.0,
-  "mean_ic": -0.1759,
-  "t": null,
+  "mean_ic": 0.1736,
+  "t": 0.5,
   "p_mean_ic_above_0": null,
-  "days_positive": 0,
-  "g1_primary": "too few days (1 of 60)"
+  "days_positive": 1,
+  "g1_primary": "too few days (2 of 60)"
  },
  "verdict": {
   "days": 0

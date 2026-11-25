@@ -9,8 +9,8 @@
   "integrity_flags_edit_and_delete": true
  },
  "ml_parity": {
-  "day": "2026-11-19",
-  "planted_in": 7,
+  "day": "2026-11-24",
+  "planted_in": 35,
   "clean_ok": true,
   "clean_feature_share": 0.0,
   "leak_ok": false,

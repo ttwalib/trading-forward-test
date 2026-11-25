@@ -2,10 +2,10 @@
  "stress_2x": {
   "L5 RSI(2) pullback": {
    "backtest_avg_pct_2x": 0.325,
-   "forward_avg_pct_2x": null
+   "forward_avg_pct_2x": -2.906
   },
   "L6 Bollinger reversion": {
-   "backtest_avg_pct_2x": -0.343,
+   "backtest_avg_pct_2x": -0.372,
    "forward_avg_pct_2x": null
   },
   "L7 Donchian trend": {
@@ -34,7 +34,7 @@
   },
   "L11 SPY overnight": {
    "backtest_avg_pct_2x": -0.002,
-   "forward_avg_pct_2x": 1.074
+   "forward_avg_pct_2x": 0.721
   },
   "L12 Turn of month": {
    "backtest_avg_pct_2x": 0.489,
@@ -50,11 +50,11 @@
   },
   "L1 SPY intraday momentum": {
    "backtest_avg_pct_2x": -0.074,
-   "forward_avg_pct_2x": -0.229
+   "forward_avg_pct_2x": -0.259
   },
   "L2 VWAP pullback": {
    "backtest_avg_pct_2x": -0.455,
-   "forward_avg_pct_2x": -0.719
+   "forward_avg_pct_2x": -0.586
   },
   "L3 Gap and go": {
    "backtest_avg_pct_2x": -0.436,
@@ -66,7 +66,7 @@
   },
   "L14 ORB breakdown short": {
    "backtest_avg_pct_2x": -0.483,
-   "forward_avg_pct_2x": 0.616
+   "forward_avg_pct_2x": 0.671
   }
  }
 }

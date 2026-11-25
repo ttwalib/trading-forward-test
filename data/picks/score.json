@@ -2,14 +2,14 @@
  "note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). Days before 2026-12-07 are warm-up.",
  "cost_side_pct": 0.1,
  "all": {
-  "pick_days": 3,
-  "picks": 12,
-  "mean_picks_day": -1.7132,
-  "mean_control_day": -1.0653,
-  "mean_diff_day": -0.6478,
-  "days_ahead": 1,
+  "pick_days": 4,
+  "picks": 15,
+  "mean_picks_day": -0.7424,
+  "mean_control_day": -0.3767,
+  "mean_diff_day": -0.3657,
+  "days_ahead": 2,
   "p_picks_beat_control": null,
-  "g1": "too few pick days (3 of 60)"
+  "g1": "too few pick days (4 of 60)"
  },
  "verdict": {
   "pick_days": 0,
@@ -19,15 +19,15 @@
   "note": "report only; per position, unweighted; win rate after costs vs the break-even win rate",
   "AP": {
    "all": {
-    "trades": 12,
+    "trades": 15,
     "round_trip_cost_pct": 0.2,
-    "gross_sum_pct": -26.777,
-    "cost_sum_pct": 2.4,
-    "cost_share_of_gross": 0.09,
-    "win_rate": 0.25,
-    "avg_net_win_pct": 0.606,
+    "gross_sum_pct": -20.268,
+    "cost_sum_pct": 3.0,
+    "cost_share_of_gross": 0.148,
+    "win_rate": 0.4,
+    "avg_net_win_pct": 1.288,
     "avg_net_loss_pct": 3.444,
-    "breakeven_win_rate": 0.85
+    "breakeven_win_rate": 0.728
    },
    "verdict": {
     "trades": 0
@@ -35,15 +35,15 @@
   },
   "AP2": {
    "all": {
-    "trades": 10,
+    "trades": 13,
     "round_trip_cost_pct": 0.2,
-    "gross_sum_pct": -27.011,
-    "cost_sum_pct": 2.0,
-    "cost_share_of_gross": 0.074,
-    "win_rate": 0.2,
-    "avg_net_win_pct": 0.903,
-    "avg_net_loss_pct": 3.852,
-    "breakeven_win_rate": 0.81
+    "gross_sum_pct": -33.818,
+    "cost_sum_pct": 2.6,
+    "cost_share_of_gross": 0.077,
+    "win_rate": 0.308,
+    "avg_net_win_pct": 1.414,
+    "avg_net_loss_pct": 4.675,
+    "breakeven_win_rate": 0.768
    },
    "verdict": {
     "trades": 0
@@ -101,6 +101,22 @@
    "control_day": 0.368,
    "picks_5d": null,
    "control_5d": null
+  },
+  {
+   "date": "2026-11-24",
+   "phase": "train",
+   "verdict_window": false,
+   "picks": [
+    "BBY",
+    "DKS",
+    "DLTR"
+   ],
+   "missing": [],
+   "n": 3,
+   "picks_day": 2.1697,
+   "control_day": 1.6892,
+   "picks_5d": null,
+   "control_5d": null
   }
  ],
  "options": {
@@ -113,8 +129,8 @@
  },
  "by_version": {
   "v1": {
-   "picks": 5,
-   "mean_edge_vs_control": -2.3077
+   "picks": 8,
+   "mean_edge_vs_control": -1.2622
   },
   "vNone": {
    "picks": 7,
@@ -123,8 +139,8 @@
  },
  "by_vehicle": {
   "stock": {
-   "picks": 12,
-   "mean_edge_vs_control": -1.3406
+   "picks": 15,
+   "mean_edge_vs_control": -0.9764
   },
   "option": {
    "picks": 0,
