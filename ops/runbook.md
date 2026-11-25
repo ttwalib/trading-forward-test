@@ -476,6 +476,18 @@ against picks.PUT_SLIP (2% a side when measured; 4% floor since 2026-11-25). Fir
 the allowance (AP3 4% floor or the contract's own stored half-spread, whichever is wider; options_sim.py haircut 4% for
 the Agent picks option replays; optarch.OPT_SLIP 4% and the lab gate's minimum allowance 4% for option strategies).
 
+ENTRY TIME, INTRADAY EXITS AND SHADOW VARIANTS (2026-11-25, item 66). ENTRY: a stock pick may seal "entry=10:00" or
+"entry=10:30" in its checks (default "entry=open"); AP2 then enters at the open of the 5-minute bar starting then, and its
+stop and target count from that price and only after it. G1 and AP stay open to close. EXITS: to leave a held stock or
+option position early, write a NEW AgentPicks row with the same asset and symbol, status "exit" and checks
+"exits=<picked_at of the original> | <reason>" (never edit the original). It fills at the first price after the LATER of
+its own time and its first GitHub sighting (from 2026-11-30; an unwitnessed row does not count): before 09:30 at that day's
+open, 09:30-15:55 at the open of the next 5-minute bar, later at the next trading day's open; same costs as any exit.
+It applies to AP2 (stocks) and AP3 (options); G1 and AP are unchanged. The 13:05 live run and the morning research may
+write exits. SHADOW VARIANTS (report only, score.json "shadow", 3 trials logged): the same G1 picks entered at 10:00,
+without gaps above 4%, and faded; they never enter G1, AP, AP2 or A1, and the Saturday playbook review may use them as
+evidence under the usual bar.
+
 STOCK AND OPTION PICK WITHDRAWALS (2026-11-25, item 65; built for the pre-open refresh of item 61): a stock or option pick
 may be withdrawn BEFORE THE OPEN only. Write a NEW AgentPicks row with the same asset and symbol, status "withdrawn",
 your own picked_at (NOWNY, before 09:30 New York and the same day as the original) and checks "withdraws=<picked_at of
@@ -1161,3 +1173,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 64 | 2026-11-25 | Owner approvals applied: adaptive stocks AI task retired (GitHub writes), evening task option replays only (github_writes true), watchdog task list and morning coin-drop prompt pushed live; COST RULE applied (L2, L4, crypto 15m fixed M1 and 15m adaptive M1 out of the book; allocator.DROPPED and COST_DROPPED_CRYPTO) |
 | 65 | 2026-11-25 | Built early (owner): stock and option pick WITHDRAWALS before the open (picks.py); MIDDAY OPTION CHAINS (mode optmid) and the AP3 SPREAD CHECK (spreadcheck.py; first reading: median half-spread 4.0% vs the 2% allowance, owner decision); Dec 8 stage 1 (point-in-time history from 2016, nightly forward bars data/pit/fwd, labrun workflow) and stage 5 (stage5.py: SPA, Fama/French, lane health) as report-only or data-only work; registry lab_daily roll fix. Nothing registered or weighted |
 | 66 | 2026-11-25 | Option spread allowance raised (owner): AP3 4% per side or the contract's own stored half-spread if wider (picks.slip_for); options_sim.py haircut 2.5% -> 4%; optarch.OPT_SLIP and the lab gate minimum 2% -> 4%. Rows already written keep their costs |
+| 67 | 2026-11-25 | Entry time per pick (entry=10:00 / 10:30, AP2), witnessed intraday exits (status exit, exits=, AP2 and AP3), three report-only shadow variants of the picks (3 trials); pick 5-minute bars kept 10 days; ApeWisdom fetched at 06:40 with a 07:30 retry; morning prompt shows its calibration; live decisions may write exits |

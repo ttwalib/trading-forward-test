@@ -62,3 +62,4 @@
 {"at":"2026-11-22 07:53","n":13,"name":"univariate rank IC table, 13 features","source":"pit_train"}
 {"at":"2026-11-23 04:24","n":1,"name":"L18 ETF IBS reversion (declared before backtest: IBS<0.2 long 3 lowest, IBS>0.8 short 3 highest, 21 ETFs, next open to that close, K=6; no tuning)","source":"owner_2026-11-23"}
 {"at":"2026-11-25 03:47","n":13,"name":"univariate rank IC table on the 2016+ point-in-time history (10.3 years), 13 features","source":"pit_train"}
+{"at":"2026-11-25 04:06","n":3,"name":"shadow pick variants declared before results: v_10am (enter at the 10:00 bar), v_nogap4 (skip gaps above 4%), v_fade (opposite trade)","source":"picks_shadow"}

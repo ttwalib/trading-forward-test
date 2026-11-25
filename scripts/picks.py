@@ -96,7 +96,7 @@ def put_rows(repo, cal_idx, W):
         st, tg = _exits(ck)
         out.setdefault(t[:10], []).append({"und": r["symbol"], "occ": o1, "occ2": o2, "right": r1, "w": wt if wt and 0.05 <= wt <= 1.0 else None,
                                            "hold": int(mh.group(1)) if mh else 1, "p": float(mp.group(1)) if mp else None,
-                                           "stop": st, "tgt": tg, "cid": str(r.get("contract_id") or "")})
+                                           "stop": st, "tgt": tg, "cid": str(r.get("contract_id") or ""), "rid": witness.row_id(r)})
     return out
 
 
@@ -160,6 +160,84 @@ def slip_for(repo, occs, day):
     return max([PUT_SLIP] + hs)
 
 
+ENTRY_TIMES = ("open", "10:00", "10:30")
+
+
+def entry_choice(ck):
+    """Sealed entry time of a stock pick (2026-11-25, item 66): checks "entry=open" (default), "entry=10:00" or
+    "entry=10:30". Applies to AP2 (Quantavius's own sizing, holding and exits); G1 and AP stay open to close."""
+    m = re.search(r"\bentry=(open|10:00|10:30)\b", ck)
+    return m.group(1) if m else "open"
+
+
+def exit_requests(PR, W):
+    """Intraday exits (2026-11-25, item 66). A NEW AgentPicks row with status "exit", the same asset and symbol, and
+    checks "exits=<picked_at of the original pick>" closes that held position (AP2 for stocks, AP3 for options) at the
+    first price after the LATER of the row's own time and its first GitHub sighting (from 2026-11-30; before that the
+    row's time): before 09:30 -> that day's open; 09:30-15:55 -> the open of the first 5-minute bar starting at or after
+    that time (rounded up to 5 minutes); later -> the next trading day's open. The original is never edited. Returns
+    {original row id: "YYYY-MM-DD HH:MM" effective New York time}; the earliest request wins."""
+    out = {}
+    for r in PR:
+        if r.get("status") != "exit": continue
+        t = str(r.get("picked_at") or "")[:16]
+        m = re.search(r"\bexits=(\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)", str(r.get("checks") or ""))
+        if not m or len(t) < 16: continue
+        w = W.get(witness.row_id(r))
+        if w: eff = max(t, w["seen_at_ny"][:16])
+        elif t[:10] < witness.ENFORCE_FROM: eff = t
+        else: continue                                   # never witnessed: it does not count
+        rid = "%s|%s|%s" % (m.group(1), r.get("asset"), r.get("symbol"))
+        if rid not in out or eff < out[rid]: out[rid] = eff
+    return out
+
+
+def ceil5(hhmm):
+    h, m = int(hhmm[:2]), int(hhmm[3:5]); m = -(-m // 5) * 5
+    if m == 60: h, m = h + 1, 0
+    return "%02d:%02d" % (h, m)
+
+
+def exit_time_on(eff, d, cal):
+    """Bar start time ("09:30" = the open) at which an exit request with effective time eff fills on trading day d, or
+    None if it does not fill on d."""
+    if not eff: return None
+    ed, hm = eff[:10], eff[11:16]
+    if ed > d: return None
+    if ed < d: return "09:30"                            # not filled on an earlier day (after the close or a holiday): the open
+    if hm < "09:30": return "09:30"
+    if hm >= "15:55": return None                         # after the last bar: fills at the next trading day's open
+    return ceil5(hm)
+
+
+_B5 = {}
+def bars5(repo, sym):
+    """Stored 5-minute stock bars by New York day: {day: [(hhmm, o, h, l, c)]} (regular session only)."""
+    if sym in _B5: return _B5[sym]
+    f = os.path.join(repo, "data", "bars", "5m", sym.replace("/", "_") + ".jsonl"); out = {}
+    if os.path.exists(f):
+        for l in open(f):
+            if not l.strip(): continue
+            b = json.loads(l); t = dt.datetime.fromtimestamp(b["t"], NY); hm = t.strftime("%H:%M")
+            if "09:30" <= hm < "16:00": out.setdefault(t.date().isoformat(), []).append((hm, b["o"], b["h"], b["l"], b["c"]))
+    for v in out.values(): v.sort()
+    _B5[sym] = out; return out
+
+
+def walk5(rows, start, stop, tgt, exit_at, first):
+    """Walks one day's 5-minute bars from `start`: the exit request fills at the open of the bar starting at exit_at; a
+    stop or target inside a bar fills at its level (at the bar's open if it gapped through, except on the entry bar).
+    Returns (price, reason) or (last close, None)."""
+    last = None
+    for hm, o, h, l, c in rows:
+        if hm < start: continue
+        if exit_at and hm >= exit_at: return o, "exit"
+        if stop is not None and l <= stop: return (stop if (first and hm == start) else min(o, stop)), "stop"
+        if tgt is not None and h >= tgt: return (tgt if (first and hm == start) else max(o, tgt)), "target"
+        last = c
+    return last, None
+
+
 def puts(repo, cal, cal_idx, day, W):
     """AP3: each option pick (a single call or put, or a debit vertical) bought at the open (first trade 09:30-10:30;
     both legs for a spread) and marked on each day's last trade, exits at its sealed stop/target on the premium (stop
@@ -168,6 +246,7 @@ def puts(repo, cal, cal_idx, day, W):
     spread allowance on entry and exit, both as a percent of the premium paid. A pick that never trades in the fill
     window (or a spread whose net debit is under OPT_MIN_DEBIT) is "no fill"."""
     P = put_rows(repo, cal_idx, W); pos, series, closed, nofill = [], {}, [], []
+    EX = exit_requests(witness.pick_rows(repo)[0], W)
     for d in cal:
         for x in P.get(d, []):
             l1 = opt_bars(repo, x["occ"]); legs = 1; gross = None
@@ -198,7 +277,9 @@ def puts(repo, cal, cal_idx, day, W):
         for p, wt in zip(pos, ws):
             bars_d = [b for b in p["ob"].get(d, []) if not (p["new"] and b[0] < p["start"])]
             px = None; out_now = d >= p["last"]
+            xa = exit_time_on(EX.get(p.get("rid")), d, cal)
             for hhmm, o, h, l, c in bars_d:
+                if xa and hhmm >= xa and not (p["new"] and hhmm == p["start"]): px = o; out_now = True; break   # intraday exit (item 66)
                 if p["stop_px"] is not None and l <= p["stop_px"]: px = min(o, p["stop_px"]) if hhmm != p["start"] or not p["new"] else p["stop_px"]; out_now = True; break
                 if p["tgt_px"] is not None and h >= p["tgt_px"]: px = max(o, p["tgt_px"]) if hhmm != p["start"] or not p["new"] else p["tgt_px"]; out_now = True; break
             if px is None: px = bars_d[-1][4] if bars_d else p["mark"]
@@ -254,7 +335,7 @@ def build(repo, day=None):
     U = json.load(open(os.path.join(repo, "data", "universe.json")))
     cal = [d for d in tcal.trading_days(tcal.START, tcal.END) if d <= day]
     cal_idx = {d: i for i, d in enumerate(cal)}
-    picks = {}; sized = {}; probs = {}; exits = {}; PR, W = witness.pick_rows(repo)
+    picks = {}; sized = {}; probs = {}; exits = {}; entry_t = {}; rids = {}; PR, W = witness.pick_rows(repo)
     vers = {}       # (pick day, symbol) -> playbook version, for the by-version report (review N13)
     WD = withdrawn(PR, W, cal_idx)
     for r in PR:    # first-seen copies (review N3): a witnessed pick edited or deleted later is still scored as first seen
@@ -272,6 +353,7 @@ def build(repo, day=None):
             except ValueError: w = None
             sized.setdefault(t[:10], {})[r["symbol"]] = (w if w is not None and 0.05 <= w <= 0.40 else None, int(mh.group(1)) if mh else 1)
             exits.setdefault(t[:10], {})[r["symbol"]] = _exits(ck)
+            entry_t.setdefault(t[:10], {})[r["symbol"]] = entry_choice(ck); rids[(t[:10], r["symbol"])] = witness.row_id(r)
             mv = re.search(r"\bplaybook v(\d+)", ck); vers[(t[:10], r["symbol"])] = int(mv.group(1)) if mv else None
             mp = re.search(r"\bp=(0?\.[0-9]+|1(?:\.0+)?)\b", ck)              # stated chance to beat the control list today
             if mp: probs.setdefault(t[:10], {})[r["symbol"]] = float(mp.group(1))
@@ -303,8 +385,9 @@ def build(repo, day=None):
                          "missing": [x[0] for x in pm if x[1] is None], "n": len(p1),
                          "picks_day": round(mean(p1), 4) if p1 else None, "control_day": round(mean(c1), 4) if c1 else None,
                          "picks_5d": round(mean(p5), 4) if p5 else None, "control_5d": round(mean(c5), 4) if p5 and c5 else None})
-    # AP2: the AI's own weights and holding periods
-    pos, series2, closed2 = [], {}, []
+    # AP2: the AI's own weights, holding periods, entry times and exits
+    pos, series2, closed2 = [], {}, []; entry_fallback, exits_done = [], []
+    EX = exit_requests(PR, W)
     for d in cal:
         if d not in series: continue
         ws = sized.get(d, {})
@@ -314,16 +397,30 @@ def build(repo, day=None):
             for sym, (w, h) in ws.items():
                 Bs = B(sym); i = cal_idx[d]
                 if d in Bs and Bs[d][0] and abs(Bs[d][1] / Bs[d][0] - 1) < 0.6:
-                    st, tg = exits.get(d, {}).get(sym, (None, None)); e0 = Bs[d][0]
+                    st, tg = exits.get(d, {}).get(sym, (None, None)); e0 = Bs[d][0]; start = "09:30"
+                    et = entry_t.get(d, {}).get(sym, "open")
+                    if et != "open":            # sealed later entry (item 66): the open of the 5-minute bar starting then
+                        b5 = [x for x in bars5(repo, sym).get(d, []) if x[0] >= et]
+                        if b5: e0, start = b5[0][1], b5[0][0]
+                        else: entry_fallback.append({"date": d, "symbol": sym, "entry": et})
                     pos.append({"s": sym, "w": w, "mark": e0, "entry": e0, "d0": d, "last": cal[min(i + h - 1, len(cal) - 1)], "new": True, "end_i": i + h - 1,
-                                "stop": e0 * (1 + st / 100) if st else None, "tgt": e0 * (1 + tg / 100) if tg else None})
+                                "stop": e0 * (1 + st / 100) if st else None, "tgt": e0 * (1 + tg / 100) if tg else None,
+                                "start": start, "rid": rids.get((d, sym))})
         tot = sum(p["w"] for p in pos); r = 0.0
         for p in pos:
             Bs = B(p["s"])
             if d in Bs:
                 o, c, hi, lo = Bs[d]; px = c
+                xa = exit_time_on(EX.get(p.get("rid")), d, cal)
+                rows5 = bars5(repo, p["s"]).get(d) if (xa or (p["new"] and p["start"] != "09:30")) else None
+                if rows5:                       # 5-minute path: a later entry and/or an intraday exit request (item 66)
+                    q, why = walk5(rows5, p["start"] if p["new"] else "09:30", p["stop"], p["tgt"], xa, p["new"])
+                    if why: px = q; p["end_i"] = cal_idx[d]
+                    if why == "exit": exits_done.append({"date": p["d0"], "symbol": p["s"], "exit_day": d, "at": xa})
+                elif xa:                        # exit requested but no 5-minute bars stored: the open if it was due at the open, else the close
+                    px = o if xa == "09:30" else c; p["end_i"] = cal_idx[d]; exits_done.append({"date": p["d0"], "symbol": p["s"], "exit_day": d, "at": xa, "no_5m_bars": True})
                 # sealed exits on daily bars, the stop first (conservative); a gap through a level exits at the open
-                if p["stop"] is not None and (lo <= p["stop"]): px = min(o, p["stop"]) if not p["new"] else p["stop"]; p["end_i"] = cal_idx[d]
+                elif p["stop"] is not None and (lo <= p["stop"]): px = min(o, p["stop"]) if not p["new"] else p["stop"]; p["end_i"] = cal_idx[d]
                 elif p["tgt"] is not None and hi >= p["tgt"]: px = max(o, p["tgt"]) if not p["new"] else p["tgt"]; p["end_i"] = cal_idx[d]
                 p["exit_px"] = px
                 r += p["w"] * ((px / p["mark"] - 1) * 100 - (COST_SIDE if p["new"] else 0) - (COST_SIDE if cal_idx[d] >= p["end_i"] else 0)); p["mark"] = px
@@ -383,6 +480,38 @@ def build(repo, day=None):
     out_sleeves = {SLEEVE: series, SLEEVE2: series2} if any(v is not None and (w is not None or h != 1) for x in sized.values() for w, h in x.values() for v in [1]) else {SLEEVE: series}
     if series3: out_sleeves[SLEEVE3] = series3
     json.dump(out_sleeves, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
+    # SHADOW VARIANTS (2026-11-25, item 66; declared before any result and logged as 3 trials): the same witnessed G1 picks
+    # under three other handling rules, scored against the same control-list average. Report only: they never enter G1,
+    # AP, AP2 or A1; they are evidence the Saturday playbook review can use (runbook PICK PLAYBOOK).
+    #   v_10am:   enter at the open of the 10:00 5-minute bar instead of the open, out at the close
+    #   v_nogap4: skip picks whose open gapped more than 4% from the previous close (either way), open to close
+    #   v_fade:   the opposite trade, open to close (minus the pick's move)
+    def shadow():
+        out = {k: [] for k in ("v_10am", "v_nogap4", "v_fade")}
+        for rw in rows:
+            d = rw["date"]; i = cal_idx[d]; prev = cal[i - 1] if i > 0 else None; cmean = rw["control_day"]
+            if cmean is None: continue
+            v1, v2, v3 = [], [], []
+            for sym in rw["picks"]:
+                Bs = B(sym)
+                if d not in Bs or not Bs[d][0]: continue
+                o, c = Bs[d][0], Bs[d][1]; oc = (c / o - 1) * 100
+                b5 = [x for x in bars5(repo, sym).get(d, []) if x[0] >= "10:00"]
+                if b5 and b5[0][1]: v1.append((c / b5[0][1] - 1) * 100)
+                if prev and prev in Bs and Bs[prev][1] and abs(o / Bs[prev][1] - 1) <= 0.04: v2.append(oc)
+                v3.append(-oc)
+            for k, v in (("v_10am", v1), ("v_nogap4", v2), ("v_fade", v3)):
+                if v: out[k].append({"date": d, "n": len(v), "variant_day": round(mean(v), 4), "control_day": cmean})
+        res = {}
+        for k, R in out.items():
+            a = [(x["variant_day"], x["control_day"]) for x in R]
+            r0 = {"days": len(a), "picks": sum(x["n"] for x in R)}
+            if a:
+                r0.update(mean_diff_day=round(mean([x - y for x, y in a]), 4), days_ahead=sum(1 for x, y in a if x > y))
+                if len(a) >= 10:
+                    import allocator; r0["p_beats_control"] = allocator.p_beats([x for x, _ in a], [y for _, y in a])
+            res[k] = r0
+        return res
     score = {"note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). "
                      "Days before 2026-12-07 are warm-up.", "cost_side_pct": COST_SIDE,
              "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "cost_view": cview, "rows": rows,
@@ -391,6 +520,10 @@ def build(repo, day=None):
                                  "Report only; G1 counts the long stock picks; AP3 carries the option P&L.",
                          "n": len(bear), "mean_view_edge": round(mean([(b["stock_day"] - b["control_day"]) * (1 if b["right"] == "C" else -1) for b in bear]), 4) if bear else None,
                          "rows": bear, "closed": closed3, "no_fill": nofill3}}
+    score["shadow"] = dict(shadow(), note="report only (item 66): the same picks under other handling rules vs the same control "
+                                          "list; never part of G1, AP, AP2 or A1; 3 trials logged on 2026-11-25")
+    score["ap2_entry_exit"] = {"entry_choices": {k: sum(1 for x in entry_t.values() for v in x.values() if v == k) for k in ENTRY_TIMES},
+                               "entry_fallback_to_open": entry_fallback, "exits_filled": exits_done}
     # By playbook version and by vehicle (review N13): the playbook keeps changing to the end, so results are also
     # reported per version; stock picks and option picks are reported apart. Report only.
     bv = {}
