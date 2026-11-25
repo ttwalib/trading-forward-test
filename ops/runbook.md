@@ -457,6 +457,16 @@ EXITS (2026-11-24, item 57): a stock pick may also carry "stop=-N" (percent belo
 (percent above, 1 to 200) in its checks cell. They apply in AP2 only (AP and G1 stay open to close), on daily bars,
 the stop first; a gap through a level exits at that day's open. Leave them out to hold to the close of the last
 holding day.
+REPORT-ONLY READINGS FOR THE REPORTS (2026-11-25, item 65; Dec 8 plan stage 5 built early): scripts/stage5.py as nightly
+extra steps. data/nightly/spa.json: White's Reality Check and Hansen's SPA over every forward sleeve and rival book against
+equal_f, and over every GitHub lab-sweep setting against SPY ("does the best thing we tried beat luck?"; trials without a
+daily series are counted but cannot enter, so the p-values are optimistic by that much). data/nightly/ffattr.json:
+Fama/French five factors plus momentum attribution of the A1 book (factors fetched by the 18:20 ext job into data/ext/ff;
+the library lags a month or two). data/nightly/lane_health.json: healthy / under watch / decayed / switched off / too
+new per lane entry (log data/lane/health_log.jsonl); it never overrides the retirement rule. The interim and final
+reports quote all three. Also fixed the same day: registry series type lab_daily now rolls results dated on a non-trading
+day to the next trading day (it dropped them), as lab_crypto does.
+
 MIDDAY OPTION CHAINS AND THE SPREAD CHECK (2026-11-25, item 65): workflow mode optmid (cron 17:30 UTC on weekdays, 12:30
 New York in winter and 13:30 from 2027-03-14; full trading days only) stores the same chains as the nightly snapshot in
 data/optarch/snap_mid/<UND>/<DAY>.json.gz. scripts/spreadcheck.py (nightly extra step -> data/nightly/spreadcheck.json;

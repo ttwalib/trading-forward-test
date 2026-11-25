@@ -199,7 +199,8 @@ def series(repo, e, start, days, port, sleeves_cache):
     if s["type"] == "lab_daily":            # the strategy's own daily_series(repo) -> {date: sleeve return %}; forward days only
         spec = importlib.util.spec_from_file_location("labmod_d", P(repo, s["module"])); m = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(m); out = m.daily_series(repo)
-        return {d: float(out.get(d, 0.0)) for d in days}
+        # results dated on a non-trading day roll to the next trading day, as for lab_crypto (fixed 2026-11-25; they were dropped)
+        return roll_to_trading({d: float(v) for d, v in out.items() if d >= start}, days)
     raise SystemExit("unknown series type %s" % s["type"])
 
 

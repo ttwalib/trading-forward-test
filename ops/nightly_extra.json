@@ -7,5 +7,35 @@
   ],
   "out": "spreadcheck.json",
   "timeout": 300
+ },
+ {
+  "name": "spa",
+  "args": [
+   "stage5.py",
+   "spa",
+   "REPO"
+  ],
+  "out": "spa.json",
+  "timeout": 900
+ },
+ {
+  "name": "ffattr",
+  "args": [
+   "stage5.py",
+   "ff",
+   "REPO"
+  ],
+  "out": "ffattr.json",
+  "timeout": 300
+ },
+ {
+  "name": "lane_health",
+  "args": [
+   "stage5.py",
+   "health",
+   "REPO"
+  ],
+  "out": "lane_health.json",
+  "timeout": 300
  }
 ]
