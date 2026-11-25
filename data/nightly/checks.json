@@ -104,7 +104,7 @@
   "note": "per side, in percent of price; the delay drift of the hourly AI runs is left out because the engine, not the hourly run, sets fills since 2026-11-19"
  },
  "health": {
-  "at": "2026-11-25 03:48",
+  "at": "2026-11-25 04:11",
   "ticks_today": 0,
   "last_tick": null,
   "last_tick_age_min": null,

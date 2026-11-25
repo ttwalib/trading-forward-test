@@ -1,9 +1,9 @@
 {
  "ok": true,
- "entries": 449,
- "added": 14,
+ "entries": 453,
+ "added": 4,
  "broken": [],
- "head": "75f6971a69c31aa486294ea06ff81e18e189ce4cf69eb7541eda4782b108ee38",
+ "head": "3b377185d3da01b4c30af409b813d371ea82ca2abf12cb02ef906244b0c0809d",
  "sources": [
   "data/allocator/judge.jsonl",
   "data/trials.jsonl",

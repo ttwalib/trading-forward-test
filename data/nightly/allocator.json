@@ -532,7 +532,7 @@
   }
  },
  "stamp": {
-  "commit": "6ae7736",
+  "commit": "ab6b911",
   "data_sha256": "60105c8a77aa07f6",
   "data_files": 530,
   "versions": {
@@ -542,15 +542,15 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-25 03:48"
+  "at": "2026-11-25 04:10"
  },
  "latest_weights": {
   "date": "2026-11-24",
   "weights": {
    "L13 Pairs reversion": 0.25,
-   "L10 Earnings drift": 0.25,
+   "L12 Turn of month": 0.25,
    "L16 SPY trend short": 0.25,
-   "L12 Turn of month": 0.25
+   "L10 Earnings drift": 0.25
   },
   "breakers": [
    "L14 ORB breakdown short",
@@ -634,7 +634,7 @@
    -0.252,
    -0.731,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-17",
@@ -649,7 +649,7 @@
    -0.745,
    -2.153,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-18",
@@ -664,7 +664,7 @@
    -1.277,
    -2.806,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-19",
@@ -679,7 +679,7 @@
    -2.151,
    -3.368,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
+   "L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L10 Earnings drift 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-20",
@@ -694,7 +694,7 @@
    -2.201,
    -4.259,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L17 Multi-asset trend 25%; L16 SPY trend short 15%"
+   "L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L10 Earnings drift 25%; L16 SPY trend short 15%"
   ],
   [
    "2026-11-23",
@@ -709,7 +709,7 @@
    -2.491,
    -5.253,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L16 SPY trend short 25%; L12 Turn of month 25%"
+   "L13 Pairs reversion 25%; L12 Turn of month 25%; L16 SPY trend short 25%; L10 Earnings drift 25%"
   ],
   [
    "2026-11-24",
@@ -724,7 +724,7 @@
    -2.179,
    -6.454,
    1.0,
-   "L13 Pairs reversion 25%; L10 Earnings drift 25%; L16 SPY trend short 25%; L12 Turn of month 25%"
+   "L13 Pairs reversion 25%; L12 Turn of month 25%; L16 SPY trend short 25%; L10 Earnings drift 25%"
   ]
  ]
 }

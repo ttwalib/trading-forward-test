@@ -940,7 +940,7 @@
   },
   "v2": {
    "strategies_tested": 49,
-   "luck_sharpe": 0.6834,
+   "luck_sharpe": 0.6883,
    "rows": [
     {
      "strategy": "L14 ORB breakdown short",
@@ -957,7 +957,7 @@
      "beta": -0.0136,
      "breaker": "off",
      "q_bh": 0.3264,
-     "dsr": 0.3448,
+     "dsr": 0.3392,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1133,7 +1133,7 @@
      "psr": 0.4059,
      "breaker": "off",
      "q_bh": 0.9968,
-     "dsr": 0.0051,
+     "dsr": 0.0048,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1149,7 +1149,7 @@
      "psr": 0.382,
      "breaker": "off",
      "q_bh": 0.9968,
-     "dsr": 0.0048,
+     "dsr": 0.0046,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1229,7 +1229,7 @@
      "psr": 0.1973,
      "breaker": "on",
      "q_bh": 0.9968,
-     "dsr": 0.0057,
+     "dsr": 0.0055,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1245,7 +1245,7 @@
      "psr": 0.1973,
      "breaker": "on",
      "q_bh": 0.9968,
-     "dsr": 0.0057,
+     "dsr": 0.0055,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1372,7 +1372,7 @@
      "beta": -0.1445,
      "breaker": "off",
      "q_bh": 0.9968,
-     "dsr": 0.0031,
+     "dsr": 0.003,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -1496,7 +1496,7 @@
      "psr": 0.0748,
      "breaker": "off",
      "q_bh": 0.9968,
-     "dsr": 0.0053,
+     "dsr": 0.0051,
      "verdict": "unproven (n<20)",
      "kelly_share": 0.0
     },
@@ -2704,8 +2704,8 @@
   }
  },
  "trials": {
-  "total_logged": 285,
-  "unique_trials": 28,
+  "total_logged": 288,
+  "unique_trials": 29,
   "by_source": {
    "ml_y_stock": 45,
    "learning": 189,
@@ -2717,11 +2717,12 @@
    "allocator": 2,
    "strategy_lab": 9,
    "pit_train": 26,
-   "owner_2026-11-23": 1
+   "owner_2026-11-23": 1,
+   "picks_shadow": 3
   }
  },
  "stamp": {
-  "commit": "6ae7736",
+  "commit": "ab6b911",
   "data_sha256": "60105c8a77aa07f6",
   "data_files": 530,
   "versions": {
@@ -2731,6 +2732,6 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-25 03:48"
+  "at": "2026-11-25 04:10"
  }
 }

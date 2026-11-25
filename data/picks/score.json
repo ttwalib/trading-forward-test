@@ -127,6 +127,36 @@
   "closed": [],
   "no_fill": []
  },
+ "shadow": {
+  "v_10am": {
+   "days": 4,
+   "picks": 15,
+   "mean_diff_day": -1.1896,
+   "days_ahead": 1
+  },
+  "v_nogap4": {
+   "days": 3,
+   "picks": 4,
+   "mean_diff_day": 0.1635,
+   "days_ahead": 1
+  },
+  "v_fade": {
+   "days": 4,
+   "picks": 15,
+   "mean_diff_day": 1.1191,
+   "days_ahead": 3
+  },
+  "note": "report only (item 66): the same picks under other handling rules vs the same control list; never part of G1, AP, AP2 or A1; 3 trials logged on 2026-11-25"
+ },
+ "ap2_entry_exit": {
+  "entry_choices": {
+   "open": 15,
+   "10:00": 0,
+   "10:30": 0
+  },
+  "entry_fallback_to_open": [],
+  "exits_filled": []
+ },
  "by_version": {
   "v1": {
    "picks": 8,
