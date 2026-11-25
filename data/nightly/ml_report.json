@@ -1,51 +1,51 @@
 {
- "date": "2026-11-23",
+ "date": "2026-11-24",
  "ok": true,
  "steps": {
   "build": {
    "stock": {
-    "rows": 1519,
-    "days": 67,
+    "rows": 1554,
+    "days": 68,
     "labelled": {
-     "y_none": 1519,
-     "y_stock": 1519,
-     "y_stock_ideal": 1519,
-     "fill": 1519,
+     "y_none": 1554,
+     "y_stock": 1554,
+     "y_stock_ideal": 1554,
+     "fill": 1554,
      "y_atm": 31,
      "y_d1": 15,
      "y_w4": 0,
-     "best": 1519
+     "best": 1554
     }
    },
    "crypto": {
-    "rows": 228,
-    "days": 7,
+    "rows": 248,
+    "days": 8,
     "labelled": {
-     "y": 228
+     "y": 248
     }
    }
   },
-  "scored": 50,
+  "scored": 46,
   "train": "done"
  },
  "report": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "train": {
-   "date": "2026-11-23",
+   "date": "2026-11-24",
    "stock": {
     "family": "stock",
-    "rows": 12546,
-    "fit_rows": 12546,
-    "oos_rows": 12176,
-    "oos_days": 487,
-    "always_take_mean": -0.0656,
+    "rows": 12581,
+    "fit_rows": 12581,
+    "oos_rows": 12211,
+    "oos_days": 488,
+    "always_take_mean": -0.0659,
     "pbo": 0.7,
     "configs": {
      "logistic@0.45": {
       "model": "logistic",
       "threshold": 0.45,
       "n_taken": 4559,
-      "share_taken": 0.374,
+      "share_taken": 0.373,
       "mean_taken": 0.0127,
       "auc": 0.534,
       "brier": 0.2553
@@ -54,7 +54,7 @@
       "model": "logistic",
       "threshold": 0.5,
       "n_taken": 2850,
-      "share_taken": 0.234,
+      "share_taken": 0.233,
       "mean_taken": 0.013,
       "auc": 0.534,
       "brier": 0.2553
@@ -63,7 +63,7 @@
       "model": "logistic",
       "threshold": 0.55,
       "n_taken": 1702,
-      "share_taken": 0.14,
+      "share_taken": 0.139,
       "mean_taken": 0.0454,
       "auc": 0.534,
       "brier": 0.2553
@@ -72,7 +72,7 @@
       "model": "gbm",
       "threshold": 0.45,
       "n_taken": 3796,
-      "share_taken": 0.312,
+      "share_taken": 0.311,
       "mean_taken": 0.0298,
       "auc": 0.538,
       "brier": 0.2444
@@ -99,7 +99,7 @@
       "model": "forest",
       "threshold": 0.45,
       "n_taken": 1190,
-      "share_taken": 0.098,
+      "share_taken": 0.097,
       "mean_taken": -0.0034,
       "auc": 0.531,
       "brier": 0.2404
@@ -131,7 +131,7 @@
     "calibration": [
      {
       "bin": "0.2-0.4",
-      "n": 3025,
+      "n": 3060,
       "pred": 0.374,
       "hit": 0.361
      },
@@ -145,96 +145,96 @@
     "importance": [
      {
       "feature": "nh_nl",
-      "auc_drop": 0.0402
+      "auc_drop": 0.0399
      },
      {
       "feature": "breadth20",
-      "auc_drop": 0.0096
-     },
-     {
-      "feature": "days_to_fomc",
-      "auc_drop": 0.0083
+      "auc_drop": 0.0111
      },
      {
       "feature": "vix_chg",
-      "auc_drop": 0.0075
+      "auc_drop": 0.0077
      },
      {
-      "feature": "crypto_score",
-      "auc_drop": 0.0065
+      "feature": "days_to_fomc",
+      "auc_drop": 0.0077
      },
      {
       "feature": "spy_gap",
-      "auc_drop": 0.0064
+      "auc_drop": 0.0068
+     },
+     {
+      "feature": "crypto_score",
+      "auc_drop": 0.0061
      },
      {
       "feature": "breadth50",
-      "auc_drop": 0.0057
-     },
-     {
-      "feature": "risk_pct",
-      "auc_drop": 0.0051
+      "auc_drop": 0.0058
      },
      {
       "feature": "spy_vs20",
-      "auc_drop": 0.0051
+      "auc_drop": 0.0045
      },
      {
-      "feature": "vix",
-      "auc_drop": 0.0043
+      "feature": "risk_pct",
+      "auc_drop": 0.0044
      },
      {
       "feature": "ret1d",
-      "auc_drop": 0.0039
+      "auc_drop": 0.0042
+     },
+     {
+      "feature": "vix",
+      "auc_drop": 0.004
      },
      {
       "feature": "days_to_opex",
-      "auc_drop": 0.0038
+      "auc_drop": 0.0039
      }
     ],
     "instrument_models": [
      "stock"
     ],
-    "fit": "saved models/stock.pkl (12546 rows)"
+    "fit": "saved models/stock.pkl (12581 rows)"
    },
    "crypto": {
     "family": "crypto",
-    "rows": 228,
-    "fit_rows": 228,
+    "rows": 248,
+    "fit_rows": 248,
     "oos_rows": 0,
     "oos_days": 0,
     "status": "not enough out-of-sample rows yet (0 < 20)"
    },
-   "at": "2026-11-24T04:06:13+00:00"
+   "at": "2026-11-25T04:11:45+00:00"
   },
   "drift": {
    "stock": {
     "psi": {
-     "gap_pct": 0.243,
-     "or_width_pct": 0.118,
-     "or_width_atr": 0.197,
-     "or_vol_rel": 0.076,
-     "breakout_min": 0.1,
-     "risk_pct": 0.101,
-     "ret1d": 0.164,
-     "ret5d": 0.363,
-     "vs_sma20": 0.394,
-     "spy_gap": 3.289,
-     "spy_run": 0.238,
-     "spy_vs20": 5.116,
-     "vix": 4.172,
-     "vix_chg": 3.564,
-     "breadth20": 3.514,
-     "breadth50": 3.567,
-     "nh_nl": 3.665,
-     "crypto_score": 5.834,
-     "weekday": 0.027,
-     "days_to_fomc": 4.919,
-     "days_to_opex": 3.192,
+     "gap_pct": 0.23,
+     "or_width_pct": 0.132,
+     "or_width_atr": 0.126,
+     "or_vol_rel": 0.063,
+     "breakout_min": 0.076,
+     "risk_pct": 0.115,
+     "ret1d": 0.162,
+     "ret5d": 0.538,
+     "vs_sma20": 0.427,
+     "spy_gap": 3.515,
+     "spy_run": 0.439,
+     "spy_vs20": 5.297,
+     "vix": 4.228,
+     "vix_chg": 3.627,
+     "breadth20": 3.888,
+     "breadth50": 3.49,
+     "nh_nl": 3.53,
+     "crypto_score": 5.882,
+     "weekday": 0.047,
+     "days_to_fomc": 4.766,
+     "days_to_opex": 3.592,
      "iv_snap": 0.0,
      "iv_hv": 0.0,
      "ivp_52w": 0.0,
-     "earn_days": 0.404
+     "earn_days": 0.303
     },
     "flagged": [
      "breadth20",
@@ -246,6 +246,7 @@
      "nh_nl",
      "ret5d",
      "spy_gap",
+     "spy_run",
      "spy_vs20",
      "vix",
      "vix_chg",
@@ -256,11 +257,11 @@
    "crypto": "no model yet"
   },
   "shadow": {
-   "predictions": 155,
-   "scored": 150,
-   "taken": 103,
-   "mean_taken": -0.3263,
-   "always_take_mean_same_candidates": -0.5406
+   "predictions": 197,
+   "scored": 196,
+   "taken": 115,
+   "mean_taken": -0.31,
+   "always_take_mean_same_candidates": -0.3983
   }
  }
 }
