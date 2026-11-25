@@ -4,7 +4,8 @@ from zoneinfo import ZoneInfo
 # Fills: option bar close at the stock's entry bar (else the next bar's open within 30 min); exit at the
 # option bar where the stock trade exited (stop/target bar, or the 15:50 bar for the 15:55 flat exit).
 # Open stock trades are marked at the latest option bar (status "open"), updated on each hourly check.
-# Costs: half-spread haircut of 2.5% of the option price per side (minimum $0.02). Result in % of premium.
+# Costs: half-spread haircut of 4% of the option price per side (minimum $0.02; raised from 2.5% on 2026-11-25 after the
+# measured median half-spread of 4.0%, scripts/spreadcheck.py). Result in % of premium.
 NY = ZoneInfo("America/New_York")
 def hm(t): return t.strftime("%H:%M")
 def bars_of(d):
@@ -13,7 +14,7 @@ def bars_of(d):
         assert all(len(d[k]) == n for k in "ohl"), "o/h/l/c lengths differ"
         return [((t0 + dt.timedelta(seconds=s*i)).astimezone(NY), float(d["o"][i]), float(d["c"][i])) for i in range(n)]
     return [(dt.datetime.fromisoformat(t.replace("Z", "+00:00")).astimezone(NY), float(d["open"][i]), float(d["close"][i])) for i, t in enumerate(d["time"])]
-def haircut(p): return max(0.025 * p, 0.02)
+def haircut(p): return max(0.04 * p, 0.02)
 def shift(day, hhmm, minutes):
     t = dt.datetime.strptime(day + " " + hhmm, "%Y-%m-%d %H:%M") + dt.timedelta(minutes=minutes)
     return t.strftime("%H:%M")

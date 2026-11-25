@@ -37,7 +37,10 @@ SLEEVE = "AP Agent picks (open to close)"
 SLEEVE2 = "AP2 Agent picks (AI sizing and holding)"
 SLEEVE3 = "AP3 Agent picks: options (AI sizing and holding)"
 PUT_FEE = 0.68          # dollars per contract per side per leg (IBKR fixed $0.65 + about $0.03 regulatory fees)
-PUT_SLIP = 2.0          # percent of each leg's premium per side: allowance for the bid/ask spread on a market order
+PUT_SLIP = 4.0          # percent of each leg's premium per side: allowance for the bid/ask spread on a market order.
+# Raised from 2.0 on 2026-11-25 (owner decision, before the freeze) after scripts/spreadcheck.py measured a median
+# half-spread of 4.0% on delta 0.35-0.65 contracts. It is a FLOOR: when the night before has a stored chain quote for the
+# contract (data/optarch/snap/<UND>/<day>.json.gz), the larger of the floor and that contract's own half-spread is used.
 PUT_FILL_BY = "10:30"   # the first option trade at or after 09:30 and before this time is the entry; else no fill
 OPT_MIN_DEBIT = 0.05    # a spread whose net debit at entry is below this (dollars per share) is a no fill
 OCC_RE = r"[A-Z]{1,6}\d{6}[CP]\d{8}"
@@ -130,6 +133,33 @@ def spread_bars(a, b):
     return out
 
 
+def chain_half_spread(repo, occ, day, _cache={}):
+    """Half-spread in % of mid of one contract in the latest nightly chain stored BEFORE `day` (point in time: the
+    nightly snapshot is taken after the close, so the file dated the previous trading day is known at the open). None
+    if no stored quote (both bid and ask above zero) exists within 5 calendar days."""
+    und = _occ_parts(occ)[0]
+    for k in range(1, 6):
+        d0 = (dt.date.fromisoformat(day) - dt.timedelta(days=k)).isoformat()
+        f = os.path.join(repo, "data", "optarch", "snap", und, d0 + ".json.gz")
+        if f not in _cache:
+            try:
+                import gzip
+                _cache[f] = json.load(gzip.open(f)).get("c", {}) if os.path.exists(f) else None
+            except Exception: _cache[f] = None
+        C = _cache[f]
+        if C is None: continue
+        v = C.get(occ)
+        if v and v[0] and v[1] and v[0] > 0 and v[1] > v[0]: return (v[1] - v[0]) / 2 / ((v[0] + v[1]) / 2) * 100
+        return None
+    return None
+
+
+def slip_for(repo, occs, day):
+    """Spread allowance (% per side) for a position: the PUT_SLIP floor or the widest stored half-spread of its legs."""
+    hs = [h for h in (chain_half_spread(repo, o, day) for o in occs if o) if h is not None]
+    return max([PUT_SLIP] + hs)
+
+
 def puts(repo, cal, cal_idx, day, W):
     """AP3: each option pick (a single call or put, or a debit vertical) bought at the open (first trade 09:30-10:30;
     both legs for a spread) and marked on each day's last trade, exits at its sealed stop/target on the premium (stop
@@ -157,8 +187,9 @@ def puts(repo, cal, cal_idx, day, W):
             e = b[0][1]; i = cal_idx[d]; last = cal[min(i + x["hold"] - 1, len(cal) - 1)]
             if exp < last: last = exp
             g = gross if gross else e   # premium the spread allowance is charged on (both legs for a spread)
-            fee = (PUT_FEE * legs / (100 * e) * 100 if e else 0) + PUT_SLIP * g / e
-            pos.append(dict(x, d0=d, entry=e, mark=e, last=last, ob=ob, new=True, fee=fee, start=b[0][0], legs=legs, g_ratio=g / e,
+            slip = slip_for(repo, [x["occ"], x["occ2"]], d)
+            fee = (PUT_FEE * legs / (100 * e) * 100 if e else 0) + slip * g / e
+            pos.append(dict(x, d0=d, entry=e, mark=e, last=last, ob=ob, new=True, fee=fee, start=b[0][0], legs=legs, g_ratio=g / e, slip=slip,
                             stop_px=e * (1 + x["stop"] / 100) if x["stop"] else None, tgt_px=e * (1 + x["tgt"] / 100) if x["tgt"] else None))
         if not pos:
             if any(d >= k for k in P): series[d] = 0.0
@@ -174,7 +205,7 @@ def puts(repo, cal, cal_idx, day, W):
             px = max(px, 0.0)
             m0 = p["mark"]
             if m0 > 0:   # day return on the position's value at the start of the day; costs in the same units
-                exit_cost = (PUT_FEE * p["legs"] / (100 * m0) * 100 + PUT_SLIP * p["g_ratio"] * px / m0) if out_now and px > 0 else 0
+                exit_cost = (PUT_FEE * p["legs"] / (100 * m0) * 100 + p["slip"] * p["g_ratio"] * px / m0) if out_now and px > 0 else 0
                 r += wt * ((px / m0 - 1) * 100 - (p["fee"] if p["new"] else 0) - exit_cost)
             p["mark"] = px; p["new"] = False
             if out_now: done.append(p); closed.append({"date": p["d0"], "und": p["und"], "occ": p["occ"], "occ2": p["occ2"], "entry": p["entry"], "exit": px, "exit_day": d,

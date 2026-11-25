@@ -142,7 +142,7 @@ def gate(repo, c):
     if str(c.get("family") or "") == "option":
         o = c.get("options") or {}
         fl = o.get("fill"); al = o.get("spread_allowance_pct")
-        checks["options_fills_conservative"] = fl == "bidask" or (fl == "trade_plus_spread" and isinstance(al, (int, float)) and al >= 2.0)
+        checks["options_fills_conservative"] = fl == "bidask" or (fl == "trade_plus_spread" and isinstance(al, (int, float)) and al >= 4.0)
         checks["options_fees>=0.65"] = isinstance(o.get("fee_per_contract"), (int, float)) and o["fee_per_contract"] >= 0.65
         checks["options_no_stale_prices"] = o.get("stale_excluded") is True
         ex = [float(x) for x in (o.get("oos_ex_earnings") or [])]

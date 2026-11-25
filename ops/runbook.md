@@ -471,9 +471,10 @@ MIDDAY OPTION CHAINS AND THE SPREAD CHECK (2026-11-25, item 65): workflow mode o
 New York in winter and 13:30 from 2027-03-14; full trading days only) stores the same chains as the nightly snapshot in
 data/optarch/snap_mid/<UND>/<DAY>.json.gz. scripts/spreadcheck.py (nightly extra step -> data/nightly/spreadcheck.json;
 first reading reports/spreadcheck/2026-11-25.json) measures the half-spread of contracts with absolute delta 0.35-0.65
-against picks.PUT_SLIP (2% a side). First reading (one night, indicative feed): median 4.0%, 90th percentile 15.5%,
-68% of contracts above 2%; SPY, QQQ, IWM and NVDA about 1%, many single stocks 18-27%. Report only; the owner decides
-whether to raise the allowance or price option picks at the stored bid/ask before the freeze.
+against picks.PUT_SLIP (2% a side when measured; 4% floor since 2026-11-25). First reading (one night, indicative feed): median 4.0%, 90th percentile 15.5%,
+68% of contracts above 2%; SPY, QQQ, IWM and NVDA about 1%, many single stocks 18-27%. OWNER DECISION 2026-11-25: raise
+the allowance (AP3 4% floor or the contract's own stored half-spread, whichever is wider; options_sim.py haircut 4% for
+the Agent picks option replays; optarch.OPT_SLIP 4% and the lab gate's minimum allowance 4% for option strategies).
 
 STOCK AND OPTION PICK WITHDRAWALS (2026-11-25, item 65; built for the pre-open refresh of item 61): a stock or option pick
 may be withdrawn BEFORE THE OPEN only. Write a NEW AgentPicks row with the same asset and symbol, status "withdrawn",
@@ -515,7 +516,8 @@ GitHub fetches every leg's 5-minute bars in the nightly fetch and scripts/picks.
 picks: options" (one of your own sleeves, up to 50% of the book): entry at the first option trade from 09:30 to 10:30
 (for a spread, once both legs have traded; a net debit under $0.05 is no fill), marked on each day's last trade, exits
 at the sealed stop or target (stop first; a spread's stop and target are seen only at bar ends), at the close of the
-last holding day or on expiry day. $0.68 a contract per leg and 2% of each leg's premium per side are charged. A pick
+last holding day or on expiry day. $0.68 a contract per leg and a spread allowance per side are charged: 4% of each leg's premium (raised from 2% on
+2026-11-25), or that contract's own half-spread in the previous night's stored chain if wider. A pick
 with no trade by 10:30 is "no fill". It is a simulated position: nothing is ordered. The stock's move against the
 control list, signed by the view, is reported beside G1 (score.json "options"); G1 itself counts the long stock picks.
 EVENING JOURNAL AND PREP (2026-11-24, item 57): the evening review task writes data/picks/journal/<DAY>.json (what
@@ -1158,3 +1160,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 63 | 2026-11-25 | Setup-debate build list items 2-7: picked coins may be DROPPED (AGENT MORNING COIN PICKS AND DROPS; scripts/daily.py coins; a dropped coin leaves the 8-coin limit); live decisions stays an AI task (LIVE DECISIONS, WHY IT STAYS AN AI TASK); the watchdog stays separate from the orchestrator (WATCHDOG AND ORCHESTRATOR); the owner's list of disabled tasks he may delete (reports/retired_tasks_2026-11-25.md); tasks.json weekday_runs reviewed |
 | 64 | 2026-11-25 | Owner approvals applied: adaptive stocks AI task retired (GitHub writes), evening task option replays only (github_writes true), watchdog task list and morning coin-drop prompt pushed live; COST RULE applied (L2, L4, crypto 15m fixed M1 and 15m adaptive M1 out of the book; allocator.DROPPED and COST_DROPPED_CRYPTO) |
 | 65 | 2026-11-25 | Built early (owner): stock and option pick WITHDRAWALS before the open (picks.py); MIDDAY OPTION CHAINS (mode optmid) and the AP3 SPREAD CHECK (spreadcheck.py; first reading: median half-spread 4.0% vs the 2% allowance, owner decision); Dec 8 stage 1 (point-in-time history from 2016, nightly forward bars data/pit/fwd, labrun workflow) and stage 5 (stage5.py: SPA, Fama/French, lane health) as report-only or data-only work; registry lab_daily roll fix. Nothing registered or weighted |
+| 66 | 2026-11-25 | Option spread allowance raised (owner): AP3 4% per side or the contract's own stored half-spread if wider (picks.slip_for); options_sim.py haircut 2.5% -> 4%; optarch.OPT_SLIP and the lab gate minimum 2% -> 4%. Rows already written keep their costs |

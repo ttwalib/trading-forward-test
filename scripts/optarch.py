@@ -186,7 +186,7 @@ def series(repo, und):
 
 # ---------- lab helpers (runbook OPTIONS TRACK) ----------
 OPT_FEE = 0.68      # dollars per contract per side, as in live AP3 (scripts/picks.py PUT_FEE)
-OPT_SLIP = 2.0      # percent of the premium per side per leg when only trades are known (daily bars), as in live AP3
+OPT_SLIP = 4.0      # percent of the premium per side per leg when only trades are known (daily bars), as in live AP3 (raised from 2.0 on 2026-11-25)
 
 
 def fill(day_bar=None, snap_row=None, side="buy", allow=OPT_SLIP):
