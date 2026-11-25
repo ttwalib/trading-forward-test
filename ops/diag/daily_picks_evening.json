@@ -1,30 +1,33 @@
 {
- "day": "2026-11-24",
- "at": "2026-11-24 18:43",
+ "day": "2026-11-25",
+ "at": "2026-11-25 18:29",
  "ok": true,
  "picks": [
-  "BBY",
-  "DLTR",
-  "DKS"
+  "HPQ",
+  "LI",
+  "DELL"
  ],
  "baseline": {
   "rules": "15m/mid/2R",
-  "trades": 3,
-  "wins": 0,
-  "total_r": -1.61
+  "trades": 2,
+  "wins": 1,
+  "total_r": -0.43
  },
  "adaptive": {
   "rules": "5m/mid/1R",
-  "trades": 3,
+  "trades": 2,
   "wins": 1,
-  "total_r": -0.38
+  "total_r": -0.43
  },
- "no_trade": [],
+ "no_trade": [
+  "HPQ"
+ ],
  "parity": {
   "compared": false,
   "identical": true,
   "diffs": []
  },
  "check_only": false,
- "written": 6
+ "github_writes": true,
+ "written": 5
 }

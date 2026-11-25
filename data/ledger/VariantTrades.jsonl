@@ -216,3 +216,21 @@
 {"date":"2026-11-24","variant":"AC control","symbol":"TMUS","outcome":"stop","r_net":-1.03,"entry_time":"10:00"}
 {"date":"2026-11-24","variant":"AC control","symbol":"UNP","outcome":"stop","r_net":-1.06,"entry_time":"10:05"}
 {"date":"2026-11-24","variant":"AC control","symbol":"V","outcome":"flat by close","r_net":0.92,"entry_time":"09:50"}
+{"date":"2026-11-25","variant":"AC control","symbol":"ACN","outcome":"target","r_net":1.97,"entry_time":"10:00"}
+{"date":"2026-11-25","variant":"AC control","symbol":"ADBE","outcome":"stop","r_net":-1.03,"entry_time":"10:05"}
+{"date":"2026-11-25","variant":"AC control","symbol":"AMT","outcome":"flat by close","r_net":-0.16,"entry_time":"12:10"}
+{"date":"2026-11-25","variant":"AC control","symbol":"AXP","outcome":"target","r_net":1.94,"entry_time":"12:05"}
+{"date":"2026-11-25","variant":"AC control","symbol":"CVS","outcome":"flat by close","r_net":-0.32,"entry_time":"10:10"}
+{"date":"2026-11-25","variant":"AC control","symbol":"DIS","outcome":"target","r_net":1.94,"entry_time":"11:55"}
+{"date":"2026-11-25","variant":"AC control","symbol":"GD","outcome":"target","r_net":1.94,"entry_time":"09:50"}
+{"date":"2026-11-25","variant":"AC control","symbol":"GM","outcome":"target","r_net":1.92,"entry_time":"11:45"}
+{"date":"2026-11-25","variant":"AC control","symbol":"GS","outcome":"stop","r_net":-1.07,"entry_time":"09:55"}
+{"date":"2026-11-25","variant":"AC control","symbol":"HON","outcome":"stop","r_net":-1.08,"entry_time":"10:35"}
+{"date":"2026-11-25","variant":"AC control","symbol":"LMT","outcome":"target","r_net":1.93,"entry_time":"09:50"}
+{"date":"2026-11-25","variant":"AC control","symbol":"MS","outcome":"stop","r_net":-1.04,"entry_time":"10:00"}
+{"date":"2026-11-25","variant":"AC control","symbol":"PEP","outcome":"stop","r_net":-1.1,"entry_time":"10:35"}
+{"date":"2026-11-25","variant":"AC control","symbol":"PM","outcome":"flat by close","r_net":-1.03,"entry_time":"12:25"}
+{"date":"2026-11-25","variant":"AC control","symbol":"QCOM","outcome":"flat by close","r_net":1.43,"entry_time":"12:10"}
+{"date":"2026-11-25","variant":"AC control","symbol":"T","outcome":"flat by close","r_net":-0.4,"entry_time":"10:15"}
+{"date":"2026-11-25","variant":"AC control","symbol":"UNP","outcome":"stop","r_net":-1.13,"entry_time":"10:15"}
+{"date":"2026-11-25","variant":"AC control","symbol":"V","outcome":"target","r_net":1.94,"entry_time":"11:25"}

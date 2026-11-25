@@ -1,30 +1,45 @@
 {
- "day": "2026-11-24",
- "at": "2026-11-24 18:43",
+ "day": "2026-11-25",
+ "at": "2026-11-25 18:29",
  "ok": true,
  "check_only": false,
  "label": "5m/mid/1R",
  "summary": {
-  "trades": 13,
-  "win_rate": 69.2,
-  "avg_r_net": 0.415
+  "trades": 22,
+  "win_rate": 54.5,
+  "avg_r_net": 0.026
  },
  "days": [
-  "2026-11-20",
   "2026-11-23",
-  "2026-11-24"
+  "2026-11-24",
+  "2026-11-25"
  ],
  "missing": [],
  "parity": {
-  "compared": true,
+  "compared": false,
   "identical": true,
   "diffs": []
  },
  "retune": {
-  "decision": "already logged: challenger still on trial"
+  "decision": "challenger dropped (did not beat live); new challenger proposed | new challenger: {\"or_min\":30,\"stop\":\"low\",\"target_r\":1.5,\"spy\":true}",
+  "live_after": {
+   "or_min": 5,
+   "stop": "mid",
+   "target_r": 1,
+   "spy": false
+  },
+  "challenger": {
+   "params": {
+    "or_min": 30,
+    "stop": "low",
+    "target_r": 1.5,
+    "spy": true
+   },
+   "since": "2026-11-25"
+  }
  },
  "written": {
-  "trades": 0,
-  "log_row": false
+  "trades": 22,
+  "log_row": true
  }
 }

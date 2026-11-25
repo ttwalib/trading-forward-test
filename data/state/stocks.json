@@ -10,9 +10,9 @@
    "or_min": 30,
    "stop": "low",
    "target_r": 1.5,
-   "spy": false
+   "spy": true
   },
-  "since": "2026-11-20"
+  "since": "2026-11-25"
  },
  "migrated": "2026-11-22 from sheet 'Adaptive'!B3/D3 (sheet revision 177)"
 }

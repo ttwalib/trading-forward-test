@@ -1,8 +1,8 @@
 {
- "last_day": "2026-11-24",
- "at": "2026-11-24 18:27",
- "baseline_trades": 13,
- "control_trades": 22,
+ "last_day": "2026-11-25",
+ "at": "2026-11-25 18:29",
+ "baseline_trades": 22,
+ "control_trades": 18,
  "no_data": [],
  "by": "github"
 }
