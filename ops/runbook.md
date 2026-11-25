@@ -457,6 +457,14 @@ EXITS (2026-11-24, item 57): a stock pick may also carry "stop=-N" (percent belo
 (percent above, 1 to 200) in its checks cell. They apply in AP2 only (AP and G1 stay open to close), on daily bars,
 the stop first; a gap through a level exits at that day's open. Leave them out to hold to the close of the last
 holding day.
+STOCK AND OPTION PICK WITHDRAWALS (2026-11-25, item 65; built for the pre-open refresh of item 61): a stock or option pick
+may be withdrawn BEFORE THE OPEN only. Write a NEW AgentPicks row with the same asset and symbol, status "withdrawn",
+your own picked_at (NOWNY, before 09:30 New York and the same day as the original) and checks "withdraws=<picked_at of
+the original> | <what changed>". Never edit or delete the original. scripts/picks.py drops the original from that day
+(G1, AP, AP2, AP3) only if the withdrawal is first seen by GitHub before 09:30 (from 2026-11-30); a later or unwitnessed
+withdrawal changes nothing, and the day's remaining picks share the weight as usual. Adding a pick before 09:30 is an
+ordinary new picked row.
+
 COIN PICKS AND DROPS (2026-11-25, item 63; build list item 4): picked coins no longer have to stay to the end.
 STEP 1 settles them with `python3 -I /tmp/repo/scripts/daily.py coins /tmp/repo NOW > /tmp/po.json` (after storing the
 missing hourly bars as before) instead of the crypto_tracks.py stream call: the output has the same "closed", "open"

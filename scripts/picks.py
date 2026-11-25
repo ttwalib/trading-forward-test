@@ -47,6 +47,23 @@ def _occ_parts(o):
     return o[:-15], o[-15:-9], o[-9], int(o[-8:]) / 1000.0
 
 
+def withdrawn(PR, W, cal_idx):
+    """Picks withdrawn before the open (item 61, built 2026-11-25). A withdrawal is a NEW AgentPicks row with status
+    "withdrawn", the same asset and symbol, and checks "withdraws=<picked_at of the original>"; it counts only if it is
+    dated the same New York day as the original, before 09:30, and (from 2026-11-30) first seen by GitHub before 09:30
+    like any pick. The original row is never edited. Returns the row ids (witness.row_id) of the withdrawn originals;
+    their day's remaining picks share the weight as usual."""
+    out = set()
+    for r in PR:
+        t = str(r.get("picked_at") or "")
+        if r.get("status") != "withdrawn" or t[:10] not in cal_idx or t[11:16] >= "09:30": continue
+        if not witness.counts(W.get(witness.row_id(r)), t[:10]): continue
+        m = re.search(r"\bwithdraws=(\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)", str(r.get("checks") or ""))
+        if not m or m.group(1)[:10] != t[:10] or m.group(1) > t: continue
+        out.add("%s|%s|%s" % (m.group(1), r.get("asset"), r.get("symbol")))
+    return out
+
+
 def put_rows(repo, cal_idx, W):
     """Witnessed option picks (asset "option", or "put" from item 57; status "picked", sealed before 09:30 New York;
     item 58, 2026-11-24). The checks cell carries occ=<OCC symbol> (the contract bought: a call for a rising view, a put
@@ -55,8 +72,10 @@ def put_rows(repo, cal_idx, W):
     beats the control list today for a call, does worse for a put) and optional stop=/tgt= in percent of the premium
     (the net debit for a spread)."""
     out = {}
-    for r in witness.pick_rows(repo)[0]:     # first-seen copies (review N3): later edits or deletions change nothing
+    PR = witness.pick_rows(repo)[0]; WD = withdrawn(PR, W, cal_idx)
+    for r in PR:     # first-seen copies (review N3): later edits or deletions change nothing
         t = str(r.get("picked_at") or ""); w = W.get(witness.row_id(r))
+        if witness.row_id(r) in WD: continue    # withdrawn before the open (item 61)
         if not (r.get("asset") in ("put", "option") and r.get("status") == "picked" and t[:10] in cal_idx and t[11:16] < "09:30" and witness.counts(w, t[:10])):
             continue
         ck = str(r.get("checks") or "")
@@ -206,8 +225,10 @@ def build(repo, day=None):
     cal_idx = {d: i for i, d in enumerate(cal)}
     picks = {}; sized = {}; probs = {}; exits = {}; PR, W = witness.pick_rows(repo)
     vers = {}       # (pick day, symbol) -> playbook version, for the by-version report (review N13)
+    WD = withdrawn(PR, W, cal_idx)
     for r in PR:    # first-seen copies (review N3): a witnessed pick edited or deleted later is still scored as first seen
         t = str(r.get("picked_at") or "")
+        if witness.row_id(r) in WD: continue    # withdrawn before the open (item 61)
         w = W.get(witness.row_id(r))
         # from 2026-11-30 a pick counts only if GitHub first saw it before 09:30 New York (scripts/witness.py); sizing and
         # confidence are read from the first-seen copy, so editing the row later changes nothing
