@@ -1,35 +1,4 @@
 {
- "at": "2026-11-25 05:31",
- "open": [
-  {
-   "strategy": "X2",
-   "symbol": "SOL",
-   "status": "open",
-   "entry_time": "2026-11-25 03:00",
-   "entry": 67.7554,
-   "stop": 66.9901,
-   "exit_time": "2026-11-25 05:30",
-   "exit_or_mark": 67.6171,
-   "reason": "open (marked at last close)",
-   "r": -0.53,
-   "pct": -0.604,
-   "gross_pct": -0.204,
-   "track": "15m fixed"
-  },
-  {
-   "strategy": "X2",
-   "symbol": "SOL",
-   "status": "open",
-   "entry_time": "2026-11-25 03:00",
-   "entry": 67.7554,
-   "stop": 66.9901,
-   "exit_time": "2026-11-25 05:30",
-   "exit_or_mark": 67.6171,
-   "reason": "open (marked at last close)",
-   "r": -0.53,
-   "pct": -0.604,
-   "gross_pct": -0.204,
-   "track": "15m adaptive"
-  }
- ]
+ "at": "2026-11-25 08:50",
+ "open": []
 }
