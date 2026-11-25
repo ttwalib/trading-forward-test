@@ -37,7 +37,7 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    "github_writes": true in the same session; (c) push ops/prompts/proposed/watchdog.md to trig_01McTsF59Sw14Dm9ogHwr8Z1;
    then copy the three files over ops/prompts/, delete ops/prompts/proposed/, set weekday_runs (adaptive 0) in
    ops/tasks.json, interventions rows, SPEC, runbook item 62 wording, setup guide.
-11. OPEN: option replays (ATM call, smart call) of 2026-11-24 for BBY, DLTR, DKS: GitHub wrote that day's stock rows in
+11. DONE 2026-11-25 (build session; ATM calls BBY -36.6%, DKS -6.2%, DLTR -17.6%, average -20.1%; smart calls skipped: all three reported on 2026-11-24 before the open; the Twelve Data earnings calendar is not on the plan, IBKR earnings insights used): option replays (ATM call, smart call) of 2026-11-24 for BBY, DLTR, DKS: GitHub wrote that day's stock rows in
    the build test, so the old 20:20 prompt stops as "already scored". Add them with IBKR read-only option bars as the
    evening prompt describes (STEPS 4-6), or record them as missing.
 12. OPEN (item 32-34 follow-ups): (a) dashboard layout (scoreboard, AI layer, foundation; scripts/dashboard.py and
