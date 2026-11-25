@@ -128,7 +128,8 @@ def build(repo, write=True):
     if bad: raise SystemExit("LOOK-AHEAD: features changed when later prices were removed: %s" % bad[:5])
     today = mem[-1][1]
     syms = {r[1] for r in out}
-    rep = {"built": "2026-11-22", "rows": len(out), "days": len(by), "from": min(by), "to": max(by),
+    import datetime as _dt
+    rep = {"built": _dt.date.today().isoformat(), "rows": len(out), "days": len(by), "from": min(by), "to": max(by),
            "label_through": cal[-1], "members_per_day_median": st.median(len(v) for v in by.values()),
            "symbols": len(syms), "symbols_not_in_latest_list": len(syms - today),
            "rows_from_companies_not_in_latest_list_pct": round(100 * sum(1 for r in out if r[1] not in today) / len(out), 2),
@@ -136,7 +137,7 @@ def build(repo, write=True):
            "lookahead_check": {"rows_checked": checked, "differences": 0},
            "fwd5_mean_pct": round(100 * st.mean(r[-3] for r in out), 4), "xs5_sd_pct": round(100 * st.pstdev(r[-2] for r in out), 4),
            "features": FEATS + ["mkt_r21", "breadth50"], "label": "xs5 (5-day return minus that day's member median)",
-           "limits": ["about 2.9 years, 2024-01 to 2026-11: one stretch of market history",
+           "limits": ["%.1f years, %s to %s" % ((len(by) / 252), min(by), max(by)),
                       "membership from a community-maintained file (github.com/fja05680/sp500)",
                       "one price source (Alpaca, adjusted); no costs in the labels"]}
     if write:
@@ -148,5 +149,37 @@ def build(repo, write=True):
     return rep
 
 
+def ic(repo, step=5):
+    """Univariate rank IC of each feature with xs5, one sample every `step` trading days (non-overlapping labels);
+    descriptive only. Writes data/pit/train_ic.json. Each run over a new history is logged as trials by the caller."""
+    rows = {}
+    with gzip.open(os.path.join(repo, "data", "pit", "train_1d.csv.gz"), "rt") as fh:
+        for r in csv.DictReader(fh): rows.setdefault(r["date"], []).append(r)
+    days = sorted(rows)[::step]; feats_ = FEATS + ["mkt_r21", "breadth50"]
+    def rank(xs):
+        o = sorted(range(len(xs)), key=lambda i: xs[i]); rk = [0.0] * len(xs)
+        for j, i in enumerate(o): rk[i] = j
+        return rk
+    def corr(a, b):
+        ma, mb = st.mean(a), st.mean(b); sa = math.sqrt(sum((x - ma) ** 2 for x in a)); sb = math.sqrt(sum((x - mb) ** 2 for x in b))
+        return sum((x - ma) * (y - mb) for x, y in zip(a, b)) / (sa * sb) if sa > 0 and sb > 0 else None
+    out = {}
+    for f in feats_:
+        if f in ("mkt_r21", "breadth50"): continue          # the same for every stock on a day: no cross-sectional IC
+        ics = []
+        for d in days:
+            R = rows[d]; y = [float(r["xs5"]) for r in R]; x = [float(r[f]) for r in R]
+            if len(R) >= 50:
+                c = corr(rank(x), rank(y))
+                if c is not None: ics.append(c)
+        m = st.mean(ics); sd = st.pstdev(ics)
+        out[f] = {"ic_mean": round(m, 4), "t": round(m / sd * math.sqrt(len(ics)), 2) if sd > 0 else None, "weeks": len(ics)}
+    res = {"what": "univariate rank IC of each feature with xs5, one sample every %d days (non-overlapping labels); descriptive, %d trials logged" % (step, len(out)),
+           "from": days[0], "to": days[-1], "ic": out}
+    json.dump(res, open(os.path.join(repo, "data", "pit", "train_ic.json"), "w"), indent=1)
+    return res
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "build": print(json.dumps(build(sys.argv[2]), indent=1))
+    elif sys.argv[1] == "ic": print(json.dumps(ic(sys.argv[2]), indent=1))

@@ -21,7 +21,7 @@ Quantavius picking its own stocks, developing its own strategies and running its
 - Never place, preview, modify or cancel any order. No reinforcement learning (no orders; too little independent
   history): record the reason in the runbook.
 
-## Stage 1 - Data for the ranker
+## Stage 1 - Data for the ranker (DONE 2026-11-25, built early: pit history 2016-07 to 2026-11, 1.31M rows, 716 symbols, 18% of rows from companies that later left; look-ahead check 0 differences; IC table: no single feature above |t| 1.92 (dvol21); nightly forward bars in data/pit/fwd; labrun workflow tested. Rebuild data/pit/train_1d.csv.gz with pit_train.py build (about 6 minutes, gitignored, 83 MB))
 1. Extend the point-in-time history (data/pit, scripts/pit_train.py) from 2024 back to 2016 with the free S&P 500
    change lists and Alpaca prices, departed companies included. Redo the look-ahead check and the univariate IC table.
 2. Add a nightly GitHub refresh of S&P 500 membership and daily bars so the ranker can run forward.
@@ -58,7 +58,7 @@ Quantavius picking its own stocks, developing its own strategies and running its
 4. Deep learning: one small network over the ranker's features, only if the boosting ranker showed a real
    out-of-sample signal; otherwise record "not tried: no signal to improve on".
 
-## Stage 5 - Reports and health (report only)
+## Stage 5 - Reports and health (report only) (items 1-3 DONE 2026-11-25: scripts/stage5.py spa, ff, health as nightly extra steps; item 4 stays for the Nov 29 seal check and later)
 1. White's Reality Check or Hansen SPA over the lifetime trial log, for the interim and final reports.
 2. Fama/French five-factor plus momentum attribution of A1 (pandas-datareader, isolated).
 3. Strategy health states per lane entry (healthy / under watch / decayed / switched off); never overrides the
