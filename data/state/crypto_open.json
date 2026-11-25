@@ -1,4 +1,65 @@
 {
- "at": "2026-11-24 20:53",
- "open": []
+ "at": "2026-11-24 23:38",
+ "open": [
+  {
+   "strategy": "X2",
+   "symbol": "ETH",
+   "status": "open",
+   "entry_time": "2026-11-24 21:00",
+   "entry": 1655.28,
+   "stop": 1641.28,
+   "exit_time": "2026-11-24 23:30",
+   "exit_or_mark": 1660.38,
+   "reason": "open (marked at last close)",
+   "r": -0.11,
+   "pct": -0.093,
+   "gross_pct": 0.308,
+   "track": "15m fixed"
+  },
+  {
+   "strategy": "X2",
+   "symbol": "SOL",
+   "status": "open",
+   "entry_time": "2026-11-24 21:30",
+   "entry": 68.5226,
+   "stop": 67.895,
+   "exit_time": "2026-11-24 23:30",
+   "exit_or_mark": 69.0277,
+   "reason": "open (marked at last close)",
+   "r": 0.37,
+   "pct": 0.336,
+   "gross_pct": 0.737,
+   "track": "15m fixed"
+  },
+  {
+   "strategy": "X2",
+   "symbol": "ETH",
+   "status": "open",
+   "entry_time": "2026-11-24 21:00",
+   "entry": 1655.28,
+   "stop": 1641.28,
+   "exit_time": "2026-11-24 23:30",
+   "exit_or_mark": 1660.38,
+   "reason": "open (marked at last close)",
+   "r": -0.11,
+   "pct": -0.093,
+   "gross_pct": 0.308,
+   "track": "15m adaptive"
+  },
+  {
+   "strategy": "X2",
+   "symbol": "SOL",
+   "status": "open",
+   "entry_time": "2026-11-24 21:30",
+   "entry": 68.5226,
+   "stop": 67.895,
+   "exit_time": "2026-11-24 23:30",
+   "exit_or_mark": 69.0277,
+   "reason": "open (marked at last close)",
+   "r": 0.37,
+   "pct": 0.336,
+   "gross_pct": 0.737,
+   "track": "15m adaptive"
+  }
+ ]
 }
