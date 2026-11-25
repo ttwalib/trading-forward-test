@@ -419,22 +419,29 @@ def build(repo, day=None):
                 m = sum(ra[:-1]) / 60; sd = (sum((x - m) ** 2 for x in ra[:-1]) / 59) ** 0.5
                 z = (ra[-1] - m) / sd if sd else 0
                 key = a + "/" + b; p = pos.get(key)
+                # Decide on the close, trade at the NEXT open (rule at the top of this file; pre-freeze review
+                # 2026-11-25: entries and exits used to fill at the same close that produced the signal).
+                oa, ob_ = D[a][ia][1], D[b][ib][1]
+                if p and p.get("exit"):          # exit decided on the previous close: fill at today's open
+                    r = ((oa / p["ma"] - 1) * p["sa"] + (ob_ / p["mb"] - 1) * -p["sa"]) * 50
+                    b13.add_day(d, r - C_DAY); p["cum"] += r
+                    b13.trades.append({"strategy": b13.name, "symbol": key, "side": "long " + (b if p["sa"] < 0 else a),
+                                       "entry_date": p["ed"], "entry_time": "open", "entry": round(p["z0"], 3),
+                                       "exit_date": d, "exit_time": "open", "exit": round(p["zx"], 3),
+                                       "ret_pct": round(p["cum"] - 2 * C_DAY, 4), "status": "closed",
+                                       "phase": tcal.phase(p["ed"]) if p["ed"] >= START else "before"})
+                    del pos[key]; p = None
+                elif p and p.get("pending"):     # entry decided on the previous close: fill at today's open
+                    p.update(ma=oa, mb=ob_, ed=d, pending=False); b13.add_day(d, -C_DAY)
                 if p:
                     ca, cb = D[a][ia][4], D[b][ib][4]
                     r = ((ca / p["ma"] - 1) * p["sa"] + (cb / p["mb"] - 1) * -p["sa"]) * 50 - 0.5 * borrow_fee(repo, b if p["sa"] > 0 else a, d) / 252
                     b13.add_day(d, r); p["ma"], p["mb"] = ca, cb; p["held"] += 1; p["cum"] += r
                     if (p["z0"] > 0 and z <= 0) or (p["z0"] < 0 and z >= 0) or p["held"] >= 20:
-                        b13.add_day(d, -C_DAY)
-                        b13.trades.append({"strategy": b13.name, "symbol": key, "side": "long " + (b if p["sa"] < 0 else a),
-                                           "entry_date": p["ed"], "entry_time": "close", "entry": round(p["z0"], 3),
-                                           "exit_date": d, "exit_time": "close", "exit": round(z, 3),
-                                           "ret_pct": round(p["cum"] - 2 * C_DAY, 4), "status": "closed",
-                                           "phase": tcal.phase(p["ed"]) if p["ed"] >= START else "before"})
-                        del pos[key]
+                        p["exit"] = True; p["zx"] = z
                 elif abs(z) > 2 and len(pos) < 6:
-                    # rich leg = a when z > 0: short a, long b (sa = -1)
-                    pos[key] = {"sa": -1 if z > 0 else 1, "ma": D[a][ia][4], "mb": D[b][ib][4], "ed": d, "z0": z, "held": 0, "cum": 0.0}
-                    b13.add_day(d, -C_DAY)
+                    # rich leg = a when z > 0: short a, long b (sa = -1); filled at the next open
+                    pos[key] = {"sa": -1 if z > 0 else 1, "pending": True, "z0": z, "held": 0, "cum": 0.0}
         books.append(b13)
 
     istocks = lib if U.get("intraday_wide") else stocks      # baseline A lists never change; this is the library only

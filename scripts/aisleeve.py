@@ -44,11 +44,9 @@ def as_mixes(repo):
     as_mix resets AS to equal weight from its effective day. Members active but not named in a mix get no weight until
     a later seal names them; if a mix names no active member, AS is equal weight (item 55, 2026-11-24)."""
     import allocator
-    valid = allocator.judge_seals(repo); out = []
-    for r in _jl(os.path.join(repo, "data", "allocator", "judge.jsonl")):
-        e = r.get("effective")
-        if e in valid and all(x[0] != e for x in out): out.append((e, r.get("as_mix") or None))
-    return sorted(out)
+    # the mix comes from the very row the allocator scores (pre-freeze review 2026-11-25: it used to take the first row
+    # in the file for that day, valid or not, so a later edit of an invalid row could change AS)
+    return sorted((e, r.get("as_mix") or None) for e, r in allocator.judge_seal_rows(repo).items())
 
 
 def is_admission_day(d):

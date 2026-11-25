@@ -188,9 +188,22 @@ def duplicates(S, days):
     return out
 
 
-def fill_to_one(tiers):
+# Sealed books (weekly judge seals, contests, daily challenger) are scored under the same per-sleeve caps the seal was
+# checked against in judge.py: 50% for Quantavius's own sleeves, CAP for every other sleeve (owner decision 2026-11-24,
+# item 55; pre-freeze code review 2026-11-25 found the scoring still capped every sleeve at CAP).
+SEAL_OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AS AI strategies")
+SEAL_OWN_CAP = 0.50
+
+
+def seal_cap(name):
+    return SEAL_OWN_CAP if name.startswith(SEAL_OWN) else CAP
+
+
+def fill_to_one(tiers, cap=None):
     """tiers: list of {name: score > 0}. Returns weights summing to 1 (or less only if every sleeve is at the cap):
-    each tier takes what is left, in proportion to its scores, with the per-sleeve cap (water-filling)."""
+    each tier takes what is left, in proportion to its scores, with the per-sleeve cap (water-filling). cap: optional
+    function name -> cap (seal_cap for sealed books); default CAP for every sleeve."""
+    capf = cap or (lambda k: CAP)
     w = {}; left = 1.0
     for tier in tiers:
         tier = {k: v for k, v in tier.items() if v > 0 and k not in w}
@@ -199,11 +212,11 @@ def fill_to_one(tiers):
         for _ in range(len(tier) + 1):
             tot = sum(free.values())
             if tot <= 0 or room <= 1e-12: break
-            over = {k for k, v in free.items() if got[k] + room * v / tot >= CAP - 1e-12}
+            over = {k for k, v in free.items() if got[k] + room * v / tot >= capf(k) - 1e-12}
             if not over:
                 for k, v in free.items(): got[k] += room * v / tot
                 room = 0.0; break
-            for k in over: room -= CAP - got[k]; got[k] = CAP; free.pop(k)
+            for k in over: room -= capf(k) - got[k]; got[k] = capf(k); free.pop(k)
         for k, v in got.items():
             if v > 0: w[k] = v
         left = 1.0 - sum(w.values())
@@ -396,15 +409,19 @@ SHADOWS = ("sh_rp", "sh_mv", "sh_win")
 JUDGE = "sh_judge"
 
 
-def judge_seals(repo):
-    """Valid sealed weights of the AI-judgment allocator: {effective day: weights}. A row counts only if sealed
+JUDGE_SEAL_ERRORS = []   # rows that raised while being checked (pre-freeze review 2026-11-25: reported, never silent)
+
+
+def judge_seal_rows(repo):
+    """Valid sealed rows of the AI-judgment allocator: {effective day: the full row}. A row counts only if sealed
     before 09:30 New York on its effective day and, from witness.ENFORCE_FROM, first seen by GitHub before then (the
-    witness); the first valid row per effective day stands."""
+    witness); the first valid row per effective day stands. A row that raises while being checked is skipped and
+    recorded in JUDGE_SEAL_ERRORS (reported in judge_check.seal_rows_with_errors)."""
     import witness
-    out = {}; f = os.path.join(repo, "data", "allocator", "judge.jsonl")
+    out = {}; f = os.path.join(repo, "data", "allocator", "judge.jsonl"); del JUDGE_SEAL_ERRORS[:]
     if not os.path.exists(f): return out
     WS = witness.sightings(repo)
-    for line in open(f):
+    for n, line in enumerate(open(f), 1):
         if not line.strip(): continue
         try:
             r = json.loads(line); eff = r["effective"]
@@ -413,9 +430,15 @@ def judge_seals(repo):
             w = {k: float(v) for k, v in r["weights"].items() if float(v) > 0}
             # GitHub must also have seen this exact row before 09:30 on its effective day (review N1, from witness.ENFORCE_FROM)
             seen = witness.on_time(WS, "seal", "judge.jsonl|%s|%s" % (eff, r.get("sealed_at")), witness.sha(r), eff)
-            if sealed < limit and seen and w and eff not in out: out[eff] = w
-        except Exception: continue
+            if sealed < limit and seen and w and eff not in out: out[eff] = dict(r, weights=w)
+        except Exception as e:
+            JUDGE_SEAL_ERRORS.append({"line": n, "error": "%s: %s" % (type(e).__name__, e)})
     return out
+
+
+def judge_seals(repo):
+    """Valid sealed weights of the AI-judgment allocator: {effective day: weights} (rule in judge_seal_rows)."""
+    return {e: r["weights"] for e, r in judge_seal_rows(repo).items()}
 
 
 def perf(xs):
@@ -485,7 +508,7 @@ def simulate(repo, day, S, spy, vix, judge=True):
         if seals:
             # the seal for this week is the one whose effective day falls in this ISO week and is not after d
             cand = sorted(e for e in seals if e <= d and dt.date.fromisoformat(e).isocalendar()[:2] == wk)
-            if cand and (new_week or d in seals): jnew = fill_to_one([{k: v for k, v in seals[cand[-1]].items() if k in S}])
+            if cand and (new_week or d in seals): jnew = fill_to_one([{k: v for k, v in seals[cand[-1]].items() if k in S}], seal_cap)
             elif new_week and jw: j_missed += 1
             if jnew is not None:
                 jnew = {a: round(b, 4) for a, b in jnew.items() if b > 0.0005}
@@ -648,6 +671,7 @@ def judge_check(rows, ph="verdict"):
     for r in sel: byr.setdefault(str(r.get("regime")), []).append(r)
     out["by_regime"] = {k: {"days": len(v), "book_mean": round(sum(x[JUDGE] for x in v) / len(v), 4),
                             "foundation_equal_mean": round(sum(x["equal_f"] for x in v) / len(v), 4)} for k, v in byr.items()}
+    out["seal_rows_with_errors"] = list(JUDGE_SEAL_ERRORS)   # rows skipped because checking them raised (never silent)
     out["note"] = "candidate = AI-judgment allocator; robust_2x is not computed for it (robust here = pass and ahead of every rival on Sharpe)"
     if out.get("pass"): out["robust"] = bool(out.get("beats_best_shadow"))
     return out

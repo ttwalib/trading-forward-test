@@ -263,7 +263,9 @@ def puts(repo, cal, cal_idx, day, W):
                 ob = l1; b = [r for r in ob.get(d, []) if r[0] < PUT_FILL_BY]
             exp = "20" + x["occ"][-15:-9]; exp = "%s-%s-%s" % (exp[:4], exp[4:6], exp[6:8])
             if not b: nofill.append({"date": d, "occ": x["occ"], "occ2": x["occ2"]}); continue
-            e = b[0][1]; i = cal_idx[d]; last = cal[min(i + x["hold"] - 1, len(cal) - 1)]
+            # last holding day; a hold that runs past the run day stays open (pre-freeze review 2026-11-25: clamping it to
+            # the run day closed every open position each night and charged its exit costs)
+            e = b[0][1]; i = cal_idx[d]; last = cal[i + x["hold"] - 1] if i + x["hold"] - 1 < len(cal) else "9999-12-31"
             if exp < last: last = exp
             g = gross if gross else e   # premium the spread allowance is charged on (both legs for a spread)
             slip = slip_for(repo, [x["occ"], x["occ2"]], d)
@@ -278,6 +280,10 @@ def puts(repo, cal, cal_idx, day, W):
             bars_d = [b for b in p["ob"].get(d, []) if not (p["new"] and b[0] < p["start"])]
             px = None; out_now = d >= p["last"]
             xa = exit_time_on(EX.get(p.get("rid")), d, cal)
+            if d > p["last"] and not p["new"]:
+                # the last day (an expiry on a half day such as 2026-12-24) is not in the full-day calendar: price the
+                # position on that day's bars, not at the previous mark (pre-freeze review 2026-11-25)
+                bars_d = p["ob"].get(p["last"], []); xa = None
             for hhmm, o, h, l, c in bars_d:
                 if xa and hhmm >= xa and not (p["new"] and hhmm == p["start"]): px = o; out_now = True; break   # intraday exit (item 66)
                 if p["stop_px"] is not None and l <= p["stop_px"]: px = min(o, p["stop_px"]) if hhmm != p["start"] or not p["new"] else p["stop_px"]; out_now = True; break
@@ -289,7 +295,7 @@ def puts(repo, cal, cal_idx, day, W):
                 exit_cost = (PUT_FEE * p["legs"] / (100 * m0) * 100 + p["slip"] * p["g_ratio"] * px / m0) if out_now and px > 0 else 0
                 r += wt * ((px / m0 - 1) * 100 - (p["fee"] if p["new"] else 0) - exit_cost)
             p["mark"] = px; p["new"] = False
-            if out_now: done.append(p); closed.append({"date": p["d0"], "und": p["und"], "occ": p["occ"], "occ2": p["occ2"], "entry": p["entry"], "exit": px, "exit_day": d,
+            if out_now: done.append(p); closed.append({"date": p["d0"], "und": p["und"], "occ": p["occ"], "occ2": p["occ2"], "entry": p["entry"], "exit": px, "exit_day": min(d, p["last"]),
                                                         "gross_pct": round((px / p["entry"] - 1) * 100, 2)})
         series[d] = round(r / tot, 5)
         pos = [p for p in pos if p not in done]

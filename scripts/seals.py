@@ -23,9 +23,12 @@ FILES = {"contest_fable": ("judge.jsonl", "week"), "contest_opus": ("contest_opu
          "contest_sonnet": ("contest_sonnet.jsonl", "week"), "judge_daily": ("judge_daily.jsonl", "day")}
 
 
+ERRORS = {}   # file -> rows skipped because checking them raised (pre-freeze review 2026-11-25: reported, never silent)
+
+
 def valid(repo, fn):
     import witness
-    out = {}; f = os.path.join(repo, "data", "allocator", fn)
+    out = {}; f = os.path.join(repo, "data", "allocator", fn); ERRORS[fn] = 0
     if not os.path.exists(f): return out
     WS = witness.sightings(repo)
     for line in open(f):
@@ -36,7 +39,7 @@ def valid(repo, fn):
             w = {k: float(v) for k, v in r["weights"].items() if float(v) > 0}
             seen = witness.on_time(WS, "seal", "%s|%s|%s" % (fn, eff, r.get("sealed_at")), witness.sha(r), eff)   # review N1
             if sealed < dt.datetime.fromisoformat(eff + "T09:30:00").replace(tzinfo=NY) and seen and w and eff not in out: out[eff] = w
-        except Exception: continue
+        except Exception: ERRORS[fn] += 1
     return out
 
 
@@ -48,7 +51,7 @@ def score(S, seals, horizon, days):
         else: cand = sorted(e for e in seals if e <= d and dt.date.fromisoformat(e).isocalendar()[:2] == wk)
         new = None
         if cand and (horizon == "day" or d == cand[-1] or not cur or dt.date.fromisoformat(d).isocalendar()[:2] != prev_wk):
-            new = {a: round(b, 4) for a, b in A.fill_to_one([{k: v for k, v in seals[cand[-1]].items() if k in S}]).items() if b > 0.0005}
+            new = {a: round(b, 4) for a, b in A.fill_to_one([{k: v for k, v in seals[cand[-1]].items() if k in S}], A.seal_cap).items() if b > 0.0005}
         cost = 0.0
         if new is not None and new != cur:
             cost = sum(abs(new.get(a, 0.0) - cur.get(a, 0.0)) * A.rebal_cost(a) for a in set(new) | set(cur)); cur = new
@@ -63,11 +66,11 @@ def main():
     res = {}; os.makedirs(os.path.join(repo, "data", "lane", "series"), exist_ok=True)
     for eid, (fn, h) in FILES.items():
         seals = valid(repo, fn)
-        if not seals: res[eid] = {"seals": 0}; continue
+        if not seals: res[eid] = {"seals": 0, "rows_with_errors": ERRORS.get(fn, 0)}; continue
         ser = score(S, seals, h, [d for d in days if d >= min(seals)])
         with open(os.path.join(repo, "data", "lane", "series", eid + ".jsonl"), "w") as f:
             for d in sorted(ser): f.write(json.dumps({"date": d, "ret_pct": ser[d]}) + "\n")
-        res[eid] = {"seals": len(seals), "days": len(ser), "total_pct": round(sum(ser.values()), 3)}
+        res[eid] = {"seals": len(seals), "days": len(ser), "total_pct": round(sum(ser.values()), 3), "rows_with_errors": ERRORS.get(fn, 0)}
     print(json.dumps(res, indent=1))
 
 

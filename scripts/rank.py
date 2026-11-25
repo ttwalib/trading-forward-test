@@ -63,6 +63,23 @@ def spearman(a, b):
     return num / den if den else None
 
 
+def summary(R):
+    """G1 summary of ranking rows (pre-registration section 3)."""
+    import allocator
+    ic = [r["ic"] for r in R if r["ic"] is not None]
+    if not ic: return {"days": 0}
+    m = sum(ic) / len(ic); sd = (sum((x - m) ** 2 for x in ic) / (len(ic) - 1)) ** 0.5 if len(ic) > 1 else None
+    p = allocator.p_beats(ic, [0.0] * len(ic)) if len(ic) >= 10 else None
+    # G1 needs at least 60 SEALED days (pre-registration section 3); missed days count as IC 0 in the mean but not
+    # towards the 60 (pre-freeze review 2026-11-25)
+    sealed = len(ic) - sum(1 for r in R if r.get("missed") and r["ic"] is not None)
+    return {"days": len(ic), "sealed_days": sealed, "missed_days": sum(1 for r in R if r.get("missed")),
+            "coverage": round(1 - sum(1 for r in R if r.get("missed")) / len(R), 3) if R else None, "mean_ic": round(m, 4), "t": round(m / (sd / len(ic) ** 0.5), 2) if sd else None,
+            "p_mean_ic_above_0": p, "days_positive": sum(1 for x in ic if x > 0),
+            "g1_primary": ("too few sealed days (%d of 60)" % sealed if sealed < 60 else "PASS" if p is not None and p >= 0.9
+                           else "FAIL" if p is not None and p <= 0.10 else "INCONCLUSIVE")}
+
+
 def score(repo, day=None):
     import picks, allocator, witness
     day = day or dt.datetime.now(NY).date().isoformat(); d0 = os.path.join(repo, "data", "picks", "rank"); rows = []
@@ -97,19 +114,9 @@ def score(repo, day=None):
                 rows.append({"date": d, "n": 0, "ic": 0.0, "spread_pct": None, "missed": True,
                              "verdict_window": tcal.info(d)["verdict_window"]})
         rows.sort(key=lambda r: r["date"])
-    def summ(R):
-        ic = [r["ic"] for r in R if r["ic"] is not None]
-        if not ic: return {"days": 0}
-        m = sum(ic) / len(ic); sd = (sum((x - m) ** 2 for x in ic) / (len(ic) - 1)) ** 0.5 if len(ic) > 1 else None
-        p = allocator.p_beats(ic, [0.0] * len(ic)) if len(ic) >= 10 else None
-        return {"days": len(ic), "missed_days": sum(1 for r in R if r.get("missed")),
-                "coverage": round(1 - sum(1 for r in R if r.get("missed")) / len(R), 3) if R else None, "mean_ic": round(m, 4), "t": round(m / (sd / len(ic) ** 0.5), 2) if sd else None,
-                "p_mean_ic_above_0": p, "days_positive": sum(1 for x in ic if x > 0),
-                "g1_primary": ("too few days (%d of 60)" % len(ic) if len(ic) < 60 else "PASS" if p is not None and p >= 0.9
-                               else "FAIL" if p is not None and p <= 0.10 else "INCONCLUSIVE")}
     out = {"note": "Spearman rank correlation between Quantavius's sealed morning scores (-2..+2) of 44 fixed stocks and "
                    "their open-to-close returns. Positive = it ranks better than chance.",
-           "all": summ(rows), "verdict": summ([r for r in rows if r["verdict_window"]]), "rows": rows}
+           "all": summary(rows), "verdict": summary([r for r in rows if r["verdict_window"]]), "rows": rows}
     json.dump(out, open(os.path.join(repo, "data", "picks", "rank_score.json"), "w"), indent=1)
     return {k: out[k] for k in ("all", "verdict")}
 
