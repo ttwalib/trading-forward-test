@@ -1,1 +1,11 @@
-[]
+[
+ {
+  "name": "spreadcheck",
+  "args": [
+   "spreadcheck.py",
+   "REPO"
+  ],
+  "out": "spreadcheck.json",
+  "timeout": 300
+ }
+]

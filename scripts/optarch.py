@@ -84,7 +84,9 @@ def fridays(a, b, monthly):
 
 
 # ---------- snapshots ----------
-def snap(repo, syms=None):
+def snap(repo, syms=None, sub="snap"):
+    """sub="snap": the nightly chain; sub="snap_mid": the midday chain (item 61, added 2026-11-25; mode optmid, about
+    12:30 New York on full trading days), same fields, written to data/optarch/snap_mid/<UND>/<DAY>.json.gz."""
     ff = F(); day = dt.datetime.now(NY).date().isoformat(); res = {"day": day, "ok": [], "errors": {}, "contracts": 0, "bytes": 0}
     for und in syms or universe(repo):
         try:
@@ -105,13 +107,13 @@ def snap(repo, syms=None):
             if not rows: res["errors"][und] = "empty chain"; continue
             out = {"und": und, "day": day, "taken_at_utc": dt.datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"), "spot": spot,
                    "feed": "indicative", "fields": ["bid", "ask", "last", "iv", "delta", "gamma", "theta", "vega"], "c": rows}
-            d = os.path.join(repo, "data", "optarch", "snap", und); os.makedirs(d, exist_ok=True)
+            d = os.path.join(repo, "data", "optarch", sub, und); os.makedirs(d, exist_ok=True)
             b = gzip.compress(json.dumps(out, separators=(",", ":")).encode(), 9)
             open(os.path.join(d, day + ".json.gz"), "wb").write(b)
             res["ok"].append(und); res["contracts"] += len(rows); res["bytes"] += len(b)
         except Exception as e: res["errors"][und] = str(e)[:200]
         time.sleep(0.3)
-    diag(repo, "snap", res); return res
+    diag(repo, sub, res); return res
 
 
 # ---------- backfill ----------
@@ -222,6 +224,10 @@ def spans_earnings(repo, sym, d0, d1):
 if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "snap": print(json.dumps({k: v for k, v in snap(a[1], a[2].split(",") if len(a) > 2 else None).items() if k != "ok"}, indent=1)[:3000])
+    elif a[0] == "snapmid":    # midday chain on full trading days only
+        import tcal
+        if not tcal.info(dt.datetime.now(NY).date().isoformat()).get("full_trading_day"): print(json.dumps({"skipped": "not a full trading day"}))
+        else: print(json.dumps({k: v for k, v in snap(a[1], None, "snap_mid").items() if k != "ok"}, indent=1)[:3000])
     elif a[0] == "back": print(json.dumps(back(a[1], a[2].split(","), int(a[3]) if len(a) > 3 else 33), indent=1)[:4000])
     elif a[0] == "chain": print(json.dumps(chain(a[1], a[2], a[3]), separators=(",", ":")))
     elif a[0] == "series": print(json.dumps(series(a[1], a[2]), separators=(",", ":")))

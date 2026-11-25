@@ -14,11 +14,12 @@ on:
     - cron: "17 10 * * *"          # second daily fit of the crypto ML family (05:17 ET; the nightly ML task is the first)
     - cron: "40 12 * * 1-5"        # ApeWisdom snapshot before the morning research (07:40 New York in winter; scripts/ape.py, 2026-11-23)
     - cron: "20 23 * * 1-5"        # outside context data after the close (18:20 New York in winter; scripts/extdata.py, 2026-11-23)
+    - cron: "30 17 * * 1-5"        # midday option chains (12:30 New York in winter, 13:30 from 2027-03-14; scripts/optarch.py snapmid, 2026-11-25)
     - cron: "0 2 * * 2-6"          # nightly maths on a schedule (21:00 New York in winter, 22:00 from 2027-03-14), so scoring never depends on an AI task (2026-11-23)
   workflow_dispatch:
     inputs:
       mode:
-        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape | ext | optarch | optback"
+        description: "tick | intraday | nightly | backfill | universe | hist | crypto | etfs | wide5m | borrow | compute | mlcrypto | mlnight | vendor | pit | optbars | ape | ext | optarch | optback | optmid"
         default: backfill
       day:
         description: "compute only: the trading day YYYY-MM-DD (empty = today in New York)"
@@ -50,8 +51,9 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto;
           elif [ "${{ github.event.schedule }}" = "40 12 * * 1-5" ]; then M=ape;
           elif [ "${{ github.event.schedule }}" = "20 23 * * 1-5" ]; then M=ext;
+          elif [ "${{ github.event.schedule }}" = "30 17 * * 1-5" ]; then M=optmid;
           elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then M=compute; D=$(TZ=America/New_York date +%F); else M=tick; fi
-          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape|ext|optarch|optback) ;; *) echo "unknown mode"; exit 1;; esac
+          case "$M" in tick|intraday|nightly|backfill|universe|hist|crypto|etfs|wide5m|borrow|compute|mlcrypto|mlnight|vendor|pit|optbars|ape|ext|optarch|optback|optmid) ;; *) echo "unknown mode"; exit 1;; esac
           case "$D" in ""|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;; *) echo "bad day"; exit 1;; esac
           echo "mode=$M" >> "$GITHUB_OUTPUT"; echo "day=$D" >> "$GITHUB_OUTPUT"
       # Nightly maths with no AI in the loop (scripts/nightly.py): library, cost stress, ideal fills, allocator, stats.
@@ -82,7 +84,7 @@ jobs:
           for f in LICENSE NOTICE; do if [ -e package/$f ]; then cp package/$f "$GITHUB_WORKSPACE/ops/dashboard/vendor/lightweight-charts-$f"; fi; done
           ls -la "$GITHUB_WORKSPACE/ops/dashboard/vendor"
       - name: Fetch
-        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'mlnight' && steps.m.outputs.mode != 'vendor' && steps.m.outputs.mode != 'ape' && steps.m.outputs.mode != 'ext' && steps.m.outputs.mode != 'optarch' && steps.m.outputs.mode != 'optback'
+        if: steps.m.outputs.mode != 'compute' && steps.m.outputs.mode != 'mlcrypto' && steps.m.outputs.mode != 'mlnight' && steps.m.outputs.mode != 'vendor' && steps.m.outputs.mode != 'ape' && steps.m.outputs.mode != 'ext' && steps.m.outputs.mode != 'optarch' && steps.m.outputs.mode != 'optback' && steps.m.outputs.mode != 'optmid'
         env:
           QV_ENGINE_NEW: /tmp/engine_new.json
           GH_TOKEN: ${{ github.token }}
@@ -119,12 +121,14 @@ jobs:
       # Option history archive (scripts/optarch.py, runbook item 58): the chain snapshot each night with the nightly
       # fetch, and a one-off backfill of past contracts' daily bars. Market data host only.
       - name: Option archive
-        if: steps.m.outputs.mode == 'nightly' || steps.m.outputs.mode == 'optarch' || steps.m.outputs.mode == 'optback'
+        if: steps.m.outputs.mode == 'nightly' || steps.m.outputs.mode == 'optarch' || steps.m.outputs.mode == 'optback' || steps.m.outputs.mode == 'optmid'
         env:
           ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
           ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
         run: |
-          if [ "${{ steps.m.outputs.mode }}" = "optback" ]; then
+          if [ "${{ steps.m.outputs.mode }}" = "optmid" ]; then
+            python3 scripts/optarch.py snapmid . | tail -n 30 || echo "midday option snapshot failed"
+          elif [ "${{ steps.m.outputs.mode }}" = "optback" ]; then
             python3 scripts/optarch.py back . SPY,QQQ,IWM 33 | tail -n 40 || echo "option backfill (index) failed"
             S=$(python3 -c "import json;u=json.load(open('data/universe.json'));print(','.join(sorted(set(u['watchlist'])|set(u['control']))))")
             python3 scripts/optarch.py back . "$S" 33 | tail -n 80 || echo "option backfill (stocks) failed"

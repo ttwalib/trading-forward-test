@@ -457,6 +457,14 @@ EXITS (2026-11-24, item 57): a stock pick may also carry "stop=-N" (percent belo
 (percent above, 1 to 200) in its checks cell. They apply in AP2 only (AP and G1 stay open to close), on daily bars,
 the stop first; a gap through a level exits at that day's open. Leave them out to hold to the close of the last
 holding day.
+MIDDAY OPTION CHAINS AND THE SPREAD CHECK (2026-11-25, item 65): workflow mode optmid (cron 17:30 UTC on weekdays, 12:30
+New York in winter and 13:30 from 2027-03-14; full trading days only) stores the same chains as the nightly snapshot in
+data/optarch/snap_mid/<UND>/<DAY>.json.gz. scripts/spreadcheck.py (nightly extra step -> data/nightly/spreadcheck.json;
+first reading reports/spreadcheck/2026-11-25.json) measures the half-spread of contracts with absolute delta 0.35-0.65
+against picks.PUT_SLIP (2% a side). First reading (one night, indicative feed): median 4.0%, 90th percentile 15.5%,
+68% of contracts above 2%; SPY, QQQ, IWM and NVDA about 1%, many single stocks 18-27%. Report only; the owner decides
+whether to raise the allowance or price option picks at the stored bid/ask before the freeze.
+
 STOCK AND OPTION PICK WITHDRAWALS (2026-11-25, item 65; built for the pre-open refresh of item 61): a stock or option pick
 may be withdrawn BEFORE THE OPEN only. Write a NEW AgentPicks row with the same asset and symbol, status "withdrawn",
 your own picked_at (NOWNY, before 09:30 New York and the same day as the original) and checks "withdraws=<picked_at of
