@@ -47,7 +47,7 @@ trader-risk, trader-entry, trader-exit (they build or prepare orders and alerts)
 FactSet, S&P Capital IQ or Daloopa (market-researcher comps/sector/competitive, earnings-reviewer model-update and
 earnings-analysis) have no data here: use their checklists only if a section below says so.
 OUTSIDE CONTEXT DATA (2026-11-23; report-only, never a rule): GitHub fetches free sources with scripts/extdata.py into
-data/ext/<source>/<New York fetch day>.json (07:40 New York: edgar and crypto; 18:20 New York on weekdays: all; status
+data/ext/<source>/<New York fetch day>.json (06:40 New York with a 07:30 retry: edgar and crypto; 18:20 New York on weekdays: all; status
 and errors in ops/diag/extdata.json; re-run with ops/fetch_request.json mode "ext"). Sources: fred (2y and 10y yields,
 curve, high-yield credit spread, fed funds, financial conditions), cboe (put/call ratios), finra (off-exchange short-sale
 share per universe stock and for the market; short volume is not short interest), crypto (8-hour perpetual funding per
@@ -68,7 +68,7 @@ PROMPTS: a copy of every scheduled task's current prompt is kept in ops/prompts/
 runbook; every later prompt change updates the copy and adds an INTERVENTIONS row). State that lived in the sheet now
 lives in the repo: picked coins data/state/agent_coins.json; stock adaptive settings data/state/stocks.json; the day's
 stock scoring marker data/state/stocks_scored.json; ApeWisdom snapshots data/sentiment/ape/DAY.json (scripts/ape.py on
-GitHub, 07:40 New York and the first tick).
+GitHub, 06:40 New York with a 07:30 retry, and the first tick).
 Fairness rule: the sealing tasks (weekly seal, samplers B and C, model contest, daily challenger) use only the evidence
 pack (`judge.py brief`), so every seal sees the same inputs; new inputs reach them only through the pack.
 
@@ -344,7 +344,7 @@ data/nightly/calib.json).
 ## STOCKS (16:12 scoring)
 
 MOVED TO GITHUB (2026-11-24): the AI task is retired. The Reddit snapshot is written to the Sentiment ledger by
-`scripts/daily.py sentiment` right after the 07:40 ApeWisdom fetch (and by the first tick if the file was late), with the
+`scripts/daily.py sentiment` right after the 06:40 ApeWisdom fetch (retry 07:30) (and by the first tick if the file was late), with the
 same pre-registered rules (scripts/sentiment.py). Baseline A on the watchlist and the same rules on the control list are
 scored by `scripts/daily.py stocks` in the 17:40 nightly fetch, from the stored 5-minute bars with the frozen
 orb_daily.py; status in ops/diag/daily_stocks.json. Parity before the switch: identical trades and R on 2026-11-18,

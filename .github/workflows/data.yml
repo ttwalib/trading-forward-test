@@ -12,7 +12,8 @@ on:
     - cron: "32 0-23/3 * * *"      # crypto bars every 3 hours, before each crypto-tracks run (added 2026-11-20)
     - cron: "7 3 * * *"            # nightly machine-learning job (22:07 ET; scripts/daily.py ml; an AI task until 2026-11-22)
     - cron: "17 10 * * *"          # second daily fit of the crypto ML family (05:17 ET; the nightly ML task is the first)
-    - cron: "40 12 * * 1-5"        # ApeWisdom snapshot before the morning research (07:40 New York in winter; scripts/ape.py, 2026-11-23)
+    - cron: "40 11 * * 1-5"        # ApeWisdom snapshot before the morning research (06:40 New York in winter; moved from 07:40 on 2026-11-25: GitHub ran it as late as 08:51)
+    - cron: "30 12 * * 1-5"        # ApeWisdom retry (07:30 New York in winter): fetches only if today's file is still missing
     - cron: "20 23 * * 1-5"        # outside context data after the close (18:20 New York in winter; scripts/extdata.py, 2026-11-23)
     - cron: "30 17 * * 1-5"        # midday option chains (12:30 New York in winter, 13:30 from 2027-03-14; scripts/optarch.py snapmid, 2026-11-25)
     - cron: "0 2 * * 2-6"          # nightly maths on a schedule (21:00 New York in winter, 22:00 from 2027-03-14), so scoring never depends on an AI task (2026-11-23)
@@ -49,7 +50,7 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "32 0-23/3 * * *" ]; then M=crypto;
           elif [ "${{ github.event.schedule }}" = "7 3 * * *" ]; then M=mlnight;
           elif [ "${{ github.event.schedule }}" = "17 10 * * *" ]; then M=mlcrypto;
-          elif [ "${{ github.event.schedule }}" = "40 12 * * 1-5" ]; then M=ape;
+          elif [ "${{ github.event.schedule }}" = "40 11 * * 1-5" ] || [ "${{ github.event.schedule }}" = "30 12 * * 1-5" ]; then M=ape;
           elif [ "${{ github.event.schedule }}" = "20 23 * * 1-5" ]; then M=ext;
           elif [ "${{ github.event.schedule }}" = "30 17 * * 1-5" ]; then M=optmid;
           elif [ "${{ github.event.schedule }}" = "0 2 * * 2-6" ]; then M=compute; D=$(TZ=America/New_York date +%F); else M=tick; fi
@@ -102,7 +103,7 @@ jobs:
         env:
           SEC_CONTACT: ${{ secrets.SEC_CONTACT }}
         run: |
-          python3 scripts/ape.py . --force || echo "ape failed"
+          if [ "${{ github.event.schedule }}" = "30 12 * * 1-5" ]; then python3 scripts/ape.py . || echo "ape retry failed"; else python3 scripts/ape.py . --force || echo "ape failed"; fi
           python3 scripts/daily.py sentiment . | tail -n 5 || echo "sentiment failed"
           python3 scripts/extdata.py . edgar crypto || echo "extdata failed"
       - name: Outside context data
