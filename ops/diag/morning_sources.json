@@ -1,0 +1,38 @@
+{
+ "day": "2026-11-25",
+ "at": "2026-11-25 08:12",
+ "loaded": [
+  "mcp__CoinGecko__get-coin-markets",
+  "mcp__CoinGecko__get-crypto-news",
+  "mcp__CoinGecko__get-trending",
+  "mcp__CoinGecko__search-coingecko",
+  "mcp__FMP__marketPerformance",
+  "mcp__FMP__calendar",
+  "mcp__FMP__secFilings",
+  "mcp__Alpha_Vantage_MCP_Server__INSIDER_TRANSACTIONS",
+  "mcp__Alpha_Vantage_MCP_Server__EARNINGS_CALL_TRANSCRIPT",
+  "mcp__Alpha_Vantage_MCP_Server__HISTORICAL_PUT_CALL_RATIO",
+  "mcp__Interactive_Brokers_IBKR__get_company_themes",
+  "mcp__Crypto_com__get_book",
+  "mcp__Interactive_Brokers_IBKR__get_price_history",
+  "mcp__Interactive_Brokers_IBKR__search_contracts",
+  "mcp__Interactive_Brokers_IBKR__get_option_parameters",
+  "mcp__Interactive_Brokers_IBKR__get_option_data",
+  "mcp__Interactive_Brokers_IBKR__search_earnings_insights",
+  "mcp__Twelve_Data__get_quote",
+  "mcp__Twelve_Data__get_company_news",
+  "mcp__Twelve_Data__get_time_series",
+  "mcp__Twelve_Data__get_earnings",
+  "mcp__Twelve_Data__get_financials",
+  "mcp__Twelve_Data__get_analyst_data",
+  "WebSearch"
+ ],
+ "not_loaded": [],
+ "failed": {
+  "mcp__FMP__secFilings": "ACCESS DENIED: A parameter you passed to this tool (\"secFilings\") requires a higher plan.",
+  "mcp__Alpha_Vantage_MCP_Server__INSIDER_TRANSACTIONS": "rate_limit on ADSK (burst limit, 1 request per second); DELL and HPQ answered",
+  "mcp__Twelve_Data__get_earnings": "/earnings is available exclusively with grow or pro or ultra or venture or enterprise plans",
+  "mcp__FMP__calendar": "earnings-calendar 2026-11-25..2026-11-30 returned an empty list",
+  "mcp__FMP__marketPerformance": "biggest-gainers answered with the previous session (penny stocks and leveraged ETFs only)"
+ }
+}
