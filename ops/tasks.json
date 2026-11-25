@@ -52,17 +52,17 @@
   },
   {
    "name": "Watchdog",
-   "when": "07:35 and 19:35 daily (trig_01McTsF59Sw14Dm9ogHwr8Z1; rebuilt 2026-11-24, the old trig_01RqMJrg5xfsW4xYYgo7RZY4 is disabled after the new one's first good run)",
+   "when": "retired 2026-11-25 (replaced by trig_01McTsF59Sw14Dm9ogHwr8Z1)",
    "model": "Sonnet",
    "does": "Re-runs a failed task; logs problems only; kept separate from the orchestrator after the 2026-11-25 review (runbook ORCHESTRATOR, WATCHDOG AND ORCHESTRATOR)",
-   "weekday_runs": 2
+   "weekday_runs": 0
   },
   {
    "name": "Watchdog (old)",
-   "when": "05:35, 12:35, 19:35 daily (trig_01RqMJrg5xfsW4xYYgo7RZY4; to be disabled by trig_01HubnhXMKjQ5XXJKCNTHd2C after the new watchdog's first good run, then set weekday_runs 0)",
+   "when": "retired 2026-11-25 (replaced by trig_01McTsF59Sw14Dm9ogHwr8Z1)",
    "model": "Sonnet",
    "does": "Old watchdog, replaced by trig_01McTsF59Sw14Dm9ogHwr8Z1",
-   "weekday_runs": 3
+   "weekday_runs": 0
   },
   {
    "name": "Learning + strategy lab",
