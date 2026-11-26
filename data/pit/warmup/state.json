@@ -12,6 +12,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-26T16:26:08+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -391,184 +399,379 @@
    ]
   },
   "APA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "APA",
+   "tried": [
+    "tiingo:APA"
+   ]
   },
   "APC": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:APC"
+   ]
   },
   "APD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "APD",
+   "tried": [
+    "tiingo:APD"
+   ]
   },
   "APH": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "APH",
+   "tried": [
+    "tiingo:APH"
+   ]
   },
   "APTV": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "APTV",
+   "tried": [
+    "tiingo:APTV"
+   ]
   },
   "ARG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ARG",
+   "tried": [
+    "tiingo:ARG"
+   ]
   },
   "ARNC": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:ARNC"
+   ]
   },
   "ATI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ATI",
+   "tried": [
+    "tiingo:ATI"
+   ]
   },
   "ATVI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ATVI",
+   "tried": [
+    "tiingo:ATVI"
+   ]
   },
   "AVB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AVB",
+   "tried": [
+    "tiingo:AVB"
+   ]
   },
   "AVGO": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AVGO",
+   "tried": [
+    "tiingo:AVGO"
+   ]
   },
   "AVP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AVP",
+   "tried": [
+    "tiingo:AVP"
+   ]
   },
   "AVY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AVY",
+   "tried": [
+    "tiingo:AVY"
+   ]
   },
   "AXP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AXP",
+   "tried": [
+    "tiingo:AXP"
+   ]
   },
   "AZO": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AZO",
+   "tried": [
+    "tiingo:AZO"
+   ]
   },
   "BA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BA",
+   "tried": [
+    "tiingo:BA"
+   ]
   },
   "BAC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BAC",
+   "tried": [
+    "tiingo:BAC"
+   ]
   },
   "BAX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BAX",
+   "tried": [
+    "tiingo:BAX"
+   ]
   },
   "BBBY": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:BBBY"
+   ]
   },
   "BBT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BBT",
+   "tried": [
+    "tiingo:BBT"
+   ]
   },
   "BBY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BBY",
+   "tried": [
+    "tiingo:BBY"
+   ]
   },
   "BCR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BCR",
+   "tried": [
+    "tiingo:BCR"
+   ]
   },
   "BDX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BDX",
+   "tried": [
+    "tiingo:BDX"
+   ]
   },
   "BEN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BEN",
+   "tried": [
+    "tiingo:BEN"
+   ]
   },
   "BF.B": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BF.B",
+   "tried": [
+    "tiingo:BF.B"
+   ]
   },
   "BHGE": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:BHGE"
+   ]
   },
   "BIIB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BIIB",
+   "tried": [
+    "tiingo:BIIB"
+   ]
   },
   "BK": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:BK"
+   ]
   },
   "BKNG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BKNG",
+   "tried": [
+    "tiingo:BKNG"
+   ]
   },
   "BLK": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BLK",
+   "tried": [
+    "tiingo:BLK"
+   ]
   },
   "BLL": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:BLL"
+   ]
   },
   "BMS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BMS",
+   "tried": [
+    "tiingo:BMS"
+   ]
   },
   "BMY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BMY",
+   "tried": [
+    "tiingo:BMY"
+   ]
   },
   "BRCM": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:BRCM"
+   ]
   },
   "BRK.B": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BRK.B",
+   "tried": [
+    "tiingo:BRK.B"
+   ]
   },
   "BSX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BSX",
+   "tried": [
+    "tiingo:BSX"
+   ]
   },
   "BTUUQ": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:BTUUQ"
+   ]
   },
   "BWA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BWA",
+   "tried": [
+    "tiingo:BWA"
+   ]
   },
   "BXLT": {
-   "status": "pending",
-   "tried": []
+   "rows": 166,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BXLT",
+   "tried": [
+    "tiingo:BXLT"
+   ]
   },
   "BXP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BXP",
+   "tried": [
+    "tiingo:BXP"
+   ]
   },
   "C": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "C",
+   "tried": [
+    "tiingo:C"
+   ]
   },
   "CA": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CA"
+   ]
   },
   "CAG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CAG",
+   "tried": [
+    "tiingo:CAG"
+   ]
   },
   "CAH": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CAH",
+   "tried": [
+    "tiingo:CAH"
+   ]
   },
   "CAM": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CAM"
+   ]
   },
   "CAT": {
    "status": "pending",
@@ -2509,7 +2712,7 @@
  },
  "tiingo": {
   "day": "2026-11-26",
-  "hour": "2026-11-26T14",
+  "hour": "2026-11-26T16",
   "months": {
    "2026-11": [
     "A",
@@ -2553,10 +2756,55 @@
     "AN",
     "ANDV",
     "ANTM",
-    "AON"
+    "AON",
+    "APA",
+    "APC",
+    "APD",
+    "APH",
+    "APTV",
+    "ARG",
+    "ARNC",
+    "ATI",
+    "ATVI",
+    "AVB",
+    "AVGO",
+    "AVP",
+    "AVY",
+    "AXP",
+    "AZO",
+    "BA",
+    "BAC",
+    "BAX",
+    "BBBY",
+    "BBT",
+    "BBY",
+    "BCR",
+    "BDX",
+    "BEN",
+    "BF.B",
+    "BHGE",
+    "BIIB",
+    "BK",
+    "BKNG",
+    "BLK",
+    "BLL",
+    "BMS",
+    "BMY",
+    "BRCM",
+    "BRK.B",
+    "BSX",
+    "BTUUQ",
+    "BWA",
+    "BXLT",
+    "BXP",
+    "C",
+    "CA",
+    "CAG",
+    "CAH",
+    "CAM"
    ]
   },
-  "n_day": 45,
+  "n_day": 90,
   "n_hour": 45
  },
  "xcheck": {}
