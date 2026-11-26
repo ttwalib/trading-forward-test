@@ -42,7 +42,7 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    evening prompt describes (STEPS 4-6), or record them as missing.
 12. PARTLY DONE 2026-11-25 (cost rule applied by the owner: L2, L4, crypto 15m fixed M1 and 15m adaptive M1 out of the book; (a) DONE: dashboard Scoreboard view, dashboard.py scoreboard(), artifact version 1795594884-8a7c). OPEN (item 32-34 follow-ups): (a, done) dashboard layout (scoreboard, AI layer, foundation; scripts/dashboard.py and
    ops/dashboard/index.template.html; republish slug 41628095-7dd8-4a9a-be2e-162e0f2d375f); (e) DONE 2026-11-26: the Nov 25 lab
-   run was checked (track correct, gate REJECT, nothing frozen touched; the point-in-time cache covering only 2024-02 on is for the owner); see reports/lab_check/2026-11-25.md. DONE (b): lab_daily path
+   run was checked (track correct, gate REJECT, nothing frozen touched); the stale point-in-time cache was rebuilt to 2016-03 to 2026-11 on the owner's request and reproduces the run; see reports/lab_check/2026-11-25.md. DONE (b): lab_daily path
    and the neighbour check tested on a copy (plateau passes, lone peak and missing grid fail; note: lab_daily drops
    returns dated on non-trading days instead of rolling them like lab_crypto). DONE (c): cost rule listing in
    reports/costrule/2026-11-25.json (would drop L2 VWAP pullback, L4 Gap fade, 15m fixed and adaptive M1); it is NOT a
