@@ -36,6 +36,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-26T21:13:13+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -1546,180 +1554,380 @@
    ]
   },
   "EMC": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:EMC"
+   ]
   },
   "EMN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EMN",
+   "tried": [
+    "tiingo:EMN"
+   ]
   },
   "EMR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EMR",
+   "tried": [
+    "tiingo:EMR"
+   ]
   },
   "ENDP": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:ENDP"
+   ]
   },
   "EOG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EOG",
+   "tried": [
+    "tiingo:EOG"
+   ]
   },
   "EQIX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EQIX",
+   "tried": [
+    "tiingo:EQIX"
+   ]
   },
   "EQR": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:EQR"
+   ]
   },
   "EQT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EQT",
+   "tried": [
+    "tiingo:EQT"
+   ]
   },
   "ES": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ES",
+   "tried": [
+    "tiingo:ES"
+   ]
   },
   "ESRX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ESRX",
+   "tried": [
+    "tiingo:ESRX"
+   ]
   },
   "ESS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ESS",
+   "tried": [
+    "tiingo:ESS"
+   ]
   },
   "ESV": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:ESV"
+   ]
   },
   "ETFC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ETFC",
+   "tried": [
+    "tiingo:ETFC"
+   ]
   },
   "ETN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ETN",
+   "tried": [
+    "tiingo:ETN"
+   ]
   },
   "ETR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ETR",
+   "tried": [
+    "tiingo:ETR"
+   ]
   },
   "EW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EW",
+   "tried": [
+    "tiingo:EW"
+   ]
   },
   "EXC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EXC",
+   "tried": [
+    "tiingo:EXC"
+   ]
   },
   "EXPD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EXPD",
+   "tried": [
+    "tiingo:EXPD"
+   ]
   },
   "EXPE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EXPE",
+   "tried": [
+    "tiingo:EXPE"
+   ]
   },
   "EXR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EXR",
+   "tried": [
+    "tiingo:EXR"
+   ]
   },
   "F": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "F",
+   "tried": [
+    "tiingo:F"
+   ]
   },
   "FAST": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FAST",
+   "tried": [
+    "tiingo:FAST"
+   ]
   },
   "FB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "META",
+   "tried": [
+    "tiingo:FB",
+    "tiingo:META"
+   ]
   },
   "FCPT": {
-   "status": "pending",
-   "tried": []
+   "rows": 75,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FCPT",
+   "tried": [
+    "tiingo:FCPT"
+   ]
   },
   "FCX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FCX",
+   "tried": [
+    "tiingo:FCX"
+   ]
   },
   "FDO": {
-   "status": "pending",
-   "tried": []
+   "rows": 260,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FDO",
+   "tried": [
+    "tiingo:FDO"
+   ]
   },
   "FDX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FDX",
+   "tried": [
+    "tiingo:FDX"
+   ]
   },
   "FE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FE",
+   "tried": [
+    "tiingo:FE"
+   ]
   },
   "FFIV": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FFIV",
+   "tried": [
+    "tiingo:FFIV"
+   ]
   },
   "FIS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FIS",
+   "tried": [
+    "tiingo:FIS"
+   ]
   },
   "FISV": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FISV",
+   "tried": [
+    "tiingo:FISV"
+   ]
   },
   "FITB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FITB",
+   "tried": [
+    "tiingo:FITB"
+   ]
   },
   "FLIR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FLIR",
+   "tried": [
+    "tiingo:FLIR"
+   ]
   },
   "FLR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FLR",
+   "tried": [
+    "tiingo:FLR"
+   ]
   },
   "FLS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FLS",
+   "tried": [
+    "tiingo:FLS"
+   ]
   },
   "FMC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FMC",
+   "tried": [
+    "tiingo:FMC"
+   ]
   },
   "FOSL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FOSL",
+   "tried": [
+    "tiingo:FOSL"
+   ]
   },
   "FOX": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:FOX"
+   ]
   },
   "FOXA": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:FOXA"
+   ]
   },
   "FRT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FRT",
+   "tried": [
+    "tiingo:FRT"
+   ]
   },
   "FRX": {
-   "status": "pending",
-   "tried": []
+   "rows": 1,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FRX",
+   "tried": [
+    "tiingo:FRX"
+   ]
   },
   "FSLR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FSLR",
+   "tried": [
+    "tiingo:FSLR"
+   ]
   },
   "FTI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "FTI",
+   "tried": [
+    "tiingo:FTI"
+   ]
   },
   "FTR": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:FTR"
+   ]
   },
   "GAS": {
    "status": "pending",
@@ -3136,7 +3344,7 @@
  },
  "tiingo": {
   "day": "2026-11-26",
-  "hour": "2026-11-26T19",
+  "hour": "2026-11-26T21",
   "months": {
    "2026-11": [
     "A",
@@ -3312,10 +3520,54 @@
     "EFA",
     "EFX",
     "EIX",
-    "EL"
+    "EL",
+    "EMC",
+    "EMN",
+    "EMR",
+    "ENDP",
+    "EOG",
+    "EQIX",
+    "EQR",
+    "EQT",
+    "ES",
+    "ESRX",
+    "ESS",
+    "ESV",
+    "ETFC",
+    "ETN",
+    "ETR",
+    "EW",
+    "EXC",
+    "EXPD",
+    "EXPE",
+    "EXR",
+    "F",
+    "FAST",
+    "FB",
+    "FCPT",
+    "FCX",
+    "FDO",
+    "FDX",
+    "FE",
+    "FFIV",
+    "FIS",
+    "FISV",
+    "FITB",
+    "FLIR",
+    "FLR",
+    "FLS",
+    "FMC",
+    "FOSL",
+    "FOX",
+    "FOXA",
+    "FRT",
+    "FRX",
+    "FSLR",
+    "FTI",
+    "FTR"
    ]
   },
-  "n_day": 180,
+  "n_day": 225,
   "n_hour": 45
  },
  "xcheck": {}
