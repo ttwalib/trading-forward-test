@@ -1,0 +1,2563 @@
+{
+ "av": {},
+ "cboe": {
+  "VIX": "ok 419 rows",
+  "VIX3M": "ok 419 rows"
+ },
+ "runs": [
+  {
+   "at": "2026-11-26T14:37:16+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
+  }
+ ],
+ "symbols": {
+  "A": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "A",
+   "tried": [
+    "tiingo:A"
+   ]
+  },
+  "AABA": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AABA",
+   "tried": [
+    "tiingo:AABA"
+   ]
+  },
+  "AAL": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AAL",
+   "tried": [
+    "tiingo:AAL"
+   ]
+  },
+  "AAP": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AAP",
+   "tried": [
+    "tiingo:AAP"
+   ]
+  },
+  "AAPL": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AAPL",
+   "tried": [
+    "tiingo:AAPL"
+   ]
+  },
+  "ABBV": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ABBV",
+   "tried": [
+    "tiingo:ABBV"
+   ]
+  },
+  "ABC": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "COR",
+   "tried": [
+    "tiingo:ABC",
+    "tiingo:COR"
+   ]
+  },
+  "ABT": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ABT",
+   "tried": [
+    "tiingo:ABT"
+   ]
+  },
+  "ACN": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ACN",
+   "tried": [
+    "tiingo:ACN"
+   ]
+  },
+  "ADBE": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ADBE",
+   "tried": [
+    "tiingo:ADBE"
+   ]
+  },
+  "ADI": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ADI",
+   "tried": [
+    "tiingo:ADI"
+   ]
+  },
+  "ADM": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ADM",
+   "tried": [
+    "tiingo:ADM"
+   ]
+  },
+  "ADP": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ADP",
+   "tried": [
+    "tiingo:ADP"
+   ]
+  },
+  "ADS": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "BFH",
+   "tried": [
+    "tiingo:ADS",
+    "tiingo:BFH"
+   ]
+  },
+  "ADSK": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ADSK",
+   "tried": [
+    "tiingo:ADSK"
+   ]
+  },
+  "ADT": {
+   "status": "need_av",
+   "tried": [
+    "tiingo:ADT"
+   ]
+  },
+  "AEE": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AEE",
+   "tried": [
+    "tiingo:AEE"
+   ]
+  },
+  "AEP": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AEP",
+   "tried": [
+    "tiingo:AEP"
+   ]
+  },
+  "AES": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AES",
+   "tried": [
+    "tiingo:AES"
+   ]
+  },
+  "AET": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AET",
+   "tried": [
+    "tiingo:AET"
+   ]
+  },
+  "AFL": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AFL",
+   "tried": [
+    "tiingo:AFL"
+   ]
+  },
+  "AGN": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AGN",
+   "tried": [
+    "tiingo:AGN"
+   ]
+  },
+  "AIG": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AIG",
+   "tried": [
+    "tiingo:AIG"
+   ]
+  },
+  "AIV": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AIV",
+   "tried": [
+    "tiingo:AIV"
+   ]
+  },
+  "AIZ": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AIZ",
+   "tried": [
+    "tiingo:AIZ"
+   ]
+  },
+  "AKAM": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AKAM",
+   "tried": [
+    "tiingo:AKAM"
+   ]
+  },
+  "ALL": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ALL",
+   "tried": [
+    "tiingo:ALL"
+   ]
+  },
+  "ALLE": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ALLE",
+   "tried": [
+    "tiingo:ALLE"
+   ]
+  },
+  "ALTR": {
+   "status": "need_av",
+   "tried": [
+    "tiingo:ALTR"
+   ]
+  },
+  "ALXN": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ALXN",
+   "tried": [
+    "tiingo:ALXN"
+   ]
+  },
+  "AMAT": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMAT",
+   "tried": [
+    "tiingo:AMAT"
+   ]
+  },
+  "AMD": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMD",
+   "tried": [
+    "tiingo:AMD"
+   ]
+  },
+  "AME": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AME",
+   "tried": [
+    "tiingo:AME"
+   ]
+  },
+  "AMG": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMG",
+   "tried": [
+    "tiingo:AMG"
+   ]
+  },
+  "AMGN": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMGN",
+   "tried": [
+    "tiingo:AMGN"
+   ]
+  },
+  "AMP": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMP",
+   "tried": [
+    "tiingo:AMP"
+   ]
+  },
+  "AMT": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMT",
+   "tried": [
+    "tiingo:AMT"
+   ]
+  },
+  "AMZN": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AMZN",
+   "tried": [
+    "tiingo:AMZN"
+   ]
+  },
+  "AN": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AN",
+   "tried": [
+    "tiingo:AN"
+   ]
+  },
+  "ANDV": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ANDV",
+   "tried": [
+    "tiingo:ANDV"
+   ]
+  },
+  "ANTM": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ELV",
+   "tried": [
+    "tiingo:ANTM",
+    "tiingo:ELV"
+   ]
+  },
+  "AON": {
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "AON",
+   "tried": [
+    "tiingo:AON"
+   ]
+  },
+  "APA": {
+   "status": "pending",
+   "tried": []
+  },
+  "APC": {
+   "status": "pending",
+   "tried": []
+  },
+  "APD": {
+   "status": "pending",
+   "tried": []
+  },
+  "APH": {
+   "status": "pending",
+   "tried": []
+  },
+  "APTV": {
+   "status": "pending",
+   "tried": []
+  },
+  "ARG": {
+   "status": "pending",
+   "tried": []
+  },
+  "ARNC": {
+   "status": "pending",
+   "tried": []
+  },
+  "ATI": {
+   "status": "pending",
+   "tried": []
+  },
+  "ATVI": {
+   "status": "pending",
+   "tried": []
+  },
+  "AVB": {
+   "status": "pending",
+   "tried": []
+  },
+  "AVGO": {
+   "status": "pending",
+   "tried": []
+  },
+  "AVP": {
+   "status": "pending",
+   "tried": []
+  },
+  "AVY": {
+   "status": "pending",
+   "tried": []
+  },
+  "AXP": {
+   "status": "pending",
+   "tried": []
+  },
+  "AZO": {
+   "status": "pending",
+   "tried": []
+  },
+  "BA": {
+   "status": "pending",
+   "tried": []
+  },
+  "BAC": {
+   "status": "pending",
+   "tried": []
+  },
+  "BAX": {
+   "status": "pending",
+   "tried": []
+  },
+  "BBBY": {
+   "status": "pending",
+   "tried": []
+  },
+  "BBT": {
+   "status": "pending",
+   "tried": []
+  },
+  "BBY": {
+   "status": "pending",
+   "tried": []
+  },
+  "BCR": {
+   "status": "pending",
+   "tried": []
+  },
+  "BDX": {
+   "status": "pending",
+   "tried": []
+  },
+  "BEN": {
+   "status": "pending",
+   "tried": []
+  },
+  "BF.B": {
+   "status": "pending",
+   "tried": []
+  },
+  "BHGE": {
+   "status": "pending",
+   "tried": []
+  },
+  "BIIB": {
+   "status": "pending",
+   "tried": []
+  },
+  "BK": {
+   "status": "pending",
+   "tried": []
+  },
+  "BKNG": {
+   "status": "pending",
+   "tried": []
+  },
+  "BLK": {
+   "status": "pending",
+   "tried": []
+  },
+  "BLL": {
+   "status": "pending",
+   "tried": []
+  },
+  "BMS": {
+   "status": "pending",
+   "tried": []
+  },
+  "BMY": {
+   "status": "pending",
+   "tried": []
+  },
+  "BRCM": {
+   "status": "pending",
+   "tried": []
+  },
+  "BRK.B": {
+   "status": "pending",
+   "tried": []
+  },
+  "BSX": {
+   "status": "pending",
+   "tried": []
+  },
+  "BTUUQ": {
+   "status": "pending",
+   "tried": []
+  },
+  "BWA": {
+   "status": "pending",
+   "tried": []
+  },
+  "BXLT": {
+   "status": "pending",
+   "tried": []
+  },
+  "BXP": {
+   "status": "pending",
+   "tried": []
+  },
+  "C": {
+   "status": "pending",
+   "tried": []
+  },
+  "CA": {
+   "status": "pending",
+   "tried": []
+  },
+  "CAG": {
+   "status": "pending",
+   "tried": []
+  },
+  "CAH": {
+   "status": "pending",
+   "tried": []
+  },
+  "CAM": {
+   "status": "pending",
+   "tried": []
+  },
+  "CAT": {
+   "status": "pending",
+   "tried": []
+  },
+  "CB": {
+   "status": "pending",
+   "tried": []
+  },
+  "CBRE": {
+   "status": "pending",
+   "tried": []
+  },
+  "CBS": {
+   "status": "pending",
+   "tried": []
+  },
+  "CCE": {
+   "status": "pending",
+   "tried": []
+  },
+  "CCEP": {
+   "status": "pending",
+   "tried": []
+  },
+  "CCI": {
+   "status": "pending",
+   "tried": []
+  },
+  "CCL": {
+   "status": "pending",
+   "tried": []
+  },
+  "CELG": {
+   "status": "pending",
+   "tried": []
+  },
+  "CERN": {
+   "status": "pending",
+   "tried": []
+  },
+  "CF": {
+   "status": "pending",
+   "tried": []
+  },
+  "CFG": {
+   "status": "pending",
+   "tried": []
+  },
+  "CFN": {
+   "status": "pending",
+   "tried": []
+  },
+  "CHD": {
+   "status": "pending",
+   "tried": []
+  },
+  "CHK": {
+   "status": "pending",
+   "tried": []
+  },
+  "CHRW": {
+   "status": "pending",
+   "tried": []
+  },
+  "CHTR": {
+   "status": "pending",
+   "tried": []
+  },
+  "CI": {
+   "status": "pending",
+   "tried": []
+  },
+  "CINF": {
+   "status": "pending",
+   "tried": []
+  },
+  "CL": {
+   "status": "pending",
+   "tried": []
+  },
+  "CLX": {
+   "status": "pending",
+   "tried": []
+  },
+  "CMA": {
+   "status": "pending",
+   "tried": []
+  },
+  "CMCSA": {
+   "status": "pending",
+   "tried": []
+  },
+  "CMCSK": {
+   "status": "pending",
+   "tried": []
+  },
+  "CME": {
+   "status": "pending",
+   "tried": []
+  },
+  "CMG": {
+   "status": "pending",
+   "tried": []
+  },
+  "CMI": {
+   "status": "pending",
+   "tried": []
+  },
+  "CMS": {
+   "status": "pending",
+   "tried": []
+  },
+  "CNP": {
+   "status": "pending",
+   "tried": []
+  },
+  "CNX": {
+   "status": "pending",
+   "tried": []
+  },
+  "COF": {
+   "status": "pending",
+   "tried": []
+  },
+  "COG": {
+   "status": "pending",
+   "tried": []
+  },
+  "COL": {
+   "status": "pending",
+   "tried": []
+  },
+  "COP": {
+   "status": "pending",
+   "tried": []
+  },
+  "COST": {
+   "status": "pending",
+   "tried": []
+  },
+  "COV": {
+   "status": "pending",
+   "tried": []
+  },
+  "CPB": {
+   "status": "pending",
+   "tried": []
+  },
+  "CPGX": {
+   "status": "pending",
+   "tried": []
+  },
+  "CPRI": {
+   "status": "pending",
+   "tried": []
+  },
+  "CRM": {
+   "status": "pending",
+   "tried": []
+  },
+  "CSCO": {
+   "status": "pending",
+   "tried": []
+  },
+  "CSRA": {
+   "status": "pending",
+   "tried": []
+  },
+  "CSX": {
+   "status": "pending",
+   "tried": []
+  },
+  "CTAS": {
+   "status": "pending",
+   "tried": []
+  },
+  "CTL": {
+   "status": "pending",
+   "tried": []
+  },
+  "CTSH": {
+   "status": "pending",
+   "tried": []
+  },
+  "CTXS": {
+   "status": "pending",
+   "tried": []
+  },
+  "CVC": {
+   "status": "pending",
+   "tried": []
+  },
+  "CVS": {
+   "status": "pending",
+   "tried": []
+  },
+  "CVX": {
+   "status": "pending",
+   "tried": []
+  },
+  "CXO": {
+   "status": "pending",
+   "tried": []
+  },
+  "D": {
+   "status": "pending",
+   "tried": []
+  },
+  "DAL": {
+   "status": "pending",
+   "tried": []
+  },
+  "DBC": {
+   "status": "pending",
+   "tried": []
+  },
+  "DD": {
+   "status": "pending",
+   "tried": []
+  },
+  "DE": {
+   "status": "pending",
+   "tried": []
+  },
+  "DFS": {
+   "status": "pending",
+   "tried": []
+  },
+  "DG": {
+   "status": "pending",
+   "tried": []
+  },
+  "DGX": {
+   "status": "pending",
+   "tried": []
+  },
+  "DHI": {
+   "status": "pending",
+   "tried": []
+  },
+  "DHR": {
+   "status": "pending",
+   "tried": []
+  },
+  "DIA": {
+   "status": "pending",
+   "tried": []
+  },
+  "DIS": {
+   "status": "pending",
+   "tried": []
+  },
+  "DISCA": {
+   "status": "pending",
+   "tried": []
+  },
+  "DISCK": {
+   "status": "pending",
+   "tried": []
+  },
+  "DLTR": {
+   "status": "pending",
+   "tried": []
+  },
+  "DNB": {
+   "status": "pending",
+   "tried": []
+  },
+  "DNR": {
+   "status": "pending",
+   "tried": []
+  },
+  "DO": {
+   "status": "pending",
+   "tried": []
+  },
+  "DOV": {
+   "status": "pending",
+   "tried": []
+  },
+  "DOW": {
+   "status": "pending",
+   "tried": []
+  },
+  "DRI": {
+   "status": "pending",
+   "tried": []
+  },
+  "DTE": {
+   "status": "pending",
+   "tried": []
+  },
+  "DTV": {
+   "status": "pending",
+   "tried": []
+  },
+  "DUK": {
+   "status": "pending",
+   "tried": []
+  },
+  "DVA": {
+   "status": "pending",
+   "tried": []
+  },
+  "DVN": {
+   "status": "pending",
+   "tried": []
+  },
+  "DXC": {
+   "status": "pending",
+   "tried": []
+  },
+  "EA": {
+   "status": "pending",
+   "tried": []
+  },
+  "EBAY": {
+   "status": "pending",
+   "tried": []
+  },
+  "ECL": {
+   "status": "pending",
+   "tried": []
+  },
+  "ED": {
+   "status": "pending",
+   "tried": []
+  },
+  "EEM": {
+   "status": "pending",
+   "tried": []
+  },
+  "EFA": {
+   "status": "pending",
+   "tried": []
+  },
+  "EFX": {
+   "status": "pending",
+   "tried": []
+  },
+  "EIX": {
+   "status": "pending",
+   "tried": []
+  },
+  "EL": {
+   "status": "pending",
+   "tried": []
+  },
+  "EMC": {
+   "status": "pending",
+   "tried": []
+  },
+  "EMN": {
+   "status": "pending",
+   "tried": []
+  },
+  "EMR": {
+   "status": "pending",
+   "tried": []
+  },
+  "ENDP": {
+   "status": "pending",
+   "tried": []
+  },
+  "EOG": {
+   "status": "pending",
+   "tried": []
+  },
+  "EQIX": {
+   "status": "pending",
+   "tried": []
+  },
+  "EQR": {
+   "status": "pending",
+   "tried": []
+  },
+  "EQT": {
+   "status": "pending",
+   "tried": []
+  },
+  "ES": {
+   "status": "pending",
+   "tried": []
+  },
+  "ESRX": {
+   "status": "pending",
+   "tried": []
+  },
+  "ESS": {
+   "status": "pending",
+   "tried": []
+  },
+  "ESV": {
+   "status": "pending",
+   "tried": []
+  },
+  "ETFC": {
+   "status": "pending",
+   "tried": []
+  },
+  "ETN": {
+   "status": "pending",
+   "tried": []
+  },
+  "ETR": {
+   "status": "pending",
+   "tried": []
+  },
+  "EW": {
+   "status": "pending",
+   "tried": []
+  },
+  "EXC": {
+   "status": "pending",
+   "tried": []
+  },
+  "EXPD": {
+   "status": "pending",
+   "tried": []
+  },
+  "EXPE": {
+   "status": "pending",
+   "tried": []
+  },
+  "EXR": {
+   "status": "pending",
+   "tried": []
+  },
+  "F": {
+   "status": "pending",
+   "tried": []
+  },
+  "FAST": {
+   "status": "pending",
+   "tried": []
+  },
+  "FB": {
+   "status": "pending",
+   "tried": []
+  },
+  "FCPT": {
+   "status": "pending",
+   "tried": []
+  },
+  "FCX": {
+   "status": "pending",
+   "tried": []
+  },
+  "FDO": {
+   "status": "pending",
+   "tried": []
+  },
+  "FDX": {
+   "status": "pending",
+   "tried": []
+  },
+  "FE": {
+   "status": "pending",
+   "tried": []
+  },
+  "FFIV": {
+   "status": "pending",
+   "tried": []
+  },
+  "FIS": {
+   "status": "pending",
+   "tried": []
+  },
+  "FISV": {
+   "status": "pending",
+   "tried": []
+  },
+  "FITB": {
+   "status": "pending",
+   "tried": []
+  },
+  "FLIR": {
+   "status": "pending",
+   "tried": []
+  },
+  "FLR": {
+   "status": "pending",
+   "tried": []
+  },
+  "FLS": {
+   "status": "pending",
+   "tried": []
+  },
+  "FMC": {
+   "status": "pending",
+   "tried": []
+  },
+  "FOSL": {
+   "status": "pending",
+   "tried": []
+  },
+  "FOX": {
+   "status": "pending",
+   "tried": []
+  },
+  "FOXA": {
+   "status": "pending",
+   "tried": []
+  },
+  "FRT": {
+   "status": "pending",
+   "tried": []
+  },
+  "FRX": {
+   "status": "pending",
+   "tried": []
+  },
+  "FSLR": {
+   "status": "pending",
+   "tried": []
+  },
+  "FTI": {
+   "status": "pending",
+   "tried": []
+  },
+  "FTR": {
+   "status": "pending",
+   "tried": []
+  },
+  "GAS": {
+   "status": "pending",
+   "tried": []
+  },
+  "GD": {
+   "status": "pending",
+   "tried": []
+  },
+  "GE": {
+   "status": "pending",
+   "tried": []
+  },
+  "GGP": {
+   "status": "pending",
+   "tried": []
+  },
+  "GHC": {
+   "status": "pending",
+   "tried": []
+  },
+  "GILD": {
+   "status": "pending",
+   "tried": []
+  },
+  "GIS": {
+   "status": "pending",
+   "tried": []
+  },
+  "GLD": {
+   "status": "pending",
+   "tried": []
+  },
+  "GLW": {
+   "status": "pending",
+   "tried": []
+  },
+  "GM": {
+   "status": "pending",
+   "tried": []
+  },
+  "GMCR": {
+   "status": "pending",
+   "tried": []
+  },
+  "GME": {
+   "status": "pending",
+   "tried": []
+  },
+  "GNW": {
+   "status": "pending",
+   "tried": []
+  },
+  "GOOG": {
+   "status": "pending",
+   "tried": []
+  },
+  "GOOGL": {
+   "status": "pending",
+   "tried": []
+  },
+  "GPC": {
+   "status": "pending",
+   "tried": []
+  },
+  "GPS": {
+   "status": "pending",
+   "tried": []
+  },
+  "GRMN": {
+   "status": "pending",
+   "tried": []
+  },
+  "GS": {
+   "status": "pending",
+   "tried": []
+  },
+  "GT": {
+   "status": "pending",
+   "tried": []
+  },
+  "GWW": {
+   "status": "pending",
+   "tried": []
+  },
+  "HAL": {
+   "status": "pending",
+   "tried": []
+  },
+  "HAR": {
+   "status": "pending",
+   "tried": []
+  },
+  "HAS": {
+   "status": "pending",
+   "tried": []
+  },
+  "HBAN": {
+   "status": "pending",
+   "tried": []
+  },
+  "HBI": {
+   "status": "pending",
+   "tried": []
+  },
+  "HCA": {
+   "status": "pending",
+   "tried": []
+  },
+  "HCBK": {
+   "status": "pending",
+   "tried": []
+  },
+  "HCP": {
+   "status": "pending",
+   "tried": []
+  },
+  "HD": {
+   "status": "pending",
+   "tried": []
+  },
+  "HES": {
+   "status": "pending",
+   "tried": []
+  },
+  "HIG": {
+   "status": "pending",
+   "tried": []
+  },
+  "HOG": {
+   "status": "pending",
+   "tried": []
+  },
+  "HON": {
+   "status": "pending",
+   "tried": []
+  },
+  "HOT": {
+   "status": "pending",
+   "tried": []
+  },
+  "HP": {
+   "status": "pending",
+   "tried": []
+  },
+  "HPE": {
+   "status": "pending",
+   "tried": []
+  },
+  "HPQ": {
+   "status": "pending",
+   "tried": []
+  },
+  "HRB": {
+   "status": "pending",
+   "tried": []
+  },
+  "HRL": {
+   "status": "pending",
+   "tried": []
+  },
+  "HRS": {
+   "status": "pending",
+   "tried": []
+  },
+  "HSIC": {
+   "status": "pending",
+   "tried": []
+  },
+  "HSP": {
+   "status": "pending",
+   "tried": []
+  },
+  "HST": {
+   "status": "pending",
+   "tried": []
+  },
+  "HSY": {
+   "status": "pending",
+   "tried": []
+  },
+  "HUM": {
+   "status": "pending",
+   "tried": []
+  },
+  "IBM": {
+   "status": "pending",
+   "tried": []
+  },
+  "ICE": {
+   "status": "pending",
+   "tried": []
+  },
+  "IEF": {
+   "status": "pending",
+   "tried": []
+  },
+  "IFF": {
+   "status": "pending",
+   "tried": []
+  },
+  "ILMN": {
+   "status": "pending",
+   "tried": []
+  },
+  "INTC": {
+   "status": "pending",
+   "tried": []
+  },
+  "INTU": {
+   "status": "pending",
+   "tried": []
+  },
+  "IP": {
+   "status": "pending",
+   "tried": []
+  },
+  "IPG": {
+   "status": "pending",
+   "tried": []
+  },
+  "IR": {
+   "status": "pending",
+   "tried": []
+  },
+  "IRM": {
+   "status": "pending",
+   "tried": []
+  },
+  "ISRG": {
+   "status": "pending",
+   "tried": []
+  },
+  "ITW": {
+   "status": "pending",
+   "tried": []
+  },
+  "IVZ": {
+   "status": "pending",
+   "tried": []
+  },
+  "IWM": {
+   "status": "pending",
+   "tried": []
+  },
+  "JBHT": {
+   "status": "pending",
+   "tried": []
+  },
+  "JBL": {
+   "status": "pending",
+   "tried": []
+  },
+  "JCI": {
+   "status": "pending",
+   "tried": []
+  },
+  "JEC": {
+   "status": "pending",
+   "tried": []
+  },
+  "JEF": {
+   "status": "pending",
+   "tried": []
+  },
+  "JNJ": {
+   "status": "pending",
+   "tried": []
+  },
+  "JNPR": {
+   "status": "pending",
+   "tried": []
+  },
+  "JOY": {
+   "status": "pending",
+   "tried": []
+  },
+  "JPM": {
+   "status": "pending",
+   "tried": []
+  },
+  "JWN": {
+   "status": "pending",
+   "tried": []
+  },
+  "K": {
+   "status": "pending",
+   "tried": []
+  },
+  "KDP": {
+   "status": "pending",
+   "tried": []
+  },
+  "KEY": {
+   "status": "pending",
+   "tried": []
+  },
+  "KHC": {
+   "status": "pending",
+   "tried": []
+  },
+  "KIM": {
+   "status": "pending",
+   "tried": []
+  },
+  "KLAC": {
+   "status": "pending",
+   "tried": []
+  },
+  "KMB": {
+   "status": "pending",
+   "tried": []
+  },
+  "KMI": {
+   "status": "pending",
+   "tried": []
+  },
+  "KMX": {
+   "status": "pending",
+   "tried": []
+  },
+  "KO": {
+   "status": "pending",
+   "tried": []
+  },
+  "KORS": {
+   "status": "pending",
+   "tried": []
+  },
+  "KR": {
+   "status": "pending",
+   "tried": []
+  },
+  "KRFT": {
+   "status": "pending",
+   "tried": []
+  },
+  "KSS": {
+   "status": "pending",
+   "tried": []
+  },
+  "KSU": {
+   "status": "pending",
+   "tried": []
+  },
+  "L": {
+   "status": "pending",
+   "tried": []
+  },
+  "LB": {
+   "status": "pending",
+   "tried": []
+  },
+  "LEG": {
+   "status": "pending",
+   "tried": []
+  },
+  "LEN": {
+   "status": "pending",
+   "tried": []
+  },
+  "LH": {
+   "status": "pending",
+   "tried": []
+  },
+  "LLL": {
+   "status": "pending",
+   "tried": []
+  },
+  "LLTC": {
+   "status": "pending",
+   "tried": []
+  },
+  "LLY": {
+   "status": "pending",
+   "tried": []
+  },
+  "LM": {
+   "status": "pending",
+   "tried": []
+  },
+  "LMT": {
+   "status": "pending",
+   "tried": []
+  },
+  "LNC": {
+   "status": "pending",
+   "tried": []
+  },
+  "LO": {
+   "status": "pending",
+   "tried": []
+  },
+  "LOW": {
+   "status": "pending",
+   "tried": []
+  },
+  "LRCX": {
+   "status": "pending",
+   "tried": []
+  },
+  "LUV": {
+   "status": "pending",
+   "tried": []
+  },
+  "LVLT": {
+   "status": "pending",
+   "tried": []
+  },
+  "LYB": {
+   "status": "pending",
+   "tried": []
+  },
+  "M": {
+   "status": "pending",
+   "tried": []
+  },
+  "MA": {
+   "status": "pending",
+   "tried": []
+  },
+  "MAC": {
+   "status": "pending",
+   "tried": []
+  },
+  "MAR": {
+   "status": "pending",
+   "tried": []
+  },
+  "MAS": {
+   "status": "pending",
+   "tried": []
+  },
+  "MAT": {
+   "status": "pending",
+   "tried": []
+  },
+  "MCD": {
+   "status": "pending",
+   "tried": []
+  },
+  "MCHP": {
+   "status": "pending",
+   "tried": []
+  },
+  "MCK": {
+   "status": "pending",
+   "tried": []
+  },
+  "MCO": {
+   "status": "pending",
+   "tried": []
+  },
+  "MDLZ": {
+   "status": "pending",
+   "tried": []
+  },
+  "MDT": {
+   "status": "pending",
+   "tried": []
+  },
+  "MET": {
+   "status": "pending",
+   "tried": []
+  },
+  "META": {
+   "status": "pending",
+   "tried": []
+  },
+  "MHK": {
+   "status": "pending",
+   "tried": []
+  },
+  "MJN": {
+   "status": "pending",
+   "tried": []
+  },
+  "MKC": {
+   "status": "pending",
+   "tried": []
+  },
+  "MLM": {
+   "status": "pending",
+   "tried": []
+  },
+  "MMC": {
+   "status": "pending",
+   "tried": []
+  },
+  "MMM": {
+   "status": "pending",
+   "tried": []
+  },
+  "MNK": {
+   "status": "pending",
+   "tried": []
+  },
+  "MNST": {
+   "status": "pending",
+   "tried": []
+  },
+  "MO": {
+   "status": "pending",
+   "tried": []
+  },
+  "MON": {
+   "status": "pending",
+   "tried": []
+  },
+  "MOS": {
+   "status": "pending",
+   "tried": []
+  },
+  "MPC": {
+   "status": "pending",
+   "tried": []
+  },
+  "MRK": {
+   "status": "pending",
+   "tried": []
+  },
+  "MRO": {
+   "status": "pending",
+   "tried": []
+  },
+  "MS": {
+   "status": "pending",
+   "tried": []
+  },
+  "MSFT": {
+   "status": "pending",
+   "tried": []
+  },
+  "MSI": {
+   "status": "pending",
+   "tried": []
+  },
+  "MSTR": {
+   "status": "pending",
+   "tried": []
+  },
+  "MTB": {
+   "status": "pending",
+   "tried": []
+  },
+  "MU": {
+   "status": "pending",
+   "tried": []
+  },
+  "MUR": {
+   "status": "pending",
+   "tried": []
+  },
+  "MWV": {
+   "status": "pending",
+   "tried": []
+  },
+  "MYL": {
+   "status": "pending",
+   "tried": []
+  },
+  "NAVI": {
+   "status": "pending",
+   "tried": []
+  },
+  "NBL": {
+   "status": "pending",
+   "tried": []
+  },
+  "NBR": {
+   "status": "pending",
+   "tried": []
+  },
+  "NDAQ": {
+   "status": "pending",
+   "tried": []
+  },
+  "NE": {
+   "status": "pending",
+   "tried": []
+  },
+  "NEE": {
+   "status": "pending",
+   "tried": []
+  },
+  "NEM": {
+   "status": "pending",
+   "tried": []
+  },
+  "NFLX": {
+   "status": "pending",
+   "tried": []
+  },
+  "NFX": {
+   "status": "pending",
+   "tried": []
+  },
+  "NI": {
+   "status": "pending",
+   "tried": []
+  },
+  "NKE": {
+   "status": "pending",
+   "tried": []
+  },
+  "NLSN": {
+   "status": "pending",
+   "tried": []
+  },
+  "NOC": {
+   "status": "pending",
+   "tried": []
+  },
+  "NOV": {
+   "status": "pending",
+   "tried": []
+  },
+  "NOW": {
+   "status": "pending",
+   "tried": []
+  },
+  "NRG": {
+   "status": "pending",
+   "tried": []
+  },
+  "NSC": {
+   "status": "pending",
+   "tried": []
+  },
+  "NTAP": {
+   "status": "pending",
+   "tried": []
+  },
+  "NTRS": {
+   "status": "pending",
+   "tried": []
+  },
+  "NUE": {
+   "status": "pending",
+   "tried": []
+  },
+  "NVDA": {
+   "status": "pending",
+   "tried": []
+  },
+  "NWL": {
+   "status": "pending",
+   "tried": []
+  },
+  "NWS": {
+   "status": "pending",
+   "tried": []
+  },
+  "NWSA": {
+   "status": "pending",
+   "tried": []
+  },
+  "O": {
+   "status": "pending",
+   "tried": []
+  },
+  "OI": {
+   "status": "pending",
+   "tried": []
+  },
+  "OKE": {
+   "status": "pending",
+   "tried": []
+  },
+  "OMC": {
+   "status": "pending",
+   "tried": []
+  },
+  "ORCL": {
+   "status": "pending",
+   "tried": []
+  },
+  "ORLY": {
+   "status": "pending",
+   "tried": []
+  },
+  "OXY": {
+   "status": "pending",
+   "tried": []
+  },
+  "PAYX": {
+   "status": "pending",
+   "tried": []
+  },
+  "PBCT": {
+   "status": "pending",
+   "tried": []
+  },
+  "PBI": {
+   "status": "pending",
+   "tried": []
+  },
+  "PCAR": {
+   "status": "pending",
+   "tried": []
+  },
+  "PCG": {
+   "status": "pending",
+   "tried": []
+  },
+  "PCL": {
+   "status": "pending",
+   "tried": []
+  },
+  "PCP": {
+   "status": "pending",
+   "tried": []
+  },
+  "PDCO": {
+   "status": "pending",
+   "tried": []
+  },
+  "PEG": {
+   "status": "pending",
+   "tried": []
+  },
+  "PEP": {
+   "status": "pending",
+   "tried": []
+  },
+  "PETM": {
+   "status": "pending",
+   "tried": []
+  },
+  "PFE": {
+   "status": "pending",
+   "tried": []
+  },
+  "PFG": {
+   "status": "pending",
+   "tried": []
+  },
+  "PG": {
+   "status": "pending",
+   "tried": []
+  },
+  "PGR": {
+   "status": "pending",
+   "tried": []
+  },
+  "PH": {
+   "status": "pending",
+   "tried": []
+  },
+  "PHM": {
+   "status": "pending",
+   "tried": []
+  },
+  "PKI": {
+   "status": "pending",
+   "tried": []
+  },
+  "PLD": {
+   "status": "pending",
+   "tried": []
+  },
+  "PLL": {
+   "status": "pending",
+   "tried": []
+  },
+  "PM": {
+   "status": "pending",
+   "tried": []
+  },
+  "PNC": {
+   "status": "pending",
+   "tried": []
+  },
+  "PNR": {
+   "status": "pending",
+   "tried": []
+  },
+  "PNW": {
+   "status": "pending",
+   "tried": []
+  },
+  "POM": {
+   "status": "pending",
+   "tried": []
+  },
+  "PPG": {
+   "status": "pending",
+   "tried": []
+  },
+  "PPL": {
+   "status": "pending",
+   "tried": []
+  },
+  "PRGO": {
+   "status": "pending",
+   "tried": []
+  },
+  "PRU": {
+   "status": "pending",
+   "tried": []
+  },
+  "PSA": {
+   "status": "pending",
+   "tried": []
+  },
+  "PSX": {
+   "status": "pending",
+   "tried": []
+  },
+  "PVH": {
+   "status": "pending",
+   "tried": []
+  },
+  "PWR": {
+   "status": "pending",
+   "tried": []
+  },
+  "PX": {
+   "status": "pending",
+   "tried": []
+  },
+  "PXD": {
+   "status": "pending",
+   "tried": []
+  },
+  "PYPL": {
+   "status": "pending",
+   "tried": []
+  },
+  "QCOM": {
+   "status": "pending",
+   "tried": []
+  },
+  "QEP": {
+   "status": "pending",
+   "tried": []
+  },
+  "QQQ": {
+   "status": "pending",
+   "tried": []
+  },
+  "QRVO": {
+   "status": "pending",
+   "tried": []
+  },
+  "R": {
+   "status": "pending",
+   "tried": []
+  },
+  "RAI": {
+   "status": "pending",
+   "tried": []
+  },
+  "RCL": {
+   "status": "pending",
+   "tried": []
+  },
+  "RDC": {
+   "status": "pending",
+   "tried": []
+  },
+  "REGN": {
+   "status": "pending",
+   "tried": []
+  },
+  "RF": {
+   "status": "pending",
+   "tried": []
+  },
+  "RHI": {
+   "status": "pending",
+   "tried": []
+  },
+  "RHT": {
+   "status": "pending",
+   "tried": []
+  },
+  "RIG": {
+   "status": "pending",
+   "tried": []
+  },
+  "RL": {
+   "status": "pending",
+   "tried": []
+  },
+  "ROK": {
+   "status": "pending",
+   "tried": []
+  },
+  "ROP": {
+   "status": "pending",
+   "tried": []
+  },
+  "ROST": {
+   "status": "pending",
+   "tried": []
+  },
+  "RRC": {
+   "status": "pending",
+   "tried": []
+  },
+  "RSG": {
+   "status": "pending",
+   "tried": []
+  },
+  "RTN": {
+   "status": "pending",
+   "tried": []
+  },
+  "RTX": {
+   "status": "pending",
+   "tried": []
+  },
+  "SBUX": {
+   "status": "pending",
+   "tried": []
+  },
+  "SCG": {
+   "status": "pending",
+   "tried": []
+  },
+  "SCHW": {
+   "status": "pending",
+   "tried": []
+  },
+  "SE": {
+   "status": "pending",
+   "tried": []
+  },
+  "SEE": {
+   "status": "pending",
+   "tried": []
+  },
+  "SHW": {
+   "status": "pending",
+   "tried": []
+  },
+  "SIAL": {
+   "status": "pending",
+   "tried": []
+  },
+  "SIG": {
+   "status": "pending",
+   "tried": []
+  },
+  "SJM": {
+   "status": "pending",
+   "tried": []
+  },
+  "SLB": {
+   "status": "pending",
+   "tried": []
+  },
+  "SLG": {
+   "status": "pending",
+   "tried": []
+  },
+  "SNA": {
+   "status": "pending",
+   "tried": []
+  },
+  "SNDK": {
+   "status": "pending",
+   "tried": []
+  },
+  "SNI": {
+   "status": "pending",
+   "tried": []
+  },
+  "SO": {
+   "status": "pending",
+   "tried": []
+  },
+  "SPG": {
+   "status": "pending",
+   "tried": []
+  },
+  "SPGI": {
+   "status": "pending",
+   "tried": []
+  },
+  "SPLS": {
+   "status": "pending",
+   "tried": []
+  },
+  "SPY": {
+   "status": "pending",
+   "tried": []
+  },
+  "SRCL": {
+   "status": "pending",
+   "tried": []
+  },
+  "SRE": {
+   "status": "pending",
+   "tried": []
+  },
+  "STI": {
+   "status": "pending",
+   "tried": []
+  },
+  "STJ": {
+   "status": "pending",
+   "tried": []
+  },
+  "STT": {
+   "status": "pending",
+   "tried": []
+  },
+  "STX": {
+   "status": "pending",
+   "tried": []
+  },
+  "STZ": {
+   "status": "pending",
+   "tried": []
+  },
+  "SWK": {
+   "status": "pending",
+   "tried": []
+  },
+  "SWKS": {
+   "status": "pending",
+   "tried": []
+  },
+  "SWN": {
+   "status": "pending",
+   "tried": []
+  },
+  "SWY": {
+   "status": "pending",
+   "tried": []
+  },
+  "SYF": {
+   "status": "pending",
+   "tried": []
+  },
+  "SYK": {
+   "status": "pending",
+   "tried": []
+  },
+  "SYMC": {
+   "status": "pending",
+   "tried": []
+  },
+  "SYY": {
+   "status": "pending",
+   "tried": []
+  },
+  "T": {
+   "status": "pending",
+   "tried": []
+  },
+  "TAP": {
+   "status": "pending",
+   "tried": []
+  },
+  "TDC": {
+   "status": "pending",
+   "tried": []
+  },
+  "TE": {
+   "status": "pending",
+   "tried": []
+  },
+  "TEG": {
+   "status": "pending",
+   "tried": []
+  },
+  "TEL": {
+   "status": "pending",
+   "tried": []
+  },
+  "TGNA": {
+   "status": "pending",
+   "tried": []
+  },
+  "TGT": {
+   "status": "pending",
+   "tried": []
+  },
+  "THC": {
+   "status": "pending",
+   "tried": []
+  },
+  "TIF": {
+   "status": "pending",
+   "tried": []
+  },
+  "TJX": {
+   "status": "pending",
+   "tried": []
+  },
+  "TLT": {
+   "status": "pending",
+   "tried": []
+  },
+  "TMK": {
+   "status": "pending",
+   "tried": []
+  },
+  "TMO": {
+   "status": "pending",
+   "tried": []
+  },
+  "TMUS": {
+   "status": "pending",
+   "tried": []
+  },
+  "TPR": {
+   "status": "pending",
+   "tried": []
+  },
+  "TRIP": {
+   "status": "pending",
+   "tried": []
+  },
+  "TROW": {
+   "status": "pending",
+   "tried": []
+  },
+  "TRV": {
+   "status": "pending",
+   "tried": []
+  },
+  "TSCO": {
+   "status": "pending",
+   "tried": []
+  },
+  "TSLA": {
+   "status": "pending",
+   "tried": []
+  },
+  "TSN": {
+   "status": "pending",
+   "tried": []
+  },
+  "TSS": {
+   "status": "pending",
+   "tried": []
+  },
+  "TWC": {
+   "status": "pending",
+   "tried": []
+  },
+  "TWX": {
+   "status": "pending",
+   "tried": []
+  },
+  "TXN": {
+   "status": "pending",
+   "tried": []
+  },
+  "TXT": {
+   "status": "pending",
+   "tried": []
+  },
+  "UAA": {
+   "status": "pending",
+   "tried": []
+  },
+  "UAL": {
+   "status": "pending",
+   "tried": []
+  },
+  "UHS": {
+   "status": "pending",
+   "tried": []
+  },
+  "UNH": {
+   "status": "pending",
+   "tried": []
+  },
+  "UNM": {
+   "status": "pending",
+   "tried": []
+  },
+  "UNP": {
+   "status": "pending",
+   "tried": []
+  },
+  "UPS": {
+   "status": "pending",
+   "tried": []
+  },
+  "URBN": {
+   "status": "pending",
+   "tried": []
+  },
+  "URI": {
+   "status": "pending",
+   "tried": []
+  },
+  "USB": {
+   "status": "pending",
+   "tried": []
+  },
+  "UTX": {
+   "status": "pending",
+   "tried": []
+  },
+  "V": {
+   "status": "pending",
+   "tried": []
+  },
+  "VAR": {
+   "status": "pending",
+   "tried": []
+  },
+  "VFC": {
+   "status": "pending",
+   "tried": []
+  },
+  "VIAB": {
+   "status": "pending",
+   "tried": []
+  },
+  "VLO": {
+   "status": "pending",
+   "tried": []
+  },
+  "VMC": {
+   "status": "pending",
+   "tried": []
+  },
+  "VNO": {
+   "status": "pending",
+   "tried": []
+  },
+  "VRSK": {
+   "status": "pending",
+   "tried": []
+  },
+  "VRSN": {
+   "status": "pending",
+   "tried": []
+  },
+  "VRTX": {
+   "status": "pending",
+   "tried": []
+  },
+  "VTR": {
+   "status": "pending",
+   "tried": []
+  },
+  "VZ": {
+   "status": "pending",
+   "tried": []
+  },
+  "WAT": {
+   "status": "pending",
+   "tried": []
+  },
+  "WBA": {
+   "status": "pending",
+   "tried": []
+  },
+  "WDC": {
+   "status": "pending",
+   "tried": []
+  },
+  "WEC": {
+   "status": "pending",
+   "tried": []
+  },
+  "WELL": {
+   "status": "pending",
+   "tried": []
+  },
+  "WFC": {
+   "status": "pending",
+   "tried": []
+  },
+  "WFM": {
+   "status": "pending",
+   "tried": []
+  },
+  "WHR": {
+   "status": "pending",
+   "tried": []
+  },
+  "WIN": {
+   "status": "pending",
+   "tried": []
+  },
+  "WLTW": {
+   "status": "pending",
+   "tried": []
+  },
+  "WM": {
+   "status": "pending",
+   "tried": []
+  },
+  "WMB": {
+   "status": "pending",
+   "tried": []
+  },
+  "WMT": {
+   "status": "pending",
+   "tried": []
+  },
+  "WRK": {
+   "status": "pending",
+   "tried": []
+  },
+  "WU": {
+   "status": "pending",
+   "tried": []
+  },
+  "WY": {
+   "status": "pending",
+   "tried": []
+  },
+  "WYND": {
+   "status": "pending",
+   "tried": []
+  },
+  "WYNN": {
+   "status": "pending",
+   "tried": []
+  },
+  "X": {
+   "status": "pending",
+   "tried": []
+  },
+  "XEC": {
+   "status": "pending",
+   "tried": []
+  },
+  "XEL": {
+   "status": "pending",
+   "tried": []
+  },
+  "XL": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLB": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLE": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLF": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLI": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLK": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLNX": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLP": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLRE": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLU": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLV": {
+   "status": "pending",
+   "tried": []
+  },
+  "XLY": {
+   "status": "pending",
+   "tried": []
+  },
+  "XOM": {
+   "status": "pending",
+   "tried": []
+  },
+  "XRAY": {
+   "status": "pending",
+   "tried": []
+  },
+  "XRX": {
+   "status": "pending",
+   "tried": []
+  },
+  "XYL": {
+   "status": "pending",
+   "tried": []
+  },
+  "YUM": {
+   "status": "pending",
+   "tried": []
+  },
+  "ZBH": {
+   "status": "pending",
+   "tried": []
+  },
+  "ZION": {
+   "status": "pending",
+   "tried": []
+  },
+  "ZTS": {
+   "status": "pending",
+   "tried": []
+  }
+ },
+ "tiingo": {
+  "day": "2026-11-26",
+  "hour": "2026-11-26T14",
+  "months": {
+   "2026-11": [
+    "A",
+    "AABA",
+    "AAL",
+    "AAP",
+    "AAPL",
+    "ABBV",
+    "ABC",
+    "ABT",
+    "ACN",
+    "ADBE",
+    "ADI",
+    "ADM",
+    "ADP",
+    "ADS",
+    "ADSK",
+    "ADT",
+    "AEE",
+    "AEP",
+    "AES",
+    "AET",
+    "AFL",
+    "AGN",
+    "AIG",
+    "AIV",
+    "AIZ",
+    "AKAM",
+    "ALL",
+    "ALLE",
+    "ALTR",
+    "ALXN",
+    "AMAT",
+    "AMD",
+    "AME",
+    "AMG",
+    "AMGN",
+    "AMP",
+    "AMT",
+    "AMZN",
+    "AN",
+    "ANDV",
+    "ANTM",
+    "AON"
+   ]
+  },
+  "n_day": 45,
+  "n_hour": 45
+ },
+ "xcheck": {}
+}
