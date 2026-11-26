@@ -1,19 +1,19 @@
 {
- "at": "2026-11-26T07:55:06Z",
- "nowny": "2026-11-26 02:55",
+ "at": "2026-11-26T10:32:00Z",
+ "nowny": "2026-11-26 05:32",
  "ok": true,
  "tracks": {
   "15m fixed": {
-   "closed": 3,
-   "wins": 2,
-   "total_r": 2.38,
-   "open": 4
+   "closed": 0,
+   "wins": 0,
+   "total_r": 0,
+   "open": 5
   },
   "15m adaptive": {
-   "closed": 3,
-   "wins": 2,
-   "total_r": 2.38,
-   "open": 4
+   "closed": 0,
+   "wins": 0,
+   "total_r": 0,
+   "open": 5
   },
   "1h fixed": {
    "closed": 0,
@@ -29,6 +29,6 @@
   }
  },
  "gaps": {},
- "ledger_rows": 22,
- "ml_predictions": 6
+ "ledger_rows": 18,
+ "ml_predictions": 2
 }
