@@ -28,6 +28,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-26T19:25:12+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -1162,180 +1170,380 @@
    ]
   },
   "CTAS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CTAS",
+   "tried": [
+    "tiingo:CTAS"
+   ]
   },
   "CTL": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CTL"
+   ]
   },
   "CTSH": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CTSH",
+   "tried": [
+    "tiingo:CTSH"
+   ]
   },
   "CTXS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CTXS",
+   "tried": [
+    "tiingo:CTXS"
+   ]
   },
   "CVC": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CVC"
+   ]
   },
   "CVS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CVS",
+   "tried": [
+    "tiingo:CVS"
+   ]
   },
   "CVX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CVX",
+   "tried": [
+    "tiingo:CVX"
+   ]
   },
   "CXO": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CXO",
+   "tried": [
+    "tiingo:CXO"
+   ]
   },
   "D": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "D",
+   "tried": [
+    "tiingo:D"
+   ]
   },
   "DAL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DAL",
+   "tried": [
+    "tiingo:DAL"
+   ]
   },
   "DBC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DBC",
+   "tried": [
+    "tiingo:DBC"
+   ]
   },
   "DD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DD",
+   "tried": [
+    "tiingo:DD"
+   ]
   },
   "DE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DE",
+   "tried": [
+    "tiingo:DE"
+   ]
   },
   "DFS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DFS",
+   "tried": [
+    "tiingo:DFS"
+   ]
   },
   "DG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DG",
+   "tried": [
+    "tiingo:DG"
+   ]
   },
   "DGX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DGX",
+   "tried": [
+    "tiingo:DGX"
+   ]
   },
   "DHI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DHI",
+   "tried": [
+    "tiingo:DHI"
+   ]
   },
   "DHR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DHR",
+   "tried": [
+    "tiingo:DHR"
+   ]
   },
   "DIA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DIA",
+   "tried": [
+    "tiingo:DIA"
+   ]
   },
   "DIS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DIS",
+   "tried": [
+    "tiingo:DIS"
+   ]
   },
   "DISCA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "WBD",
+   "tried": [
+    "tiingo:DISCA",
+    "tiingo:WBD"
+   ]
   },
   "DISCK": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DISCK",
+   "tried": [
+    "tiingo:DISCK"
+   ]
   },
   "DLTR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DLTR",
+   "tried": [
+    "tiingo:DLTR"
+   ]
   },
   "DNB": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:DNB"
+   ]
   },
   "DNR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DNR",
+   "tried": [
+    "tiingo:DNR"
+   ]
   },
   "DO": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:DO"
+   ]
   },
   "DOV": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DOV",
+   "tried": [
+    "tiingo:DOV"
+   ]
   },
   "DOW": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:DOW"
+   ]
   },
   "DRI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DRI",
+   "tried": [
+    "tiingo:DRI"
+   ]
   },
   "DTE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DTE",
+   "tried": [
+    "tiingo:DTE"
+   ]
   },
   "DTV": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:DTV"
+   ]
   },
   "DUK": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DUK",
+   "tried": [
+    "tiingo:DUK"
+   ]
   },
   "DVA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DVA",
+   "tried": [
+    "tiingo:DVA"
+   ]
   },
   "DVN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "DVN",
+   "tried": [
+    "tiingo:DVN"
+   ]
   },
   "DXC": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:DXC"
+   ]
   },
   "EA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EA",
+   "tried": [
+    "tiingo:EA"
+   ]
   },
   "EBAY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EBAY",
+   "tried": [
+    "tiingo:EBAY"
+   ]
   },
   "ECL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ECL",
+   "tried": [
+    "tiingo:ECL"
+   ]
   },
   "ED": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ED",
+   "tried": [
+    "tiingo:ED"
+   ]
   },
   "EEM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EEM",
+   "tried": [
+    "tiingo:EEM"
+   ]
   },
   "EFA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EFA",
+   "tried": [
+    "tiingo:EFA"
+   ]
   },
   "EFX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EFX",
+   "tried": [
+    "tiingo:EFX"
+   ]
   },
   "EIX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EIX",
+   "tried": [
+    "tiingo:EIX"
+   ]
   },
   "EL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "EL",
+   "tried": [
+    "tiingo:EL"
+   ]
   },
   "EMC": {
    "status": "pending",
@@ -2928,7 +3136,7 @@
  },
  "tiingo": {
   "day": "2026-11-26",
-  "hour": "2026-11-26T18",
+  "hour": "2026-11-26T19",
   "months": {
    "2026-11": [
     "A",
@@ -3060,10 +3268,54 @@
     "CRM",
     "CSCO",
     "CSRA",
-    "CSX"
+    "CSX",
+    "CTAS",
+    "CTL",
+    "CTSH",
+    "CTXS",
+    "CVC",
+    "CVS",
+    "CVX",
+    "CXO",
+    "D",
+    "DAL",
+    "DBC",
+    "DD",
+    "DE",
+    "DFS",
+    "DG",
+    "DGX",
+    "DHI",
+    "DHR",
+    "DIA",
+    "DIS",
+    "DISCA",
+    "DISCK",
+    "DLTR",
+    "DNB",
+    "DNR",
+    "DO",
+    "DOV",
+    "DOW",
+    "DRI",
+    "DTE",
+    "DTV",
+    "DUK",
+    "DVA",
+    "DVN",
+    "DXC",
+    "EA",
+    "EBAY",
+    "ECL",
+    "ED",
+    "EEM",
+    "EFA",
+    "EFX",
+    "EIX",
+    "EL"
    ]
   },
-  "n_day": 135,
+  "n_day": 180,
   "n_hour": 45
  },
  "xcheck": {}
