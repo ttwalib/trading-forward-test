@@ -46,7 +46,7 @@
   {
    "name": "Orchestrator",
    "when": "21:05 daily",
-   "model": "Sonnet",
+   "model": "Opus",
    "does": "Checks the pipeline and data checks, reads the scheduled nightly maths (requests it only if missing or failed), writes the digest",
    "weekday_runs": 1
   },

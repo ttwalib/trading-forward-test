@@ -1,5 +1,7 @@
 # Proposed change: orchestrator model Sonnet -> Opus (owner approval of 2026-11-23, "if theres room go ahead")
 
+APPLIED on 2026-11-26 (UTC 07:15) on the owner's "apply": the orchestrator now runs on claude-opus-5-5.
+
 A scheduled build session on 2026-11-26 (UTC 04:25) found room for this change, but update_trigger was refused for a scheduled session, so nothing is live yet.
 The owner applies this by saying "apply" in his build chat (or by changing the model of the task himself where he manages scheduled tasks).
 
