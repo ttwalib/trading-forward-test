@@ -585,11 +585,14 @@ the stocks that share it).
 KEEP WHAT YOU FETCH: save every Alpha Vantage EARNINGS_CALL_TRANSCRIPT, HISTORICAL_PUT_CALL_RATIO and INSIDER_TRANSACTIONS
 result to /tmp and log it with `python3 -I /tmp/repo/scripts/extlog.py transcript|putcall|insider /tmp/repo FILE SYM
 [QUARTER]` (data/ext/av/), so the readings accumulate as a point-in-time dataset.
-SOURCE LOG (every run, from 2026-11-25): right after the ToolSearch that loads the data tools, write
-ops/diag/morning_sources.json = {"day": DAY, "at": NOWNY, "loaded": [tool names that loaded], "not_loaded": [names
-ToolSearch did not return], "failed": {"<tool>": "<exact error text>"}} with python, and update "failed" whenever a
-call errors (plan, rate limit, auth, not connected). It is committed with the final GIT. It records tool access only;
-it changes no pick.
+SOURCE LOG (every prep and decision run; from 2026-11-25, path moved 2026-11-26, item 71): right after the ToolSearch
+that loads the data tools, write data/diag/sources/<DAY>-<job>.json (job = prep | decide | preopen) = {"day": DAY,
+"job": job, "at": NOWNY, "loaded": [tool names that loaded], "not_loaded": [names ToolSearch did not return],
+"failed": {"<tool>": "<exact error text>"}} with python, and update "failed" whenever a call errors (plan, rate limit,
+auth, not connected). It is committed with the run's last push (the pre-open refresh writes it only when it pushes
+anyway). It records tool access only; it changes no pick. The log lives under data/ because the thin task prompts
+forbid a scheduled task to edit anything under ops/; ops/diag/morning_sources.json is the old file (last written
+2026-11-25) and is no longer written.
 FMP 8-K TIMING (2026-11-24): FMP secFilings 8k-latest lists filings by acceptance time, and the first 8-Ks of a day are
 usually accepted after 08:30 New York, so a run at 08:05-08:15 often gets an empty list for today. Call it with from_date =
 the previous trading day and to_date = DAY (one call), and treat an empty result as "no filings yet", not as a failed source.
@@ -1236,3 +1239,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 68 | 2026-11-25 | Pre-freeze code review (reports/audit/2026-11-25-code-review.md; review pull request #1 closed unmerged): seal scoring uses per-sleeve caps (allocator.seal_cap, 50% own sleeves) in allocator and seals.py; seal rows that raise while checked are counted (judge_check.seal_rows_with_errors, seals rows_with_errors) instead of silently dropped; as_mix taken from the scored row (allocator.judge_seal_rows); G1 needs 60 sealed days (rank.summary sealed_days); AP3 open positions not closed on the run day, half-day expiry priced on its own bars; L13 enters and exits at the next open. Tests: tests/test_prefreeze_2026_11_25.py |
 | 69 | 2026-11-26 | Orchestrator trig_01PgUGPDdTViNz1u3Wkqy4GW moved from Sonnet to Opus (claude-opus-5-5), model only, on the owner's "apply" (approval of 2026-11-23, room check in reports/usage/2026-11-25.md); no prompt, schedule, rule or sleeve change |
 | 70 | 2026-11-26 | Restructure for depth and day trading (owner): the morning becomes three runs (prep 07:15, decision 08:17, pre-open refresh 09:04), the quant desk scripts/quant.py, the intraday desk with four checkpoints and the own sleeve AP4 (day trades), exits fill at the first bar opening after the sighting, the lab gets a longer budget and an intraday track, the evening review moves to Fable and attributes picks against base rates, the daily challenger seals every weekday; job modules in ops/agent/ |
+| 71 | 2026-11-26 | Morning SOURCE LOG moved from ops/diag/morning_sources.json to data/diag/sources/<DAY>-<job>.json (owner, after the first prep run): the thin prompts of item 70 forbid a scheduled task to edit anything under ops/, so the prep run could not write the log; one file per day and job, so the three morning runs no longer overwrite each other; modules prep.md, decide.md and preopen.md name it. No pick, rule, schedule, model or safety change |

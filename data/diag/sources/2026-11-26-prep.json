@@ -1,0 +1,25 @@
+{
+ "day": "2026-11-26",
+ "job": "prep",
+ "at": "2026-11-26 07:16",
+ "loaded": [
+  "mcp__CoinGecko__get-coin-markets",
+  "mcp__CoinGecko__get-crypto-news",
+  "mcp__CoinGecko__get-trending",
+  "mcp__CoinGecko__search-coingecko",
+  "mcp__FMP__marketPerformance",
+  "mcp__FMP__calendar",
+  "mcp__FMP__secFilings",
+  "mcp__Alpha_Vantage_MCP_Server__INSIDER_TRANSACTIONS",
+  "mcp__Alpha_Vantage_MCP_Server__EARNINGS_CALL_TRANSCRIPT",
+  "mcp__Alpha_Vantage_MCP_Server__HISTORICAL_PUT_CALL_RATIO",
+  "mcp__Interactive_Brokers_IBKR__get_company_themes",
+  "mcp__Crypto_com__get_book",
+  "mcp__Interactive_Brokers_IBKR__search_contracts",
+  "mcp__Interactive_Brokers_IBKR__get_price_history",
+  "WebSearch"
+ ],
+ "not_loaded": [],
+ "failed": {},
+ "note": "Written after the run, in the same session, when the owner asked for the log to be fixed; not a stock day, so only CoinGecko (3 calls), FMP calendar (1), IBKR search_contracts (1), Crypto.com get_book (1) and WebSearch (9) were called; none errored."
+}
