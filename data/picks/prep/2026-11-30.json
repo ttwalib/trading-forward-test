@@ -1,0 +1,95 @@
+{
+ "for_day": "2026-11-30",
+ "made_at_ny": "2026-11-25 20:58",
+ "note": "Leads only, not picks. NEXT full trading day is Monday 2026-11-30: Thursday 11-26 is Thanksgiving and Friday 11-27 is a 13:00 half day, so every lead must be re-checked against Friday's session before the Monday open. Filters checked from Twelve Data quotes (US listing, price >= $5, average volume >= 1M, none on the control list). Dropped: NIO (reports 2026-12-01 per FMP but trades at $2.69, below $5); DLTR (still on the book from 11-24, -1.6% today, no new catalyst); NXPI, TEM, WEX (8-K item 1.01 today, but Twelve Data news gave no content and there was no search budget left to identify the agreements). FMP secFilings 8k-latest was refused ('requires a higher plan'), so the 8-K leads come from data/ext/edgar/2026-11-25.json. IBKR search_earnings_insights returned nothing for 25 watchlist/ranked ids from 11-25 to 12-03.",
+ "candidates": [
+  {
+   "symbol": "DELL",
+   "direction": "long",
+   "vehicle": "stock, or option: call expiring 2026-12-11, strike about 295-300 (delta about 0.5)",
+   "catalyst": "Q3 FY27 beat-and-raise (FY27 revenue guide about $202B). The stock fell about 17% over two sessions, then reversed on 11-25 from a -9.4% open to close at 297.06 near the high, on 2x average volume.",
+   "sources": [
+    "https://www.ibtimes.co.uk/dell-technologies-revenue-forecast-increase-1817554",
+    "https://www.stocktitan.net/articles/stock-market-today-live-november-25-2026"
+   ],
+   "what_to_check_pre_market": "Friday half-day close vs 297.06 (AH was 294.88). Does the reversal hold above the 295.28 pre-earnings close? Chip tone (NVDA, AVGO, MU). IV after earnings and the call spread in the stored chain. If you take it, enter at the open (journal 11-25) and set any stop from the range, not -4%."
+  },
+  {
+   "symbol": "HPQ",
+   "direction": "long",
+   "vehicle": "stock (options listed; low premium)",
+   "catalyst": "FQ4 beat, dividend raise and FY27 profit guide above estimates. Closed 31.15 (+11.5%) on 39M shares vs 16M average; second day of post-earnings drift possible.",
+   "sources": [
+    "data/ext/edgar/2026-11-24 8-K item 2.02 (HPQ)",
+    "https://www.stocktitan.net/articles/stock-market-today-live-november-25-2026"
+   ],
+   "what_to_check_pre_market": "Friday's half-day move (did it give back the 32.05 spike area?); analyst target changes over the weekend; whether the gain was only the market reversal (compare with QQQ)."
+  },
+  {
+   "symbol": "DE",
+   "direction": "long",
+   "vehicle": "option: call expiring 2026-12-11, strike about 640 (delta about 0.5); or stock",
+   "catalyst": "Q4 FY26 results on 11-25 (8-K items 2.02/7.01): EPS missed and revenue beat, with a fiscal 2027 net income outlook and slides saying the cycle trough signals recovery. Opened 588 (-4.2%) and closed 641.02 (+9.0% open to close, +4.4% on the day) on 2.35M shares vs 1.5M average.",
+   "sources": [
+    "https://www.investing.com/news/company-news/deere-q4-2026-slides-revenue-beats-as-cycle-trough-signals-recovery-93CH-5051221",
+    "https://www.benzinga.com/markets/earnings/26/11/63620352/deere-stock-slips-as-large-agriculture-weakness-overshadows-revenue-beat"
+   ],
+   "what_to_check_pre_market": "Headlines read the print as negative, yet the stock reversed up. Find out why (the FY27 guide figure vs consensus, analyst notes) before trusting the reversal. Check Friday's close vs 641, the IV and the spread."
+  },
+  {
+   "symbol": "LI",
+   "direction": "long",
+   "vehicle": "stock (options listed; check the spread, it is a $12 ADR)",
+   "catalyst": "Q3 2026 results on 11-25 before the open. Flushed to 10.48 and then closed at the high, 11.88 (+11.0%), on 10.5M shares vs 3.6M average. NIO reports 2026-12-01 (sympathy risk either way).",
+   "sources": [
+    "https://cnevpost.com/2026/11/10/li-auto-q3-2026-results-nov-25/",
+    "https://www.benzinga.com/ (pre-market gainer list 11-25, cited in the 11-25 pick)"
+   ],
+   "what_to_check_pre_market": "The Hong Kong line (2015.HK) on Friday and Monday; November delivery numbers (Chinese EV makers usually publish on Dec 1, a Tuesday catalyst); the actual Q4 delivery guide vs consensus, because headlines are mixed. Any stop should be wider than the 8% first-bar range."
+  },
+  {
+   "symbol": "AXON",
+   "direction": "long",
+   "vehicle": "stock, or option: call expiring 2026-12-11, strike about 345",
+   "catalyst": "8-K item 5.02 (officer or director change) filed 11-25, and a Chartmill S&P 500 top-mover listing. +7.4% on the day (opened 311, closed 343.05 near the 347 high) on 2.0M shares vs 1.6M average; 48% below its 52-week high.",
+   "sources": [
+    "data/ext/edgar/2026-11-25.json (AXON 8-K item 5.02)",
+    "https://www.chartmill.com/news/AXON/Chartmill-59184-SP-500-Top-Movers-Gainers-and-Losers-From-Todays-US-Session"
+   ],
+   "what_to_check_pre_market": "What the 5.02 is (an executive change can cut either way), whether the move was only the market reversal, and Friday's follow-through."
+  },
+  {
+   "symbol": "NVDA",
+   "direction": "long",
+   "vehicle": "option: call expiring 2026-12-11, strike about 150 (tight spread), or stock",
+   "catalyst": "AI-chip sell-off: gapped -7.3% to 144.02 (52-week low 124.50) and closed 149.30, +3.7% from the open but -3.9% on the day, on 360M shares. A rebound lead only if the reversal continues; this is the market-wide theme that carried all three picks today.",
+   "sources": [
+    "https://swingfolio.com/daily/us/2026-11-25/afternoon",
+    "https://www.wealthprofessional.ca/investments/equity-markets/wall-street-absorbs-the-hit-as-nvidia-touches-a-52-week-low/394013"
+   ],
+   "what_to_check_pre_market": "Pre-market vs 149.30 and the 141.17 low; what drove the morning chip sell-off and whether it was resolved; peers AMD, AVGO, MU (data/ext/peers/latest.json). If it is below 141, drop it, or consider it as a bear put view."
+  },
+  {
+   "symbol": "CSGP",
+   "direction": "long",
+   "vehicle": "stock",
+   "catalyst": "S&P 500 winner on 11-25 (Trefis list with DLTR and MRNA): +4.2% to 34.02 on 6.8M shares vs 4.7M average; 52% below its 52-week high.",
+   "sources": [
+    "https://www.trefis.com/stock/spy/articles/628718/sp-500-movers-winners-dltr-csgp-mrna-losers-adi-hpe-dell/2026-11-25",
+    "https://www.chartmill.com/news/PWR/Chartmill-59190-SP-500-Top-Movers-November-25-2026-Gainers-and-Losers"
+   ],
+   "what_to_check_pre_market": "The reason for the move is unknown (no news found): find a named catalyst confirmed by two sources, or drop it."
+  },
+  {
+   "symbol": "AMZN",
+   "direction": "long",
+   "vehicle": "stock, or option: call expiring 2026-12-11 near the money",
+   "catalyst": "Cyber Monday 2026-11-30. Weekend Black Friday online-spending data (Adobe and Salesforce trackers) is the scheduled catalyst; a record print helps e-commerce names.",
+   "sources": [
+    "https://finance.yahoo.com/news/expect-markets-week-cyber-monday-100000606.html",
+    "https://seekingalpha.com/article/4848784-wall-street-week-ahead"
+   ],
+   "what_to_check_pre_market": "The actual Black Friday and weekend online sales growth vs last year and vs forecast; AMZN pre-market vs Friday's close. Usually this is priced in: require a pre-market gap of at least 2% on volume (STARTING METHOD)."
+  }
+ ]
+}

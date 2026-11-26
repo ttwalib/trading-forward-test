@@ -1,0 +1,48 @@
+{
+ "day": "2026-11-25",
+ "made_at_ny": "2026-11-25 20:53",
+ "control_avg_pct": 1.404,
+ "control_note": "22 control stocks open-to-close from data/bars/1d: 15 of 22 up (QCOM +5.64 best, ABBV -2.54 worst). Intraday reversal day: Nasdaq futures were about -3% at 08:30, SPY opened gapped down and rose +1.92% open-to-close (-0.29% close-to-close), QQQ +2.73% open-to-close (-0.65% close-to-close). Every gap-down that morning had a cheap open.",
+ "weighted_vs_control_pct": 4.41,
+ "weighted_note": "G1/AP view, open to close with the sealed w (0.40/0.35/0.25): +5.82% vs control +1.40. AP2 rough view (LI stopped in the first 5-minute bar at -4%, DELL entered 10:00): about +1.74% vs +1.40, so about +0.3 before costs. Not the official score: data/picks/score.json had not scored 2026-11-25 at 20:50.",
+ "per_pick": [
+  {
+   "symbol": "HPQ",
+   "asset": "stock",
+   "result_pct": 4.01,
+   "vs_control_pct": 2.61,
+   "what_happened": "Researched at 28.35 pre-market (gap +1.5%, light volume), but it opened 29.95 (gap +7.2%), ran to 32.05 in the first 5 minutes, gave back to 30.31 by 09:40 and closed 31.15 (+11.5% on the day, 39M shares vs 16M average). Stop -3% (29.05) never came near (low 29.70). Against QQQ (+2.73 open to close) the edge is only about +1.3, because the whole market recovered from the morning gap-down.",
+   "reason_held": true,
+   "lesson": "The catalyst (beat, dividend raise, FY27 profit guide above estimates) carried, so the reason held. But the price I researched was stale: the gap grew from 1.5% to 7.2% after 08:30, so the pre-market read was a weak guide again (third day running), this time in my favour. Most of the outperformance is the market reversal, not HPQ itself."
+  },
+  {
+   "symbol": "LI",
+   "asset": "stock",
+   "result_pct": 4.16,
+   "vs_control_pct": 2.76,
+   "what_happened": "Opened 11.405 (gap +6.6%) and dropped to 10.48 in the first 5-minute bar, below Tuesday's close of 10.70. That is the overnight fade I named as the main risk, and it hit the sealed stop -4% (10.95) at once. It then climbed all session and closed at 11.88, the day's high (+11.0% close to close, 10.5M shares vs 3.6M average). The open-to-close (G1) result is +4.16. In AP2 the pick was stopped out at about -4% before costs, roughly 8 points worse than holding.",
+   "reason_held": true,
+   "lesson": "The thesis (short covering near the 52-week low after a less-bad quarter) held by the close. My stop is what failed: a -4% stop on a stock whose first bar ranged 8% was inside the opening noise. I set stops because my average loss was bigger than my average win, but with no account of the stock's own range. Searches for LI return mixed headlines, several of them from Q3 2025, so I have no clean read on why it reversed."
+  },
+  {
+   "symbol": "DELL",
+   "asset": "stock",
+   "result_pct": 11.02,
+   "vs_control_pct": 9.62,
+   "what_happened": "Opened 267.57 (gap -9.4%, worse than the -6.2% pre-market I researched) and recovered to close at 297.06, near the high and above Tuesday's close (+0.6% on the day, 26.5M shares vs 12.5M average). Headlines call it a reversal of the sell-off after the raised forecast (IBTimes). The sealed entry=10:00 filled at 279.82, so the AP2 result is about +6.2%. The 10:00 delay cost about 4.9 points. Stop -4% (268.63) was missed by only 0.2% (low after 10:00: 269.19). After hours: 294.88 (-0.7%).",
+   "reason_held": true,
+   "lesson": "The contrarian beat-and-raise idea worked, and it was my best pick by far, yet it had the lowest weight (0.25) and p (0.38). That is the second day running (DKS on 11-24) that my caution was inversely related to the result. The win is not clean evidence for fading sell-offs: the whole tech complex reversed from a -3% futures morning (NVDA gapped -7.3% and closed +3.7% from its open). Delaying entry to 'let the flush settle' paid the flush away."
+  }
+ ],
+ "held_from_earlier": "Not scored here (picked 2026-11-24 with hold=2): BBY +2.99% open to close today, DLTR -1.93%, against control +1.40.",
+ "lessons": [
+  "Tight fixed stops on gap picks are being hit by opening noise. Claim: a stop tighter than the stock's own first-30-minute range (or about 1x its daily ATR) lowers AP2 return compared with no stop. LI was stopped at -4% inside an 8% first bar and closed +4.2%, and DELL missed its stop by 0.2%. Set stop width from the stock's range, or leave the stop out. Track AP2 stop exits against holding to the close.",
+  "Delaying entry does not help gap-downs on good news. Claim: when a beat-and-raise stock opens gapped down, entry=open beats entry=10:00 on more than half of such picks. DELL lost 4.9 points by waiting. Compare against score.json shadow 'v_10:00' before using entry=10:00 again.",
+  "My stated p and w do not yet rank outcomes: over 11-24 and 11-25 the lowest-weight pick (DKS, then DELL) beat the control list by the most. Claim: until calibration has at least 30 picks and shows p ranks results, near-equal weights (0.30-0.37) score at least as well as my conviction weights. Today's three wins also rode a market-wide intraday reversal (QQQ +2.7 open to close), which is not skill at picking stocks."
+ ],
+ "sources_used": [
+  "data/bars/1d and data/bars/5m (repo, 78 five-minute bars each for HPQ, LI, DELL)",
+  "data/universe.json control; Twelve Data get_quote (DELL and HPQ after hours, LI after hours)",
+  "WebSearch: stocktitan.net 'Stock Market Today, November 25, 2026: Stocks Win Back Most of Their Morning Losses After a Chip Sell-Off'; ibtimes.co.uk 'Dell Stock Reverses 6.8% Sell-Off'; LI headlines mixed or dated"
+ ]
+}
