@@ -48,3 +48,25 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    reports/costrule/2026-11-25.json (would drop L2 VWAP pullback, L4 Gap fade, 15m fixed and adaptive M1); it is NOT a
    written rule, so nothing was applied and the owner decides. (d) moved to ops/dec8_plan.md (the ML gate is still
    "always take", PBO 0.7).
+13. PROPOSED 2026-11-26 (owner: "proceed"; nothing built yet, the owner decides before any step). A longer history for
+   daily lab ideas, with a longer tuning window and the held-out data unchanged. Why: lab ideas on daily bars tune on
+   2016-2021, and a strategy with a long look-back (for example the 250 days of dispersion_reversal) loses most of 2016 to
+   warm-up, so its tuning starts in 2017. Extending the tuning window into 2022 onwards is NOT proposed, because that
+   would remove the only held-out test (reports/lab_check/2026-11-25.md, "Rebuild of the point-in-time cache").
+   Proposal: (a) Backfill the daily archive and the point-in-time files to 2006. The membership file
+   (github.com/fja05680/sp500) already reaches back to the 1990s, but the prices do not: scripts/fetch_free.py pit()
+   takes them from Alpaca, whose stock history most likely starts in 2016 (check this first), and fetch_free.py cuts
+   data/hist/1d at 2016-01-01 (line 262). A source before 2016 is therefore needed for the S&P 100 + ETFs and, above all,
+   for the members that later left the index. Without the departed names the backfill brings the survivorship bias
+   back, and it would be better not to do it. CBOE already gives the index series (VIX) from earlier years. (b) If a
+   source is found, add a one-off fetch mode (like "pit2016") on GitHub Actions; fetch_free.py is not frozen. Then
+   rebuild data/pit/monthly_top100.json with pitu.lists(repo, rebuild=True) and check archive coverage with the gate's
+   98% rule. (c) The new split would be: tune 2006-2021, keep 2022 onwards held out, unchanged, and run CPCV over the
+   whole history. This changes the runbook (LEARNING + STRATEGY LAB, DAILY STRATEGIES and IMPROVE A BASELINE: "tuned on
+   2016-2021"; review.py's default data start 2016-01-04), so it is a rule change for the owner. The freeze allows no
+   rule changes from 2026-11-30, so it must be decided and written before then, or wait until after the test. (d) Ideas
+   already rejected (dispersion_reversal, the shelf entries marked "do not test again") are not re-tested on the longer
+   history; that would be the same idea tried again after seeing its result. Every new run on the new split counts as a
+   new trial. (e) The 2008-2009 and 2011 crises would enter the tuning data; report the result with and without them so that
+   one regime does not choose the settings. Open questions for the owner: which price source (free, with delisted names) is
+   acceptable, and whether to do this before 2026-11-30 or after the test.
