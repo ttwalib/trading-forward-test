@@ -22,4 +22,4 @@ below zero at 0.05% a side.
 Cautions: daily re-weighting means high turnover, so cost is the whole question; our stock list has survivorship
 bias (prefer the point-in-time S&P 500 history in data/pit, or say so in the row); the library already holds a
 reversion strategy on bands (L6) and pairs (L13), so check the candidate is not a duplicate of those.
-Status: not tested.
+Status: tested 2026-11-25 (strategies/dispersion_reversal.py), gate REJECT. On 2022 onwards all 12 settings (dispersion cut 0/0.4/0.6/0.8 x hold 1-3 days) lost at 0.05% a side (chosen cut 0.8, hold 3: -0.16% a basket, 310 baskets, CPCV 0 of 9 paths positive); before costs the unfiltered reversal did better than the high-dispersion one, so the claim held only on 2017-2021. Do not test again.

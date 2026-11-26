@@ -1,0 +1,57 @@
+{
+ "id": "dispersion_reversal",
+ "verdict": "REJECT",
+ "n_oos": 310,
+ "oos_mean": -0.0016,
+ "p_gt0": 0.074,
+ "dsr": 0.001,
+ "luck_sharpe": 0.0947,
+ "checks": {
+  "params_declared": true,
+  "data_coverage>=0.98": true,
+  "universe_point_in_time": true,
+  "n_oos>=30": true,
+  "oos_mean>0_and_P>=0.9": false,
+  "dsr>=0.9": false,
+  "pbo<0.5": true,
+  "cpcv_pass": false,
+  "neighbours_hold": true,
+  "edge_reviewer_PASS": false
+ },
+ "reviewer": {
+  "verdict": "REVISE",
+  "confidence": 65,
+  "findings": [
+   "C4_regime_dependency: Restricted to high cross-sectional dispersion days only with no cross-regime validation plan.",
+   "C5_exit_calibration: take_profit_rr=0.0 below 1.5",
+   "C6_risk_concentration: max_positions=60 exceeds 10"
+  ],
+  "revision_instructions": [
+   "Add cross-regime validation to success criteria.",
+   "Tighten stop-loss to <=15% and ensure reward-to-risk >= 1.5.",
+   "Reduce risk_per_trade to <=1.5% and max_positions to <=10."
+  ]
+ },
+ "read_first": {
+  "data_quality": {
+   "days": 2737,
+   "worst": 1.0,
+   "worst_symbol": "AAPL",
+   "below_0.98": []
+  },
+  "n_oos": 310,
+  "few_trades": false,
+  "profit_factor": 0.797,
+  "pf_suspicious": false,
+  "neighbours": {
+   "chosen_score": 0.4069,
+   "n_neighbours": 2,
+   "neighbour_median": 0.2698,
+   "neighbour_scores": [
+    0.2774,
+    0.2622
+   ]
+  }
+ },
+ "params_hash": "1ee39ef3a714"
+}
