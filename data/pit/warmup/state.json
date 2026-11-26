@@ -52,6 +52,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-26T23:16:23+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -2331,184 +2339,403 @@
    ]
   },
   "HUM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HUM",
+   "tried": [
+    "tiingo:HUM"
+   ]
   },
   "IBM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IBM",
+   "tried": [
+    "tiingo:IBM"
+   ]
   },
   "ICE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ICE",
+   "tried": [
+    "tiingo:ICE"
+   ]
   },
   "IEF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IEF",
+   "tried": [
+    "tiingo:IEF"
+   ]
   },
   "IFF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IFF",
+   "tried": [
+    "tiingo:IFF"
+   ]
   },
   "ILMN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ILMN",
+   "tried": [
+    "tiingo:ILMN"
+   ]
   },
   "INTC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "INTC",
+   "tried": [
+    "tiingo:INTC"
+   ]
   },
   "INTU": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "INTU",
+   "tried": [
+    "tiingo:INTU"
+   ]
   },
   "IP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IP",
+   "tried": [
+    "tiingo:IP"
+   ]
   },
   "IPG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IPG",
+   "tried": [
+    "tiingo:IPG"
+   ]
   },
   "IR": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:IR"
+   ]
   },
   "IRM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IRM",
+   "tried": [
+    "tiingo:IRM"
+   ]
   },
   "ISRG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ISRG",
+   "tried": [
+    "tiingo:ISRG"
+   ]
   },
   "ITW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "ITW",
+   "tried": [
+    "tiingo:ITW"
+   ]
   },
   "IVZ": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IVZ",
+   "tried": [
+    "tiingo:IVZ"
+   ]
   },
   "IWM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "IWM",
+   "tried": [
+    "tiingo:IWM"
+   ]
   },
   "JBHT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JBHT",
+   "tried": [
+    "tiingo:JBHT"
+   ]
   },
   "JBL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JBL",
+   "tried": [
+    "tiingo:JBL"
+   ]
   },
   "JCI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JCI",
+   "tried": [
+    "tiingo:JCI"
+   ]
   },
   "JEC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JEC",
+   "tried": [
+    "tiingo:JEC"
+   ]
   },
   "JEF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JEF",
+   "tried": [
+    "tiingo:JEF"
+   ]
   },
   "JNJ": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JNJ",
+   "tried": [
+    "tiingo:JNJ"
+   ]
   },
   "JNPR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JNPR",
+   "tried": [
+    "tiingo:JNPR"
+   ]
   },
   "JOY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JOY",
+   "tried": [
+    "tiingo:JOY"
+   ]
   },
   "JPM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JPM",
+   "tried": [
+    "tiingo:JPM"
+   ]
   },
   "JWN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "JWN",
+   "tried": [
+    "tiingo:JWN"
+   ]
   },
   "K": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "K",
+   "tried": [
+    "tiingo:K"
+   ]
   },
   "KDP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KDP",
+   "tried": [
+    "tiingo:KDP"
+   ]
   },
   "KEY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KEY",
+   "tried": [
+    "tiingo:KEY"
+   ]
   },
   "KHC": {
-   "status": "pending",
-   "tried": []
+   "rows": 165,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KHC",
+   "tried": [
+    "tiingo:KHC"
+   ]
   },
   "KIM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KIM",
+   "tried": [
+    "tiingo:KIM"
+   ]
   },
   "KLAC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KLAC",
+   "tried": [
+    "tiingo:KLAC"
+   ]
   },
   "KMB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KMB",
+   "tried": [
+    "tiingo:KMB"
+   ]
   },
   "KMI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KMI",
+   "tried": [
+    "tiingo:KMI"
+   ]
   },
   "KMX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KMX",
+   "tried": [
+    "tiingo:KMX"
+   ]
   },
   "KO": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KO",
+   "tried": [
+    "tiingo:KO"
+   ]
   },
   "KORS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KORS",
+   "tried": [
+    "tiingo:KORS"
+   ]
   },
   "KR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KR",
+   "tried": [
+    "tiingo:KR"
+   ]
   },
   "KRFT": {
-   "status": "pending",
-   "tried": []
+   "rows": 259,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KRFT",
+   "tried": [
+    "tiingo:KRFT"
+   ]
   },
   "KSS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KSS",
+   "tried": [
+    "tiingo:KSS"
+   ]
   },
   "KSU": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "KSU",
+   "tried": [
+    "tiingo:KSU"
+   ]
   },
   "L": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "L",
+   "tried": [
+    "tiingo:L"
+   ]
   },
   "LB": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:LB"
+   ]
   },
   "LEG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "LEG",
+   "tried": [
+    "tiingo:LEG"
+   ]
   },
   "LEN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "LEN",
+   "tried": [
+    "tiingo:LEN"
+   ]
   },
   "LH": {
    "status": "pending",
@@ -3565,7 +3792,7 @@
  },
  "tiingo": {
   "day": "2026-11-26",
-  "hour": "2026-11-26T22",
+  "hour": "2026-11-26T23",
   "months": {
    "2026-11": [
     "A",
@@ -3830,10 +4057,55 @@
     "HSIC",
     "HSP",
     "HST",
-    "HSY"
+    "HSY",
+    "HUM",
+    "IBM",
+    "ICE",
+    "IEF",
+    "IFF",
+    "ILMN",
+    "INTC",
+    "INTU",
+    "IP",
+    "IPG",
+    "IR",
+    "IRM",
+    "ISRG",
+    "ITW",
+    "IVZ",
+    "IWM",
+    "JBHT",
+    "JBL",
+    "JCI",
+    "JEC",
+    "JEF",
+    "JNJ",
+    "JNPR",
+    "JOY",
+    "JPM",
+    "JWN",
+    "K",
+    "KDP",
+    "KEY",
+    "KHC",
+    "KIM",
+    "KLAC",
+    "KMB",
+    "KMI",
+    "KMX",
+    "KO",
+    "KORS",
+    "KR",
+    "KRFT",
+    "KSS",
+    "KSU",
+    "L",
+    "LB",
+    "LEG",
+    "LEN"
    ]
   },
-  "n_day": 270,
+  "n_day": 315,
   "n_hour": 45
  },
  "xcheck": {}
