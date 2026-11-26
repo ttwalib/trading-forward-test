@@ -1,14 +1,15 @@
 {
  "note": "Spearman rank correlation between Quantavius's sealed morning scores (-2..+2) of 44 fixed stocks and their open-to-close returns. Positive = it ranks better than chance.",
  "all": {
-  "days": 2,
+  "days": 3,
+  "sealed_days": 3,
   "missed_days": 0,
   "coverage": 1.0,
-  "mean_ic": 0.1736,
-  "t": 0.5,
+  "mean_ic": -0.1285,
+  "t": -0.35,
   "p_mean_ic_above_0": null,
   "days_positive": 1,
-  "g1_primary": "too few days (2 of 60)"
+  "g1_primary": "too few sealed days (3 of 60)"
  },
  "verdict": {
   "days": 0
@@ -26,6 +27,13 @@
    "n": 44,
    "ic": 0.5231,
    "spread_pct": 4.4127,
+   "verdict_window": false
+  },
+  {
+   "date": "2026-11-25",
+   "n": 44,
+   "ic": -0.7327,
+   "spread_pct": -4.3688,
    "verdict_window": false
   }
  ]

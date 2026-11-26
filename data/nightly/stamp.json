@@ -1,25 +1,25 @@
 {
- "day": "2026-11-24",
- "started": "2026-11-25 04:10:25",
+ "day": "2026-11-25",
+ "started": "2026-11-25 21:12:21",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.2,
+   "seconds": 5.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.4,
+   "seconds": 5.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.5,
+   "seconds": 5.8,
    "exit": 0,
    "error": null
   },
@@ -61,35 +61,35 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.6,
+   "seconds": 10.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.0,
+   "seconds": 3.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 8.6,
+   "seconds": 9.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.3,
+   "seconds": 0.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 9.8,
    "exit": 0,
    "error": null
   },
@@ -103,14 +103,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 1.6,
+   "seconds": 1.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 2.1,
+   "seconds": 2.3,
    "exit": 0,
    "error": null
   },
@@ -124,21 +124,21 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 10.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "breadth",
    "ok": true,
-   "seconds": 0.7,
+   "seconds": 0.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "leaktest",
    "ok": true,
-   "seconds": 2.1,
+   "seconds": 4.7,
    "exit": 0,
    "error": null
   },
@@ -152,28 +152,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 10.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 4.3,
+   "seconds": 4.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 10.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 9.1,
+   "seconds": 10.4,
    "exit": 0,
    "error": null
   },
@@ -194,7 +194,7 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 8.8,
+   "seconds": 10.3,
    "exit": 0,
    "error": null
   },
@@ -208,7 +208,7 @@
   {
    "step": "extra_spa",
    "ok": true,
-   "seconds": 9.2,
+   "seconds": 10.3,
    "exit": 0,
    "error": null
   },
@@ -227,9 +227,9 @@
    "error": null
   }
  ],
- "commit": "ab6b9115b03dd8f56c19e7e350ed6581c039b777",
- "chain_head": "3b377185d3da01b4c30af409b813d371ea82ca2abf12cb02ef906244b0c0809d",
+ "commit": "86897cf65f59f81cf572d869080f11be7f3c3cf3",
+ "chain_head": "ce9b32afa9d8f4cc590b0e86b88290e7c53d8e353d5b88dfc140c58eed4f7586",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-25 04:12:18"
+ "finished": "2026-11-25 21:14:30"
 }

@@ -1,16 +1,20 @@
 {
  "contest_fable": {
   "seals": 1,
-  "days": 2,
-  "total_pct": 0.087
+  "days": 3,
+  "total_pct": -0.114,
+  "rows_with_errors": 0
  },
  "contest_opus": {
-  "seals": 0
+  "seals": 0,
+  "rows_with_errors": 0
  },
  "contest_sonnet": {
-  "seals": 0
+  "seals": 0,
+  "rows_with_errors": 0
  },
  "judge_daily": {
-  "seals": 0
+  "seals": 0,
+  "rows_with_errors": 0
  }
 }

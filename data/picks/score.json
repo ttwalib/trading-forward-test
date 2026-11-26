@@ -2,14 +2,16 @@
  "note": "Picks minus the fixed random control list, same days, before costs (costs are equal on both sides). Days before 2026-12-07 are warm-up.",
  "cost_side_pct": 0.1,
  "all": {
-  "pick_days": 4,
-  "picks": 15,
-  "mean_picks_day": -0.7424,
-  "mean_control_day": -0.3767,
-  "mean_diff_day": -0.3657,
-  "days_ahead": 2,
+  "pick_days": 5,
+  "picks": 18,
+  "mean_picks_day": 0.6856,
+  "mean_control_day": -0.0206,
+  "mean_diff_day": 0.7061,
+  "days_ahead": 3,
   "p_picks_beat_control": null,
-  "g1": "too few pick days (4 of 60)"
+  "g1": "too few pick days (5 of 60)",
+  "pick_days_5d": 1,
+  "mean_diff_5d": -12.1752
  },
  "verdict": {
   "pick_days": 0,
@@ -19,15 +21,15 @@
   "note": "report only; per position, unweighted; win rate after costs vs the break-even win rate",
   "AP": {
    "all": {
-    "trades": 15,
+    "trades": 18,
     "round_trip_cost_pct": 0.2,
-    "gross_sum_pct": -20.268,
-    "cost_sum_pct": 3.0,
-    "cost_share_of_gross": 0.148,
-    "win_rate": 0.4,
-    "avg_net_win_pct": 1.288,
+    "gross_sum_pct": -1.075,
+    "cost_sum_pct": 3.6,
+    "cost_share_of_gross": 3.35,
+    "win_rate": 0.5,
+    "avg_net_win_pct": 2.925,
     "avg_net_loss_pct": 3.444,
-    "breakeven_win_rate": 0.728
+    "breakeven_win_rate": 0.541
    },
    "verdict": {
     "trades": 0
@@ -35,15 +37,15 @@
   },
   "AP2": {
    "all": {
-    "trades": 13,
+    "trades": 18,
     "round_trip_cost_pct": 0.2,
-    "gross_sum_pct": -33.818,
-    "cost_sum_pct": 2.6,
-    "cost_share_of_gross": 0.077,
-    "win_rate": 0.308,
-    "avg_net_win_pct": 1.414,
-    "avg_net_loss_pct": 4.675,
-    "breakeven_win_rate": 0.768
+    "gross_sum_pct": -22.756,
+    "cost_sum_pct": 3.6,
+    "cost_share_of_gross": 0.158,
+    "win_rate": 0.444,
+    "avg_net_win_pct": 2.49,
+    "avg_net_loss_pct": 4.627,
+    "breakeven_win_rate": 0.65
    },
    "verdict": {
     "trades": 0
@@ -66,8 +68,8 @@
    "n": 5,
    "picks_day": -3.5595,
    "control_day": -1.8004,
-   "picks_5d": null,
-   "control_5d": null
+   "picks_5d": -11.2924,
+   "control_5d": 0.8828
   },
   {
    "date": "2026-11-20",
@@ -117,6 +119,22 @@
    "control_day": 1.6892,
    "picks_5d": null,
    "control_5d": null
+  },
+  {
+   "date": "2026-11-25",
+   "phase": "train",
+   "verdict_window": false,
+   "picks": [
+    "DELL",
+    "HPQ",
+    "LI"
+   ],
+   "missing": [],
+   "n": 3,
+   "picks_day": 6.3976,
+   "control_day": 1.404,
+   "picks_5d": null,
+   "control_5d": null
   }
  ],
  "options": {
@@ -129,10 +147,10 @@
  },
  "shadow": {
   "v_10am": {
-   "days": 4,
-   "picks": 15,
-   "mean_diff_day": -1.1896,
-   "days_ahead": 1
+   "days": 5,
+   "picks": 18,
+   "mean_diff_day": -0.2271,
+   "days_ahead": 2
   },
   "v_nogap4": {
    "days": 3,
@@ -141,17 +159,17 @@
    "days_ahead": 1
   },
   "v_fade": {
-   "days": 4,
-   "picks": 15,
-   "mean_diff_day": 1.1191,
+   "days": 5,
+   "picks": 18,
+   "mean_diff_day": -0.665,
    "days_ahead": 3
   },
   "note": "report only (item 66): the same picks under other handling rules vs the same control list; never part of G1, AP, AP2 or A1; 3 trials logged on 2026-11-25"
  },
  "ap2_entry_exit": {
   "entry_choices": {
-   "open": 15,
-   "10:00": 0,
+   "open": 17,
+   "10:00": 1,
    "10:30": 0
   },
   "entry_fallback_to_open": [],
@@ -159,8 +177,8 @@
  },
  "by_version": {
   "v1": {
-   "picks": 8,
-   "mean_edge_vs_control": -1.2622
+   "picks": 11,
+   "mean_edge_vs_control": 0.444
   },
   "vNone": {
    "picks": 7,
@@ -169,8 +187,8 @@
  },
  "by_vehicle": {
   "stock": {
-   "picks": 15,
-   "mean_edge_vs_control": -0.9764
+   "picks": 18,
+   "mean_edge_vs_control": 0.0186
   },
   "option": {
    "picks": 0,

@@ -3,8 +3,8 @@
  "entries": {
   "ai_judgment": {
    "state": "too new",
-   "forward_days": 2,
-   "max_dd_pct": 0.083,
+   "forward_days": 3,
+   "max_dd_pct": 0.284,
    "last_readings": []
   },
   "contest_opus": {

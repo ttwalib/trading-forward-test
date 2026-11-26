@@ -6,7 +6,7 @@
   },
   "L6 Bollinger reversion": {
    "backtest_avg_pct_2x": -0.372,
-   "forward_avg_pct_2x": null
+   "forward_avg_pct_2x": 4.599
   },
   "L7 Donchian trend": {
    "backtest_avg_pct_2x": 0.783,
@@ -34,7 +34,7 @@
   },
   "L11 SPY overnight": {
    "backtest_avg_pct_2x": -0.002,
-   "forward_avg_pct_2x": 0.721
+   "forward_avg_pct_2x": 0.301
   },
   "L12 Turn of month": {
    "backtest_avg_pct_2x": 0.489,
@@ -45,16 +45,16 @@
    "forward_avg_pct_2x": null
   },
   "L13 Pairs reversion": {
-   "backtest_avg_pct_2x": 0.341,
+   "backtest_avg_pct_2x": 0.348,
    "forward_avg_pct_2x": null
   },
   "L1 SPY intraday momentum": {
    "backtest_avg_pct_2x": -0.074,
-   "forward_avg_pct_2x": -0.259
+   "forward_avg_pct_2x": -0.256
   },
   "L2 VWAP pullback": {
    "backtest_avg_pct_2x": -0.455,
-   "forward_avg_pct_2x": -0.586
+   "forward_avg_pct_2x": -0.583
   },
   "L3 Gap and go": {
    "backtest_avg_pct_2x": -0.436,
@@ -62,11 +62,11 @@
   },
   "L4 Gap fade": {
    "backtest_avg_pct_2x": -0.479,
-   "forward_avg_pct_2x": -0.361
+   "forward_avg_pct_2x": -0.353
   },
   "L14 ORB breakdown short": {
    "backtest_avg_pct_2x": -0.483,
-   "forward_avg_pct_2x": 0.671
+   "forward_avg_pct_2x": 0.475
   }
  }
 }

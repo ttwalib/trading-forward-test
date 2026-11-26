@@ -1,11 +1,19 @@
 {
  "note": "Report only. Brier below 0.25 = better than a coin flip.",
  "picks": {
-  "n": 8,
-  "brier": 0.2621,
+  "n": 11,
+  "brier": 0.2837,
   "coin_flip_brier": 0.25,
-  "skill_vs_coin_flip": -0.048,
+  "skill_vs_coin_flip": -0.135,
   "bands": {
+   "0.3-0.4": {
+    "n": 1,
+    "came_true": 1.0
+   },
+   "0.4-0.5": {
+    "n": 2,
+    "came_true": 1.0
+   },
    "0.5-0.6": {
     "n": 8,
     "came_true": 0.25

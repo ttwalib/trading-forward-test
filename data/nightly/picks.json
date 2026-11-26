@@ -1,14 +1,16 @@
 {
- "sleeve_days": 4,
+ "sleeve_days": 5,
  "all": {
-  "pick_days": 4,
-  "picks": 15,
-  "mean_picks_day": -0.7424,
-  "mean_control_day": -0.3767,
-  "mean_diff_day": -0.3657,
-  "days_ahead": 2,
+  "pick_days": 5,
+  "picks": 18,
+  "mean_picks_day": 0.6856,
+  "mean_control_day": -0.0206,
+  "mean_diff_day": 0.7061,
+  "days_ahead": 3,
   "p_picks_beat_control": null,
-  "g1": "too few pick days (4 of 60)"
+  "g1": "too few pick days (5 of 60)",
+  "pick_days_5d": 1,
+  "mean_diff_5d": -12.1752
  },
  "verdict": {
   "pick_days": 0,
