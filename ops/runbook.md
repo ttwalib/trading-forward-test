@@ -330,7 +330,7 @@ leaves on a later admission day when its chance of beating the best yardstick ov
 or at once when the lane retires it. Log: data/ai/lane_admissions.jsonl (hash chain); current set:
 data/ai/lane_admitted.json. Quantavius then weighs AS in its weekly book as it sees fit (25% cap). G2 still counts lab
 approvals only; admitted lane entries are reported beside it.
-DAILY CHALLENGER "judge_daily": Mondays and Thursdays at 08:41 New York from 2026-12-07, `judge.py seal ... --out
+DAILY CHALLENGER "judge_daily": every weekday (since 2026-11-26; Mondays and Thursdays before) at 08:41 New York from 2026-12-07, `judge.py seal ... --out
 data/allocator/judge_daily.jsonl --daily`; on other days its last seal carries forward (scripts/seals.py). MODEL
 CONTEST from 2026-11-29: Opus (Sun 13:41 ET) and Sonnet (Sun 13:56 ET) seal weekly weights from the identical evidence
 pack into data/allocator/contest_opus.jsonl / contest_sonnet.jsonl; scripts/seals.py scores them and the weekly book
@@ -476,6 +476,40 @@ against picks.PUT_SLIP (2% a side when measured; 4% floor since 2026-11-25). Fir
 the allowance (AP3 4% floor or the contract's own stored half-spread, whichever is wider; options_sim.py haircut 4% for
 the Agent picks option replays; optarch.OPT_SLIP 4% and the lab gate's minimum allowance 4% for option strategies).
 
+THE MORNING IN THREE RUNS, THE QUANT DESK AND THE INTRADAY DESK (owner decision 2026-11-26, item 70). The instructions of
+these four jobs live in ops/agent/ (prep.md, decide.md, preopen.md, desk.md); their task prompts are thin (safety, clone,
+"read your module"). The sections below (PICK PLAYBOOK, SIZING, EXITS, OPTION VIEWS, DAILY RANKING, ...) still apply to them.
+MORNING PREP (07:15 New York, every day, Fable): on stock days it writes the research file data/picks/desk/<DAY>.json (a
+shortlist of up to 12 verified candidates, each with its quant pack, and a technical line for each of the 44 ranked stocks)
+and pushes it by 08:10; it also settles and picks coins and logs events and earnings dates. It makes no stock pick.
+MORNING DECISION (08:17 on weekdays, Fable; the former morning research task, same id): reads the research file and
+decides the stock and option picks and the ranking, all before 09:30. Each stock pick's checks carries the base rate it
+relied on ("base=<rel_win_rate>@n<n>" or "base=none").
+PRE-OPEN REFRESH (09:04 on weekdays, Fable): may withdraw a pick, add at most 2, exit a held position, and makes the picks
+and the ranking itself if the decision run failed. Everything must be pushed by 09:25; it writes nothing from 09:27.
+QUANT DESK (scripts/quant.py; read only): brief SYM [--gap PCT] [--bars FILE] = technical pack (returns, trend, RSI, ATR,
+levels, relative volume, how far an ordinary day swings from its open and the stop or target that implies), the stock's own
+gap history, the gap base rate over every S&P 500 member since 2016 (rel_* = against the same day's average stock), an
+intraday profile from the 5-minute archive and the move the stored option chain implies; many SYM,... = one technical line
+per stock; gaprate LO HI = the base rate alone; live SYM --bars FILE = the state of today's session (VWAP, opening range,
+place in the range, volume against its own average by now, rest-of-day stop and target guide). Everything is computed from
+bars dated before the day asked about. Base rates are history, not forecasts: quote n; under 30 is an anecdote.
+INTRADAY DESK AND DAY TRADES (four checkpoints on weekdays, about 10:15, 11:30, 13:15 and 14:30 New York, Fable; two
+tasks). At each: review open positions (exits as in ENTRY TIME, INTRADAY EXITS AND SHADOW VARIANTS) and optionally open
+DAY TRADES. A day trade is a NEW AgentPicks row: NOWNY, asset "daytrade", symbol, contract id, why, checks "dt v1 |
+setup=<name> | stop=-N.N | tgt=N.N | p=0.xx | ...", status "picked". Long only; the FIXED FILTERS of the stock picks
+apply; at most 6 a day, at most 2 new per checkpoint, one per symbol per day, none after 15:20. SCORING (picks.daytrades,
+sleeve "AP4 Agent picks: day trades", an own sleeve: out of the foundation benchmark, 50% cap in a seal, no rebalancing
+cost): it fills at the open of the first 5-minute bar that opens after the LATER of the row's time and its first GitHub
+sighting (from 2026-11-30 an unwitnessed row never counts; nothing fills after 15:30); it leaves at its stop or target
+(percent from the entry, the stop first inside a bar), at a witnessed exit row (asset "daytrade", status "exit",
+exits=<its picked_at>), or at the close of the day's last 5-minute bar; 0.10% a side; each trade is one sixth of the
+sleeve and unused sixths earn nothing. p is the stated chance of a profit after costs (calibration only; score.json
+"daytrades"). AP4 never enters G1 or AP. Since 2026-11-26 every exit (AP2, AP3, AP4) fills at the first bar that OPENS
+after the sighting (a row seen at 10:15:20 fills at 10:20, not at the 10:15 open).
+IF USAGE RUNS SHORT: the watchdog logs a usage-limit failure as before; the owner (or a build session on his word) drops
+the 10:15 and 14:30 checkpoints first, then the pre-open refresh; the prep and decision runs are never dropped.
+
 ENTRY TIME, INTRADAY EXITS AND SHADOW VARIANTS (2026-11-25, item 66). ENTRY: a stock pick may seal "entry=10:00" or
 "entry=10:30" in its checks (default "entry=open"); AP2 then enters at the open of the 5-minute bar starting then, and its
 stop and target count from that price and only after it. G1 and AP stay open to close. EXITS: to leave a held stock or
@@ -532,6 +566,14 @@ last holding day or on expiry day. $0.68 a contract per leg and a spread allowan
 2026-11-25), or that contract's own half-spread in the previous night's stored chain if wider. A pick
 with no trade by 10:30 is "no fill". It is a simulated position: nothing is ordered. The stock's move against the
 control list, signed by the view, is reported beside G1 (score.json "options"); G1 itself counts the long stock picks.
+EVENING REVIEW, SINCE 2026-11-26 (item 70; it overrides the task prompt where they differ): the review also (1) attributes
+each of today's stock picks against the base rate it cited: run python3 -I scripts/quant.py brief for the pick with the
+gap it had, and say whether it did better or worse than the base rate and why (stock-specific news, the market, the entry
+time, the stop); (2) reviews every day trade of the day (score.json "daytrades" after the nightly, or the AgentPicks rows
+with 5-minute bars from data/bars/5m): setup named, entry against VWAP and the opening range, whether the stop distance
+fitted the stock's rest-of-day guide, what the exit cost or saved; (3) writes both into the journal file under
+"attribution" and "day_trades" (at most 6 lines each) and marks in the prep file which leads are day-trade candidates.
+
 EVENING JOURNAL AND PREP (2026-11-24, item 57): the evening review task writes data/picks/journal/<DAY>.json (what
 each pick and put did, why it worked or failed, lessons) and data/picks/prep/<NEXT DAY>.json (tomorrow's candidates
 from after-hours earnings, filings and news). READ the last five journal files and today's prep file before
@@ -745,6 +787,21 @@ S&P 100; 5-minute bars exist only for today's names, so some bias remains for in
 `review.py gate` as for crypto; APPROVED only on PASS. Save the code as strategies/<name>.py with a function
 daily_series(repo) -> {date: sleeve return %} for forward scoring (registry series type "lab_daily"), and write the row
 with market "US daily". Forward results count only after the Created date (pre-registration G2).
+
+DEPTH AND THE INTRADAY TRACK (2026-11-26, item 70; it overrides the task prompt where they differ). DEPTH: a lab run may
+use up to 90 minutes. Any grid of more than 6 settings goes to the GitHub sweep job (LAB SWEEPS ON GITHUB below), and the
+run uses the waiting time for the write-up, the statistics (data:statistical-analysis) and the backtest-expert checklist.
+Every candidate's note carries: the economic reason it should work, who is on the other side, the regime split (by VIX
+tercile and by year), the result at double costs, and the worst 20 days. INTRADAY TRACK (any run may choose it; Friday is
+its default): a DAY-TRADING strategy on 5-minute bars (data/hist/5m: two years, 111 symbols; data/bars/5m after it), in
+and out the same day, for stocks or ETFs. Rules as for DAILY STRATEGIES, plus: signals use only completed bars; entries
+fill at the OPEN of the next 5-minute bar; stops and targets inside a bar fill stop-first; flat by 15:55; 0.03% a side or
+the symbol's estimate if larger; no entry in the first 5 minutes; the universe is the point-in-time list (pitu.py) or a
+survivorship note. Tune on the first year, hold out the second, then CPCV. The module gives daily_series(repo) (the day's
+net return in percent, computed from stored bars), so an approved one is scored every night by GitHub with no AI run,
+joins the lane as series type lab_daily and can be admitted to the AS sleeve. Useful starting points are the quant
+desk's findings (scripts/quant.py gaprate and the intraday profiles), the shadow variants in data/picks/score.json and
+the day-trade record (score.json "daytrades"): an idea the desk keeps trading by hand is a candidate for a rule.
 
 LAB SWEEPS ON GITHUB (2026-11-25, item 65; optional): instead of running a heavy sweep inside the session, write the
 candidate as strategies/candidates/<id>.py with configs(repo, **args) -> {setting: {date: daily return %}} for EVERY
@@ -1042,6 +1099,8 @@ The model contest (Opus Sun 13:41 ET, Sonnet Sun 13:56 ET) and the daily challen
 
 ## LIVE DECISIONS (once a day at 13:05, on full trading days)
 
+SINCE 2026-11-26 (item 70; it overrides the task prompt): SKIP STEP 0 (the position review). The intraday desk reviews
+positions at its four checkpoints. This task keeps the midday snapshot, the breakout record and the slippage quotes.
 ONE RUN A DAY at 13:05 New York, on full trading days. Write Live and MLShadow rows to the ledger only (LEDGER). Steps:
 0. MIDDAY SNAPSHOT, BOTH snapshot sets, two calls per symbol: the 11:05 fields -> for each watchlist + control stock
    get_price_snapshot market_data_names ["bid_ask", "implied_volatility_percentile"]; the 13:05 fields -> stocks
@@ -1176,3 +1235,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 67 | 2026-11-25 | Entry time per pick (entry=10:00 / 10:30, AP2), witnessed intraday exits (status exit, exits=, AP2 and AP3), three report-only shadow variants of the picks (3 trials); pick 5-minute bars kept 10 days; ApeWisdom fetched at 06:40 with a 07:30 retry; morning prompt shows its calibration; live decisions may write exits |
 | 68 | 2026-11-25 | Pre-freeze code review (reports/audit/2026-11-25-code-review.md; review pull request #1 closed unmerged): seal scoring uses per-sleeve caps (allocator.seal_cap, 50% own sleeves) in allocator and seals.py; seal rows that raise while checked are counted (judge_check.seal_rows_with_errors, seals rows_with_errors) instead of silently dropped; as_mix taken from the scored row (allocator.judge_seal_rows); G1 needs 60 sealed days (rank.summary sealed_days); AP3 open positions not closed on the run day, half-day expiry priced on its own bars; L13 enters and exits at the next open. Tests: tests/test_prefreeze_2026_11_25.py |
 | 69 | 2026-11-26 | Orchestrator trig_01PgUGPDdTViNz1u3Wkqy4GW moved from Sonnet to Opus (claude-opus-5-5), model only, on the owner's "apply" (approval of 2026-11-23, room check in reports/usage/2026-11-25.md); no prompt, schedule, rule or sleeve change |
+| 70 | 2026-11-26 | Restructure for depth and day trading (owner): the morning becomes three runs (prep 07:15, decision 08:17, pre-open refresh 09:04), the quant desk scripts/quant.py, the intraday desk with four checkpoints and the own sleeve AP4 (day trades), exits fill at the first bar opening after the sighting, the lab gets a longer budget and an intraday track, the evening review moves to Fable and attributes picks against base rates, the daily challenger seals every weekday; job modules in ops/agent/ |
