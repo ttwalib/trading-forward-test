@@ -20,6 +20,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-26T18:09:08+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -774,176 +782,384 @@
    ]
   },
   "CAT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CAT",
+   "tried": [
+    "tiingo:CAT"
+   ]
   },
   "CB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CB",
+   "tried": [
+    "tiingo:CB"
+   ]
   },
   "CBRE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CBRE",
+   "tried": [
+    "tiingo:CBRE"
+   ]
   },
   "CBS": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CBS",
+    "tiingo:PARA"
+   ]
   },
   "CCE": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CCE"
+   ]
   },
   "CCEP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CCEP",
+   "tried": [
+    "tiingo:CCEP"
+   ]
   },
   "CCI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CCI",
+   "tried": [
+    "tiingo:CCI"
+   ]
   },
   "CCL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CCL",
+   "tried": [
+    "tiingo:CCL"
+   ]
   },
   "CELG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CELG",
+   "tried": [
+    "tiingo:CELG"
+   ]
   },
   "CERN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CERN",
+   "tried": [
+    "tiingo:CERN"
+   ]
   },
   "CF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CF",
+   "tried": [
+    "tiingo:CF"
+   ]
   },
   "CFG": {
-   "status": "pending",
-   "tried": []
+   "rows": 360,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CFG",
+   "tried": [
+    "tiingo:CFG"
+   ]
   },
   "CFN": {
-   "status": "pending",
-   "tried": []
+   "rows": 179,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CFN",
+   "tried": [
+    "tiingo:CFN"
+   ]
   },
   "CHD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CHD",
+   "tried": [
+    "tiingo:CHD"
+   ]
   },
   "CHK": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CHK",
+   "tried": [
+    "tiingo:CHK"
+   ]
   },
   "CHRW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CHRW",
+   "tried": [
+    "tiingo:CHRW"
+   ]
   },
   "CHTR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CHTR",
+   "tried": [
+    "tiingo:CHTR"
+   ]
   },
   "CI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CI",
+   "tried": [
+    "tiingo:CI"
+   ]
   },
   "CINF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CINF",
+   "tried": [
+    "tiingo:CINF"
+   ]
   },
   "CL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CL",
+   "tried": [
+    "tiingo:CL"
+   ]
   },
   "CLX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CLX",
+   "tried": [
+    "tiingo:CLX"
+   ]
   },
   "CMA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CMA",
+   "tried": [
+    "tiingo:CMA"
+   ]
   },
   "CMCSA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CMCSA",
+   "tried": [
+    "tiingo:CMCSA"
+   ]
   },
   "CMCSK": {
-   "status": "pending",
-   "tried": []
+   "rows": 373,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CMCSK",
+   "tried": [
+    "tiingo:CMCSK"
+   ]
   },
   "CME": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CME",
+   "tried": [
+    "tiingo:CME"
+   ]
   },
   "CMG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CMG",
+   "tried": [
+    "tiingo:CMG"
+   ]
   },
   "CMI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CMI",
+   "tried": [
+    "tiingo:CMI"
+   ]
   },
   "CMS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CMS",
+   "tried": [
+    "tiingo:CMS"
+   ]
   },
   "CNP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CNP",
+   "tried": [
+    "tiingo:CNP"
+   ]
   },
   "CNX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CNX",
+   "tried": [
+    "tiingo:CNX"
+   ]
   },
   "COF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "COF",
+   "tried": [
+    "tiingo:COF"
+   ]
   },
   "COG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CTRA",
+   "tried": [
+    "tiingo:COG",
+    "tiingo:CTRA"
+   ]
   },
   "COL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "COL",
+   "tried": [
+    "tiingo:COL"
+   ]
   },
   "COP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "COP",
+   "tried": [
+    "tiingo:COP"
+   ]
   },
   "COST": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "COST",
+   "tried": [
+    "tiingo:COST"
+   ]
   },
   "COV": {
-   "status": "pending",
-   "tried": []
+   "rows": 150,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "COV",
+   "tried": [
+    "tiingo:COV"
+   ]
   },
   "CPB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CPB",
+   "tried": [
+    "tiingo:CPB"
+   ]
   },
   "CPGX": {
-   "status": "pending",
-   "tried": []
+   "rows": 167,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CPGX",
+   "tried": [
+    "tiingo:CPGX"
+   ]
   },
   "CPRI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CPRI",
+   "tried": [
+    "tiingo:CPRI"
+   ]
   },
   "CRM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CRM",
+   "tried": [
+    "tiingo:CRM"
+   ]
   },
   "CSCO": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CSCO",
+   "tried": [
+    "tiingo:CSCO"
+   ]
   },
   "CSRA": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:CSRA"
+   ]
   },
   "CSX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "CSX",
+   "tried": [
+    "tiingo:CSX"
+   ]
   },
   "CTAS": {
    "status": "pending",
@@ -2712,7 +2928,7 @@
  },
  "tiingo": {
   "day": "2026-11-26",
-  "hour": "2026-11-26T16",
+  "hour": "2026-11-26T18",
   "months": {
    "2026-11": [
     "A",
@@ -2801,10 +3017,53 @@
     "CA",
     "CAG",
     "CAH",
-    "CAM"
+    "CAM",
+    "CAT",
+    "CB",
+    "CBRE",
+    "CBS",
+    "CCE",
+    "CCEP",
+    "CCI",
+    "CCL",
+    "CELG",
+    "CERN",
+    "CF",
+    "CFG",
+    "CFN",
+    "CHD",
+    "CHK",
+    "CHRW",
+    "CHTR",
+    "CI",
+    "CINF",
+    "CL",
+    "CLX",
+    "CMA",
+    "CMCSA",
+    "CMCSK",
+    "CME",
+    "CMG",
+    "CMI",
+    "CMS",
+    "CNP",
+    "CNX",
+    "COF",
+    "COG",
+    "COL",
+    "COP",
+    "COST",
+    "COV",
+    "CPB",
+    "CPGX",
+    "CPRI",
+    "CRM",
+    "CSCO",
+    "CSRA",
+    "CSX"
    ]
   },
-  "n_day": 90,
+  "n_day": 135,
   "n_hour": 45
  },
  "xcheck": {}
