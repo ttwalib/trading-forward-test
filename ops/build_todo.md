@@ -48,7 +48,7 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    reports/costrule/2026-11-25.json (would drop L2 VWAP pullback, L4 Gap fade, 15m fixed and adaptive M1); it is NOT a
    written rule, so nothing was applied and the owner decides. (d) moved to ops/dec8_plan.md (the ML gate is still
    "always take", PBO 0.7).
-13. PROPOSED 2026-11-26, revised the same day (owner: a free source, and no change to the tuning start). Nothing built yet.
+13. PROPOSED 2026-11-26, revised the same day; freeze status decided by the owner (data) (owner: a free source, and no change to the tuning start). Nothing built yet.
    Warm-up history only: the tuning window stays 2016-2021 and 2022 onwards stays held out, so no rule changes.
    Daily prices from 2014-07-01 to 2015-12-31 serve only as look-back. With them, a strategy with a 250-day look-back
    can signal from January 2016, and the point-in-time lists of 2016-01 and 2016-02 (60 trading days of dollar volume)
@@ -71,5 +71,5 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    Build: a one-off fetch mode on GitHub Actions writing data/pit/bars_1d_warmup.csv.gz (a new file; the existing ones
    are unchanged). Then rebuild data/pit/monthly_top100.json from 2014-09 on with pitu.lists(repo, rebuild=True), and
    let the lab read the warm-up bars for look-back only. fetch_free.py is not frozen, but the freeze bars new features
-   from 2026-11-30, so the owner decides whether this counts as data or a feature. Already rejected ideas are not
+   from 2026-11-30, and the owner decided on 2026-11-26 that the backfill counts as DATA, not a feature, so it may run after 2026-11-30 (the tuning window and the held-out data are unchanged). Already rejected ideas are not
    re-tested on the longer warm-up.
