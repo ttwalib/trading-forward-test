@@ -68,6 +68,19 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    Both free plans are "internal/personal use"; Tiingo forbids redistribution. Check that before committing their
    prices to the repository if it is public, or keep only derived lists and returns there.
    Ticker reuse (DOW, X and others): request each departed symbol only up to its last member date, as fetch_free.py pit() does.
+   OWNER DECISIONS 2026-11-26: combine the sources, and commit raw prices to the repository (a personal project; the
+   owner accepts the free plans' terms). Combined plan:
+   (1) Tiingo does the bulk: adjusted prices in one call, 2014-07-01 to 2015-12-31, about 580 symbols. That is more
+       than the 500 a month, so run 500 in one calendar month and the rest after the month changes.
+   (2) Alpha Vantage covers every symbol Tiingo returns nothing for (expected: some of the 33 departed names). It uses
+       TIME_SERIES_DAILY full plus SPLITS, with the split-adjusted closes computed in the fetch.
+   (3) Cross-check: about 30 symbols are taken from both sources (including at least 5 departed names), and the 2016-01
+       to 2016-02 overlap with the existing Alpaca bars is compared. Close-to-close returns must agree within 0.1% on
+       99% of days, and split dates must match. Report the mismatches; do not average the sources.
+   (4) Every row carries its source ("tiingo", "alphavantage"), and a symbol takes one source for its whole span, so
+       the sources never mix within one series. The lab uses returns and dollar volume from these bars for look-back only.
+   (5) The owner adds two GitHub Actions secrets, TIINGO_API_KEY and ALPHAVANTAGE_API_KEY. The workflows have only the
+       Alpaca and SEC secrets today, and a session cannot add secrets.
    Build: a one-off fetch mode on GitHub Actions writing data/pit/bars_1d_warmup.csv.gz (a new file; the existing ones
    are unchanged). Then rebuild data/pit/monthly_top100.json from 2014-09 on with pitu.lists(repo, rebuild=True), and
    let the lab read the warm-up bars for look-back only. fetch_free.py is not frozen, but the freeze bars new features
