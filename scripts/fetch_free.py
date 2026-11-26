@@ -466,7 +466,7 @@ def main():
         try:                                    # daily bars of the AI's own stock picks (scripts/picks.py, 2026-11-23)
             import ledger
             cut = (now() - dt.timedelta(days=30)).strftime("%Y-%m-%d")
-            pk = sorted({r["symbol"] for r in ledger.load(repo, "AgentPicks") if r.get("asset") == "stock"
+            pk = sorted({r["symbol"] for r in ledger.load(repo, "AgentPicks") if r.get("asset") in ("stock", "daytrade")
                          and str(r.get("picked_at"))[:10] >= cut and str(r.get("symbol", "")).isalpha()} - set(univ + etfs))
             if pk: stock_bars(repo, pk, "1d", now() - dt.timedelta(days=15), end)
             LOG["pick_symbols"] = len(pk)
@@ -475,7 +475,7 @@ def main():
         try:                                    # 5-minute bars of the last days' stock picks for the scripted evening
             import ledger                       # scoring (scripts/daily.py picks-evening, 2026-11-25)
             c5 = (now() - dt.timedelta(days=10)).strftime("%Y-%m-%d")     # 10 days: covers a 5-day hold (item 66)
-            p5 = sorted({r["symbol"] for r in ledger.load(repo, "AgentPicks") if r.get("asset") == "stock"
+            p5 = sorted({r["symbol"] for r in ledger.load(repo, "AgentPicks") if r.get("asset") in ("stock", "daytrade")
                          and str(r.get("picked_at"))[:10] >= c5 and str(r.get("symbol", "")).isalpha()} - set(intr + extra))
             if p5: stock_bars(repo, p5, "5m", now() - dt.timedelta(days=10), end)
             LOG["pick_symbols_5m"] = p5

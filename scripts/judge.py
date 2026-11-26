@@ -74,7 +74,7 @@ def market_closed(now):
     return not tcal.is_open(d) or hm < 9 * 60 + 25 or hm >= 16 * 60 + 5
 
 
-OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AS AI strategies")
+OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AP4 Agent picks", "AS AI strategies")
 
 
 def context(repo):

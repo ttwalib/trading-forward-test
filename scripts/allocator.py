@@ -191,7 +191,7 @@ def duplicates(S, days):
 # Sealed books (weekly judge seals, contests, daily challenger) are scored under the same per-sleeve caps the seal was
 # checked against in judge.py: 50% for Quantavius's own sleeves, CAP for every other sleeve (owner decision 2026-11-24,
 # item 55; pre-freeze code review 2026-11-25 found the scoring still capped every sleeve at CAP).
-SEAL_OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AS AI strategies")
+SEAL_OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AP4 Agent picks", "AS AI strategies")
 SEAL_OWN_CAP = 0.50
 
 
@@ -247,7 +247,7 @@ def group_cap(w):
 
 def rebal_cost(name):
     """Cost (%) per unit of weight change. Intraday sleeves are flat overnight: new weights size the next trades."""
-    if name.startswith(("L1 ", "L2 ", "L3 ", "L4 ", "L14 ", "A ", "Agent picks: stocks", "ML")) or "variant" in name or "ORB" in name:
+    if name.startswith(("L1 ", "L2 ", "L3 ", "L4 ", "L14 ", "A ", "Agent picks: stocks", "ML", "AP4 ")) or "variant" in name or "ORB" in name:
         return 0.0
     if name.startswith("Crypto") or "crypto" in name.lower(): return 0.15
     if name.startswith(("O ", "D1", "D2", "D3", "W1", "W2", "W3", "W4", "AP3 ")): return 0.5
@@ -554,7 +554,7 @@ def simulate(repo, day, S, spy, vix, judge=True):
     return rows, W
 
 
-OWN_SLEEVES = ("AP ", "AP2 ", "AP3 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
+OWN_SLEEVES = ("AP ", "AP2 ", "AP3 ", "AP4 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
 # strategies and (since 2026-11-23, runbook item 43) its picks traded under the breakout rules or as calls; none of these
 # may sit inside the foundation benchmark (equal_f)
 

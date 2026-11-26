@@ -35,6 +35,12 @@ def open_positions(repo, day=None):
                     "hold": hold, "day_of_hold": (idx[day] if day in idx else len(cal) - 1) - idx[d0] + 1,
                     "entry": picks.entry_choice(ck), "stop_tgt": picks._exits(ck), "why": r.get("why"),
                     "exit_requested": EX.get(rid)})
+    for r in PR:        # today's day trades (AP4): open until an exit, their stop or target, or the close
+        t = str(r.get("picked_at") or "")
+        if r.get("asset") == "daytrade" and r.get("status") == "picked" and t[:10] == day:
+            ck = str(r.get("checks") or "")
+            out.append({"picked_at": t, "asset": "daytrade", "symbol": r.get("symbol"), "occ": None, "hold": 0, "day_of_hold": 0,
+                        "entry": "intraday", "stop_tgt": picks._exits(ck), "why": r.get("why"), "exit_requested": EX.get(witness.row_id(r))})
     return out
 
 

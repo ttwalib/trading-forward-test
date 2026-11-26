@@ -198,6 +198,63 @@ def ceil5(hhmm):
     return "%02d:%02d" % (h, m)
 
 
+def next_bar(hhmm):
+    """Start of the first 5-minute bar that OPENS after minute hhmm (2026-11-26): sightings carry seconds, so a row seen
+    at 10:15:20 must not fill at the 10:15:00 open. One minute is added before rounding up: 10:14 -> 10:15, 10:15 -> 10:20."""
+    h, m = int(hhmm[:2]), int(hhmm[3:5]) + 1
+    if m == 60: h, m = h + 1, 0
+    return ceil5("%02d:%02d" % (h, m))
+
+
+SLEEVE4 = "AP4 Agent picks: day trades"
+DT_MAX = 6              # day trades counted per day; each is one sixth of the sleeve, unused slices earn nothing
+DT_LAST_ENTRY = "15:30" # no new day trade fills after this bar
+
+
+def daytrades(repo, cal, cal_idx, W, PR):
+    """AP4 (owner decision 2026-11-26, item 70): Quantavius's intraday day trades. An AgentPicks row with asset
+    "daytrade" and status "picked", written DURING the session, long only, with checks "stop=-N | tgt=N | p=0.xx | ...".
+    It fills at the open of the first 5-minute bar that opens after the LATER of the row's own time and its first GitHub
+    sighting (from 2026-11-30 an unwitnessed row never counts); a row written before 09:30 fills at the open; nothing
+    fills after 15:30. It leaves at its stop or target (percent from the entry, the stop first inside a bar), at a
+    witnessed exit row (status "exit", exits=<its picked_at>), or at the close of the day's last 5-minute bar: always flat
+    overnight. Costs: COST_SIDE per side. Each trade is 1/DT_MAX of the sleeve; trades beyond DT_MAX a day (by fill time)
+    are not counted. The sleeve earns 0 on a day without trades, from its first trade day on. It never enters G1 or AP."""
+    EX = exit_requests(PR, W); by_day, nofill = {}, []
+    for r in PR:
+        t = str(r.get("picked_at") or ""); d = t[:10]
+        if r.get("asset") != "daytrade" or r.get("status") != "picked" or d not in cal_idx or len(t) < 16: continue
+        rid = witness.row_id(r); w = W.get(rid)
+        if w and not w.get("grandfathered"): eff = max(t[:16], w["seen_at_ny"][:16])
+        elif d < witness.ENFORCE_FROM or (w and w.get("grandfathered")): eff = t[:16]
+        else: nofill.append({"date": d, "symbol": r.get("symbol"), "why": "not witnessed"}); continue
+        if eff[:10] != d: nofill.append({"date": d, "symbol": r.get("symbol"), "why": "first seen after the day"}); continue
+        start = "09:30" if eff[11:16] < "09:30" else next_bar(eff[11:16])
+        if start > DT_LAST_ENTRY: nofill.append({"date": d, "symbol": r.get("symbol"), "why": "after 15:30"}); continue
+        ck = str(r.get("checks") or ""); st, tg = _exits(ck)
+        mp = re.search(r"\bp=(0?\.[0-9]+|1(?:\.0+)?)\b", ck)
+        by_day.setdefault(d, []).append({"s": r["symbol"], "start": start, "st": st, "tg": tg, "rid": rid, "at": t,
+                                         "p": float(mp.group(1)) if mp else None})
+    series, closed = {}, []
+    if not by_day: return series, closed, nofill
+    for d in [x for x in cal if x >= min(by_day)]:
+        tot = 0.0; todays = sorted(by_day.get(d, []), key=lambda x: (x["start"], x["at"]))
+        for x in todays[DT_MAX:]: nofill.append({"date": d, "symbol": x["s"], "why": "over %d day trades" % DT_MAX})
+        for x in todays[:DT_MAX]:
+            rows5 = [y for y in bars5(repo, x["s"]).get(d, []) if y[0] >= x["start"]]
+            if not rows5 or rows5[0][0] > DT_LAST_ENTRY or not rows5[0][1]:
+                nofill.append({"date": d, "symbol": x["s"], "why": "no 5-minute bar"}); continue
+            start, e = rows5[0][0], rows5[0][1]
+            xa = exit_time_on(EX.get(x["rid"]), d, cal); xa = xa if xa and xa > start else None
+            px, why = walk5(rows5, start, e * (1 + x["st"] / 100) if x["st"] else None, e * (1 + x["tg"] / 100) if x["tg"] else None, xa, True)
+            if px is None: continue
+            gross = (px / e - 1) * 100; net = gross - 2 * COST_SIDE; tot += net / DT_MAX
+            closed.append({"date": d, "symbol": x["s"], "picked_at": x["at"], "entry_bar": start, "entry": e, "exit": round(px, 4),
+                           "reason": why or "close", "gross": round(gross, 4), "net": round(net, 4), "p": x["p"]})
+        series[d] = round(tot, 5)
+    return series, closed, nofill
+
+
 def exit_time_on(eff, d, cal):
     """Bar start time ("09:30" = the open) at which an exit request with effective time eff fills on trading day d, or
     None if it does not fill on d."""
@@ -207,7 +264,7 @@ def exit_time_on(eff, d, cal):
     if ed < d: return "09:30"                            # not filled on an earlier day (after the close or a holiday): the open
     if hm < "09:30": return "09:30"
     if hm >= "15:55": return None                         # after the last bar: fills at the next trading day's open
-    return ceil5(hm)
+    return next_bar(hm)
 
 
 _B5 = {}
@@ -485,6 +542,8 @@ def build(repo, day=None):
     os.makedirs(os.path.join(repo, "data", "picks"), exist_ok=True)
     out_sleeves = {SLEEVE: series, SLEEVE2: series2} if any(v is not None and (w is not None or h != 1) for x in sized.values() for w, h in x.values() for v in [1]) else {SLEEVE: series}
     if series3: out_sleeves[SLEEVE3] = series3
+    series4, closed4, nofill4 = daytrades(repo, cal, cal_idx, W, PR)
+    if series4: out_sleeves[SLEEVE4] = series4
     json.dump(out_sleeves, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
     # SHADOW VARIANTS (2026-11-25, item 66; declared before any result and logged as 3 trials): the same witnessed G1 picks
     # under three other handling rules, scored against the same control-list average. Report only: they never enter G1,
@@ -528,6 +587,15 @@ def build(repo, day=None):
                          "rows": bear, "closed": closed3, "no_fill": nofill3}}
     score["shadow"] = dict(shadow(), note="report only (item 66): the same picks under other handling rules vs the same control "
                                           "list; never part of G1, AP, AP2 or A1; 3 trials logged on 2026-11-25")
+    _dn = [x["net"] for x in closed4]; _dc = [(x["p"], 1.0 if x["net"] > 0 else 0.0) for x in closed4 if x["p"] is not None]
+    score["daytrades"] = {"note": "AP4 day trades (item 70): long only, entered and closed inside the session, each one sixth of the "
+                                  "sleeve; p = stated chance of a profit after costs (calibration only). Never part of G1 or AP.",
+                          "n": len(closed4), "mean_net_pct": round(mean(_dn), 4) if _dn else None,
+                          "win_rate": round(sum(1 for v in _dn if v > 0) / len(_dn), 3) if _dn else None,
+                          "cost_view": cost_view([{"date": x["date"], "gross": x["gross"]} for x in closed4], 2 * COST_SIDE) if closed4 else None,
+                          "brier": round(mean([(a - b) ** 2 for a, b in _dc]), 4) if _dc else None, "stated": len(_dc),
+                          "by_reason": {k: sum(1 for x in closed4 if x["reason"] == k) for k in ("stop", "target", "exit", "close")},
+                          "closed": closed4[-120:], "no_fill": nofill4[-60:]}
     score["ap2_entry_exit"] = {"entry_choices": {k: sum(1 for x in entry_t.values() for v in x.values() if v == k) for k in ENTRY_TIMES},
                                "entry_fallback_to_open": entry_fallback, "exits_filled": exits_done}
     # By playbook version and by vehicle (review N13): the playbook keeps changing to the end, so results are also
