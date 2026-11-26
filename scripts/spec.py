@@ -104,7 +104,7 @@ def main(repo):
     P.append(", ".join("`%s`" % f for f in A.FROZEN_FILES) + ". Hashes in `ops/freeze.json`; checked nightly and by the freeze-guard workflow.\n")
     P.append("## Scheduled AI tasks (New York time)\n")
     P.append(table(["Task", "When", "Model", "What it does"], [[t["name"], t["when"], t["model"], t["does"]] for t in T["tasks"]]) + "\n")
-    per_day = "Crypto tracks, the ML nightly and the nightly maths run on GitHub. Live decisions run once a day, the deep OTM task and the picks review are retired, and the daily challenger seals on Mondays and Thursdays. Outside data (ApeWisdom, SEC EDGAR, FRED, FINRA, Cboe, crypto funding) is fetched by GitHub because scheduled tasks cannot fetch web pages; tasks read the files. Tools and skills per task are in the runbook section TOOLS AND SKILLS and in ops/prompts/README.md."
+    per_day = "Crypto tracks, the ML nightly and the nightly maths run on GitHub. Live decisions run once a day, the deep OTM task and the picks review are retired, and the daily challenger seals every weekday from 2026-12-07. Outside data (ApeWisdom, SEC EDGAR, FRED, FINRA, Cboe, crypto funding) is fetched by GitHub because scheduled tasks cannot fetch web pages; tasks read the files. Tools and skills per task are in the runbook section TOOLS AND SKILLS and in ops/prompts/README.md."
     P.append(per_day + "\n")
     P.append("## Work done on GitHub with no AI in the loop\n")
     P.append(table(["Job", "When", "What it does"], [[t["name"], t["when"], t["does"]] for t in T["github"]]) + "\n")

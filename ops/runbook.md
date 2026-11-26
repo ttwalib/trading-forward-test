@@ -1094,7 +1094,7 @@ n_samples 1; say so. The row also lists moves_over_5pts against the previous sea
 SAME PICKS (owner 2026-11-24, recorded, not capped): AP and AP2 hold the same morning stock picks, so their joint share
 is the book's real bet on those few stocks. The row records same_picks_share and flags same_picks_over_50; when you put
 more than 50% into AP and AP2 together, say why in "decision".
-The model contest (Opus Sun 13:41 ET, Sonnet Sun 13:56 ET) and the daily challenger (Mon and Thu 08:41 ET from
+The model contest (Opus Sun 13:41 ET, Sonnet Sun 13:56 ET) and the daily challenger (every weekday 08:41 ET from
 2026-12-07) seal from the same kind of pack into their own files (NIGHTLY MATHS reference, CHALLENGER LANE).
 
 ## LIVE DECISIONS (once a day at 13:05, on full trading days)

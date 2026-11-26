@@ -7,12 +7,17 @@ the copy and adds a row to ops/interventions.jsonl.
 
 | File | Task | Id |
 |---|---|---|
-| morning.md | Morning research + events (08:05 ET daily, Fable; coin-drop text proposed in proposed/morning.md, awaiting the owner's approval; the runbook already applies) | trig_01NH3ceZ9ypKfB94HSpRW65A |
+| ../agent/prep.md | Morning prep (07:15 ET daily, Fable; thin task prompt: safety rules, the clone, "read ops/agent/prep.md and follow it") | trig_01HTP8W5B7BiCcbcxbXurc8G |
+| ../agent/decide.md | Morning decision: picks and ranking (08:17 ET weekdays, Fable; thin prompt; morning.md is the superseded full prompt, kept for the record) | trig_01NH3ceZ9ypKfB94HSpRW65A |
+| ../agent/preopen.md | Pre-open refresh (09:04 ET weekdays, Fable; thin prompt) | trig_01DCL9hsysSu67gRsyZphGeU |
+| ../agent/desk.md | Intraday desk (10:15 and 13:15 ET; 11:30 and 14:30 ET weekdays, Fable; thin prompt) | trig_01UAvRZUscnyqvgMP6dwzL8G, trig_01EEMRpMkt98YRYkaTxgG2gG |
+| daily_challenger.md | Daily challenger seal (08:41 ET every weekday from 2026-12-07, Fable; every weekday since 2026-11-26, own-sleeve cap names AP4) | trig_01W21jTsy2zySucZ7iTHKHGf |
+| evening_review.md | Evening review + prep (20:47 ET trading days, Fable since 2026-11-26) | trig_013i7PDxNJPCsBBZoKbfZGVw |
 | stocks.md | Stocks + control list (09:12, 16:12 ET, Sonnet) | trig_01Udt8Hay1dh3AyxtaP4ejDN |
 | adaptive.md | Adaptive stocks (17:20 ET, Sonnet; retirement proposed in proposed/adaptive.md, awaiting the owner's approval) | trig_01XqVW4yGp2cwSyEXUobMusn |
 | evening.md | Evening scoring of picks (20:20 ET, Sonnet; option-only prompt proposed in proposed/evening.md, awaiting the owner's approval) | trig_0158DyhLj3M3cKod2eXxFn1g |
-| orchestrator.md | Orchestrator (21:05 ET, Sonnet) | trig_01PgUGPDdTViNz1u3Wkqy4GW |
-| watchdog.md | Watchdog (07:35, 19:35 ET, Sonnet; rebuilt 2026-11-24) | trig_01McTsF59Sw14Dm9ogHwr8Z1 |
+| orchestrator.md | Orchestrator (21:05 ET, Opus since 2026-11-26) | trig_01PgUGPDdTViNz1u3Wkqy4GW |
+| watchdog.md | Watchdog (07:35, 19:35 ET, Sonnet; rebuilt 2026-11-24; task list of the 2026-11-26 restructure) | trig_01McTsF59Sw14Dm9ogHwr8Z1 |
 | lab.md | Learning + strategy lab (Mon, Wed, Fri, Sat 23:15 ET, Fable) | trig_012qn78KzSzn173hQGXeEnJq |
 | weekly_report.md | Weekly report incl. picks (Fri 21:41 ET, Fable) | trig_01GEc25Hnp6tGicRbiankK62 |
 | interim_report.md | Interim report (2027-02-16, Fable) | trig_01R5sHJU64phYuAxf7PQBNjz |
@@ -25,7 +30,7 @@ the copy and adds a row to ops/interventions.jsonl.
 Unchanged on 2026-11-23 (their prompts already matched the setup; they read only the evidence pack or the repo and
 need no other tools): weekly seal trig_01BCM9DiYtxCt9tXRPupjpTU, samplers B trig_01Tnw4Txgzkbq2aoXg56HSVW and C
 trig_01SwTbwvHuiLaTkzCYs5RpCq, model contest Opus trig_01XfudQxCJPMX1r798rNi8CS and Sonnet trig_016Ks7T65PzF4KNrUUtyYJk2,
-daily challenger trig_01W21jTsy2zySucZ7iTHKHGf, live decisions trig_018iuZdjimqtB2HRNmKpJn1m (rewritten earlier the same
+live decisions trig_018iuZdjimqtB2HRNmKpJn1m (rewritten earlier the same
 day).
 Retired (disabled, one-line "retired" prompts): crypto tracks, ML nightly, picks review, history download and, from
 2026-11-23, deep OTM + weekly options trig_012o6Jbkhg14NZ4Sq8N4spLW (nothing open).
