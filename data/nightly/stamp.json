@@ -1,25 +1,25 @@
 {
  "day": "2026-11-25",
- "started": "2026-11-25 21:12:21",
+ "started": "2026-11-25 21:48:56",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.7,
+   "seconds": 5.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.7,
+   "seconds": 5.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.8,
+   "seconds": 5.6,
    "exit": 0,
    "error": null
   },
@@ -40,7 +40,7 @@
   {
    "step": "picks",
    "ok": true,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "exit": 0,
    "error": null
   },
@@ -54,42 +54,42 @@
   {
    "step": "rank",
    "ok": true,
-   "seconds": 0.2,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 10.8,
+   "seconds": 10.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.8,
+   "seconds": 3.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 9.3,
+   "seconds": 9.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.4,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 9.8,
+   "seconds": 9.3,
    "exit": 0,
    "error": null
   },
@@ -103,7 +103,7 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 1.8,
+   "seconds": 1.9,
    "exit": 0,
    "error": null
   },
@@ -124,7 +124,7 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 10.1,
    "exit": 0,
    "error": null
   },
@@ -138,7 +138,7 @@
   {
    "step": "leaktest",
    "ok": true,
-   "seconds": 4.7,
+   "seconds": 4.4,
    "exit": 0,
    "error": null
   },
@@ -152,28 +152,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 10.8,
+   "seconds": 10.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 4.7,
+   "seconds": 4.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 10.4,
+   "seconds": 9.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 10.4,
+   "seconds": 10.0,
    "exit": 0,
    "error": null
   },
@@ -194,7 +194,7 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 10.1,
    "exit": 0,
    "error": null
   },
@@ -227,9 +227,9 @@
    "error": null
   }
  ],
- "commit": "86897cf65f59f81cf572d869080f11be7f3c3cf3",
+ "commit": "f1818159413fa4e20d5652f45968c0e74715ece0",
  "chain_head": "ce9b32afa9d8f4cc590b0e86b88290e7c53d8e353d5b88dfc140c58eed4f7586",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-25 21:14:30"
+ "finished": "2026-11-25 21:51:00"
 }
