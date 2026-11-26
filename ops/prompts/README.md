@@ -31,9 +31,7 @@ the copy and adds a row to ops/interventions.jsonl.
 | audit_debate.md | Audit debate (2026-12-04, Opus) | trig_017j7xXYaLnjqvYr2wAispX9 |
 | lane_review.md | Lane review (quarterly, Opus) | trig_016a7pogjLwtXMd93miFK33w |
 
-Since 2026-11-26 the six sealing prompts are copied here too (they name AP3 and AP4 among the own sleeves). Unchanged on
-2026-11-23 (their prompts already matched the setup): trig_018iuZdjimqtB2HRNmKpJn1m (rewritten earlier the same
-day).
+Since 2026-11-26 the six sealing prompts are copied here too (they name AP3 and AP4 among the own sleeves). 
 Retired (disabled, one-line "retired" prompts): crypto tracks, ML nightly, picks review, history download and, from
 2026-11-23, deep OTM + weekly options trig_012o6Jbkhg14NZ4Sq8N4spLW (nothing open).
 
