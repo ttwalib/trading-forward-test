@@ -833,7 +833,13 @@ your own, and its result is written under the entry. Never test the same shelf i
 LONG HISTORY + CPCV: research and test lab ideas on the archive in data/hist (daily bars since 2016 for the S&P 100 +
 ETFs, 5-minute bars for 2 years for the 47 intraday symbols and, since 2026-11-23, the wide universe; read with
 decisions.hist_bars(repo, tf, SYM), or decisions.bars with decisions.USE_HIST = True to join the archive to the stored
-bars). Use implementable fills for intraday ideas (fill at the open of the bar after next, as fills.py). Save the daily
+bars). WARM-UP BARS (2026-11-26, build_todo item 13): daily bars from 2014-07-01 to 2015-12-31 for every S&P 500 member of
+that time (departed names included) and the archive symbols, in data/pit/warmup/bars_1d.csv.gz (read with
+warmup.bars(repo); per-symbol source and checks in data/pit/warmup/check.json), filled hourly by the warmup workflow
+until complete. They are LOOK-BACK ONLY: use them to warm up indicators so that signals can start on 2016-01-04; never
+score a signal, trade or return dated before 2016-01-04, and leave the tuning window (2016-2021) and the held-out data
+(2022 onwards) unchanged. pitu.lists starts in 2014-08 once they are in. A symbol whose check.json row has overlap_pass
+false or appears under "missing" is not used before 2016. Use implementable fills for intraday ideas (fill at the open of the bar after next, as fills.py). Save the daily
 returns of EVERY setting tried as {"configs": {setting: {date: ret %}}} and run
 `python3 -I /tmp/repo/scripts/cpcv.py /tmp/cfg.json`; put its output in cand.json as "cpcv". A candidate without a
 passing cpcv is not approved (the gate checks it). New ideas enter only as new strategies through the gate.
@@ -1240,3 +1246,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 69 | 2026-11-26 | Orchestrator trig_01PgUGPDdTViNz1u3Wkqy4GW moved from Sonnet to Opus (claude-opus-5-5), model only, on the owner's "apply" (approval of 2026-11-23, room check in reports/usage/2026-11-25.md); no prompt, schedule, rule or sleeve change |
 | 70 | 2026-11-26 | Restructure for depth and day trading (owner): the morning becomes three runs (prep 07:15, decision 08:17, pre-open refresh 09:04), the quant desk scripts/quant.py, the intraday desk with four checkpoints and the own sleeve AP4 (day trades), exits fill at the first bar opening after the sighting, the lab gets a longer budget and an intraday track, the evening review moves to Fable and attributes picks against base rates, the daily challenger seals every weekday; job modules in ops/agent/ |
 | 71 | 2026-11-26 | Morning SOURCE LOG moved from ops/diag/morning_sources.json to data/diag/sources/<DAY>-<job>.json (owner, after the first prep run): the thin prompts of item 70 forbid a scheduled task to edit anything under ops/, so the prep run could not write the log; one file per day and job, so the three morning runs no longer overwrite each other; modules prep.md, decide.md and preopen.md name it. No pick, rule, schedule, model or safety change |
+| 72 | 2026-11-26 | Warm-up bars 2014-07 to 2015-12 (owner, build_todo item 13): scripts/warmup.py and the warmup workflow (Tiingo bulk, Alpha Vantage for missing names and a 30-symbol cross-check, Cboe VIX), pitu.lists joins them before each symbol's first stored bar; LONG HISTORY says they are look-back only. The owner ruled the backfill is data under the freeze. No tuning window, held-out period, frozen script or score changes. |

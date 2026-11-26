@@ -30,6 +30,9 @@ def lists(repo, rebuild=False):
     if os.path.exists(f) and not rebuild:
         return {m: set(v) for m, v in json.load(open(f)).items()}
     mem, bars = pit.load(repo)
+    try:                     # warm-up bars 2014-07..2015-12 (scripts/warmup.py, build_todo item 13): look-back only
+        import warmup; warmup.merge_into(bars, repo)
+    except ImportError: pass
     cal = sorted({d for rows in bars.values() for d, *_ in rows})
     L = pit.monthly_lists(mem, bars, cal)
     json.dump({m: sorted(v) for m, v in L.items()}, open(f, "w"), separators=(",", ":"))

@@ -48,7 +48,7 @@ For the build sessions. Do these with the day 3 list; schedule another session i
    reports/costrule/2026-11-25.json (would drop L2 VWAP pullback, L4 Gap fade, 15m fixed and adaptive M1); it is NOT a
    written rule, so nothing was applied and the owner decides. (d) moved to ops/dec8_plan.md (the ML gate is still
    "always take", PBO 0.7).
-13. PROPOSED 2026-11-26, revised the same day; freeze status decided by the owner (data) (owner: a free source, and no change to the tuning start). Nothing built yet.
+13. BUILT 2026-11-26, RUNNING (owner: secrets added): scripts/warmup.py and .github/workflows/warmup.yml (hourly, switches itself off when complete); progress in data/pit/warmup/state.json, results and checks in data/pit/warmup/check.json; Tiingo stops at 490 symbols in November and finishes after 2026-12-01, then the Alpha Vantage cross-check takes about 3 days. Tested offline with mocked providers before the push. Was: PROPOSED 2026-11-26, revised the same day; freeze status decided by the owner (data) (owner: a free source, and no change to the tuning start). Nothing built yet.
    Warm-up history only: the tuning window stays 2016-2021 and 2022 onwards stays held out, so no rule changes.
    Daily prices from 2014-07-01 to 2015-12-31 serve only as look-back. With them, a strategy with a 250-day look-back
    can signal from January 2016, and the point-in-time lists of 2016-01 and 2016-02 (60 trading days of dollar volume)
