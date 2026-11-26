@@ -3,6 +3,8 @@
 # Alpha Vantage covers what Tiingo lacks and cross-checks 30 symbols; Cboe gives VIX and VIX3M. Each run is one
 # rate-limited step (Tiingo 50 an hour, 500 symbols a month; Alpha Vantage about 25 calls a day), so the job resumes every
 # hour and switches itself off once data/pit/warmup/state.json says complete. Read-only market data: no orders, no accounts.
+# Committed under the owner's identity (2026-11-26) so the hourly schedule runs: GitHub runs schedules as the account
+# that last edited the workflow file.
 name: warmup
 on:
   schedule:

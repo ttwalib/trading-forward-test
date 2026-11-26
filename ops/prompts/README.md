@@ -13,6 +13,10 @@ the copy and adds a row to ops/interventions.jsonl.
 | ../agent/desk.md | Intraday desk (10:15 and 13:15 ET; 11:30 and 14:30 ET weekdays, Fable; thin prompt) | trig_01UAvRZUscnyqvgMP6dwzL8G, trig_01EEMRpMkt98YRYkaTxgG2gG |
 | daily_challenger.md | Daily challenger seal (08:41 ET every weekday from 2026-12-07, Fable; every weekday since 2026-11-26, own-sleeve cap names AP4) | trig_01W21jTsy2zySucZ7iTHKHGf |
 | evening_review.md | Evening review + prep (20:47 ET trading days, Fable since 2026-11-26) | trig_013i7PDxNJPCsBBZoKbfZGVw |
+| live_decisions.md | Live decisions (13:05 ET once, Sonnet; since 2026-11-26 no position review and no AgentPicks rows: the intraday desk owns them) | trig_018iuZdjimqtB2HRNmKpJn1m |
+| weekly_seal.md | Weekly seal, Quantavius's own book (Sun 13:23 ET, Fable) | trig_01BCM9DiYtxCt9tXRPupjpTU |
+| samplerB.md, samplerC.md | Weekly book samplers B and C (Sun 13:02 and 13:11 ET, Fable) | trig_01Tnw4Txgzkbq2aoXg56HSVW, trig_01SwTbwvHuiLaTkzCYs5RpCq |
+| contest_opus.md, contest_sonnet.md | Model contest seals (Sun 13:41 and 13:56 ET, Opus and Sonnet) | trig_01XfudQxCJPMX1r798rNi8CS, trig_016Ks7T65PzF4KNrUUtyYJk2 |
 | stocks.md | Stocks + control list (09:12, 16:12 ET, Sonnet) | trig_01Udt8Hay1dh3AyxtaP4ejDN |
 | adaptive.md | Adaptive stocks (17:20 ET, Sonnet; retirement proposed in proposed/adaptive.md, awaiting the owner's approval) | trig_01XqVW4yGp2cwSyEXUobMusn |
 | evening.md | Evening scoring of picks (20:20 ET, Sonnet; option-only prompt proposed in proposed/evening.md, awaiting the owner's approval) | trig_0158DyhLj3M3cKod2eXxFn1g |
@@ -27,10 +31,8 @@ the copy and adds a row to ops/interventions.jsonl.
 | audit_debate.md | Audit debate (2026-12-04, Opus) | trig_017j7xXYaLnjqvYr2wAispX9 |
 | lane_review.md | Lane review (quarterly, Opus) | trig_016a7pogjLwtXMd93miFK33w |
 
-Unchanged on 2026-11-23 (their prompts already matched the setup; they read only the evidence pack or the repo and
-need no other tools): weekly seal trig_01BCM9DiYtxCt9tXRPupjpTU, samplers B trig_01Tnw4Txgzkbq2aoXg56HSVW and C
-trig_01SwTbwvHuiLaTkzCYs5RpCq, model contest Opus trig_01XfudQxCJPMX1r798rNi8CS and Sonnet trig_016Ks7T65PzF4KNrUUtyYJk2,
-live decisions trig_018iuZdjimqtB2HRNmKpJn1m (rewritten earlier the same
+Since 2026-11-26 the six sealing prompts are copied here too (they name AP3 and AP4 among the own sleeves). Unchanged on
+2026-11-23 (their prompts already matched the setup): trig_018iuZdjimqtB2HRNmKpJn1m (rewritten earlier the same
 day).
 Retired (disabled, one-line "retired" prompts): crypto tracks, ML nightly, picks review, history download and, from
 2026-11-23, deep OTM + weekly options trig_012o6Jbkhg14NZ4Sq8N4spLW (nothing open).

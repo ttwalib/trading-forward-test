@@ -440,7 +440,7 @@ LEDGER AgentTrades. Its option replays are on the AI's own picks and continue. G
 ## AGENT MORNING
 
 TOOLS: first read the TOOLS AND SKILLS section (near the top) for this task's tools and the skills never to use.
-Runs 08:05 New York; picks must be committed and pushed before 09:30 (INTERVENTIONS, WITNESS).
+Since 2026-11-26 the morning is three runs: prep 07:15 (research file), decision 08:17 (picks and ranking) and the pre-open refresh 09:04 (withdrawals, additions, fallback); picks must be committed and pushed before 09:30 (INTERVENTIONS, WITNESS). Only one of the decision run and the pre-open fallback writes the day's picks: each pulls just before writing and writes none if the other already has (ops/agent/decide.md ORDER, ops/agent/preopen.md STEP 2).
 PICK PLAYBOOK: before STEP 3 read /tmp/repo/ops/pick_playbook.md and apply its CURRENT VERSION on top of the prompt's
 filters (the prompt's filters always hold; the playbook can only add preferences or exclusions). Put "playbook v<N>" at
 the start of each stock pick's "checks" cell.
@@ -715,7 +715,7 @@ task instead of four runs. Done as far as it helps: the watchdog was rebuilt on 
 07:35 and 19:35 New York, two runs instead of three; the old trig_01RqMJrg5xfsW4xYYgo7RZY4 is disabled after the new
 one's first good run), and the orchestrator already re-runs the failed pipeline tasks it names (Watchdog ledger). The
 watchdog is NOT folded into the 21:05 orchestrator, because that would lose checks: the 07:35 run sees the overnight
-GitHub jobs, the ApeWisdom file and the extdata sources before the 08:05 morning research and can still fire a failed
+GitHub jobs, the ApeWisdom file and the extdata sources before the 08:17 morning decision and can still fire a failed
 Sunday sampler or seal inside its window; the 19:35 run sees the GitHub stocks, adaptive and picks-evening jobs before
 the 20:20 and 20:47 evening tasks read them. A single 21:05 run would find a failed morning research about 13 hours late
 and could no longer re-run anything inside its time window. Revisit only if the one-agent build (item 8) changes the
@@ -1247,3 +1247,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 70 | 2026-11-26 | Restructure for depth and day trading (owner): the morning becomes three runs (prep 07:15, decision 08:17, pre-open refresh 09:04), the quant desk scripts/quant.py, the intraday desk with four checkpoints and the own sleeve AP4 (day trades), exits fill at the first bar opening after the sighting, the lab gets a longer budget and an intraday track, the evening review moves to Fable and attributes picks against base rates, the daily challenger seals every weekday; job modules in ops/agent/ |
 | 71 | 2026-11-26 | Morning SOURCE LOG moved from ops/diag/morning_sources.json to data/diag/sources/<DAY>-<job>.json (owner, after the first prep run): the thin prompts of item 70 forbid a scheduled task to edit anything under ops/, so the prep run could not write the log; one file per day and job, so the three morning runs no longer overwrite each other; modules prep.md, decide.md and preopen.md name it. No pick, rule, schedule, model or safety change |
 | 72 | 2026-11-26 | Warm-up bars 2014-07 to 2015-12 (owner, build_todo item 13): scripts/warmup.py and the warmup workflow (Tiingo bulk, Alpha Vantage for missing names and a 30-symbol cross-check, Cboe VIX), pitu.lists joins them before each symbol's first stored bar; LONG HISTORY says they are look-back only. The owner ruled the backfill is data under the freeze. No tuning window, held-out period, frozen script or score changes. |
+| 73 | 2026-11-26 | Consistency check (owner: no task may conflict with or overwrite another): live decisions no longer reviews positions or writes AgentPicks rows (the 13:15 desk owns them); the decision run and the pre-open fallback each pull just before writing picks and write none if the other already has (the pre-open run waits to 09:12 first); orchestrator task list brought to the restructure (retired adaptive task out, new tasks logged, evening review re-runnable); evening review prompt names day trades and the 07:15/08:17 morning; the six sealing prompts name AP3 and AP4 among the own sleeves (judge.py already capped them at 50%); hand-off prompt gives the freeze-record time 21:37; warm-up workflow re-committed under the owner identity so its hourly schedule runs; prompt copies for the sealing tasks added to ops/prompts |
