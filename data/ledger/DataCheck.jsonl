@@ -9,3 +9,12 @@
 {"check_time":"2026-11-24","symbols":"SPY,ACN,GD,IEF,META,PEP,T,XLB,XLRE","check":"xcheck","note":"45 compared, max diff 0.0%","detail":"no flags","status":"ok"}
 {"check_time":"2026-11-24","symbols":"-","check":"parity","note":"34 live / 35 replay, 0 outcome flags","detail":"ok","status":"ok"}
 {"check_time":"2026-11-24","symbols":"VIX","check":"daily bars stale","note":"IBKR get_price_history failed 3 times","detail":"Details currently unavailable; VIX stays at the 2026-11-23 close 26.62 in the Regime row","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"INTC","check":"dq 1d jump","note":3,"detail":"INTC 2026-10-30 jump -28.6%","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"CRWV","check":"dq 5m jump","note":4,"detail":"CRWV 2026-11-23 jump 28.4%","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"FRO","check":"dq 5m bad","note":9,"detail":"FRO  bad OHLC","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"-","check":"dq - bar","note":5,"detail":"-  bar timing: MU 2026-08-27: 5m close 928.9000 vs daily 935.3900","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"-","check":"dq - live","note":1,"detail":"- 2026-11-25 live vs replay mismatch: possible look-ahead (see checks.py parity)","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"VIX","check":"daily bars stale","note":"IBKR get_price_history failed 2 times","detail":"Details currently unavailable; VIX stays at the 2026-11-24 close 26.36 in the Regime row","status":"CHECK"}
+{"check_time":"2026-11-25","symbols":"ETH/USD","check":"1h vs Twelve Data","note":"0.172","detail":"stored 1694.55 vs TD 1697.47 at 2026-11-26 00:00 UTC","status":"ok"}
+{"check_time":"2026-11-25","symbols":"-","check":"xcheck","note":"45 closes compared, 0 flagged","detail":"max abs diff 0.098%","status":"ok"}
+{"check_time":"2026-11-25","symbols":"-","check":"parity","note":"4 outcome flags","detail":"AAPL 13:20 in replay but never seen live; all 36 compared candidates show vix_chg moved (stale VIX bar)","status":"CHECK"}
