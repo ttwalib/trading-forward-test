@@ -44,6 +44,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-26T22:16:31+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -1930,184 +1938,397 @@
    ]
   },
   "GAS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GAS",
+   "tried": [
+    "tiingo:GAS"
+   ]
   },
   "GD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GD",
+   "tried": [
+    "tiingo:GD"
+   ]
   },
   "GE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GE",
+   "tried": [
+    "tiingo:GE"
+   ]
   },
   "GGP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GGP",
+   "tried": [
+    "tiingo:GGP"
+   ]
   },
   "GHC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GHC",
+   "tried": [
+    "tiingo:GHC"
+   ]
   },
   "GILD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GILD",
+   "tried": [
+    "tiingo:GILD"
+   ]
   },
   "GIS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GIS",
+   "tried": [
+    "tiingo:GIS"
+   ]
   },
   "GLD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GLD",
+   "tried": [
+    "tiingo:GLD"
+   ]
   },
   "GLW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GLW",
+   "tried": [
+    "tiingo:GLW"
+   ]
   },
   "GM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GM",
+   "tried": [
+    "tiingo:GM"
+   ]
   },
   "GMCR": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GMCR",
+   "tried": [
+    "tiingo:GMCR"
+   ]
   },
   "GME": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GME",
+   "tried": [
+    "tiingo:GME"
+   ]
   },
   "GNW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GNW",
+   "tried": [
+    "tiingo:GNW"
+   ]
   },
   "GOOG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GOOG",
+   "tried": [
+    "tiingo:GOOG"
+   ]
   },
   "GOOGL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GOOGL",
+   "tried": [
+    "tiingo:GOOGL"
+   ]
   },
   "GPC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GPC",
+   "tried": [
+    "tiingo:GPC"
+   ]
   },
   "GPS": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:GPS"
+   ]
   },
   "GRMN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GRMN",
+   "tried": [
+    "tiingo:GRMN"
+   ]
   },
   "GS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GS",
+   "tried": [
+    "tiingo:GS"
+   ]
   },
   "GT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GT",
+   "tried": [
+    "tiingo:GT"
+   ]
   },
   "GWW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "GWW",
+   "tried": [
+    "tiingo:GWW"
+   ]
   },
   "HAL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HAL",
+   "tried": [
+    "tiingo:HAL"
+   ]
   },
   "HAR": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:HAR"
+   ]
   },
   "HAS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HAS",
+   "tried": [
+    "tiingo:HAS"
+   ]
   },
   "HBAN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HBAN",
+   "tried": [
+    "tiingo:HBAN"
+   ]
   },
   "HBI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HBI",
+   "tried": [
+    "tiingo:HBI"
+   ]
   },
   "HCA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HCA",
+   "tried": [
+    "tiingo:HCA"
+   ]
   },
   "HCBK": {
-   "status": "pending",
-   "tried": []
+   "rows": 338,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HCBK",
+   "tried": [
+    "tiingo:HCBK"
+   ]
   },
   "HCP": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:HCP"
+   ]
   },
   "HD": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HD",
+   "tried": [
+    "tiingo:HD"
+   ]
   },
   "HES": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HES",
+   "tried": [
+    "tiingo:HES"
+   ]
   },
   "HIG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HIG",
+   "tried": [
+    "tiingo:HIG"
+   ]
   },
   "HOG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HOG",
+   "tried": [
+    "tiingo:HOG"
+   ]
   },
   "HON": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HON",
+   "tried": [
+    "tiingo:HON"
+   ]
   },
   "HOT": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:HOT"
+   ]
   },
   "HP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HP",
+   "tried": [
+    "tiingo:HP"
+   ]
   },
   "HPE": {
-   "status": "pending",
-   "tried": []
+   "rows": 91,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HPE",
+   "tried": [
+    "tiingo:HPE"
+   ]
   },
   "HPQ": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HPQ",
+   "tried": [
+    "tiingo:HPQ"
+   ]
   },
   "HRB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HRB",
+   "tried": [
+    "tiingo:HRB"
+   ]
   },
   "HRL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HRL",
+   "tried": [
+    "tiingo:HRL"
+   ]
   },
   "HRS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HRS",
+   "tried": [
+    "tiingo:HRS"
+   ]
   },
   "HSIC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HSIC",
+   "tried": [
+    "tiingo:HSIC"
+   ]
   },
   "HSP": {
-   "status": "pending",
-   "tried": []
+   "rows": 297,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HSP",
+   "tried": [
+    "tiingo:HSP"
+   ]
   },
   "HST": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HST",
+   "tried": [
+    "tiingo:HST"
+   ]
   },
   "HSY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "HSY",
+   "tried": [
+    "tiingo:HSY"
+   ]
   },
   "HUM": {
    "status": "pending",
@@ -3344,7 +3565,7 @@
  },
  "tiingo": {
   "day": "2026-11-26",
-  "hour": "2026-11-26T21",
+  "hour": "2026-11-26T22",
   "months": {
    "2026-11": [
     "A",
@@ -3564,10 +3785,55 @@
     "FRX",
     "FSLR",
     "FTI",
-    "FTR"
+    "FTR",
+    "GAS",
+    "GD",
+    "GE",
+    "GGP",
+    "GHC",
+    "GILD",
+    "GIS",
+    "GLD",
+    "GLW",
+    "GM",
+    "GMCR",
+    "GME",
+    "GNW",
+    "GOOG",
+    "GOOGL",
+    "GPC",
+    "GPS",
+    "GRMN",
+    "GS",
+    "GT",
+    "GWW",
+    "HAL",
+    "HAR",
+    "HAS",
+    "HBAN",
+    "HBI",
+    "HCA",
+    "HCBK",
+    "HCP",
+    "HD",
+    "HES",
+    "HIG",
+    "HOG",
+    "HON",
+    "HOT",
+    "HP",
+    "HPE",
+    "HPQ",
+    "HRB",
+    "HRL",
+    "HRS",
+    "HSIC",
+    "HSP",
+    "HST",
+    "HSY"
    ]
   },
-  "n_day": 225,
+  "n_day": 270,
   "n_hour": 45
  },
  "xcheck": {}
