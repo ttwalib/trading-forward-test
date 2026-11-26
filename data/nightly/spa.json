@@ -13,8 +13,8 @@
   "status": "no GitHub lab sweeps yet"
  },
  "trial_log": {
-  "rows": 65,
-  "trials_counted": 288,
+  "rows": 68,
+  "trials_counted": 779,
   "note": "trials without a stored daily series cannot enter the test; the p-values above are optimistic by that much"
  }
 }

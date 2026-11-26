@@ -25,10 +25,10 @@
    },
    "equal": {
     "days": 8,
-    "total_pct": -1.852,
-    "sharpe": -8.74,
+    "total_pct": -1.88,
+    "sharpe": -8.98,
     "max_dd_pct": 2.491,
-    "mean_daily_pct": -0.2327,
+    "mean_daily_pct": -0.2362,
     "below_weighting_floor": false
    },
    "base_a": {
@@ -49,10 +49,10 @@
    },
    "equal_vm": {
     "days": 8,
-    "total_pct": -2.105,
-    "sharpe": -8.74,
-    "max_dd_pct": 2.829,
-    "mean_daily_pct": -0.2646,
+    "total_pct": -2.163,
+    "sharpe": -8.98,
+    "max_dd_pct": 2.864,
+    "mean_daily_pct": -0.2719,
     "below_weighting_floor": false
    },
    "base_a_vm": {
@@ -66,7 +66,7 @@
    "spy_vm_scale": 0.198,
    "vm_scales": {
     "spy": 0.198,
-    "equal": 1.137,
+    "equal": 1.151,
     "base_a": 0.463
    },
    "p_ai_beats": {
@@ -158,10 +158,10 @@
    },
    "equal": {
     "days": 4,
-    "total_pct": 0.305,
-    "sharpe": 3.97,
+    "total_pct": 0.277,
+    "sharpe": 3.69,
     "max_dd_pct": 0.348,
-    "mean_daily_pct": 0.0765,
+    "mean_daily_pct": 0.0695,
     "below_weighting_floor": false
    },
    "base_a": {
@@ -182,10 +182,10 @@
    },
    "equal_vm": {
     "days": 4,
-    "total_pct": 0.695,
-    "sharpe": 3.97,
-    "max_dd_pct": 0.795,
-    "mean_daily_pct": 0.1752,
+    "total_pct": 0.646,
+    "sharpe": 3.69,
+    "max_dd_pct": 0.815,
+    "mean_daily_pct": 0.163,
     "below_weighting_floor": false
    },
    "base_a_vm": {
@@ -199,7 +199,7 @@
    "spy_vm_scale": 0.203,
    "vm_scales": {
     "spy": 0.203,
-    "equal": 2.288,
+    "equal": 2.345,
     "base_a": 0.474
    },
    "p_ai_beats": {
@@ -291,10 +291,10 @@
    },
    "equal": {
     "days": 8,
-    "total_pct": -1.852,
-    "sharpe": -8.74,
+    "total_pct": -1.88,
+    "sharpe": -8.98,
     "max_dd_pct": 2.491,
-    "mean_daily_pct": -0.2327,
+    "mean_daily_pct": -0.2362,
     "below_weighting_floor": false
    },
    "base_a": {
@@ -315,10 +315,10 @@
    },
    "equal_vm": {
     "days": 8,
-    "total_pct": -2.105,
-    "sharpe": -8.74,
-    "max_dd_pct": 2.829,
-    "mean_daily_pct": -0.2646,
+    "total_pct": -2.163,
+    "sharpe": -8.98,
+    "max_dd_pct": 2.864,
+    "mean_daily_pct": -0.2719,
     "below_weighting_floor": false
    },
    "base_a_vm": {
@@ -332,7 +332,7 @@
    "spy_vm_scale": 0.198,
    "vm_scales": {
     "spy": 0.198,
-    "equal": 1.137,
+    "equal": 1.151,
     "base_a": 0.463
    },
    "p_ai_beats": {
@@ -532,8 +532,8 @@
   }
  },
  "stamp": {
-  "commit": "f181815",
-  "data_sha256": "293bdb8dfb2f5016",
+  "commit": "287f76d",
+  "data_sha256": "922c1b67f8a5d465",
   "data_files": 536,
   "versions": {
    "python": "3.14.4",
@@ -542,15 +542,15 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-25 21:49"
+  "at": "2026-11-26 02:41"
  },
  "latest_weights": {
   "date": "2026-11-25",
   "weights": {
    "L10 Earnings drift": 0.25,
+   "L12 Turn of month": 0.25,
    "L13 Pairs reversion": 0.25,
-   "L16 SPY trend short": 0.25,
-   "L12 Turn of month": 0.25
+   "L16 SPY trend short": 0.25
   },
   "breakers": [
    "L14 ORB breakdown short",
@@ -634,7 +634,7 @@
    -0.252,
    -0.731,
    1.0,
-   "L10 Earnings drift 25%; L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
+   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-17",
@@ -649,7 +649,7 @@
    -0.745,
    -2.153,
    1.0,
-   "L10 Earnings drift 25%; L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
+   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-18",
@@ -664,7 +664,7 @@
    -1.277,
    -2.806,
    1.0,
-   "L10 Earnings drift 25%; L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
+   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-19",
@@ -679,7 +679,7 @@
    -2.151,
    -3.368,
    1.0,
-   "L10 Earnings drift 25%; L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L3 Gap and go 18%"
+   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L3 Gap and go 18%"
   ],
   [
    "2026-11-20",
@@ -694,7 +694,7 @@
    -2.201,
    -4.259,
    1.0,
-   "L10 Earnings drift 25%; L17 Multi-asset trend 25%; L13 Pairs reversion 25%; L16 SPY trend short 15%"
+   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L17 Multi-asset trend 25%; L16 SPY trend short 15%"
   ],
   [
    "2026-11-23",
@@ -709,7 +709,7 @@
    -2.491,
    -5.253,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L16 SPY trend short 25%; L12 Turn of month 25%"
+   "L10 Earnings drift 25%; L12 Turn of month 25%; L13 Pairs reversion 25%; L16 SPY trend short 25%"
   ],
   [
    "2026-11-24",
@@ -717,14 +717,14 @@
    "down-stress",
    0.16585,
    -0.48595,
-   0.31952,
+   0.29493,
    -1.26814,
    -1.884,
    -4.718,
-   -2.18,
+   -2.204,
    -6.454,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L16 SPY trend short 25%; L12 Turn of month 25%"
+   "L10 Earnings drift 25%; L12 Turn of month 25%; L13 Pairs reversion 25%; L16 SPY trend short 25%"
   ],
   [
    "2026-11-25",
@@ -732,14 +732,14 @@
    "down-stress",
    0.09594,
    -0.28938,
-   0.33442,
+   0.33087,
    1.86759,
    -1.79,
    -4.994,
-   -1.852,
+   -1.88,
    -4.707,
    1.0,
-   "L10 Earnings drift 25%; L13 Pairs reversion 25%; L16 SPY trend short 25%; L12 Turn of month 25%"
+   "L10 Earnings drift 25%; L12 Turn of month 25%; L13 Pairs reversion 25%; L16 SPY trend short 25%"
   ]
  ]
 }

@@ -166,6 +166,23 @@
   },
   "note": "report only (item 66): the same picks under other handling rules vs the same control list; never part of G1, AP, AP2 or A1; 3 trials logged on 2026-11-25"
  },
+ "daytrades": {
+  "note": "AP4 day trades (item 70): long only, entered and closed inside the session, each one sixth of the sleeve; p = stated chance of a profit after costs (calibration only). Never part of G1 or AP.",
+  "n": 0,
+  "mean_net_pct": null,
+  "win_rate": null,
+  "cost_view": null,
+  "brier": null,
+  "stated": 0,
+  "by_reason": {
+   "stop": 0,
+   "target": 0,
+   "exit": 0,
+   "close": 0
+  },
+  "closed": [],
+  "no_fill": []
+ },
  "ap2_entry_exit": {
   "entry_choices": {
    "open": 17,
