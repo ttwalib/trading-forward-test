@@ -1,5 +1,5 @@
 {
- "date": "2026-11-25",
+ "date": "2026-11-26",
  "ok": true,
  "steps": {
   "build": {
@@ -18,20 +18,20 @@
     }
    },
    "crypto": {
-    "rows": 260,
-    "days": 9,
+    "rows": 284,
+    "days": 10,
     "labelled": {
-     "y": 260
+     "y": 284
     }
    }
   },
-  "scored": 42,
+  "scored": 20,
   "train": "done"
  },
  "report": {
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "train": {
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "stock": {
     "family": "stock",
     "rows": 12621,
@@ -199,13 +199,13 @@
    },
    "crypto": {
     "family": "crypto",
-    "rows": 260,
-    "fit_rows": 260,
+    "rows": 284,
+    "fit_rows": 284,
     "oos_rows": 0,
     "oos_days": 0,
     "status": "not enough out-of-sample rows yet (0 < 20)"
    },
-   "at": "2026-11-26T04:07:37+00:00"
+   "at": "2026-11-27T04:10:28+00:00"
   },
   "drift": {
    "stock": {
@@ -259,10 +259,10 @@
    "crypto": "no model yet"
   },
   "shadow": {
-   "predictions": 255,
-   "scored": 238,
-   "taken": 121,
-   "mean_taken": -0.326,
+   "predictions": 271,
+   "scored": 258,
+   "taken": 141,
+   "mean_taken": -0.282,
    "always_take_mean_same_candidates": -0.1779
   }
  }
