@@ -17,6 +17,11 @@ cache under /tmp. Everything is computed from bars dated BEFORE the day asked ab
       opening range (first 30 minutes) and whether price is outside it, place in the day's range, the last hour's
       drift, volume against the stock's own average by this time of day (when the archive has it), and stop and target
       distances that fit this stock's ordinary rest-of-day swings. For the intraday desk's day trades.
+  python3 quant.py crypto REPO COIN1,COIN2,... [--move24 PCT]
+      hourly technical pack for coins (AP5, 2026-11-27) from data/bars/1h: returns 1h to 30d, trend against hourly and
+      daily averages, RSI, ATR, levels, volume against its 7-day average, correlation and beta to BTC, stop and target
+      guides for 24 and 72 hours, and what followed a 24-hour move like the current one (or --move24) on this coin and on
+      all stored coins over the last year.
   python3 quant.py many REPO SYM1,SYM2,... [--day D]
       the technical pack of several stocks, one compact line each (for a shortlist or the 44 ranked stocks).
 
@@ -303,6 +308,81 @@ def live(repo, sym, bars_file):
     return out
 
 
+def crypto_bars(repo, sym, until):
+    f = os.path.join(repo, "data", "bars", "1h", sym.upper().replace("/USD", "") + ".jsonl"); out = []
+    if os.path.exists(f):
+        for l in open(f):
+            if l.strip():
+                b = json.loads(l)
+                if b["t"] + 3600 <= until: out.append((b["t"], b["o"], b["h"], b["l"], b["c"], b.get("v") or 0))
+    out.sort(); return out
+
+
+def _excursions(B, k, start_i):
+    """Worst and best move (percent from the open of bar i) over the next k hourly bars, for every i >= start_i."""
+    mae, mfe = [], []
+    for i in range(start_i, len(B) - k):
+        o = B[i][1]
+        if not o: continue
+        mae.append((min(b[3] for b in B[i:i + k]) / o - 1) * 100); mfe.append((max(b[2] for b in B[i:i + k]) / o - 1) * 100)
+    return mae, mfe
+
+
+def crypto(repo, sym, until=None, move24=None):
+    """Hourly technical pack for a coin (2026-11-27, AP5): returns, trend, RSI, ATR, levels, volume, link to BTC,
+    stop and target guides for 24 and 72 hours, and the base rate after a 24-hour move like the current one (this coin
+    and all stored coins, the last 365 days). Only bars that had closed by `until` (default now) are used."""
+    until = int(until or dt.datetime.now(dt.timezone.utc).timestamp()); B = crypto_bars(repo, sym, until)
+    if len(B) < 24 * 30: return {"error": "fewer than 30 days of hourly bars for %s" % sym}
+    t, o, h, l, c, v = zip(*B); n = len(c); last = c[-1]
+    ret = lambda k: (last / c[-1 - k] - 1) * 100 if n > k else None
+    ma = lambda k: sum(c[-k:]) / k if n >= k else None
+    dist = lambda m: (last / m - 1) * 100 if m else None
+    tr = [max(h[i] - l[i], abs(h[i] - c[i - 1]), abs(l[i] - c[i - 1])) for i in range(1, n)]
+    daily = [c[i] for i in range(n) if dt.datetime.fromtimestamp(t[i] + 3600, dt.timezone.utc).hour == 0]
+    lr = [math.log(c[i] / c[i - 1]) for i in range(max(1, n - 24 * 30), n) if c[i - 1]]
+    v24 = sum(v[-24:]); v7 = sum(v[-24 * 8:-24]) / 7 if n > 24 * 8 else None
+    out = {"symbol": sym.upper(), "last_bar_ny": dt.datetime.fromtimestamp(t[-1], NY).strftime("%Y-%m-%d %H:%M"), "close": last,
+           "ret_pct": {"1h": r2(ret(1)), "4h": r2(ret(4)), "24h": r2(ret(24)), "7d": r2(ret(168)), "30d": r2(ret(720))},
+           "trend": {"vs_ma20h_pct": r2(dist(ma(20))), "vs_ma50h_pct": r2(dist(ma(50))), "vs_ma200h_pct": r2(dist(ma(200))),
+                     "vs_ma20d_pct": r2(dist(sum(daily[-20:]) / 20)) if len(daily) >= 20 else None},
+           "rsi14_hourly": r2(rsi(list(c[-300:])), 1), "rsi14_daily": r2(rsi(daily[-120:]), 1) if len(daily) > 15 else None,
+           "atr14_hourly_pct": r2(sum(tr[-14:]) / 14 / last * 100), "realised_vol_30d_annual_pct": r2(st.pstdev(lr) * math.sqrt(24 * 365) * 100, 1),
+           "levels": {"high_24h": max(h[-24:]), "low_24h": min(l[-24:]), "high_7d": max(h[-168:]), "low_7d": min(l[-168:]),
+                      "below_30d_high_pct": r2((last / max(h[-720:]) - 1) * 100)},
+           "volume_24h_vs_7d_avg": r2(v24 / v7) if v7 else None}
+    if sym.upper() != "BTC":
+        Bb = {b[0]: b[4] for b in crypto_bars(repo, "BTC", until)}; xs, ys = [], []
+        for i in range(max(1, n - 720), n):
+            if t[i] in Bb and t[i - 1] in Bb and c[i - 1] and Bb[t[i - 1]]:
+                xs.append(Bb[t[i]] / Bb[t[i - 1]] - 1); ys.append(c[i] / c[i - 1] - 1)
+        if len(xs) > 100:
+            mx, my = st.mean(xs), st.mean(ys); cov = sum((a - mx) * (b - my) for a, b in zip(xs, ys)) / len(xs); vx = st.pvariance(xs)
+            out["btc_link_30d"] = {"corr": r2(cov / math.sqrt(vx * st.pvariance(ys)) if vx and st.pvariance(ys) else None), "beta": r2(cov / vx if vx else None)}
+    s0 = max(0, n - 24 * 120); g = {}
+    for k in (24, 72):
+        mae, mfe = _excursions(B, k, s0)
+        g["%dh" % k] = {"stop_hit_in_25pct_of_windows": r2(q(mae, .25)), "stop_hit_in_10pct_of_windows": r2(q(mae, .10)),
+                        "target_reached_in_25pct_of_windows": r2(q(mfe, .75)), "target_reached_in_50pct_of_windows": r2(q(mfe, .5)), "windows": len(mae)}
+    out["stop_target_guide_pct"] = dict(g, note="from the open of an hourly bar over the next 24 or 72 hours, last 120 days; costs 0.2% a side not included")
+    m = move24 if move24 is not None else ret(24)
+    if m is not None:
+        lo, hi = (m * 0.7, m * 1.3) if m >= 0 else (m * 1.3, m * 0.7)
+        def base(BB):
+            cc = [b[4] for b in BB]; nxt = []
+            for i in range(max(24, len(cc) - 24 * 365), len(cc) - 24, 24):
+                r = (cc[i] / cc[i - 24] - 1) * 100 if cc[i - 24] else None
+                if r is not None and lo <= r <= hi: nxt.append((cc[i + 24] / cc[i] - 1) * 100)
+            return nxt
+        own = base(B); allc = []
+        for f in glob.glob(os.path.join(repo, "data", "bars", "1h", "*.jsonl")):
+            allc += base(crypto_bars(repo, os.path.basename(f)[:-6], until))
+        sm = lambda x: {"n": len(x), "next24h_mean_pct": r2(st.mean(x)) if x else None, "next24h_win_rate": r2(sum(1 for y in x if y > 0) / len(x)) if x else None}
+        out["after_similar_24h_move"] = {"move_band_pct": [r2(lo), r2(hi)], "this_coin": sm(own), "all_stored_coins": sm(allc),
+                                         "note": "non-overlapping daily steps, last 365 days; history, not a forecast; n under 30 is an anecdote"}
+    return out
+
+
 def main(a):
     def opt(name, default=None):
         if name in a:
@@ -312,6 +392,9 @@ def main(a):
     cmd, repo = a[0], a[1]
     if cmd == "brief": r = brief(repo, a[2].upper(), day, gap, bf)
     elif cmd == "live": r = live(repo, a[2].upper(), bf)
+    elif cmd == "crypto":
+        mv = opt("--move24")
+        r = {x: crypto(repo, x, None, float(mv) if mv else None) for x in a[2].upper().split(",")}
     elif cmd == "gaprate": r = gaprate(repo, float(a[2]), float(a[3]), day)
     elif cmd == "many":
         r = {}

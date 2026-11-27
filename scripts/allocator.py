@@ -171,6 +171,17 @@ def sleeves(repo, lib_file="daily.json", realistic=True):
     for f in (os.path.join(repo, "data", "picks", "daily.json"), os.path.join(repo, "data", "ai", "daily.json")):
         if os.path.exists(f):
             for k, v in json.load(open(f)).items(): S[k] = dict(v)
+    # Results dated on a day the stock market is closed (crypto trades on weekends and holidays) are added to the next
+    # day it is open: the book only has those days, and before 2026-11-27 such results were silently left out
+    # (owner decision 2026-11-27, runbook item 74: crypto is traded around the clock).
+    for k, v in S.items():
+        moved = {}
+        for d, x in v.items():
+            if tcal.is_open(d): moved[d] = moved.get(d, 0.0) + x; continue
+            n = dt.date.fromisoformat(d) + dt.timedelta(days=1)
+            while not tcal.is_open(n): n += dt.timedelta(days=1)
+            moved[n.isoformat()] = moved.get(n.isoformat(), 0.0) + x
+        S[k] = moved
     return {k: v for k, v in S.items() if not k.startswith(DROPPED)}
 
 
@@ -191,7 +202,7 @@ def duplicates(S, days):
 # Sealed books (weekly judge seals, contests, daily challenger) are scored under the same per-sleeve caps the seal was
 # checked against in judge.py: 50% for Quantavius's own sleeves, CAP for every other sleeve (owner decision 2026-11-24,
 # item 55; pre-freeze code review 2026-11-25 found the scoring still capped every sleeve at CAP).
-SEAL_OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AP4 Agent picks", "AS AI strategies")
+SEAL_OWN = ("AP Agent picks", "AP2 Agent picks", "AP3 Agent picks", "AP4 Agent picks", "AP5 Agent picks", "AS AI strategies")
 SEAL_OWN_CAP = 0.50
 
 
@@ -554,7 +565,7 @@ def simulate(repo, day, S, spy, vix, judge=True):
     return rows, W
 
 
-OWN_SLEEVES = ("AP ", "AP2 ", "AP3 ", "AP4 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
+OWN_SLEEVES = ("AP ", "AP2 ", "AP3 ", "AP4 ", "AP5 ", "AS ", "Agent picks")     # Quantavius's own sleeves: picks, sized picks, approved lab
 # strategies and (since 2026-11-23, runbook item 43) its picks traded under the breakout rules or as calls; none of these
 # may sit inside the foundation benchmark (equal_f)
 

@@ -508,7 +508,28 @@ sleeve and unused sixths earn nothing. p is the stated chance of a profit after 
 "daytrades"). AP4 never enters G1 or AP. Since 2026-11-26 every exit (AP2, AP3, AP4) fills at the first bar that OPENS
 after the sighting (a row seen at 10:15:20 fills at 10:20, not at the 10:15 open).
 IF USAGE RUNS SHORT: the watchdog logs a usage-limit failure as before; the owner (or a build session on his word) drops
-the 10:15 and 14:30 checkpoints first, then the pre-open refresh; the prep and decision runs are never dropped.
+the two crypto desk tasks first (since 2026-11-27), then the 10:15 and 14:30 checkpoints, then the pre-open refresh; the
+prep and decision runs are never dropped.
+
+CRYPTO DESK AND AP5 (owner decision 2026-11-27, item 74: "crypto should be traded 24/7, the market does not close"). Crypto
+is Quantavius's own to trade with the same freedom as its stocks: it chooses the coin, the share of the sleeve, the stop,
+the target and how long to hold, at any hour of any day. Instructions: ops/agent/crypto.md. CHECKPOINTS (New York):
+the crypto desk task at 02:07, 06:07, 18:07 and 22:07 every day; a weekend task at 10:07 and 14:07 on Saturdays and
+Sundays; the 07:15 prep every day (its PART B2); and on weekdays the four intraday desk checkpoints (desk.md STEP 4b; on
+market holidays and half days those runs do the crypto part only). So a checkpoint comes at least every four hours or so
+on every day. Between checkpoints nothing waits on an AI run: GitHub fetches hourly bars every 3 hours (the fixed seven
+coins plus data/universe.json "crypto_trade", each fetched on its own) and scripts/picks.py applies sealed stops, targets
+and hold limits bar by bar from them. SCORING (picks.py cryptotrades): AgentPicks asset "cryptotrade", long only; fills at
+the open of the first stored hourly bar that starts after the later of the row time and its first GitHub sighting (from
+2026-11-30 an unwitnessed row never counts); exits at the stop or target (stop first inside a bar), at the open of the first
+hourly bar after a witnessed exit row, or when its hold (1-336 hours, default 168) runs out; one open trade per coin; open
+shares at most 1.00, the rest is cash at 0; 0.20% per side; marked hourly at a fixed size; sleeve "AP5 Agent picks: crypto",
+an own sleeve (50% cap in seals, out of equal_f, 0.15% rebalancing). Days the stock market is closed: their results go to
+its next open day, because the book has only those days. The same rule now applies in the allocator to every sleeve, so
+the fixed crypto tracks' weekend and holiday trades, which before 2026-11-27 were silently left out of the book, now count
+(their totals are unchanged; only the day they are booked on moves). The old picked-coin track (asset "crypto", a fixed
+rule trading a coin Quantavius picked) takes no new picks; it never had one. quant.py crypto gives the hourly technical pack.
+Not yet: short crypto (spot only, as for stocks a falling view means cash or an exit) and coins outside the stored list.
 
 ENTRY TIME, INTRADAY EXITS AND SHADOW VARIANTS (2026-11-25, item 66). ENTRY: a stock pick may seal "entry=10:00" or
 "entry=10:30" in its checks (default "entry=open"); AP2 then enters at the open of the 5-minute bar starting then, and its
@@ -1248,3 +1269,4 @@ Full text of every item: ops/runbook_history.md (the runbook before consolidatio
 | 71 | 2026-11-26 | Morning SOURCE LOG moved from ops/diag/morning_sources.json to data/diag/sources/<DAY>-<job>.json (owner, after the first prep run): the thin prompts of item 70 forbid a scheduled task to edit anything under ops/, so the prep run could not write the log; one file per day and job, so the three morning runs no longer overwrite each other; modules prep.md, decide.md and preopen.md name it. No pick, rule, schedule, model or safety change |
 | 72 | 2026-11-26 | Warm-up bars 2014-07 to 2015-12 (owner, build_todo item 13): scripts/warmup.py and the warmup workflow (Tiingo bulk, Alpha Vantage for missing names and a 30-symbol cross-check, Cboe VIX), pitu.lists joins them before each symbol's first stored bar; LONG HISTORY says they are look-back only. The owner ruled the backfill is data under the freeze. No tuning window, held-out period, frozen script or score changes. |
 | 73 | 2026-11-26 | Consistency check (owner: no task may conflict with or overwrite another): live decisions no longer reviews positions or writes AgentPicks rows (the 13:15 desk owns them); the decision run and the pre-open fallback each pull just before writing picks and write none if the other already has (the pre-open run waits to 09:12 first); orchestrator task list brought to the restructure (retired adaptive task out, new tasks logged, evening review re-runnable); evening review prompt names day trades and the 07:15/08:17 morning; the six sealing prompts name AP3 and AP4 among the own sleeves (judge.py already capped them at 50%); hand-off prompt gives the freeze-record time 21:37; warm-up workflow re-committed under the owner identity so its hourly schedule runs; prompt copies for the sealing tasks added to ops/prompts |
+| 74 | 2026-11-27 | Crypto traded around the clock (owner): new own sleeve AP5 (picks.py cryptotrades, asset "cryptotrade"), crypto desk module ops/agent/crypto.md, two crypto desk tasks (02:07/06:07/18:07/22:07 daily; 10:07/14:07 weekends, Fable), the desk and the prep are crypto checkpoints too, quant.py crypto, per-coin hourly fetch of data/universe.json "crypto_trade", allocator books closed-market-day results on the next open day, own-sleeve lists and the six sealing prompts name AP5, watchdog/orchestrator lists and the usage drop order updated |

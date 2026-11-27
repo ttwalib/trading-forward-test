@@ -212,6 +212,38 @@ def crypto_bars(repo, tf, start):
         b = conv(rows, tf, closed_before=None if tf == "1d" else cut, step=step)
         if tf == "1d": b = [x for x in b if x["t"] - 43200 + 86400 <= cut]   # UTC day finished
         merge(repo, tf, s.split("/")[0], b)
+    if tf in ("1h", "1d") and not LOG.get("tick"): crypto_extra(repo, tf, start, step, cut)   # not in 5-minute ticks (time)
+
+
+# Coins Quantavius may trade itself (AP5, 2026-11-27) beyond the fixed seven: data/universe.json "crypto_trade", plus any
+# coin named in a recent AgentPicks "cryptotrade" row. Each is fetched on its own, so one coin Alpaca does not list
+# cannot make it refuse the others; a coin with no stored bars yet gets 120 days of hourly (740 of daily) history.
+CRYPTO_TRADE_DEFAULT = ["XRP", "LTC", "BCH", "DOT", "UNI", "AAVE", "PEPE", "CRV", "XTZ", "GRT", "MKR", "SUSHI", "YFI", "BAT"]
+
+
+def crypto_extra(repo, tf, start, step, cut):
+    try: lst = json.load(open(os.path.join(repo, "data", "universe.json"))).get("crypto_trade") or CRYPTO_TRADE_DEFAULT
+    except Exception: lst = CRYPTO_TRADE_DEFAULT
+    try:
+        import ledger
+        c30 = (now() - dt.timedelta(days=30)).strftime("%Y-%m-%d")
+        lst = list(lst) + [str(r.get("symbol", "")).upper().replace("/USD", "") for r in ledger.load(repo, "AgentPicks")
+                           if r.get("asset") == "cryptotrade" and str(r.get("picked_at"))[:10] >= c30]
+    except Exception as e: LOG["errors"].append("crypto trade list: %s" % e)
+    tfa = {"1h": "1Hour", "1d": "1Day"}[tf]; done, bad = [], []
+    for c in sorted({x for x in lst if x.isalpha() and x not in COINS}):
+        have = os.path.exists(os.path.join(repo, "data", "bars", tf, c + ".jsonl"))
+        st = start if have else now() - dt.timedelta(days=120 if tf == "1h" else 740)
+        try:
+            got = paged(DATA + "/v1beta3/crypto/us/bars", {"symbols": c + "/USD", "timeframe": tfa, "start": iso(st),
+                        "limit": 10000, "sort": "asc"}, "bars")
+        except Exception as e: bad.append("%s: %s" % (c, str(e)[:80])); continue
+        rows = got.get(c + "/USD") or []
+        if not rows: bad.append(c + ": no bars"); continue
+        b = conv(rows, tf, closed_before=None if tf == "1d" else cut, step=step)
+        if tf == "1d": b = [x for x in b if x["t"] - 43200 + 86400 <= cut]
+        merge(repo, tf, c, b); done.append(c)
+    LOG.setdefault("crypto_trade", {})[tf] = {"ok": done, "failed": bad}
 
 
 def corp_actions(repo, syms, start):

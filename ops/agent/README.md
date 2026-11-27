@@ -11,3 +11,4 @@ sessions only. A scheduled task never edits them. They never override the SAFETY
 | decide.md | morning decision (the former morning research task, same id) | 08:17 weekdays | Fable |
 | preopen.md | pre-open refresh | 09:04 weekdays | Fable |
 | desk.md | intraday desk | 10:15, 11:30, 13:15, 14:30 weekdays (two tasks) | Fable |
+| crypto.md | crypto desk (trig_01VmFs5xrte5mNjVidB3TeFG, trig_01PHx691YYBcgnv6n1BGn22w); also run by prep.md B2 and desk.md STEP 4b | 02:07, 06:07, 18:07, 22:07 daily; 10:07, 14:07 weekends | Fable |

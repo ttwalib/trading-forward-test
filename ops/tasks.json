@@ -12,7 +12,7 @@
    "name": "Morning prep",
    "when": "07:15 every day",
    "model": "Fable",
-   "does": "Writes the research file for the decision run (shortlist with a quant pack per name, a technical line for the 44 ranked stocks), settles and picks coins, logs events and earnings dates; instructions in ops/agent/prep.md",
+   "does": "Writes the research file for the decision run (shortlist with a quant pack per name, a technical line for the 44 ranked stocks), settles and picks coins, logs events and earnings dates; instructions in ops/agent/prep.md; its PART B2 is a crypto desk checkpoint since 2026-11-27",
    "weekday_runs": 1
   },
   {
@@ -26,7 +26,7 @@
    "name": "Intraday desk",
    "when": "10:15, 11:30, 13:15 and 14:30 on weekdays (two tasks)",
    "model": "Fable",
-   "does": "Reviews open positions (exits) and may open day trades (sleeve AP4: long only, flat by the close, at most 6 a day); instructions in ops/agent/desk.md",
+   "does": "Reviews open positions (exits) and may open day trades (sleeve AP4: long only, flat by the close, at most 6 a day); instructions in ops/agent/desk.md; since 2026-11-27 each checkpoint also runs the crypto desk (STEP 4b)",
    "weekday_runs": 4
   },
   {
@@ -197,6 +197,13 @@
    "does": "Post-mortem of today's picks and puts (data/picks/journal) and tomorrow's leads (data/picks/prep); read by the morning research and the evidence pack; since 2026-11-26 also attributes picks against their base rates and reviews the day trades",
    "id": "trig_013i7PDxNJPCsBBZoKbfZGVw",
    "weekday_runs": 1
+  },
+  {
+   "name": "Crypto desk",
+   "when": "02:07, 06:07, 18:07, 22:07 every day; 10:07 and 14:07 Saturdays and Sundays (two tasks)",
+   "model": "Fable",
+   "does": "Reviews Quantavius's open crypto trades and may open new ones (sleeve AP5, around the clock); instructions in ops/agent/crypto.md; the prep and the weekday desk checkpoints are crypto checkpoints too",
+   "weekday_runs": 4
   }
  ],
  "github": [

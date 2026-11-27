@@ -2,7 +2,8 @@
 
   python3 positions.py REPO [DAY]     -> JSON list to stdout
 
-Lists every witnessed stock or option pick still inside its holding window on DAY (New York date, default today):
+Lists every witnessed stock or option pick still inside its holding window, today's day trades and every open
+crypto trade (AP5), on DAY (New York date, default today):
 picked_at (the id an exit row names in exits=), asset, symbol, contract (occ for options), hold, entry choice,
 stop/tgt, the pick's own reason, and whether an exit or withdrawal was already requested. It reads the ledger and the
 witness only; it prices nothing (the task quotes the price itself) and changes nothing.
@@ -41,6 +42,12 @@ def open_positions(repo, day=None):
             ck = str(r.get("checks") or "")
             out.append({"picked_at": t, "asset": "daytrade", "symbol": r.get("symbol"), "occ": None, "hold": 0, "day_of_hold": 0,
                         "entry": "intraday", "stop_tgt": picks._exits(ck), "why": r.get("why"), "exit_requested": EX.get(witness.row_id(r))})
+    try:                # Quantavius's open crypto trades (AP5, 2026-11-27): around the clock, marked on the last stored hourly close
+        for x in picks.cryptotrades(repo, W, PR)[2]:
+            out.append(dict(x, asset="cryptotrade", occ=None, hold=None, day_of_hold=None, entry="hourly",
+                            stop_tgt=None, why=next((r.get("why") for r in PR if str(r.get("picked_at")) == x["picked_at"]
+                                                     and r.get("asset") == "cryptotrade"), None)))
+    except Exception as e: out.append({"asset": "cryptotrade", "error": str(e)[:200]})
     return out
 
 

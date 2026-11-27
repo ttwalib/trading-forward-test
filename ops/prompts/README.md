@@ -11,6 +11,7 @@ the copy and adds a row to ops/interventions.jsonl.
 | ../agent/decide.md | Morning decision: picks and ranking (08:17 ET weekdays, Fable; thin prompt; morning.md is the superseded full prompt, kept for the record) | trig_01NH3ceZ9ypKfB94HSpRW65A |
 | ../agent/preopen.md | Pre-open refresh (09:04 ET weekdays, Fable; thin prompt) | trig_01DCL9hsysSu67gRsyZphGeU |
 | ../agent/desk.md | Intraday desk (10:15 and 13:15 ET; 11:30 and 14:30 ET weekdays, Fable; thin prompt) | trig_01UAvRZUscnyqvgMP6dwzL8G, trig_01EEMRpMkt98YRYkaTxgG2gG |
+| ../agent/crypto.md | Crypto desk (02:07, 06:07, 18:07, 22:07 ET daily; 10:07 and 14:07 ET weekends; Fable; thin prompts like the desk's) | trig_01VmFs5xrte5mNjVidB3TeFG, trig_01PHx691YYBcgnv6n1BGn22w |
 | daily_challenger.md | Daily challenger seal (08:41 ET every weekday from 2026-12-07, Fable; every weekday since 2026-11-26, own-sleeve cap names AP4) | trig_01W21jTsy2zySucZ7iTHKHGf |
 | evening_review.md | Evening review + prep (20:47 ET trading days, Fable since 2026-11-26) | trig_013i7PDxNJPCsBBZoKbfZGVw |
 | live_decisions.md | Live decisions (13:05 ET once, Sonnet; since 2026-11-26 no position review and no AgentPicks rows: the intraday desk owns them) | trig_018iuZdjimqtB2HRNmKpJn1m |

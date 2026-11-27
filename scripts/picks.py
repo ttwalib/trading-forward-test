@@ -23,12 +23,14 @@ breakout rule more than the picking. This script measures the picking itself, fr
     day, marked on every close. Day return = weighted average over the open positions (weights rescaled to add up to
     1 over whatever is open that day), minus 0.10% of a position's share on its entry day and on its exit day.
     Comparing AP2 with AP shows whether the AI's sizing and timing add anything to its picking; G1 stays on AP.
+Also scored here: AP3 option picks, AP4 day trades (2026-11-26) and AP5 crypto trades (2026-11-27, cryptotrades():
+around the clock on stored hourly bars; see its docstring).
 Rules fixed in advance: equal weight per pick; a pick without a daily bar that day is listed under "missing" and left
 out; a day's move beyond +/-60% is treated as a bad bar and left out; picks written at or after 09:30 never count.
 Fills at the official open are an assumption (a market-on-open order); the cost above is the allowance for it.
 Nothing is traded. Testing only, not financial advice.
 """
-import json, os, re, sys, datetime as dt
+import json, os, re, sys, time, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import tcal, ledger, witness
 NY = tcal.NY
@@ -253,6 +255,128 @@ def daytrades(repo, cal, cal_idx, W, PR):
                            "reason": why or "close", "gross": round(gross, 4), "net": round(net, 4), "p": x["p"]})
         series[d] = round(tot, 5)
     return series, closed, nofill
+
+
+
+SLEEVE5 = "AP5 Agent picks: crypto"
+CR_COST = 0.20          # percent of a position's value per side (spread plus a taker fee, as in the crypto lab)
+CR_W_DEF, CR_W_MIN, CR_W_MAX = 0.20, 0.05, 0.50   # share of the sleeve a crypto trade takes
+CR_HOLD_DEF, CR_HOLD_MAX = 168, 336               # hours a crypto trade may stay open (7 days by default, 14 at most)
+
+
+_B1H = {}
+def bars1h(repo, sym):
+    """Stored hourly crypto bars [(t, o, h, l, c)], t = bar start in epoch seconds (UTC), sorted."""
+    if sym in _B1H: return _B1H[sym]
+    f = os.path.join(repo, "data", "bars", "1h", sym.replace("/", "_") + ".jsonl"); out = []
+    if os.path.exists(f):
+        for l in open(f):
+            if l.strip():
+                b = json.loads(l); out.append((int(b["t"]), b["o"], b["h"], b["l"], b["c"]))
+    out.sort(); _B1H[sym] = out; return out
+
+
+def _ny_epoch(s):
+    """New York "YYYY-MM-DD HH:MM[:SS]" -> epoch seconds."""
+    s = str(s).strip(); fmt = "%Y-%m-%d %H:%M:%S" if len(s) >= 19 else "%Y-%m-%d %H:%M"
+    return int(dt.datetime.strptime(s[:19] if len(s) >= 19 else s[:16], fmt).replace(tzinfo=NY).timestamp())
+
+
+def _ny_day(ts):
+    return dt.datetime.fromtimestamp(ts, NY).date().isoformat()
+
+
+def _crypto_num(ck, key, lo, hi, cast=float):
+    m = re.search(r"\b%s=([+-]?[0-9.]+)" % key, ck)
+    try: v = cast(float(m.group(1))) if m else None
+    except ValueError: v = None
+    return v if v is not None and lo <= v <= hi else None
+
+
+def cryptotrades(repo, W, PR, upto=None):
+    """AP5 (owner decision 2026-11-27, runbook item 74): Quantavius's own crypto trades, around the clock, every day.
+    An AgentPicks row with asset "cryptotrade" and status "picked" (symbol = the coin, e.g. "BTC"; long only) and checks
+    "w=0.20 | stop=-5 | tgt=10 | hold=48 | p=0.xx | ...": w = share of the sleeve (0.05 to 0.50, default 0.20), stop and
+    tgt in percent from the entry (stop -1 to -50, tgt 1 to 200, both optional), hold = most hours it may stay open (1 to
+    336, default 168). It fills at the OPEN of the first stored hourly bar that starts after the LATER of the row's own
+    time and its first GitHub sighting (from 2026-11-30 an unwitnessed row never counts). It leaves at its stop or target
+    (the stop first inside a bar; at the level on the entry bar, else at the bar's open if it gapped through), at the open
+    of the first bar starting after a witnessed exit row (status "exit", exits=<its picked_at>), or at the open of the bar
+    at which its hold runs out. One open trade per coin; the open shares add up to at most 1.00 (a fill gets what is
+    left, and no fill below 0.05); the rest of the sleeve is cash and earns nothing. Costs CR_COST per side on its share.
+    Marked on every hourly close at a fixed size (profit and loss as a percent of the sleeve, so a trade's days add up to
+    its share times its net return); day return per New York date, and results dated on days the
+    stock market is closed are added to the next day it is open (the book has only those days). Returns
+    (series, closed, open, nofill)."""
+    EX = exit_requests(PR, W); cand, nofill = [], []
+    upto = upto or int(time.time())
+    for r in PR:
+        t = str(r.get("picked_at") or "")
+        if r.get("asset") != "cryptotrade" or r.get("status") != "picked" or len(t) < 16: continue
+        sym = str(r.get("symbol") or "").upper().replace("/USD", "")
+        rid = witness.row_id(r); w = W.get(rid)
+        if w and not w.get("grandfathered"): eff = max(t[:19], w["seen_at_ny"][:19])
+        elif t[:10] < witness.ENFORCE_FROM or (w and w.get("grandfathered")): eff = t[:19]
+        else: nofill.append({"picked_at": t, "symbol": sym, "why": "not witnessed"}); continue
+        ck = str(r.get("checks") or ""); st, tg = _exits(ck)
+        cand.append({"s": sym, "at": t, "rid": rid, "eff": _ny_epoch(eff), "st": st, "tg": tg,
+                     "w": _crypto_num(ck, "w", CR_W_MIN, CR_W_MAX) or CR_W_DEF,
+                     "hold": _crypto_num(ck, "hold", 1, CR_HOLD_MAX, int) or CR_HOLD_DEF,
+                     "p": _crypto_num(ck, "p", 0, 1)})
+    trades = []
+    for x in sorted(cand, key=lambda x: (x["eff"], x["at"])):
+        B = [b for b in bars1h(repo, x["s"]) if b[0] > x["eff"] and b[0] < upto]
+        if not B: nofill.append({"picked_at": x["at"], "symbol": x["s"], "why": "no hourly bar yet" if bars1h(repo, x["s"]) else "no stored bars for this coin"}); continue
+        e_t, e = B[0][0], B[0][1]
+        if not e: nofill.append({"picked_at": x["at"], "symbol": x["s"], "why": "bad bar"}); continue
+        xr = EX.get(x["rid"]); x_t = _ny_epoch(xr) + 59 if xr else None
+        stop = e * (1 + x["st"] / 100) if x["st"] else None; tgt = e * (1 + x["tg"] / 100) if x["tg"] else None
+        marks, out_t, px, why = [], None, None, None
+        for i, (bt, o, h, l, c) in enumerate(B):
+            if bt + 3600 > upto: break             # only bars that have closed by `upto`
+            if i and x_t is not None and bt > x_t: out_t, px, why = bt, o, "exit"; break
+            if i and bt >= e_t + x["hold"] * 3600: out_t, px, why = bt, o, "hold"; break
+            if stop is not None and l <= stop: out_t, px, why = bt, (stop if i == 0 else min(o, stop)), "stop"; break
+            if tgt is not None and h >= tgt: out_t, px, why = bt, (tgt if i == 0 else max(o, tgt)), "target"; break
+            marks.append((bt + 3600, c))
+        trades.append(dict(x, e_t=e_t, e=e, out_t=out_t, px=px, why=why, marks=marks))
+    # shares: one open trade per coin, at most 1.00 open at once, assigned in order of entry
+    live, kept = [], []
+    for x in sorted(trades, key=lambda x: (x["e_t"], x["at"])):
+        live = [y for y in live if y["out_t"] is None or y["out_t"] > x["e_t"]]
+        if any(y["s"] == x["s"] for y in live): nofill.append({"picked_at": x["at"], "symbol": x["s"], "why": "already holding this coin"}); continue
+        room = round(1.0 - sum(y["w"] for y in live), 6)
+        if room < CR_W_MIN: nofill.append({"picked_at": x["at"], "symbol": x["s"], "why": "sleeve full"}); continue
+        x["w"] = min(x["w"], room); live.append(x); kept.append(x)
+    by_date, closed, openp = {}, [], []
+    for x in kept:
+        ref = x["e"]; d0 = _ny_day(x["e_t"])
+        by_date[d0] = by_date.get(d0, 0.0) - CR_COST * x["w"]
+        for mt, c in x["marks"]:
+            d = _ny_day(mt - 1); by_date[d] = by_date.get(d, 0.0) + x["w"] * (c - ref) / x["e"] * 100; ref = c
+        if x["out_t"] is not None:
+            d = _ny_day(x["out_t"]); by_date[d] = by_date.get(d, 0.0) + x["w"] * (x["px"] - ref) / x["e"] * 100 - CR_COST * x["w"]
+            gross = (x["px"] / x["e"] - 1) * 100
+            closed.append({"symbol": x["s"], "picked_at": x["at"], "w": round(x["w"], 4), "entry_ny": dt.datetime.fromtimestamp(x["e_t"], NY).strftime("%Y-%m-%d %H:%M"),
+                           "entry": x["e"], "exit_ny": dt.datetime.fromtimestamp(x["out_t"], NY).strftime("%Y-%m-%d %H:%M"), "exit": round(x["px"], 8),
+                           "reason": x["why"], "gross": round(gross, 4), "net": round(gross - 2 * CR_COST, 4), "p": x["p"]})
+        else:
+            last = x["marks"][-1][1] if x["marks"] else x["e"]
+            openp.append({"symbol": x["s"], "picked_at": x["at"], "w": round(x["w"], 4), "entry_ny": dt.datetime.fromtimestamp(x["e_t"], NY).strftime("%Y-%m-%d %H:%M"),
+                          "entry": x["e"], "mark": last, "mark_pct": round((last / x["e"] - 1) * 100, 4),
+                          "stop_level": round(x["e"] * (1 + x["st"] / 100), 8) if x["st"] else None,
+                          "tgt_level": round(x["e"] * (1 + x["tg"] / 100), 8) if x["tg"] else None,
+                          "hold_ends_ny": dt.datetime.fromtimestamp(x["e_t"] + x["hold"] * 3600, NY).strftime("%Y-%m-%d %H:%M"),
+                          "exit_requested": EX.get(x["rid"])})
+    series = {}
+    if by_date:
+        first = min(by_date); last_d = max(max(by_date), _ny_day(upto - 1))
+        d = dt.date.fromisoformat(first); pend = 0.0
+        while d.isoformat() <= last_d:
+            pend += by_date.get(d.isoformat(), 0.0)
+            if tcal.is_open(d): series[d.isoformat()] = round(pend, 5); pend = 0.0
+            d += dt.timedelta(days=1)
+    return series, closed, openp, nofill
 
 
 def exit_time_on(eff, d, cal):
@@ -544,6 +668,9 @@ def build(repo, day=None):
     if series3: out_sleeves[SLEEVE3] = series3
     series4, closed4, nofill4 = daytrades(repo, cal, cal_idx, W, PR)
     if series4: out_sleeves[SLEEVE4] = series4
+    day_end = int(dt.datetime.combine(dt.date.fromisoformat(day) + dt.timedelta(days=1), dt.time(0), NY).timestamp())
+    series5, closed5, open5, nofill5 = cryptotrades(repo, W, PR, upto=min(int(time.time()), day_end))   # nothing after DAY
+    if series5: out_sleeves[SLEEVE5] = series5
     json.dump(out_sleeves, open(os.path.join(repo, "data", "picks", "daily.json"), "w"), separators=(",", ":"))
     # SHADOW VARIANTS (2026-11-25, item 66; declared before any result and logged as 3 trials): the same witnessed G1 picks
     # under three other handling rules, scored against the same control-list average. Report only: they never enter G1,
@@ -596,6 +723,11 @@ def build(repo, day=None):
                           "brier": round(mean([(a - b) ** 2 for a, b in _dc]), 4) if _dc else None, "stated": len(_dc),
                           "by_reason": {k: sum(1 for x in closed4 if x["reason"] == k) for k in ("stop", "target", "exit", "close")},
                           "closed": closed4[-120:], "no_fill": nofill4[-60:]}
+    score["crypto"] = {"sleeve": SLEEVE5, "trades_closed": len(closed5), "open": open5,
+                       "mean_net_pct": round(mean([x["net"] for x in closed5]), 4) if closed5 else None,
+                       "win_rate": round(sum(1 for x in closed5 if x["net"] > 0) / len(closed5), 3) if closed5 else None,
+                       "by_reason": {k: sum(1 for x in closed5 if x["reason"] == k) for k in ("stop", "target", "exit", "hold")},
+                       "closed": closed5[-120:], "no_fill": nofill5[-60:]}
     score["ap2_entry_exit"] = {"entry_choices": {k: sum(1 for x in entry_t.values() for v in x.values() if v == k) for k in ENTRY_TIMES},
                                "entry_fallback_to_open": entry_fallback, "exits_filled": exits_done}
     # By playbook version and by vehicle (review N13): the playbook keeps changing to the end, so results are also

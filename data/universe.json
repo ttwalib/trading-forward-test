@@ -180,5 +180,21 @@
   "XOM"
  ],
  "intraday_wide": false,
- "intraday_wide_data": true
+ "intraday_wide_data": true,
+ "crypto_trade": [
+  "XRP",
+  "LTC",
+  "BCH",
+  "DOT",
+  "UNI",
+  "AAVE",
+  "PEPE",
+  "CRV",
+  "XTZ",
+  "GRT",
+  "MKR",
+  "SUSHI",
+  "YFI",
+  "BAT"
+ ]
 }
