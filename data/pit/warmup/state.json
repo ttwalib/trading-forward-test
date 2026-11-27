@@ -100,6 +100,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 2
+  },
+  {
+   "at": "2026-11-27T07:48:00+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 0
   }
  ],
  "symbols": {
@@ -4694,7 +4702,7 @@
  },
  "tiingo": {
   "day": "2026-11-27",
-  "hour": "2026-11-27T06",
+  "hour": "2026-11-27T07",
   "months": {
    "2026-11": [
     "A",
@@ -5190,7 +5198,7 @@
    ]
   },
   "n_day": 182,
-  "n_hour": 2
+  "n_hour": 0
  },
  "xcheck": {}
 }
