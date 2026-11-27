@@ -26,3 +26,15 @@
 {"day": "2026-11-25", "task": "agent evening", "fired_at": "2026-11-26T01:20:27.196104Z", "finished_at": "2026-11-26T01:22:45.475256Z", "minutes": 2.3, "status": "ROUTINE_RUN_STATUS_SUCCEEDED", "model": "claude-sonnet-5-5"}
 {"day": "2026-11-25", "task": "evening review", "fired_at": "2026-11-26T01:47:48.100120Z", "finished_at": "2026-11-26T01:52:28.907819Z", "minutes": 4.7, "status": "ROUTINE_RUN_STATUS_SUCCEEDED", "model": "claude-opus-5-5"}
 {"day": "2026-11-25", "task": "watchdog", "fired_at": "2026-11-26T00:35:46.687539Z", "finished_at": "2026-11-26T00:36:42.789274Z", "minutes": 0.9, "status": "ROUTINE_RUN_STATUS_SUCCEEDED", "model": "claude-sonnet-5-5"}
+{"day": "2026-11-26", "task": "morning prep", "fired_at": "2026-11-26T12:15:35.400974Z", "finished_at": "2026-11-26T12:18:04.775082Z", "minutes": 2.5, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "morning decision", "fired_at": "2026-11-26T13:18:10.685969Z", "finished_at": "2026-11-26T13:18:51.527072Z", "minutes": 0.7, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "daily challenger", "fired_at": "2026-11-26T13:41:25.606934Z", "finished_at": "2026-11-26T13:41:44.089819Z", "minutes": 0.3, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "pre-open refresh", "fired_at": "2026-11-26T14:04:46.132898Z", "finished_at": "2026-11-26T14:05:23.802427Z", "minutes": 0.6, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "live decisions", "fired_at": "2026-11-26T18:05:51.593293Z", "finished_at": "2026-11-26T18:06:23.935025Z", "minutes": 0.5, "status": "SUCCEEDED", "model": "claude-sonnet-5-5"}
+{"day": "2026-11-26", "task": "intraday desk 10:15/13:15", "fired_at": "2026-11-26T18:15:26.896834Z", "finished_at": "2026-11-26T18:16:05.030219Z", "minutes": 0.6, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "intraday desk 11:30/14:30", "fired_at": "2026-11-26T19:39:05.828675Z", "finished_at": "2026-11-26T19:39:42.116983Z", "minutes": 0.6, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "watchdog", "fired_at": "2026-11-27T00:36:06.714367Z", "finished_at": "2026-11-27T00:36:52.797733Z", "minutes": 0.8, "status": "SUCCEEDED", "model": "claude-sonnet-5-5"}
+{"day": "2026-11-26", "task": "agent evening", "fired_at": "2026-11-27T01:21:07.483608Z", "finished_at": "2026-11-27T01:21:38.519035Z", "minutes": 0.5, "status": "SUCCEEDED", "model": "claude-sonnet-5-5"}
+{"day": "2026-11-26", "task": "evening review", "fired_at": "2026-11-27T01:48:20.792730Z", "finished_at": "2026-11-27T01:48:53.316879Z", "minutes": 0.5, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "learning + lab", "fired_at": "2026-11-26T04:15:33.177639Z", "finished_at": "2026-11-26T04:21:44.569612Z", "minutes": 6.2, "status": "SUCCEEDED", "model": "claude-fable-5-2"}
+{"day": "2026-11-26", "task": "orchestrator", "fired_at": "2026-11-27T02:05:46.282392Z", "finished_at": null, "minutes": null, "status": "PENDING", "model": "claude-opus-5-5"}
