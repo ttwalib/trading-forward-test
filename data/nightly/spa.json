@@ -4,7 +4,7 @@
  "mean_block_days": 5,
  "forward": {
   "status": "not enough days",
-  "days": 8,
+  "days": 9,
   "models": 34,
   "benchmark": "equal_f (foundation-only equal weight)",
   "first": "2026-11-16"

@@ -1,16 +1,16 @@
 {
  "champion": "ai_judgment",
- "day": "2026-11-26",
+ "day": "2026-11-27",
  "entries": {
   "ai_judgment": {
-   "deflated_sharpe_p": 0.3905,
+   "deflated_sharpe_p": 0.3775,
    "forward_from": "2026-11-23",
    "perf": {
-    "days": 3,
+    "days": 4,
     "max_dd_pct": 0.284,
-    "mean_pct": -0.03805,
+    "mean_pct": -0.02854,
     "return_pct": -0.114,
-    "sharpe": -3.185
+    "sharpe": -2.904
    },
    "recent_vs_best_yardstick": null,
    "status": "champion",

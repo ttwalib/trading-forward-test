@@ -1,43 +1,43 @@
 {
  "note": "Report only; never part of the verdict. Live and replay bases are kept apart.",
  "contributions": {
-  "date": "2026-11-25",
+  "date": "2026-11-27",
   "window_days": 60,
-  "book_daily_sd_pct": 0.2715,
+  "book_daily_sd_pct": 0.2716,
   "sleeves": [
    {
     "sleeve": "L16 SPY trend short",
     "weight": 0.25,
-    "risk_share": 0.7075,
+    "risk_share": 0.7083,
     "risk_vs_money": 2.83
-   },
-   {
-    "sleeve": "L12 Turn of month",
-    "weight": 0.25,
-    "risk_share": 0.1371,
-    "risk_vs_money": 0.55
    },
    {
     "sleeve": "L10 Earnings drift",
     "weight": 0.25,
-    "risk_share": 0.1346,
+    "risk_share": 0.1364,
+    "risk_vs_money": 0.55
+   },
+   {
+    "sleeve": "L12 Turn of month",
+    "weight": 0.25,
+    "risk_share": 0.1338,
     "risk_vs_money": 0.54
    },
    {
     "sleeve": "L13 Pairs reversion",
     "weight": 0.25,
-    "risk_share": 0.0209,
-    "risk_vs_money": 0.08
+    "risk_share": 0.0215,
+    "risk_vs_money": 0.09
    }
   ],
   "note": "risk_vs_money above 1 = the sleeve carries more of the book's swings than its share of the money"
  },
  "live": {
   "from": "2026-11-16",
-  "to": "2026-11-25",
+  "to": "2026-11-27",
   "books": {
    "ai": {
-    "days": 8,
+    "days": 9,
     "total_pct": -1.79,
     "drawdowns": [
      {
@@ -45,35 +45,35 @@
       "trough": "2026-11-23",
       "depth_pct": 2.046,
       "recovered": null,
-      "length": 8,
+      "length": 9,
       "open": true
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "equal": {
-    "days": 8,
-    "total_pct": -1.856,
+    "days": 9,
+    "total_pct": -2.052,
     "drawdowns": [
      {
       "peak": "2026-11-16",
       "trough": "2026-11-23",
-      "depth_pct": 2.491,
+      "depth_pct": 2.65,
       "recovered": null,
-      "length": 8,
+      "length": 9,
       "open": true
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "spy": {
-    "days": 8,
+    "days": 9,
     "total_pct": -4.994,
     "drawdowns": [
      {
@@ -81,17 +81,17 @@
       "trough": "2026-11-20",
       "depth_pct": 8.558,
       "recovered": null,
-      "length": 8,
+      "length": 9,
       "open": true
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "base_a": {
-    "days": 8,
+    "days": 9,
     "total_pct": -4.707,
     "drawdowns": [
      {
@@ -99,17 +99,17 @@
       "trough": "2026-11-24",
       "depth_pct": 6.454,
       "recovered": null,
-      "length": 8,
+      "length": 9,
       "open": true
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "sh_rp": {
-    "days": 8,
+    "days": 9,
     "total_pct": -0.098,
     "drawdowns": [
      {
@@ -121,20 +121,20 @@
      },
      {
       "peak": "2026-11-24",
-      "trough": "2026-11-25",
+      "trough": "2026-11-27",
       "depth_pct": 0.14,
       "recovered": null,
-      "length": 1,
+      "length": 2,
       "open": true
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "sh_mv": {
-    "days": 8,
+    "days": 9,
     "total_pct": 0.488,
     "drawdowns": [
      {
@@ -142,7 +142,7 @@
       "trough": "2026-11-25",
       "depth_pct": 0.235,
       "recovered": null,
-      "length": 3,
+      "length": 4,
       "open": true
      },
      {
@@ -154,12 +154,12 @@
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "sh_win": {
-    "days": 8,
+    "days": 9,
     "total_pct": -4.851,
     "drawdowns": [
      {
@@ -167,30 +167,30 @@
       "trough": "2026-11-23",
       "depth_pct": 5.155,
       "recovered": null,
-      "length": 8,
+      "length": 9,
       "open": true
      }
     ],
     "tail": {
-     "n": 8,
+     "n": 9,
      "note": "too few days"
     }
    },
    "sh_judge": {
-    "days": 3,
+    "days": 4,
     "total_pct": -0.114,
     "drawdowns": [
      {
       "peak": "2026-11-23",
-      "trough": "2026-11-25",
+      "trough": "2026-11-27",
       "depth_pct": 0.284,
       "recovered": null,
-      "length": 2,
+      "length": 3,
       "open": true
      }
     ],
     "tail": {
-     "n": 3,
+     "n": 4,
      "note": "too few days"
     }
    }

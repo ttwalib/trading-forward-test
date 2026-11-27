@@ -183,6 +183,21 @@
   "closed": [],
   "no_fill": []
  },
+ "crypto": {
+  "sleeve": "AP5 Agent picks: crypto",
+  "trades_closed": 0,
+  "open": [],
+  "mean_net_pct": null,
+  "win_rate": null,
+  "by_reason": {
+   "stop": 0,
+   "target": 0,
+   "exit": 0,
+   "hold": 0
+  },
+  "closed": [],
+  "no_fill": []
+ },
  "ap2_entry_exit": {
   "entry_choices": {
    "open": 17,

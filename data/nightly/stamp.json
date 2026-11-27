@@ -1,25 +1,25 @@
 {
- "day": "2026-11-26",
- "started": "2026-11-26 21:50:07",
+ "day": "2026-11-27",
+ "started": "2026-11-27 03:07:04",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.1,
+   "seconds": 5.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.2,
+   "seconds": 5.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.2,
+   "seconds": 5.3,
    "exit": 0,
    "error": null
   },
@@ -61,21 +61,21 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 9.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.4,
+   "seconds": 3.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 8.2,
+   "seconds": 8.7,
    "exit": 0,
    "error": null
   },
@@ -89,7 +89,7 @@
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 8.6,
+   "seconds": 9.0,
    "exit": 0,
    "error": null
   },
@@ -110,7 +110,7 @@
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 1.9,
+   "seconds": 2.0,
    "exit": 0,
    "error": null
   },
@@ -124,21 +124,21 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 9.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "breadth",
    "ok": true,
-   "seconds": 0.7,
+   "seconds": 0.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "leaktest",
    "ok": true,
-   "seconds": 4.4,
+   "seconds": 4.6,
    "exit": 0,
    "error": null
   },
@@ -152,28 +152,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 9.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 4.4,
+   "seconds": 4.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 9.1,
+   "seconds": 9.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 9.5,
    "exit": 0,
    "error": null
   },
@@ -194,7 +194,7 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 9.1,
+   "seconds": 9.5,
    "exit": 0,
    "error": null
   },
@@ -208,7 +208,7 @@
   {
    "step": "extra_spa",
    "ok": true,
-   "seconds": 9.2,
+   "seconds": 9.4,
    "exit": 0,
    "error": null
   },
@@ -227,9 +227,9 @@
    "error": null
   }
  ],
- "commit": "240fc306b1a92db008c4743ad2ddd6123fc4d2e9",
- "chain_head": "e5c2a4c2f56610064c0c9a9691eec61a248e052acbecc9e52616e4ba87998997",
+ "commit": "9018139e39e2359bee99f31678e9fb8439773b15",
+ "chain_head": "c2aa2dfecac4784c794c635441034d6bab27754316cb133fbea6d64ac40b8fd7",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-26 21:52:01"
+ "finished": "2026-11-27 03:09:04"
 }
