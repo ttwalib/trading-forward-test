@@ -84,6 +84,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-27T04:30:34+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 45
   }
  ],
  "symbols": {
@@ -3944,184 +3952,394 @@
    ]
   },
   "RSG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "RSG",
+   "tried": [
+    "tiingo:RSG"
+   ]
   },
   "RTN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "RTN",
+   "tried": [
+    "tiingo:RTN"
+   ]
   },
   "RTX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "RTX",
+   "tried": [
+    "tiingo:RTX"
+   ]
   },
   "SBUX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SBUX",
+   "tried": [
+    "tiingo:SBUX"
+   ]
   },
   "SCG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SCG",
+   "tried": [
+    "tiingo:SCG"
+   ]
   },
   "SCHW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SCHW",
+   "tried": [
+    "tiingo:SCHW"
+   ]
   },
   "SE": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:SE"
+   ]
   },
   "SEE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SEE",
+   "tried": [
+    "tiingo:SEE"
+   ]
   },
   "SHW": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SHW",
+   "tried": [
+    "tiingo:SHW"
+   ]
   },
   "SIAL": {
-   "status": "pending",
-   "tried": []
+   "rows": 351,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SIAL",
+   "tried": [
+    "tiingo:SIAL"
+   ]
   },
   "SIG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SIG",
+   "tried": [
+    "tiingo:SIG"
+   ]
   },
   "SJM": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SJM",
+   "tried": [
+    "tiingo:SJM"
+   ]
   },
   "SLB": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SLB",
+   "tried": [
+    "tiingo:SLB"
+   ]
   },
   "SLG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SLG",
+   "tried": [
+    "tiingo:SLG"
+   ]
   },
   "SNA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SNA",
+   "tried": [
+    "tiingo:SNA"
+   ]
   },
   "SNDK": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:SNDK"
+   ]
   },
   "SNI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SNI",
+   "tried": [
+    "tiingo:SNI"
+   ]
   },
   "SO": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SO",
+   "tried": [
+    "tiingo:SO"
+   ]
   },
   "SPG": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SPG",
+   "tried": [
+    "tiingo:SPG"
+   ]
   },
   "SPGI": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SPGI",
+   "tried": [
+    "tiingo:SPGI"
+   ]
   },
   "SPLS": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:SPLS"
+   ]
   },
   "SPY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SPY",
+   "tried": [
+    "tiingo:SPY"
+   ]
   },
   "SRCL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SRCL",
+   "tried": [
+    "tiingo:SRCL"
+   ]
   },
   "SRE": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SRE",
+   "tried": [
+    "tiingo:SRE"
+   ]
   },
   "STI": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:STI"
+   ]
   },
   "STJ": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "STJ",
+   "tried": [
+    "tiingo:STJ"
+   ]
   },
   "STT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "STT",
+   "tried": [
+    "tiingo:STT"
+   ]
   },
   "STX": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "STX",
+   "tried": [
+    "tiingo:STX"
+   ]
   },
   "STZ": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "STZ",
+   "tried": [
+    "tiingo:STZ"
+   ]
   },
   "SWK": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SWK",
+   "tried": [
+    "tiingo:SWK"
+   ]
   },
   "SWKS": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SWKS",
+   "tried": [
+    "tiingo:SWKS"
+   ]
   },
   "SWN": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SWN",
+   "tried": [
+    "tiingo:SWN"
+   ]
   },
   "SWY": {
-   "status": "pending",
-   "tried": []
+   "rows": 154,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SWY",
+   "tried": [
+    "tiingo:SWY"
+   ]
   },
   "SYF": {
-   "status": "pending",
-   "tried": []
+   "rows": 398,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SYF",
+   "tried": [
+    "tiingo:SYF"
+   ]
   },
   "SYK": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SYK",
+   "tried": [
+    "tiingo:SYK"
+   ]
   },
   "SYMC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SYMC",
+   "tried": [
+    "tiingo:SYMC"
+   ]
   },
   "SYY": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "SYY",
+   "tried": [
+    "tiingo:SYY"
+   ]
   },
   "T": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "T",
+   "tried": [
+    "tiingo:T"
+   ]
   },
   "TAP": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TAP",
+   "tried": [
+    "tiingo:TAP"
+   ]
   },
   "TDC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TDC",
+   "tried": [
+    "tiingo:TDC"
+   ]
   },
   "TE": {
-   "status": "pending",
-   "tried": []
+   "status": "need_av",
+   "tried": [
+    "tiingo:TE"
+   ]
   },
   "TEG": {
-   "status": "pending",
-   "tried": []
+   "rows": 251,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TEG",
+   "tried": [
+    "tiingo:TEG"
+   ]
   },
   "TEL": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TEL",
+   "tried": [
+    "tiingo:TEL"
+   ]
   },
   "TGNA": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TGNA",
+   "tried": [
+    "tiingo:TGNA"
+   ]
   },
   "TGT": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TGT",
+   "tried": [
+    "tiingo:TGT"
+   ]
   },
   "THC": {
    "status": "pending",
@@ -4458,7 +4676,7 @@
  },
  "tiingo": {
   "day": "2026-11-27",
-  "hour": "2026-11-27T03",
+  "hour": "2026-11-27T04",
   "months": {
    "2026-11": [
     "A",
@@ -4903,10 +5121,55 @@
     "ROK",
     "ROP",
     "ROST",
-    "RRC"
+    "RRC",
+    "RSG",
+    "RTN",
+    "RTX",
+    "SBUX",
+    "SCG",
+    "SCHW",
+    "SE",
+    "SEE",
+    "SHW",
+    "SIAL",
+    "SIG",
+    "SJM",
+    "SLB",
+    "SLG",
+    "SNA",
+    "SNDK",
+    "SNI",
+    "SO",
+    "SPG",
+    "SPGI",
+    "SPLS",
+    "SPY",
+    "SRCL",
+    "SRE",
+    "STI",
+    "STJ",
+    "STT",
+    "STX",
+    "STZ",
+    "SWK",
+    "SWKS",
+    "SWN",
+    "SWY",
+    "SYF",
+    "SYK",
+    "SYMC",
+    "SYY",
+    "T",
+    "TAP",
+    "TDC",
+    "TE",
+    "TEG",
+    "TEL",
+    "TGNA",
+    "TGT"
    ]
   },
-  "n_day": 135,
+  "n_day": 180,
   "n_hour": 45
  },
  "xcheck": {}
