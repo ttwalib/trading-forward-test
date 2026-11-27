@@ -532,7 +532,7 @@
   }
  },
  "stamp": {
-  "commit": "40e4f14",
+  "commit": "240fc30",
   "data_sha256": "96a68759b50bfca3",
   "data_files": 536,
   "versions": {
@@ -542,15 +542,15 @@
    "sklearn": null,
    "scipy": null
   },
-  "at": "2026-11-26 21:10"
+  "at": "2026-11-26 21:50"
  },
  "latest_weights": {
   "date": "2026-11-25",
   "weights": {
-   "L16 SPY trend short": 0.25,
+   "L13 Pairs reversion": 0.25,
    "L12 Turn of month": 0.25,
-   "L10 Earnings drift": 0.25,
-   "L13 Pairs reversion": 0.25
+   "L16 SPY trend short": 0.25,
+   "L10 Earnings drift": 0.25
   },
   "breakers": [
    "L14 ORB breakdown short",
