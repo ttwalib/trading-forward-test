@@ -92,6 +92,14 @@
     "stopped for this run: tiingo budget for this hour, day or month"
    ],
    "tiingo": 45
+  },
+  {
+   "at": "2026-11-27T06:22:00+00:00",
+   "av": 0,
+   "notes": [
+    "stopped for this run: tiingo budget for this hour, day or month"
+   ],
+   "tiingo": 2
   }
  ],
  "symbols": {
@@ -4342,12 +4350,22 @@
    ]
   },
   "THC": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "THC",
+   "tried": [
+    "tiingo:THC"
+   ]
   },
   "TIF": {
-   "status": "pending",
-   "tried": []
+   "rows": 419,
+   "source": "tiingo",
+   "status": "ok",
+   "ticker": "TIF",
+   "tried": [
+    "tiingo:TIF"
+   ]
   },
   "TJX": {
    "status": "pending",
@@ -4676,7 +4694,7 @@
  },
  "tiingo": {
   "day": "2026-11-27",
-  "hour": "2026-11-27T04",
+  "hour": "2026-11-27T06",
   "months": {
    "2026-11": [
     "A",
@@ -5166,11 +5184,13 @@
     "TEG",
     "TEL",
     "TGNA",
-    "TGT"
+    "TGT",
+    "THC",
+    "TIF"
    ]
   },
-  "n_day": 180,
-  "n_hour": 45
+  "n_day": 182,
+  "n_hour": 2
  },
  "xcheck": {}
 }
