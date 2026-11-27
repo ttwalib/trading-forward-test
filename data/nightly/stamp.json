@@ -1,25 +1,25 @@
 {
- "day": "2026-11-25",
- "started": "2026-11-26 02:40:34",
+ "day": "2026-11-26",
+ "started": "2026-11-26 21:10:04",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.8,
+   "seconds": 6.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.7,
+   "seconds": 6.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.7,
+   "seconds": 6.1,
    "exit": 0,
    "error": null
   },
@@ -61,21 +61,21 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 11.0,
+   "seconds": 11.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.9,
+   "seconds": 4.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 10.0,
    "exit": 0,
    "error": null
   },
@@ -89,7 +89,7 @@
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 9.9,
+   "seconds": 10.1,
    "exit": 0,
    "error": null
   },
@@ -103,7 +103,7 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 1.8,
+   "seconds": 1.9,
    "exit": 0,
    "error": null
   },
@@ -124,21 +124,21 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 10.5,
+   "seconds": 10.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "breadth",
    "ok": true,
-   "seconds": 0.8,
+   "seconds": 0.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "leaktest",
    "ok": true,
-   "seconds": 4.7,
+   "seconds": 5.2,
    "exit": 0,
    "error": null
   },
@@ -152,28 +152,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 10.8,
+   "seconds": 11.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 4.7,
+   "seconds": 5.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 11.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 11.1,
    "exit": 0,
    "error": null
   },
@@ -194,21 +194,21 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 10.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "extra_spreadcheck",
    "ok": true,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "exit": 0,
    "error": null
   },
   {
    "step": "extra_spa",
    "ok": true,
-   "seconds": 10.3,
+   "seconds": 10.7,
    "exit": 0,
    "error": null
   },
@@ -227,9 +227,9 @@
    "error": null
   }
  ],
- "commit": "287f76ddbcd5e7925f6af61a33429a5f1fbb4e39",
- "chain_head": "4d9f96e816db7394da4c7234d590b2584545d910a85e88a68d2ed02ecb230271",
+ "commit": "40e4f145247ce533494976452393232efd7eb762",
+ "chain_head": "e5c2a4c2f56610064c0c9a9691eec61a248e052acbecc9e52616e4ba87998997",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-26 02:42:43"
+ "finished": "2026-11-26 21:12:21"
 }
