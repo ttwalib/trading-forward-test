@@ -1,0 +1,28 @@
+{
+ "day": "2026-11-27",
+ "job": "prep",
+ "at": "2026-11-27 07:17",
+ "loaded": [
+  "CoinGecko get-coin-markets",
+  "CoinGecko get-crypto-news",
+  "CoinGecko get-trending",
+  "CoinGecko search-coingecko",
+  "FMP marketPerformance",
+  "FMP calendar",
+  "FMP secFilings",
+  "Alpha Vantage INSIDER_TRANSACTIONS",
+  "Alpha Vantage EARNINGS_CALL_TRANSCRIPT",
+  "Alpha Vantage HISTORICAL_PUT_CALL_RATIO",
+  "IBKR get_company_themes",
+  "Crypto.com get_book",
+  "CoinGecko get-global-market",
+  "Crypto.com get_ticker",
+  "Crypto.com get_candlestick",
+  "Twelve Data get_quote",
+  "WebSearch",
+  "IBKR search_earnings_insights"
+ ],
+ "not_loaded": [],
+ "failed": {},
+ "note": "Half day, not a stock day: no research file. Calls: CoinGecko 4, Crypto.com get_ticker 3, FMP calendar 1, WebSearch 3 (events; result lists carried no usable 2026 calendar text, not an error). None errored."
+}
