@@ -1,0 +1,21 @@
+{
+ "day": "2026-11-28",
+ "job": "prep",
+ "at": "2026-11-28 07:16",
+ "loaded": [
+  "mcp__CoinGecko__get-coin-markets",
+  "mcp__CoinGecko__get-crypto-news",
+  "mcp__CoinGecko__get-trending",
+  "mcp__CoinGecko__search-coingecko",
+  "mcp__FMP__marketPerformance",
+  "mcp__FMP__calendar",
+  "mcp__FMP__secFilings",
+  "mcp__Alpha_Vantage_MCP_Server__INSIDER_TRANSACTIONS",
+  "mcp__Alpha_Vantage_MCP_Server__EARNINGS_CALL_TRANSCRIPT",
+  "mcp__Alpha_Vantage_MCP_Server__HISTORICAL_PUT_CALL_RATIO",
+  "mcp__Interactive_Brokers_IBKR__get_company_themes",
+  "mcp__Crypto_com__get_book"
+ ],
+ "not_loaded": [],
+ "failed": []
+}
