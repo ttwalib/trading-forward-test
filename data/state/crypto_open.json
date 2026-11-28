@@ -1,19 +1,25 @@
 {
- "at": "2026-11-28 02:46",
+ "at": "2026-11-28 05:21",
  "open": [
   {
+   "strategy": "X2",
+   "symbol": "BTC",
+   "status": "pending (fills next bar)",
+   "track": "15m adaptive"
+  },
+  {
    "strategy": "X1",
    "symbol": "SOL",
    "status": "open",
    "entry_time": "2026-11-25 23:00",
    "entry": 70.9319,
    "stop": 69.2467,
-   "exit_time": "2026-11-28 02:00",
-   "exit_or_mark": 71.3687,
+   "exit_time": "2026-11-28 05:00",
+   "exit_or_mark": 71.0233,
    "reason": "open (marked at last close)",
-   "r": 0.09,
-   "pct": 0.214,
-   "gross_pct": 0.616,
+   "r": -0.11,
+   "pct": -0.271,
+   "gross_pct": 0.129,
    "track": "1h fixed"
   },
   {
@@ -23,12 +29,12 @@
    "entry_time": "2026-11-27 10:00",
    "entry": 59138.5,
    "stop": 58069.8,
-   "exit_time": "2026-11-28 02:00",
-   "exit_or_mark": 59689.8,
+   "exit_time": "2026-11-28 05:00",
+   "exit_or_mark": 59536.6,
    "reason": "open (marked at last close)",
-   "r": 0.29,
-   "pct": 0.53,
-   "gross_pct": 0.932,
+   "r": 0.15,
+   "pct": 0.272,
+   "gross_pct": 0.673,
    "track": "1h fixed"
   },
   {
@@ -38,12 +44,12 @@
    "entry_time": "2026-11-27 10:00",
    "entry": 1653.09,
    "stop": 1618.82,
-   "exit_time": "2026-11-28 02:00",
-   "exit_or_mark": 1655.71,
+   "exit_time": "2026-11-28 05:00",
+   "exit_or_mark": 1651.84,
    "reason": "open (marked at last close)",
-   "r": -0.12,
-   "pct": -0.241,
-   "gross_pct": 0.159,
+   "r": -0.23,
+   "pct": -0.475,
+   "gross_pct": -0.076,
    "track": "1h fixed"
   },
   {
@@ -53,12 +59,12 @@
    "entry_time": "2026-11-25 23:00",
    "entry": 70.9319,
    "stop": 69.2467,
-   "exit_time": "2026-11-28 02:00",
-   "exit_or_mark": 71.3687,
+   "exit_time": "2026-11-28 05:00",
+   "exit_or_mark": 71.0233,
    "reason": "open (marked at last close)",
-   "r": 0.09,
-   "pct": 0.214,
-   "gross_pct": 0.616,
+   "r": -0.11,
+   "pct": -0.271,
+   "gross_pct": 0.129,
    "track": "1h adaptive"
   },
   {
@@ -68,12 +74,12 @@
    "entry_time": "2026-11-27 10:00",
    "entry": 59138.5,
    "stop": 58069.8,
-   "exit_time": "2026-11-28 02:00",
-   "exit_or_mark": 59689.8,
+   "exit_time": "2026-11-28 05:00",
+   "exit_or_mark": 59536.6,
    "reason": "open (marked at last close)",
-   "r": 0.29,
-   "pct": 0.53,
-   "gross_pct": 0.932,
+   "r": 0.15,
+   "pct": 0.272,
+   "gross_pct": 0.673,
    "track": "1h adaptive"
   },
   {
@@ -83,12 +89,12 @@
    "entry_time": "2026-11-27 10:00",
    "entry": 1653.09,
    "stop": 1618.82,
-   "exit_time": "2026-11-28 02:00",
-   "exit_or_mark": 1655.71,
+   "exit_time": "2026-11-28 05:00",
+   "exit_or_mark": 1651.84,
    "reason": "open (marked at last close)",
-   "r": -0.12,
-   "pct": -0.241,
-   "gross_pct": 0.159,
+   "r": -0.23,
+   "pct": -0.475,
+   "gross_pct": -0.076,
    "track": "1h adaptive"
   }
  ]
