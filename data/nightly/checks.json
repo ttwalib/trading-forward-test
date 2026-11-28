@@ -104,10 +104,10 @@
   "note": "per side, in percent of price; the delay drift of the hourly AI runs is left out because the engine, not the hourly run, sets fills since 2026-11-19"
  },
  "health": {
-  "at": "2026-11-27 21:11",
+  "at": "2026-11-27 21:46",
   "ticks_today": 87,
   "last_tick": "16:41",
-  "last_tick_age_min": 270,
+  "last_tick_age_min": 305,
   "max_gap_min": 46,
   "tick_seconds_median": 4.5,
   "tick_seconds_max": 8.4,
@@ -117,7 +117,7 @@
   "minutes_quota": 3000,
   "token_expiry": "2027-06-15",
   "token_days_left": 200,
-  "data_size_mb": 214.5,
+  "data_size_mb": 214.6,
   "alerts": []
  },
  "replay_day": {

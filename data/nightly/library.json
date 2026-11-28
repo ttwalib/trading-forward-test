@@ -137,22 +137,7 @@
    "days": 71
   }
  },
- "new_closed": 1,
- "new_closed_rows": [
-  [
-   "L11 SPY overnight",
-   "SPY",
-   "long",
-   "2026-11-25",
-   "close",
-   716.7,
-   "2026-11-27",
-   "open",
-   725.86,
-   1.251,
-   "closed",
-   "train"
-  ]
- ],
+ "new_closed": 0,
+ "new_closed_rows": [],
  "skipped_no_fill_bar": {}
 }

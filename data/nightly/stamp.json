@@ -1,6 +1,6 @@
 {
  "day": "2026-11-27",
- "started": "2026-11-27 21:10:17",
+ "started": "2026-11-27 21:45:19",
  "steps": [
   {
    "step": "library",
@@ -12,7 +12,7 @@
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 8.9,
+   "seconds": 9.1,
    "exit": 0,
    "error": null
   },
@@ -61,7 +61,7 @@
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 15.5,
+   "seconds": 15.4,
    "exit": 0,
    "error": null
   },
@@ -75,7 +75,7 @@
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 13.4,
+   "seconds": 13.2,
    "exit": 0,
    "error": null
   },
@@ -89,7 +89,7 @@
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 13.8,
+   "seconds": 13.7,
    "exit": 0,
    "error": null
   },
@@ -103,14 +103,14 @@
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 2.6,
+   "seconds": 2.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 3.7,
+   "seconds": 3.8,
    "exit": 0,
    "error": null
   },
@@ -124,7 +124,7 @@
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 14.5,
+   "seconds": 14.4,
    "exit": 0,
    "error": null
   },
@@ -152,7 +152,7 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 15.3,
+   "seconds": 15.2,
    "exit": 0,
    "error": null
   },
@@ -166,7 +166,7 @@
   {
    "step": "seals",
    "ok": true,
-   "seconds": 14.6,
+   "seconds": 14.4,
    "exit": 0,
    "error": null
   },
@@ -187,14 +187,14 @@
   {
    "step": "lane",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "spec",
    "ok": true,
-   "seconds": 14.6,
+   "seconds": 14.4,
    "exit": 0,
    "error": null
   },
@@ -208,7 +208,7 @@
   {
    "step": "extra_spa",
    "ok": true,
-   "seconds": 14.5,
+   "seconds": 14.3,
    "exit": 0,
    "error": null
   },
@@ -227,9 +227,9 @@
    "error": null
   }
  ],
- "commit": "da398ee40d3346fae45705a2aa024e382cc772f8",
+ "commit": "3d2b091a57a5e35221daab64d298ac73b0ce9a38",
  "chain_head": "c2aa2dfecac4784c794c635441034d6bab27754316cb133fbea6d64ac40b8fd7",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-27 21:13:25"
+ "finished": "2026-11-27 21:48:27"
 }
