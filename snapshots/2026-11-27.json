@@ -1,0 +1,407 @@
+{
+ "taken": "2026-11-27 21:25",
+ "adaptive": {
+  "crypto": {
+   "live": {
+    "15m": {
+     "X1": {},
+     "X2": {
+      "rsi_max": 35,
+      "stop_atr": 1.5,
+      "target_r": 1,
+      "min_edge": null
+     },
+     "X3": {
+      "entry_n": 20,
+      "stop_atr": 3,
+      "target_r": 1,
+      "min_edge": null
+     },
+     "M1": {},
+     "M2": {},
+     "M3": {}
+    },
+    "1h": {
+     "X1": {},
+     "X2": {},
+     "X3": {},
+     "M1": {},
+     "M2": {},
+     "M3": {}
+    }
+   },
+   "challengers": {
+    "15m": {},
+    "1h": {}
+   }
+  },
+  "stocks": {
+   "live": {
+    "or_min": 5,
+    "stop": "mid",
+    "target_r": 1,
+    "spy": false
+   },
+   "challenger": {
+    "params": {
+     "or_min": 30,
+     "stop": "low",
+     "target_r": 1.5,
+     "spy": true
+    },
+    "since": "2026-11-25"
+   },
+   "migrated": "2026-11-22 from sheet 'Adaptive'!B3/D3 (sheet revision 177)"
+  }
+ },
+ "regime": {
+  "date": "2026-11-27",
+  "vix": 23.81,
+  "vix_band": "elevated",
+  "spy": 728.32,
+  "spy_vs20": -1.35,
+  "spy_slope": -1.74,
+  "spy_trend": "down",
+  "btc": 59861.896,
+  "btc_vs20": -7.06,
+  "btc_trend": "down",
+  "label": "down / VIX elevated / BTC down",
+  "breadth20": 31.8,
+  "breadth50": 40.9,
+  "nh_nl": 4,
+  "qqq_vs20": -1.89,
+  "iwm_vs20": -0.03,
+  "crypto_breadth20": 0.0,
+  "btc_rv30": 48.6,
+  "crypto_score": 15.4,
+  "vix_term": 1.0
+ },
+ "allocator": {
+  "date": "2026-11-27",
+  "weights": {
+   "L13 Pairs reversion": 0.25,
+   "L16 SPY trend short": 0.25,
+   "L12 Turn of month": 0.25,
+   "L10 Earnings drift": 0.25
+  },
+  "breakers": [
+   "L14 ORB breakdown short",
+   "L15 Market-neutral momentum",
+   "L3 Gap and go",
+   "L6 Bollinger reversion"
+  ],
+  "duplicates": [
+   "Crypto 15m fixed (pooled)",
+   "Crypto 1h fixed (pooled)"
+  ],
+  "vol_forecast_pct": 4.252,
+  "fill": {
+   "backed": 6,
+   "backed_weight": 1.0,
+   "filled": 0
+  },
+  "forced": [],
+  "shadows": {
+   "sh_rp": {
+    "L1 SPY intraday momentum": 0.2212,
+    "L10 Earnings drift": 0.0656,
+    "L11 SPY overnight": 0.064,
+    "L12 Turn of month": 0.0709,
+    "L13 Pairs reversion": 0.1638,
+    "L14 ORB breakdown short": 0.0351,
+    "L15 Market-neutral momentum": 0.0205,
+    "L16 SPY trend short": 0.0613,
+    "L17 Multi-asset trend": 0.0622,
+    "L3 Gap and go": 0.0409,
+    "L5 RSI(2) pullback": 0.0816,
+    "L6 Bollinger reversion": 0.0317,
+    "L7 Donchian trend": 0.0271,
+    "L8 Momentum top 8": 0.0135,
+    "L9 Sector rotation": 0.0405
+   },
+   "sh_mv": {
+    "L1 SPY intraday momentum": 0.2158,
+    "L10 Earnings drift": 0.0789,
+    "L11 SPY overnight": 0.0597,
+    "L12 Turn of month": 0.0415,
+    "L13 Pairs reversion": 0.1886,
+    "L14 ORB breakdown short": 0.0427,
+    "L16 SPY trend short": 0.0971,
+    "L17 Multi-asset trend": 0.1136,
+    "L3 Gap and go": 0.0345,
+    "L5 RSI(2) pullback": 0.1104,
+    "L9 Sector rotation": 0.0173
+   },
+   "sh_win": {
+    "L16 SPY trend short": 0.25,
+    "L14 ORB breakdown short": 0.25,
+    "L11 SPY overnight": 0.25,
+    "L15 Market-neutral momentum": 0.25
+   }
+  },
+  "judge": {
+   "L1 SPY intraday momentum": 0.07,
+   "L10 Earnings drift": 0.1,
+   "L11 SPY overnight": 0.12,
+   "L12 Turn of month": 0.12,
+   "L13 Pairs reversion": 0.25,
+   "L16 SPY trend short": 0.12,
+   "L17 Multi-asset trend": 0.08,
+   "L5 RSI(2) pullback": 0.08,
+   "L9 Sector rotation": 0.06
+  },
+  "judge_weeks_without_seal": 0
+ },
+ "judge": {
+  "effective": "2026-11-23",
+  "sealed_at": "2026-11-22T13:25:14-05:00",
+  "evidence_through": "2026-11-20",
+  "weights": {
+   "L1 SPY intraday momentum": 0.07,
+   "L10 Earnings drift": 0.1,
+   "L11 SPY overnight": 0.12,
+   "L12 Turn of month": 0.12,
+   "L13 Pairs reversion": 0.25,
+   "L16 SPY trend short": 0.12,
+   "L17 Multi-asset trend": 0.08,
+   "L5 RSI(2) pullback": 0.08,
+   "L9 Sector rotation": 0.06
+  },
+  "model": "claude-fable-5-2"
+ },
+ "stamp": {
+  "day": "2026-11-27",
+  "started": "2026-11-27 21:10:17",
+  "steps": [
+   {
+    "step": "library",
+    "ok": true,
+    "seconds": 9.0,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "library_2x",
+    "ok": true,
+    "seconds": 8.9,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "library_ideal",
+    "ok": true,
+    "seconds": 8.9,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "interventions",
+    "ok": true,
+    "seconds": 0.0,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "witness",
+    "ok": true,
+    "seconds": 0.0,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "picks",
+    "ok": true,
+    "seconds": 0.2,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "aisleeve",
+    "ok": true,
+    "seconds": 0.1,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "rank",
+    "ok": true,
+    "seconds": 0.4,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "allocator",
+    "ok": true,
+    "seconds": 15.5,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "stats",
+    "ok": true,
+    "seconds": 6.7,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "engine_report",
+    "ok": true,
+    "seconds": 13.4,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "slip_report",
+    "ok": true,
+    "seconds": 0.6,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "cost_check",
+    "ok": true,
+    "seconds": 13.8,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "health",
+    "ok": true,
+    "seconds": 0.1,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "replay_day",
+    "ok": true,
+    "seconds": 2.6,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "montecarlo",
+    "ok": true,
+    "seconds": 3.7,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "costgrid",
+    "ok": true,
+    "seconds": 0.1,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "riskx",
+    "ok": true,
+    "seconds": 14.5,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "breadth",
+    "ok": true,
+    "seconds": 1.3,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "leaktest",
+    "ok": true,
+    "seconds": 7.3,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "chain",
+    "ok": true,
+    "seconds": 0.0,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "dashboard",
+    "ok": true,
+    "seconds": 15.3,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "library_wide",
+    "ok": true,
+    "seconds": 7.4,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "seals",
+    "ok": true,
+    "seconds": 14.6,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "calib",
+    "ok": true,
+    "seconds": 14.5,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "lane_auto",
+    "ok": true,
+    "seconds": 0.0,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "lane",
+    "ok": true,
+    "seconds": 0.0,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "spec",
+    "ok": true,
+    "seconds": 14.6,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "extra_spreadcheck",
+    "ok": true,
+    "seconds": 0.3,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "extra_spa",
+    "ok": true,
+    "seconds": 14.5,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "extra_ffattr",
+    "ok": true,
+    "seconds": 0.1,
+    "exit": 0,
+    "error": null
+   },
+   {
+    "step": "extra_lane_health",
+    "ok": true,
+    "seconds": 0.1,
+    "exit": 0,
+    "error": null
+   }
+  ],
+  "commit": "da398ee40d3346fae45705a2aa024e382cc772f8",
+  "chain_head": "c2aa2dfecac4784c794c635441034d6bab27754316cb133fbea6d64ac40b8fd7",
+  "optional_failed": [],
+  "ok": true,
+  "finished": "2026-11-27 21:13:25"
+ }
+}
