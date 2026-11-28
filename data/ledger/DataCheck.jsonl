@@ -25,3 +25,11 @@
 {"check_time":"2026-11-26","symbols":"-","check":"dq - live","note":1,"detail":"- 2026-11-25 live vs replay mismatch: possible look-ahead (see checks.py parity)","status":"CHECK"}
 {"check_time":"2026-11-26","symbols":"-","check":"xcheck","note":"45 closes compared, 0 flagged","detail":"max abs diff 0.0%","status":"ok"}
 {"check_time":"2026-11-26","symbols":"ETH/USD","check":"1h vs Twelve Data","note":"0.137%","detail":"2026-11-27 00:00:00 UTC stored 1698.978 vs TD 1701.3","status":"ok"}
+{"check_time":"2026-11-27","symbols":"INTC","check":"dq 1d jump","note":3,"detail":"INTC 2026-10-30 jump -28.6%","status":"CHECK"}
+{"check_time":"2026-11-27","symbols":"VIX","check":"dq 1d bad","note":1,"detail":"VIX  bad OHLC","status":"CHECK"}
+{"check_time":"2026-11-27","symbols":"CRWV","check":"dq 5m jump","note":4,"detail":"CRWV 2026-11-23 jump 28.4%","status":"CHECK"}
+{"check_time":"2026-11-27","symbols":"FRO","check":"dq 5m bad","note":9,"detail":"FRO  bad OHLC","status":"CHECK"}
+{"check_time":"2026-11-27","symbols":"-","check":"dq - bar","note":7,"detail":"-  bar timing: 5m timestamps are not all bar START times ({'start': 3150, 'end': 1}): every intraday rule assumes start; fix before trusting intraday results","status":"CHECK"}
+{"check_time":"2026-11-27","symbols":"-","check":"dq - live","note":1,"detail":"- 2026-11-25 live vs replay mismatch: possible look-ahead (see checks.py parity)","status":"CHECK"}
+{"check_time":"2026-11-27","symbols":"ETH/USD","check":"1h close vs Twelve Data","note":0.102,"detail":"2026-11-28 00:00 UTC: stored 1659.983, Twelve Data 1661.68, diff 0.102%","status":"OK"}
+{"check_time":"2026-11-27","symbols":"-","check":"xcheck","note":45,"detail":"9 symbols x 5 days IBKR/feed vs Twelve Data, max diff 0.0%, none flagged","status":"OK"}
