@@ -66,3 +66,5 @@
 {"at":"2026-11-25 23:17","n":467,"name":"slice sweep 2026-11-25 (1001 trades, 27 families)","source":"learning"}
 {"at":"2026-11-25 23:20","n":12,"name":"dispersion_reversal#1ee39ef3a714","source":"strategy_lab"}
 {"at":"2026-11-25 23:20","n":12,"name":"dispersion_reversal#1ee39ef3a714","source":"strategy_lab"}
+{"at":"2026-11-27 23:17","n":305,"name":"slice sweep 2026-11-27 (305 distinct slices, 526 labels)","source":"learning"}
+{"at":"2026-11-27 23:19","n":6,"name":"L5_breadth_filter#c6b887f58d0c","source":"strategy_lab"}

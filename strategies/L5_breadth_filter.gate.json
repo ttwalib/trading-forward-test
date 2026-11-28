@@ -1,0 +1,60 @@
+{
+ "id": "L5_breadth_filter",
+ "verdict": "REVISE",
+ "n_oos": 140,
+ "oos_mean": 0.004,
+ "p_gt0": 0.996,
+ "dsr": 0.882,
+ "luck_sharpe": 0.1103,
+ "checks": {
+  "params_declared": true,
+  "data_coverage>=0.98": false,
+  "universe_point_in_time": true,
+  "n_oos>=30": true,
+  "oos_mean>0_and_P>=0.9": true,
+  "dsr>=0.9": false,
+  "pbo<0.5": false,
+  "cpcv_pass": false,
+  "neighbours_hold": false,
+  "edge_reviewer_PASS": false
+ },
+ "reviewer": {
+  "verdict": "REVISE",
+  "confidence": 67,
+  "findings": [
+   "C5_exit_calibration: take_profit_rr=0.0 below 1.5",
+   "C7_execution_realism: No volume filter in entry conditions."
+  ],
+  "revision_instructions": [
+   "Tighten stop-loss to <=15% and ensure reward-to-risk >= 1.5.",
+   "Add volume filter (e.g., avg_volume > 500000) for execution realism."
+  ]
+ },
+ "read_first": {
+  "data_quality": {
+   "days": 2737,
+   "worst": 0.5638,
+   "worst_symbol": "PLTR",
+   "below_0.98": [
+    "BK",
+    "LIN",
+    "PLTR",
+    "UBER"
+   ]
+  },
+  "n_oos": 140,
+  "few_trades": false,
+  "profit_factor": 1.876,
+  "pf_suspicious": false,
+  "neighbours": {
+   "chosen_score": 0.2168,
+   "n_neighbours": 2,
+   "neighbour_median": 0.07575,
+   "neighbour_scores": [
+    0.0311,
+    0.1204
+   ]
+  }
+ },
+ "params_hash": "c6b887f58d0c"
+}
