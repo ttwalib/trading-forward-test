@@ -34,7 +34,7 @@
   },
   "L11 SPY overnight": {
    "backtest_avg_pct_2x": -0.002,
-   "forward_avg_pct_2x": 0.301
+   "forward_avg_pct_2x": 0.416
   },
   "L12 Turn of month": {
    "backtest_avg_pct_2x": 0.489,

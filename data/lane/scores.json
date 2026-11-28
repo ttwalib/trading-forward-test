@@ -3,14 +3,14 @@
  "day": "2026-11-27",
  "entries": {
   "ai_judgment": {
-   "deflated_sharpe_p": 0.3775,
+   "deflated_sharpe_p": 0.2958,
    "forward_from": "2026-11-23",
    "perf": {
     "days": 4,
-    "max_dd_pct": 0.284,
-    "mean_pct": -0.02854,
-    "return_pct": -0.114,
-    "sharpe": -2.904
+    "max_dd_pct": 0.381,
+    "mean_pct": -0.05286,
+    "return_pct": -0.212,
+    "sharpe": -5.32
    },
    "recent_vs_best_yardstick": null,
    "status": "champion",

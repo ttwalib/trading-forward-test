@@ -4,7 +4,7 @@
   "ai_judgment": {
    "state": "too new",
    "forward_days": 4,
-   "max_dd_pct": 0.284,
+   "max_dd_pct": 0.381,
    "last_readings": []
   },
   "contest_opus": {

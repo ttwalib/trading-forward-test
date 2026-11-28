@@ -1,25 +1,25 @@
 {
  "day": "2026-11-27",
- "started": "2026-11-27 03:07:04",
+ "started": "2026-11-27 21:10:17",
  "steps": [
   {
    "step": "library",
    "ok": true,
-   "seconds": 5.2,
+   "seconds": 9.0,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_2x",
    "ok": true,
-   "seconds": 5.3,
+   "seconds": 8.9,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_ideal",
    "ok": true,
-   "seconds": 5.3,
+   "seconds": 8.9,
    "exit": 0,
    "error": null
   },
@@ -40,7 +40,7 @@
   {
    "step": "picks",
    "ok": true,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "exit": 0,
    "error": null
   },
@@ -54,91 +54,91 @@
   {
    "step": "rank",
    "ok": true,
-   "seconds": 0.2,
+   "seconds": 0.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "allocator",
    "ok": true,
-   "seconds": 9.9,
+   "seconds": 15.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "stats",
    "ok": true,
-   "seconds": 3.8,
+   "seconds": 6.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "engine_report",
    "ok": true,
-   "seconds": 8.7,
+   "seconds": 13.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "slip_report",
    "ok": true,
-   "seconds": 0.3,
+   "seconds": 0.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "cost_check",
    "ok": true,
-   "seconds": 9.0,
+   "seconds": 13.8,
    "exit": 0,
    "error": null
   },
   {
    "step": "health",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "replay_day",
    "ok": true,
-   "seconds": 1.6,
+   "seconds": 2.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "montecarlo",
    "ok": true,
-   "seconds": 2.0,
+   "seconds": 3.7,
    "exit": 0,
    "error": null
   },
   {
    "step": "costgrid",
    "ok": true,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "exit": 0,
    "error": null
   },
   {
    "step": "riskx",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 14.5,
    "exit": 0,
    "error": null
   },
   {
    "step": "breadth",
    "ok": true,
-   "seconds": 0.8,
+   "seconds": 1.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "leaktest",
    "ok": true,
-   "seconds": 4.6,
+   "seconds": 7.3,
    "exit": 0,
    "error": null
   },
@@ -152,28 +152,28 @@
   {
    "step": "dashboard",
    "ok": true,
-   "seconds": 9.9,
+   "seconds": 15.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "library_wide",
    "ok": true,
-   "seconds": 4.5,
+   "seconds": 7.4,
    "exit": 0,
    "error": null
   },
   {
    "step": "seals",
    "ok": true,
-   "seconds": 9.6,
+   "seconds": 14.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "calib",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 14.5,
    "exit": 0,
    "error": null
   },
@@ -194,21 +194,21 @@
   {
    "step": "spec",
    "ok": true,
-   "seconds": 9.5,
+   "seconds": 14.6,
    "exit": 0,
    "error": null
   },
   {
    "step": "extra_spreadcheck",
    "ok": true,
-   "seconds": 0.1,
+   "seconds": 0.3,
    "exit": 0,
    "error": null
   },
   {
    "step": "extra_spa",
    "ok": true,
-   "seconds": 9.4,
+   "seconds": 14.5,
    "exit": 0,
    "error": null
   },
@@ -227,9 +227,9 @@
    "error": null
   }
  ],
- "commit": "9018139e39e2359bee99f31678e9fb8439773b15",
+ "commit": "da398ee40d3346fae45705a2aa024e382cc772f8",
  "chain_head": "c2aa2dfecac4784c794c635441034d6bab27754316cb133fbea6d64ac40b8fd7",
  "optional_failed": [],
  "ok": true,
- "finished": "2026-11-27 03:09:04"
+ "finished": "2026-11-27 21:13:25"
 }
